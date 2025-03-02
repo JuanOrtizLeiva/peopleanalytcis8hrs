@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de People Analytics - Sección 2</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333333;
+            --light-text: #ffffff;
+            --success-color: #27ae60;
+            --error-color: #c0392b;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-text);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="%233498db" opacity="0.2"/></svg>');
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            background-color: #ffffff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .image-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .image-caption {
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: #666;
+        }
+
+        .flip-card-container {
+            perspective: 1000px;
+            margin: 2rem 0;
+            height: 200px;
+        }
+
+        .flip-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flip-card-container:hover .flip-card {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .flip-card-front {
+            background: linear-gradient(45deg, var(--secondary-color), #2980b9);
+            color: var(--light-text);
+        }
+
+        .flip-card-back {
+            background: linear-gradient(45deg, var(--primary-color), #1a252f);
+            color: var(--light-text);
+            transform: rotateY(180deg);
+        }
+
+        .accordion {
+            margin: 2rem 0;
+        }
+
+        .accordion-item {
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: #2980b9;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+        }
+
+        .accordion-header.active::after {
+            content: '-';
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: #f1f1f1;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+
+        .accordion-content-inner {
+            padding: 1rem;
+        }
+
+        .interactive-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+        }
+
+        .interactive-table th, .interactive-table td {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .interactive-table th {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+        }
+
+        .interactive-table tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+
+        .interactive-table tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .true-false-container {
+            margin: 2rem 0;
+        }
+
+        .question {
+            background-color: #f1f1f1;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+
+        .options {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .option-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .feedback {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            display: none;
+        }
+
+        .correct {
+            background-color: rgba(39, 174, 96, 0.2);
+            border: 1px solid var(--success-color);
+        }
+
+        .incorrect {
+            background-color: rgba(192, 57, 43, 0.2);
+            border: 1px solid var(--error-color);
+        }
+
+        .two-column {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .brain-diagram {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background-color: #f1f1f1;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .brain-region {
+            position: absolute;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .brain-region:hover {
+            background-color: rgba(52, 152, 219, 0.5);
+        }
+
+        .brain-tooltip {
+            position: absolute;
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            max-width: 200px;
+            display: none;
+            z-index: 10;
+        }
+
+        .case-study {
+            background-color: #f1f1f1;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            margin: 2rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .case-study h4 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .drag-container {
+            margin: 2rem 0;
+        }
+
+        .bias-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .bias-card {
+            flex: 1;
+            min-width: 250px;
+            background-color: #f1f1f1;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .bias-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .bias-card h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .scenario-slider {
+            margin: 2rem 0;
+        }
+
+        .scenario-slides {
+            display: flex;
+            overflow-x: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            gap: 1rem;
+        }
+
+        .scenario-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            background-color: #f1f1f1;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .scenario-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .scenario-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+        }
+
+        .drag-drop-exercise {
+            margin: 2rem 0;
+        }
+
+        .drag-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .drag-item {
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            border-radius: var(--border-radius);
+            cursor: move;
+            user-select: none;
+        }
+
+        .drop-zones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .drop-zone {
+            min-height: 100px;
+            padding: 1rem;
+            border: 2px dashed #ccc;
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .drop-zone-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* Estilos para elementos responsivos */
+        @media (max-width: 768px) {
+            .two-column {
+                flex-direction: column;
+            }
+            
+            .brain-diagram {
+                height: 300px;
+            }
+            
+            .drag-items, .drop-zones {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>People Analytics y el Cerebro Humano</h1>
+        <p>Sección 2: El Cerebro y la Toma de Decisiones en RRHH</p>
+    </header>
+
+    <div class="container">
+        <section id="introduccion-neurociencia">
+            <h2>1. Procesamiento de la Información en el Cerebro Humano</h2>
+            
+            <div class="image-container">
+                <img src="https://i.postimg.cc/MZMCSFcB/IMG-0156-1279-min.jpg" alt="Estructura del cerebro humano y procesamiento de información" />
+                <p class="image-caption">Regiones cerebrales involucradas en el procesamiento de información y toma de decisiones</p>
+            </div>
+            
+            <p>Comprender cómo el cerebro humano procesa la información es fundamental para entender la toma de decisiones en entornos organizacionales. Nuestro cerebro ha evolucionado durante millones de años para procesar rápidamente grandes cantidades de información del entorno, permitiéndonos sobrevivir y adaptarnos. Sin embargo, esta misma maquinaria neurológica, que fue diseñada para un mundo muy diferente al corporativo actual, puede llevarnos a cometer errores sistemáticos al evaluar situaciones complejas en contextos de recursos humanos.</p>
+            
+            <h3>Sistemas de Procesamiento Dual</h3>
+            <p>El psicólogo y premio Nobel de Economía Daniel Kahneman popularizó la teoría de los dos sistemas de procesamiento mental:</p>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h4>Sistema 1: Pensamiento Rápido e Intuitivo</h4>
+                    <ul>
+                        <li><strong>Características:</strong> Automático, rápido, inconsciente, requiere poco esfuerzo</li>
+                        <li><strong>Funciones:</strong> Reconocimiento de patrones, juicios intuitivos, respuestas emocionales</li>
+                        <li><strong>Ventajas:</strong> Eficiencia, rapidez, procesamiento paralelo de múltiples señales</li>
+                        <li><strong>Desventajas:</strong> Vulnerable a sesgos, simplifica excesivamente información compleja</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h4>Sistema 2: Pensamiento Lento y Deliberativo</h4>
+                    <ul>
+                        <li><strong>Características:</strong> Consciente, lento, analítico, requiere esfuerzo</li>
+                        <li><strong>Funciones:</strong> Análisis estadístico, consideración de múltiples variables, pensamiento lógico</li>
+                        <li><strong>Ventajas:</strong> Mayor precisión, capacidad para manejar complejidad</li>
+                        <li><strong>Desventajas:</strong> Consume recursos cognitivos, proceso secuencial más lento</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <p>En el contexto de RRHH, muchas decisiones importantes (como selección de candidatos, evaluaciones de desempeño o promociones) dependen de una interacción entre ambos sistemas. El problema surge cuando confiamos excesivamente en el Sistema 1 para decisiones que requerirían un análisis más deliberado.</p>
+
+            <div class="image-container">
+                <img src="https://i.postimg.cc/DZpYNXFV/Analiticointruitivo.jpg" alt="Diagrama comparativo del Sistema 1 vs Sistema 2" />
+                <p class="image-caption">Comparación de los procesos cerebrales en decisiones intuitivas vs. analíticas</p>
+            </div>
+            
+            <h3>Estructuras Cerebrales Clave en la Toma de Decisiones</h3>
+            <p>Diversas estructuras cerebrales participan en cómo procesamos información y tomamos decisiones:</p>
+            
+            <div class="interactive-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Estructura Cerebral</th>
+                            <th>Función</th>
+                            <th>Implicación en RRHH</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Corteza Prefrontal</td>
+                            <td>Planificación, análisis racional, control de impulsos y toma de decisiones conscientes.</td>
+                            <td>Crítica para el análisis deliberado de datos complejos, como la evaluación objetiva de un candidato más allá de la primera impresión.</td>
+                        </tr>
+                        <tr>
+                            <td>Amígdala</td>
+                            <td>Procesamiento de emociones, especialmente respuestas de miedo y evaluación de amenazas.</td>
+                            <td>Puede activarse en entrevistas generando respuestas emocionales que influyen en decisiones aparentemente racionales.</td>
+                        </tr>
+                        <tr>
+                            <td>Núcleo Accumbens</td>
+                            <td>Centro de recompensa, procesamiento de estímulos placenteros y motivación.</td>
+                            <td>Influye en cómo valoramos diferentes aspectos al evaluar empleados o candidatos (ej. preferencia por perfiles "similares a nosotros").</td>
+                        </tr>
+                        <tr>
+                            <td>Hipocampo</td>
+                            <td>Consolidación de memoria y contextualización de la información.</td>
+                            <td>Afecta cómo recordamos el desempeño pasado de empleados, frecuentemente sobrevalorando eventos recientes o memorables.</td>
+                        </tr>
+                        <tr>
+                            <td>Ínsula</td>
+                            <td>Procesamiento de señales interoceptivas y sensaciones físicas asociadas a emociones.</td>
+                            <td>Responsable de "corazonadas" o "intuiciones" que a veces influyen en decisiones de contratación o promoción.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flip-card-container">
+                <div class="flip-card">
+                    <div class="flip-card-front">
+                        <h3>¿Sabías que...?</h3>
+                        <p>Descubre un dato fascinante sobre el procesamiento cerebral</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Estudios de neuroimagen muestran que cuando evaluamos a un candidato para un puesto, la corteza prefrontal ventromedial (responsable de asignar valor a las opciones) se activa en los primeros 0.2 segundos del encuentro, formando una primera impresión que luego influye fuertemente en toda la evaluación posterior.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Procesamiento de Datos vs. Intuición</h3>
+            <p>A pesar de nuestra capacidad de análisis racional, el cerebro humano muestra limitaciones específicas al procesar información cuantitativa:</p>
+            <ul>
+                <li><strong>Dificultad con estadísticas:</strong> Tendemos a confiar más en anécdotas individuales que en datos agregados.</li>
+                <li><strong>Atención selectiva:</strong> Filtramos inconscientemente información que no coincide con nuestras creencias previas.</li>
+                <li><strong>Aversión a la incertidumbre:</strong> Preferimos explicaciones completas aunque sean incorrectas, a reconocer que no tenemos toda la información.</li>
+                <li><strong>Procesamiento secuencial limitado:</strong> Solo podemos considerar conscientemente un número limitado de variables simultáneamente.</li>
+            </ul>
+            
+            <p>Estas limitaciones son particularmente problemáticas en contextos de RRHH, donde las decisiones a menudo involucran múltiples variables, datos complejos y factores probabilísticos. Aquí es donde People Analytics ofrece un complemento fundamental a las capacidades cognitivas naturales, permitiendo procesar sistemáticamente grandes volúmenes de información para descubrir patrones que serían invisibles para el cerebro humano sin asistencia.</p>
+        </section>
+
+        <section id="sesgos-cognitivos">
+            <h2>2. Sesgos Cognitivos en la Gestión de Recursos Humanos</h2>
+            
+            <p>Los sesgos cognitivos son patrones sistemáticos de desviación de la racionalidad en la formación de juicios. Son "atajos mentales" que el cerebro utiliza para simplificar el procesamiento de información, pero que pueden conducir a errores predecibles en determinadas circunstancias. En el ámbito de RRHH, estos sesgos pueden tener un impacto significativo en decisiones críticas sobre el capital humano.</p>
+
+            <div class="image-container">
+                <img src="https://i.postimg.cc/Kz8HQ56r/sesgos.jpg" alt="Diagrama de sesgos cognitivos comunes" />
+                <p class="image-caption">Mapa de sesgos cognitivos y su impacto en decisiones organizacionales</p>
+            </div>
+            
+            <h3>Sesgos Comunes con Alto Impacto en RRHH</h3>
+            
+            <div class="bias-cards">
+                <div class="bias-card">
+                    <h4>Sesgo de Confirmación</h4>
+                    <p><strong>Definición:</strong> Tendencia a buscar, interpretar y recordar información que confirma nuestras creencias preexistentes.</p>
+                    <p><strong>Impacto en RRHH:</strong> Durante entrevistas, tendemos a notar información que confirma nuestra impresión inicial del candidato, ignorando señales contrarias.</p>
+                    <p><strong>Ejemplo:</strong> Un reclutador que cree que los graduados de cierta universidad son mejores, interpreta ambigüedades en el CV favorablemente para estos candidatos.</p>
+                </div>
+                
+                <div class="bias-card">
+                    <h4>Efecto Halo</h4>
+                    <p><strong>Definición:</strong> Tendencia a que una impresión positiva en un área influya favorablemente en la percepción de otras áreas no relacionadas.</p>
+                    <p><strong>Impacto en RRHH:</strong> Evaluar positivamente todas las competencias de un empleado basándose en su buen desempeño en una sola área.</p>
+                    <p><strong>Ejemplo:</strong> Un empleado con excelentes habilidades de presentación recibe evaluaciones positivas en análisis estratégico, aunque esta competencia nunca ha sido realmente evaluada.</p>
+                </div>
+                
+                <div class="bias-card">
+                    <h4>Sesgo de Similitud</h4>
+                    <p><strong>Definición:</strong> Preferencia inconsciente por personas que percibimos como similares a nosotros en algún aspecto.</p>
+                    <p><strong>Impacto en RRHH:</strong> Favorecer candidatos o empleados con antecedentes, intereses o personalidades similares a los nuestros.</p>
+                    <p><strong>Ejemplo:</strong> Un gerente promueve consistentemente a personas con estilos de trabajo similares al suyo, creando inadvertidamente homogeneidad en el equipo.</p>
+                </div>
+                
+                <div class="bias-card">
+                    <h4>Efecto de Recencia</h4>
+                    <p><strong>Definición:</strong> Tendencia a recordar y dar más peso a la información más reciente.</p>
+                    <p><strong>Impacto en RRHH:</strong> Evaluar el desempeño anual basándose principalmente en los últimos meses, ignorando el desempeño anterior.</p>
+                    <p><strong>Ejemplo:</strong> Un empleado que tuvo un desempeño excepcional durante 9 meses pero cometió un error visible el mes anterior a su evaluación recibe una calificación mediocre.</p>
+                </div>
+            </div>
+            
+            <div class="bias-cards">
+                <div class="bias-card">
+                    <h4>Sesgo de Disponibilidad</h4>
+                    <p><strong>Definición:</strong> Juzgar probabilidades basándose en la facilidad con que vienen ejemplos a la mente.</p>
+                    <p><strong>Impacto en RRHH:</strong> Sobreestimar la frecuencia de comportamientos memorables pero inusuales de un empleado.</p>
+                    <p><strong>Ejemplo:</strong> Considerar que un departamento tiene problemas de productividad basándose en un incidente destacado, aunque los datos generales muestren lo contrario.</p>
+                </div>
+                
+                <div class="bias-card">
+                    <h4>Sesgo de Anclaje</h4>
+                    <p><strong>Definición:</strong> Tendencia a depender excesivamente de la primera información recibida (el "ancla") al tomar decisiones.</p>
+                    <p><strong>Impacto en RRHH:</strong> Negociaciones salariales influenciadas desproporcionadamente por la cifra inicial mencionada.</p>
+                    <p><strong>Ejemplo:</strong> Un gerente de contratación que conoce el salario anterior de un candidato tiene dificultades para ofrecer un aumento significativo, incluso cuando el mercado o las nuevas responsabilidades lo justificarían.</p>
+                </div>
+                
+                <div class="bias-card">
+                    <h4>Sesgo de Estereotipo</h4>
+                    <p><strong>Definición:</strong> Expectativas generalizadas sobre individuos basadas en su pertenencia a un grupo.</p>
+                    <p><strong>Impacto en RRHH:</strong> Atribuir características a candidatos o empleados basándose en categorías sociales sin evidencia individual.</p>
+                    <p><strong>Ejemplo:</strong> Asumir que una persona mayor tendrá dificultades con la tecnología sin evaluar sus habilidades específicas.</p>
+                </div>
+                
+                <div class="bias-card">
+                    <h4>Sesgo de Exceso de Confianza</h4>
+                    <p><strong>Definición:</strong> Tendencia a sobreestimar nuestras propias habilidades, conocimientos y precisión de nuestros juicios.</p>
+                    <p><strong>Impacto en RRHH:</strong> Confiar excesivamente en evaluaciones "a ojo" sin verificación objetiva.</p>
+                    <p><strong>Ejemplo:</strong> Un entrevistador que cree que puede evaluar perfectamente a un candidato en 5 minutos, rechazando métodos de evaluación estructurados.</p>
+                </div>
+            </div>
+
+            <div class="true-false-container">
+                <h3>Comprueba tu Conocimiento sobre Sesgos</h3>
+                <div class="question">
+                    <p><strong>1. El efecto halo solo ocurre en impresiones positivas, no en negativas.</strong></p>
+                    <div class="options">
+                        <button class="option-btn" data-value="false">Verdadero</button>
+                        <button class="option-btn" data-value="true">Falso</button>
+                    </div>
+                    <div class="feedback" id="feedback-1"></div>
+                </div>
+                <div class="question">
+                    <p><strong>2. Los profesionales con más experiencia en RRHH son inmunes a los sesgos cognitivos.</strong></p>
+                    <div class="options">
+                        <button class="option-btn" data-value="false">Verdadero</button>
+                        <button class="option-btn" data-value="true">Falso</button>
+                    </div>
+                    <div class="feedback" id="feedback-2"></div>
+                </div>
+                <div class="question">
+                    <p><strong>3. La conciencia sobre los sesgos cognitivos es suficiente para eliminarlos de nuestras decisiones.</strong></p>
+                    <div class="options">
+                        <button class="option-btn" data-value="false">Verdadero</button>
+                        <button class="option-btn" data-value="true">Falso</button>
+                    </div>
+                    <div class="feedback" id="feedback-3"></div>
+                </div>
+            </div>
+
+            <h3>Impacto Organizacional de los Sesgos Cognitivos</h3>
+            <p>Los sesgos cognitivos tienen consecuencias significativas a nivel organizacional:</p>
+            <ul>
+                <li><strong>Homogeneidad cultural:</strong> Equipos formados por personas similares debido al sesgo de similitud, limitando la diversidad de pensamiento.</li>
+                <li><strong>Perpetuación de inequidades:</strong> Sesgos en promociones y compensaciones que afectan desproporcionadamente a ciertos grupos.</li>
+                <li><strong>Decisiones subóptimas:</strong> Contratación de candidatos que no son los mejores para el puesto pero que generaron una impresión positiva inicial.</li>
+                <li><strong>Evaluaciones inconsistentes:</strong> Variabilidad en cómo se evalúa a diferentes empleados basada en factores irrelevantes.</li>
+                <li><strong>Resistencia al cambio:</strong> Sesgo de status quo que dificulta la adopción de nuevas prácticas o reorganizaciones necesarias.</li>
+            </ul>
+            
+            <p>El reconocimiento de estos sesgos es el primer paso para mitigar su impacto, pero no es suficiente. La investigación muestra que incluso cuando somos conscientes de nuestros sesgos, seguimos siendo vulnerables a ellos. Por eso, las intervenciones estructurales y basadas en datos son fundamentales para complementar la conciencia individual.</p>
+        </section>
+
+        <section id="people-analytics-vs-intuicion">
+            <h2>3. El Rol de People Analytics en la Superación de Sesgos</h2>
+            
+            <p>People Analytics ofrece una herramienta poderosa para complementar el juicio humano y mitigar el impacto de los sesgos cognitivos. No se trata de reemplazar completamente la intuición humana, sino de crear un equilibrio entre datos objetivos y experiencia personal.</p>
+
+            <div class="image-container">
+                <img src="https://i.postimg.cc/1RDGS7XY/graphicstock-business-people-reading-graphs-and-charts_SCxcotRcZZ-min.jpg" alt="Equilibrio entre datos e intuición" />
+                <p class="image-caption">Integración óptima de Analytics e intuición en decisiones de RRHH</p>
+            </div>
+            
+            <h3>Ventajas de la Aproximación Analítica</h3>
+            <p>El enfoque basado en datos ofrece varias ventajas frente a la toma de decisiones puramente intuitiva:</p>
+            
+            <div class="two-column">
+                <div class="column">
+                    <ul>
+                        <li><strong>Consistencia:</strong> Aplicación de criterios uniformes a través de diferentes candidatos, evaluaciones o situaciones.</li>
+                        <li><strong>Escalabilidad:</strong> Capacidad para analizar patrones en grandes volúmenes de datos, imposibles de procesar manualmente.</li>
+                        <li><strong>Objetividad relativa:</strong> Reducción de la influencia de preferencias personales y primeras impresiones.</li>
+                        <li><strong>Detección de patrones sutiles:</strong> Identificación de correlaciones y tendencias que escapan a la observación casual.</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li><strong>Transparencia:</strong> Posibilidad de auditar y explicar los criterios utilizados en las decisiones.</li>
+                        <li><strong>Feedback continuo:</strong> Los modelos analíticos pueden mejorar con el tiempo a medida que incorporan nuevos datos.</li>
+                        <li><strong>Predicción basada en probabilidades:</strong> Estimaciones más precisas de resultados futuros basadas en datos históricos.</li>
+                        <li><strong>Evidencia acumulativa:</strong> Integración de múltiples fuentes de datos para formar una visión más completa.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Estrategias Específicas de Mitigación de Sesgos</h3>
+            <p>People Analytics puede implementarse específicamente para contrarrestar sesgos conocidos:</p>
+            
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">Análisis de Brechas y Disparidades</div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p>Esta estrategia implica el análisis sistemático de datos para identificar patrones inconsistentes que pueden indicar la presencia de sesgos:</p>
+                            <ul>
+                                <li><strong>Análisis de equidad salarial:</strong> Comparación de compensaciones controlando por variables relevantes como experiencia, desempeño y responsabilidades, para identificar disparidades no explicadas entre diferentes grupos demográficos.</li>
+                                <li><strong>Auditoría de ascensos:</strong> Examen de las tasas de promoción a lo largo del tiempo, analizando si existen diferencias significativas entre grupos cuando se controlan factores de calificación.</li>
+                                <li><strong>Monitoreo de evaluaciones:</strong> Análisis de distribuciones de calificaciones de desempeño entre diferentes evaluadores o departamentos para identificar patrones de severidad o indulgencia sistemáticos.</li>
+                                <li><strong>Análisis longitudinal:</strong> Seguimiento de cohortes de empleados a través del tiempo para identificar puntos donde ciertos grupos experimentan desviaciones en sus trayectorias profesionales.</li>
+                            </ul>
+                            <p>Ejemplo: Una compañía tecnológica global implementó un análisis trimestral de calificaciones de desempeño y descubrió que ciertos gerentes mostraban una varianza extremadamente baja en sus evaluaciones (dando calificaciones muy similares a todos sus subordinados), lo que sugería un efecto de halo o falta de diferenciación. Esto llevó a intervenciones de capacitación específicas.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">Procesos Estructurados y Estandarizados</div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p>La estructuración de procesos de decisión reduce la ambigüedad donde los sesgos tienden a manifestarse:</p>
+                            <ul>
+                                <li><strong>Entrevistas estructuradas:</strong> Utilización de preguntas consistentes y criterios de evaluación predefinidos para todos los candidatos, permitiendo comparaciones más objetivas.</li>
+                                <li><strong>Rúbricas de evaluación:</strong> Desarrollo de marcos detallados que desglosan competencias en comportamientos observables y niveles de proficiencia.</li>
+                                <li><strong>Evaluaciones ciegas:</strong> Eliminación de información identificable (nombre, género, edad) de CV o muestras de trabajo durante la evaluación inicial.</li>
+                                <li><strong>Secuenciación de información:</strong> Control del orden en que se presenta información para evitar que ciertos datos anclen prematuramente el juicio.</li>
+                            </ul>
+                            <p>Ejemplo: Un banco multinacional implementó un sistema de evaluación de solicitudes de préstamo donde los oficiales no veían inicialmente información demográfica del solicitante. Adaptando este enfoque a RRHH, una consultora empezó a revisar aplicaciones con nombres y universidades ocultos, aumentando la diversidad de su grupo de candidatos finalistas en un 35%.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">Algoritmos y Modelos Predictivos</div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p>Los modelos matemáticos, cuando se diseñan cuidadosamente, pueden complementar el juicio humano:</p>
+                            <ul>
+                                <li><strong>Modelos de predicción de desempeño:</strong> Algoritmos que identifican factores predictivos de éxito en diferentes roles, basados en datos históricos de empleados.</li>
+                                <li><strong>Sistemas de recomendación:</strong> Herramientas que sugieren candidatos, oportunidades de desarrollo o asignaciones basadas en patrones objetivos.</li>
+                                <li><strong>Análisis de texto:</strong> Evaluación automatizada de lenguaje en descripciones de puestos, evaluaciones o comunicaciones para identificar sesgos lingüísticos sutiles.</li>
+                                <li><strong>Calibración de calificaciones:</strong> Ajustes matemáticos para normalizar diferencias en estándares de evaluación entre diferentes gerentes.</li>
+                            </ul>
+                            <p><strong>Nota importante:</strong> Los algoritmos pueden perpetuar o amplificar sesgos si se entrenan con datos históricos sesgados. Es crucial implementar auditorías continuas de algoritmos y diseñarlos con conciencia de equidad.</p>
+                            <p>Ejemplo: Una cadena minorista implementó un algoritmo de programación de turnos que inicialmente reflejaba patrones históricos sesgados. Tras detectarlo, rediseñaron el algoritmo para equilibrar eficiencia con equidad en la distribución de turnos deseables, aumentando la satisfacción de empleados y reduciendo rotación.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">Decisiones Colectivas y Diversas</div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p>La diversificación de perspectivas en los procesos de decisión puede mitigar sesgos individuales:</p>
+                            <ul>
+                                <li><strong>Paneles diversos:</strong> Formación de comités de selección o evaluación con miembros de diferentes antecedentes, experiencias y características demográficas.</li>
+                                <li><strong>Métodos Delphi:</strong> Técnicas donde evaluadores emiten juicios independientes antes de conocer las opiniones de otros, reduciendo la influencia social.</li>
+                                <li><strong>Decisiones basadas en múltiples evidencias:</strong> Integración de diferentes fuentes de datos (entrevistas, pruebas, historial de desempeño) con ponderaciones predefinidas.</li>
+                                <li><strong>Retroalimentación multi-fuente:</strong> Sistemas como evaluaciones 360° que combinan perspectivas de diferentes stakeholders.</li>
+                            </ul>
+                            <p>Ejemplo: Una firma de servicios profesionales reestructuró su proceso de promoción a socio, pasando de un sistema donde socios seniors tomaban decisiones basadas principalmente en impresiones personales, a un comité de evaluación con representación diversa que consideraba métricas estandarizadas y múltiples evaluaciones independientes. El resultado fue un aumento de 40% en promociones de grupos subrepresentados sin disminución en métricas de desempeño.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flip-card-container">
+                <div class="flip-card">
+                    <div class="flip-card-front">
+                        <h3>¿Sabías que...?</h3>
+                        <p>Descubre un dato interesante sobre la efectividad de People Analytics</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Según investigaciones de la Universidad de Toronto, las organizaciones que implementan procesos de contratación estructurados basados en datos experimentan un 25-40% menos de rotación en el primer año, comparado con procesos basados principalmente en juicio intuitivo de entrevistadores.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Equilibrio Entre Datos e Intuición</h3>
+            <p>A pesar del valor de los datos, la intuición humana sigue siendo fundamental:</p>
+            <ul>
+                <li><strong>Interpretación contextual:</strong> Comprensión de factores cualitativos y contextuales que los datos puros no capturan.</li>
+                <li><strong>Juicio ético:</strong> Evaluación de implicaciones éticas de decisiones que los algoritmos no pueden considerar completamente.</li>
+                <li><strong>Innovación:</strong> Generación de hipótesis novedosas para explorar con datos, más allá de patrones históricos.</li>
+                <li><strong>Empatía y conexión:</strong> Comprensión de necesidades humanas y motivaciones que requieren inteligencia emocional.</li>
+            </ul>
+            
+            <p>El enfoque óptimo combina la objetividad de los datos con la riqueza del juicio humano informado. People Analytics debe verse no como un reemplazo de la intuición, sino como una herramienta que libera la capacidad humana para enfocarse en aspectos donde realmente añade valor único.</p>
+            
+            <div class="drag-drop-exercise">
+                <h3>Actividad: Clasifica las Decisiones de RRHH</h3>
+                <p>Arrastra cada tipo de decisión a la estrategia más adecuada basándote en lo que has aprendido:</p>
+                
+                <div class="drag-items">
+                    <div class="drag-item" draggable="true" data-target="algoritmos">Predecir riesgo de rotación</div>
+                    <div class="drag-item" draggable="true" data-target="estructurados">Entrevistar candidatos</div>
+                    <div class="drag-item" draggable="true" data-target="colectivas">Decisión final de promoción</div>
+                    <div class="drag-item" draggable="true" data-target="analisis">Revisar equidad salarial</div>
+                </div>
+                
+                <div class="drop-zones">
+                    <div class="drop-zone" data-type="analisis">
+                        <div class="drop-zone-title">Análisis de Brechas</div>
+                    </div>
+                    <div class="drop-zone" data-type="estructurados">
+                        <div class="drop-zone-title">Procesos Estructurados</div>
+                    </div>
+                    <div class="drop-zone" data-type="algoritmos">
+                        <div class="drop-zone-title">Modelos Predictivos</div>
+                    </div>
+                    <div class="drop-zone" data-type="colectivas">
+                        <div class="drop-zone-title">Decisiones Colectivas</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="casos-practicos">
+            <h2>4. Ejemplos Prácticos: Datos vs. Intuición en RRHH</h2>
+            
+            <p>Para ilustrar concretamente cómo People Analytics puede complementar y mejorar la intuición humana, analizaremos dos casos prácticos en profundidad. Estos escenarios demuestran el contraste entre abordajes basados puramente en percepciones versus aproximaciones enriquecidas con datos.</p>
+            
+            <div class="case-study">
+                <h4>Caso 1: Decisión de Promoción</h4>
+                
+                <h5>Situación:</h5>
+                <p>Una empresa de servicios financieros debe decidir entre dos candidatos para promocionar a una posición de líder de equipo. Ambos tienen trayectorias sólidas y son bien considerados, pero solo hay una vacante disponible.</p>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h5>Enfoque basado en percepción:</h5>
+                        <p>El gerente se basa principalmente en:</p>
+                        <ul>
+                            <li>Impresión general sobre cada candidato</li>
+                            <li>Feedback informal de colegas</li>
+                            <li>Interacciones personales directas</li>
+                            <li>Recuerdo de contribuciones recientes</li>
+                        </ul>
+                        <p><strong>Resultado:</strong> El candidato más extrovertido y con mayor visibilidad en reuniones recientes es seleccionado, a pesar de que sus métricas objetivas de desempeño son similares o ligeramente inferiores a las del otro candidato.</p>
+                    </div>
+                    <div class="column">
+                        <h5>Enfoque basado en datos:</h5>
+                        <p>La decisión integra:</p>
+                        <ul>
+                            <li>Análisis longitudinal de KPIs de desempeño de los últimos 2 años</li>
+                            <li>Evaluaciones 360° estructuradas</li>
+                            <li>Análisis de competencias clave para el puesto de liderazgo</li>
+                            <li>Datos de colaboración y trabajo en equipo</li>
+                        </ul>
+                        <p><strong>Resultado:</strong> Se identifica que el candidato menos visible tiene consistentemente mejores resultados en desarrollar a otros, resolver problemas complejos y mantener compromiso del equipo, factores críticos para el éxito en el puesto. Este candidato es seleccionado.</p>
+                    </div>
+                </div>
+                
+                <h5>Impacto a largo plazo:</h5>
+                <p>El enfoque basado en datos resultó en mejores indicadores de desempeño del equipo liderado, mayor retención de miembros y proyectos completados con mayor calidad en los 18 meses siguientes. Además, señaló a la organización la importancia de evaluar competencias específicas de liderazgo más allá de la visibilidad.</p>
+            </div>
+            
+            <div class="case-study">
+                <h4>Caso 2: Identificación de Patrones de Rotación</h4>
+                
+                <h5>Situación:</h5>
+                <p>Una empresa de retail experimenta una rotación elevada en sus tiendas, impactando negativamente en costos operativos y experiencia del cliente. La dirección busca entender las causas y desarrollar estrategias efectivas de retención.</p>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h5>Enfoque basado en percepción:</h5>
+                        <p>Los gerentes regionales atribuyen la rotación a:</p>
+                        <ul>
+                            <li>Salarios bajos comparados con competidores</li>
+                            <li>Empleados jóvenes con poca lealtad</li>
+                            <li>Naturaleza del sector retail (alta rotación inevitable)</li>
+                            <li>Algunos gerentes de tienda "problemáticos"</li>
+                        </ul>
+                        <p><strong>Respuesta:</strong> Aumento generalizado de salarios del 5% y reemplazo de dos gerentes de tienda con las tasas de rotación más altas.</p>
+                    </div>
+                    <div class="column">
+                        <h5>Enfoque basado en datos:</h5>
+                        <p>Análisis de People Analytics revela:</p>
+                        <ul>
+                            <li>La rotación no correlaciona significativamente con nivel salarial</li>
+                            <li>Factor predictivo #1: Calidad de la capacitación inicial (empleados con menos de 20 horas de entrenamiento tienen 3x más probabilidad de renunciar)</li>
+                            <li>Factor predictivo #2: Horarios inconsistentes (cambios frecuentes entre turnos mañana/tarde/noche)</li>
+                            <li>Factor predictivo #3: Tiempo entre contratación y primera oportunidad de desarrollo</li>
+                        </ul>
+                        <p><strong>Respuesta:</strong> Programa de capacitación estandarizado, optimización algorítmica de horarios para mayor consistencia, y creación de microcertificaciones disponibles desde los primeros 60 días.</p>
+                    </div>
+                </div>
+                
+                <h5>Impacto a largo plazo:</h5>
+                <p>El enfoque basado en datos logró reducir la rotación en un 26% con una inversión significativamente menor que el aumento salarial generalizado. Las encuestas de salida confirmaron que la estabilidad de horarios y oportunidades de crecimiento eran factores más valorados que pequeños incrementos salariales.</p>
+            </div>
+
+            <div class="scenario-slider">
+                <h3>Escenarios Interactivos: ¿Qué Harías Tú?</h3>
+                <div class="scenario-slides">
+                    <div class="scenario-slide" id="slide-1">
+                        <h4>Escenario 1: Evaluación de Desempeño</h4>
+                        <p>Eres gerente de un equipo de marketing y debes realizar evaluaciones anuales. Tienes una impresión muy positiva de un colaborador carismático y proactivo, pero al revisar los datos de desempeño notas que sus resultados cuantitativos (conversiones, ROI de campañas) están consistentemente por debajo del promedio del equipo.</p>
+                        <h5>¿Cómo abordarías esta situación?</h5>
+                        <ul>
+                            <li>A) Confiar en tu impresión positiva, ya que los datos no capturan todas las contribuciones intangibles.</li>
+                            <li>B) Priorizar los datos cuantitativos, pues son más objetivos que tu percepción personal.</li>
+                            <li>C) Investigar más a fondo, buscando datos adicionales y explorando razones de la discrepancia.</li>
+                        </ul>
+                        <p><strong>Perspectiva de People Analytics:</strong> La opción C representa el equilibrio óptimo. Los datos alertan sobre una discrepancia que merece investigación, pero no deben interpretarse aisladamente. Podrías buscar métricas adicionales, feedback de otros stakeholders, o analizar si este colaborador aporta valor no medido por los KPIs actuales.</p>
+                    </div>
+                    
+                    <div class="scenario-slide" id="slide-2">
+                        <h4>Escenario 2: Contratación</h4>
+                        <p>Tu equipo de selección está dividido entre dos candidatos finales para un puesto clave. El candidato A tiene una trayectoria académica prestigiosa y causó una excelente impresión en las entrevistas. El candidato B tiene credenciales menos destacadas, pero las evaluaciones objetivas (pruebas técnicas, ejercicios prácticos) muestran resultados superiores.</p>
+                        <h5>¿Qué candidato seleccionarías?</h5>
+                        <ul>
+                            <li>A) Candidato A - Las credenciales prestigiosas y la impresión positiva son indicadores confiables de potencial.</li>
+                            <li>B) Candidato B - Las evaluaciones objetivas predicen mejor el desempeño futuro que las credenciales o impresiones.</li>
+                            <li>C) Realizar entrevistas adicionales con ambos para resolver la discrepancia.</li>
+                        </ul>
+                        <p><strong>Perspectiva de People Analytics:</strong> La evidencia empírica favorece la opción B. Múltiples estudios muestran que las evaluaciones de habilidades específicas y simulaciones de trabajo real predicen el desempeño laboral mucho mejor que las credenciales académicas o impresiones de entrevistas no estructuradas. Esto no implica ignorar "señales de alerta" en la interacción, pero estas deberían verificarse objetivamente.</p>
+                    </div>
+                    
+                    <div class="scenario-slide" id="slide-3">
+                        <h4>Escenario 3: Iniciativas de Bienestar</h4>
+                        <p>Como responsable de RRHH, debes decidir qué programa de bienestar implementar con un presupuesto limitado. Basándote en tu experiencia y feedback informal, consideras que un gimnasio en la oficina sería muy valorado. Sin embargo, una encuesta anónima y análisis de datos de uso de beneficios actuales muestra que la flexibilidad horaria y apoyo para cuidado infantil son las necesidades más mencionadas.</p>
+                        <h5>¿Qué alternativa elegirías?</h5>
+                        <ul>
+                            <li>A) Implementar el gimnasio, pues tu experiencia indica que será bien recibido una vez disponible.</li>
+                            <li>B) Seguir los datos de la encuesta e implementar políticas de flexibilidad y subsidio para cuidado infantil.</li>
+                            <li>C) Realizar grupos focales para profundizar en las preferencias antes de decidir.</li>
+                        </ul>
+                        <p><strong>Perspectiva de People Analytics:</strong> La opción B representa el enfoque más alineado con las necesidades reales de los empleados. Las encuestas anónimas suelen revelar necesidades que los empleados no expresan abiertamente por diversas razones (como el deseo de parecer comprometidos o no "exigentes"). La opción C también tiene mérito, pero solo si se implementa de manera que minimice el sesgo de deseabilidad social.</p>
+                    </div>
+                </div>
+                
+                <div class="scenario-navigation">
+                    <button class="scenario-btn" id="prev-btn">Anterior</button>
+                    <button class="scenario-btn" id="next-btn">Siguiente</button>
+                </div>
+            </div>
+
+            <p>Estos casos prácticos ilustran un principio fundamental: ni los datos ni la intuición son infalibles por sí solos. El poder de People Analytics reside en su capacidad para complementar el juicio humano, cuestionar suposiciones y proporcionar una base más sólida para decisiones complejas sobre personas.</p>
+        </section>
+
+        <section id="discusion-interactiva">
+            <h2>5. Discusión Interactiva: Reflexión sobre Sesgos en el Entorno Laboral</h2>
+            
+            <p>Esta sección está diseñada para promover la autorreflexión sobre cómo los sesgos cognitivos pueden estar influyendo en las decisiones cotidianas en tu propio entorno laboral. A través de preguntas guiadas y ejercicios interactivos, exploraremos la intersección entre la neurociencia cognitiva y las prácticas de recursos humanos en contextos reales.</p>
+            
+            <h3>Identificación de Sesgos en Decisiones Cotidianas</h3>
+            
+            <div class="true-false-container">
+                <h4>Autoevaluación: ¿Reconoces estos patrones?</h4>
+                <p>Reflexiona sobre las siguientes situaciones y considera honestamente si las has experimentado:</p>
+                
+                <div class="question">
+                    <p><strong>1. Has formado una impresión positiva o negativa de un candidato en los primeros minutos de una entrevista, y esta impresión inicial influyó en cómo interpretaste el resto de la conversación.</strong></p>
+                    <div class="options">
+                        <button class="option-btn reflection" data-value="true">Me ha ocurrido</button>
+                        <button class="option-btn reflection" data-value="false">No me ha ocurrido</button>
+                    </div>
+                    <div class="feedback reflection-feedback">Este es un ejemplo clásico del "efecto de primacía", donde las primeras impresiones crean un marco que filtra información posterior. La investigación muestra que los reclutadores a menudo toman decisiones en los primeros 2-3 minutos, y luego buscan información que confirme esa impresión inicial.</div>
+                </div>
+                
+                <div class="question">
+                    <p><strong>2. Al evaluar el desempeño de un empleado, has dado más peso a eventos recientes que a un historial más largo de contribuciones.</strong></p>
+                    <div class="options">
+                        <button class="option-btn reflection" data-value="true">Me ha ocurrido</button>
+                        <button class="option-btn reflection" data-value="false">No me ha ocurrido</button>
+                    </div>
+                    <div class="feedback reflection-feedback">Esto refleja el "efecto de recencia". Un estudio con gerentes encontró que los eventos de los últimos 2 meses influían en las evaluaciones anuales hasta 4 veces más que eventos similares ocurridos 10 meses antes, aunque su relevancia fuera idéntica.</div>
+                </div>
+                
+                <div class="question">
+                    <p><strong>3. Has percibido a un empleado con habilidades sociales destacadas como generalmente más competente en aspectos técnicos, sin evidencia específica que lo respalde.</strong></p>
+                    <div class="options">
+                        <button class="option-btn reflection" data-value="true">Me ha ocurrido</button>
+                        <button class="option-btn reflection" data-value="false">No me ha ocurrido</button>
+                    </div>
+                    <div class="feedback reflection-feedback">Este es un ejemplo del "efecto halo". Los estudios muestran que atributos como carisma, atractivo o habilidades de presentación influyen inconscientemente en nuestras evaluaciones de capacidades no relacionadas como análisis cuantitativo o conocimiento técnico.</div>
+                </div>
+            </div>
+            
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">Estrategias Personales para Mitigar Sesgos</div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p>Además de las soluciones basadas en People Analytics, existen prácticas individuales que pueden ayudarte a mitigar tus propios sesgos:</p>
+                            <ol>
+                                <li><strong>Ralentizar decisiones importantes:</strong> Introduce deliberadamente un período de reflexión entre la recopilación de información y la decisión final. La investigación muestra que incluso un breve intervalo puede reducir el impacto de sesgos emocionales.</li>
+                                <li><strong>Buscar activamente evidencia contradictoria:</strong> Antes de confirmar una decisión, pregúntate: "¿Qué evidencia contradice mi conclusión actual?" Esta práctica contrarresta el sesgo de confirmación.</li>
+                                <li><strong>Estructurar evaluaciones:</strong> Desarrolla criterios específicos antes de evaluar a una persona o situación, y evalúa sistemáticamente cada criterio por separado antes de formar un juicio global.</li>
+                                <li><strong>Practicar la metacognición:</strong> Reflexiona regularmente sobre tu propio proceso de pensamiento, preguntándote "¿por qué creo esto?" o "¿qué me podría estar perdiendo?"</li>
+                                <li><strong>Solicitar feedback diverso:</strong> Busca perspectivas de personas con diferentes antecedentes, experiencias y estilos de pensamiento antes de tomar decisiones importantes.</li>
+                            </ol>
+                            <p>Estas estrategias no eliminan completamente los sesgos, pero aumentan significativamente la probabilidad de decisiones más equilibradas y objetivas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Ejercicio de Reflexión: Sesgos en Mi Organización</h3>
+            <p>Tómate un momento para reflexionar sobre las siguientes preguntas. Puedes escribir tus respuestas para uso personal o discutirlas en grupo si estás realizando este curso con colegas:</p>
+            
+            <ol>
+                <li>¿Qué decisiones relacionadas con personas en tu organización podrían ser más vulnerables a sesgos cognitivos? ¿Por qué?</li>
+                <li>¿Qué tipos de datos o análisis podrían ayudar a reducir estos sesgos específicos?</li>
+                <li>¿Existen procesos en tu organización que inadvertidamente facilitan o amplifican ciertos sesgos?</li>
+                <li>¿Cómo podrías introducir un enfoque más basado en datos en áreas tradicionalmente dominadas por decisiones intuitivas?</li>
+                <li>¿Qué resistencias podrías encontrar al proponer un enfoque más analítico, y cómo las abordarías?</li>
+            </ol>
+            
+            <div class="image-container">
+                <img src="https://i.postimg.cc/T1bYSj5W/shutterstock_2250866885-min.jpg" alt="Integración de insights neurológicos en RRHH" />
+                <p class="image-caption">La neurociencia cognitiva proporciona el fundamento para comprender y superar sesgos en decisiones organizacionales</p>
+            </div>
+            
+            <h3>Conclusión: Hacia Decisiones Más Equilibradas</h3>
+            <p>Como hemos explorado a lo largo de esta sección, el cerebro humano es una herramienta increíblemente poderosa pero con limitaciones predecibles en ciertos contextos. Comprender estas limitaciones no disminuye nuestra capacidad, sino que nos permite complementarla estratégicamente con herramientas analíticas.</p>
+            
+            <p>El futuro de la gestión de recursos humanos no estará dominado exclusivamente por algoritmos ni dependerá únicamente de la intuición humana. En cambio, las organizaciones más efectivas cultivarán un equilibrio entre ambos enfoques:</p>
+            <ul>
+                <li>Usando datos para cuestionar suposiciones, detectar patrones ocultos y proporcionar consistencia</li>
+                <li>Aprovechando la experiencia humana para interpretar datos en contexto, considerar factores cualitativos y ejercer juicio ético</li>
+                <li>Diseñando procesos que minimicen sistemáticamente el impacto de sesgos conocidos</li>
+                <li>Fomentando una cultura de curiosidad y aprendizaje continuo basado en evidencia</li>
+            </ul>
+            
+            <p>Este enfoque equilibrado no solo produce mejores decisiones sobre personas, sino que también crea organizaciones más equitativas, diversas y efectivas donde el talento puede prosperar basado en contribuciones reales más que en percepciones sesgadas.</p>
+            
+            <div class="flip-card-container">
+                <div class="flip-card">
+                    <div class="flip-card-front">
+                        <h3>Punto Clave para Recordar</h3>
+                        <p>Pasa el cursor para una reflexión final sobre neurociencia y People Analytics</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>"El mayor valor de People Analytics no es reemplazar el juicio humano, sino liberarlo de tareas donde nuestro cerebro es inherentemente vulnerable, permitiéndonos concentrar nuestra intuición y creatividad donde realmente añaden valor único."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Curso de People Analytics | Desarrollado por el Equipo Multidisciplinario de Expertos</p>
+    </footer>
+
+    <script>
+        // Accordion functionality
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('active');
+                const content = header.nextElementSibling;
+                
+                if (header.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = 0;
+                }
+            });
+        });
+
+        // True/False questions
+        const optionBtns = document.querySelectorAll('.option-btn:not(.reflection)');
+        
+        optionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const isCorrect = btn.getAttribute('data-value') === 'true';
+                const questionDiv = btn.closest('.question');
+                const feedbackDiv = questionDiv.querySelector('.feedback');
+                
+                // Disable all buttons in this question
+                questionDiv.querySelectorAll('.option-btn').forEach(b => {
+                    b.disabled = true;
+                });
+                
+                // Show feedback
+                feedbackDiv.style.display = 'block';
+                
+                if (isCorrect) {
+                    feedbackDiv.classList.add('correct');
+                    feedbackDiv.classList.remove('incorrect');
+                    feedbackDiv.textContent = '¡Correcto! Tu respuesta es acertada.';
+                } else {
+                    feedbackDiv.classList.add('incorrect');
+                    feedbackDiv.classList.remove('correct');
+                    feedbackDiv.textContent = 'Incorrecto. Revisa el contenido y vuelve a intentarlo.';
+                }
+            });
+        });
+
+        // Reflection questions
+        const reflectionBtns = document.querySelectorAll('.option-btn.reflection');
+        
+        reflectionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const questionDiv = btn.closest('.question');
+                const feedbackDiv = questionDiv.querySelector('.feedback');
+                
+                // Disable all buttons in this question
+                questionDiv.querySelectorAll('.option-btn').forEach(b => {
+                    b.disabled = true;
+                });
+                
+                // Show feedback
+                feedbackDiv.style.display = 'block';
+            });
+        });
+
+        // Set specific feedback for each question
+        document.getElementById('feedback-1').textContent = 'Correcto. El efecto halo puede ser tanto positivo como negativo. Cuando tenemos una impresión negativa de alguien en un área, tendemos a percibirlos negativamente en otras áreas no relacionadas (efecto cuerno).';
+        document.getElementById('feedback-2').textContent = 'Correcto. La experiencia no inmuniza contra los sesgos cognitivos. De hecho, algunos estudios sugieren que los profesionales con más experiencia pueden ser más susceptibles a ciertos sesgos debido a la confianza en patrones reconocidos.';
+        document.getElementById('feedback-3').textContent = 'Correcto. La conciencia es un primer paso importante, pero numerosos estudios demuestran que el conocimiento sobre sesgos no es suficiente para eliminarlos. Se requieren intervenciones estructurales, como procesos estandarizados y controles basados en datos.';
+
+        // Drag and drop functionality
+        const dragItems = document.querySelectorAll('.drag-item');
+        const dropZones = document.querySelectorAll('.drop-zone');
+
+        dragItems.forEach(item => {
+            item.addEventListener('dragstart', function() {
+                this.classList.add('dragging');
+            });
+
+            item.addEventListener('dragend', function() {
+                this.classList.remove('dragging');
+            });
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('active');
+            });
+
+            zone.addEventListener('dragleave', function() {
+                this.classList.remove('active');
+            });
+
+            zone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('active');
+                const draggable = document.querySelector('.dragging');
+                if (draggable) {
+                    const targetType = this.getAttribute('data-type');
+                    const draggableTarget = draggable.getAttribute('data-target');
+                    
+                    if (targetType === draggableTarget) {
+                        // Correct match
+                        draggable.style.backgroundColor = 'var(--success-color)';
+                        this.appendChild(draggable);
+                        draggable.setAttribute('draggable', 'false');
+                    }
+                }
+            });
+        });
+
+        // Scenario slider functionality
+        const slides = document.querySelectorAll('.scenario-slide');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        let currentSlide = 0;
+
+        // Show initial slide
+        showSlide(currentSlide);
+
+        // Event listeners for buttons
+        prevBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide > 0) ? currentSlide - 1 : slides.length - 1;
+            showSlide(currentSlide);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide < slides.length - 1) ? currentSlide + 1 : 0;
+            showSlide(currentSlide);
+        });
+
+        // Function to show a specific slide
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.style.display = 'block';
+                } else {
+                    slide.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
