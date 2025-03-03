@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de People Analytics - Sección 3</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333333;
+            --light-text: #ffffff;
+            --success-color: #27ae60;
+            --error-color: #c0392b;
+            --power-bi-color: #f2c811;
+            --power-automate-color: #0077ff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-text);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="%233498db" opacity="0.2"/></svg>');
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            background-color: #ffffff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .image-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .image-caption {
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: #666;
+        }
+
+        .flip-card-container {
+            perspective: 1000px;
+            margin: 2rem 0;
+            height: 200px;
+        }
+
+        .flip-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flip-card-container:hover .flip-card {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .flip-card-front {
+            background: linear-gradient(45deg, var(--secondary-color), #2980b9);
+            color: var(--light-text);
+        }
+
+        .flip-card-back {
+            background: linear-gradient(45deg, var(--primary-color), #1a252f);
+            color: var(--light-text);
+            transform: rotateY(180deg);
+        }
+
+        .accordion {
+            margin: 2rem 0;
+        }
+
+        .accordion-item {
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: #2980b9;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+        }
+
+        .accordion-header.active::after {
+            content: '-';
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: #f1f1f1;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+
+        .accordion-content-inner {
+            padding: 1rem;
+        }
+
+        .two-column {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .tool-card {
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--box-shadow);
+            border-left: 4px solid var(--secondary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tool-card.power-bi {
+            border-left: 4px solid var(--power-bi-color);
+        }
+
+        .tool-card.power-automate {
+            border-left: 4px solid var(--power-automate-color);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 1rem;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .power-bi-icon {
+            background-color: var(--power-bi-color);
+            mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,3H3V21H21V3M12,7H8V17H12V7M20,7H16V17H20V7M4,7H4.5V17H4V7Z"/></svg>') no-repeat center center;
+            -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,3H3V21H21V3M12,7H8V17H12V7M20,7H16V17H20V7M4,7H4.5V17H4V7Z"/></svg>') no-repeat center center;
+        }
+
+        .power-automate-icon {
+            background-color: var(--power-automate-color);
+            mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7M7,15A3,3 0 0,1 4,12A3,3 0 0,1 7,9H17A3,3 0 0,1 20,12A3,3 0 0,1 17,15H7M17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12A1,1 0 0,0 17,11Z"/></svg>') no-repeat center center;
+            -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7M7,15A3,3 0 0,1 4,12A3,3 0 0,1 7,9H17A3,3 0 0,1 20,12A3,3 0 0,1 17,15H7M17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12A1,1 0 0,0 17,11Z"/></svg>') no-repeat center center;
+        }
+
+        .step-container {
+            margin: 2rem 0;
+        }
+
+        .step-item {
+            display: flex;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .step-number {
+            background-color: var(--secondary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            flex-grow: 1;
+        }
+
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 15px;
+            width: 2px;
+            height: calc(100% - 15px);
+            background-color: var(--secondary-color);
+        }
+
+        .dashboard-preview {
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 2rem 0;
+            box-shadow: var(--box-shadow);
+        }
+
+        .chart-container {
+            height: 300px;
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .chart-item {
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem;
+            margin: 0.5rem;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .kpi-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .kpi-card {
+            flex: 1;
+            min-width: 120px;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .kpi-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .tab-container {
+            margin: 2rem 0;
+        }
+
+        .tab-navigation {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-button {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #666;
+            position: relative;
+        }
+
+        .tab-button.active {
+            color: var(--secondary-color);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 1rem 0;
+        }
+
+        .flow-diagram {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 0 1rem 1rem 0;
+            position: relative;
+            min-width: 200px;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .flow-step:last-child::after {
+            content: '';
+        }
+
+        .connector-container {
+            margin: 2rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .connector {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--box-shadow);
+            padding: 1rem;
+        }
+
+        .connector img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .interactive-mock {
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 2rem 0;
+            background-color: #fff;
+        }
+
+        .mock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .mock-title {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .mock-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .mock-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .mock-btn.red {
+            background-color: #ff5f56;
+        }
+
+        .mock-btn.yellow {
+            background-color: #ffbd2e;
+        }
+
+        .mock-btn.green {
+            background-color: #27c93f;
+        }
+
+        .mock-content {
+            padding: 1rem 0;
+        }
+
+        .drag-container {
+            margin: 2rem 0;
+        }
+
+        .drag-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .drag-item {
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            border-radius: var(--border-radius);
+            cursor: move;
+            user-select: none;
+        }
+
+        .drop-zones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .drop-zone {
+            min-height: 100px;
+            padding: 1rem;
+            border: 2px dashed #ccc;
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .drop-zone-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .true-false-container {
+            margin: 2rem 0;
+        }
+
+        .question {
+            background-color: #f1f1f1;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+
+        .options {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .option-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .feedback {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            display: none;
+        }
+
+        .correct {
+            background-color: rgba(39, 174, 96, 0.2);
+            border: 1px solid var(--success-color);
+        }
+
+        .incorrect {
+            background-color: rgba(192, 57, 43, 0.2);
+            border: 1px solid var(--error-color);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Introducción a Herramientas de People Analytics</h1>
+        <p>Sección 3: Power BI y Power Automate como aliados en People Analytics</p>
+    </header>
+
+    <div class="container">
+        <section id="introduccion-herramientas">
+            <h2>1. Visión General de Herramientas para People Analytics</h2>
+            
+            <p>A medida que las organizaciones avanzan en su madurez analítica, necesitan herramientas tecnológicas que les permitan recopilar, procesar, visualizar y automatizar sus datos de capital humano. Microsoft Power Platform ofrece un ecosistema de soluciones que, sin requerir conocimientos avanzados de programación, permite a los profesionales de RRHH implementar análisis sofisticados y flujos de trabajo automatizados.</p>
+            
+            <div class="image-container">
+                <img src="https://i.postimg.cc/W1r6n0fx/Power_Platforms-min.jpg" alt="Ecosistema Microsoft Power Platform" />
+                <p class="image-caption">El ecosistema de Microsoft Power Platform y sus componentes principales</p>
+            </div>
+            
+            <p>En este módulo nos centraremos en dos componentes fundamentales:</p>
+            
+            <div class="two-column">
+                <div class="column">
+                    <div class="tool-card power-bi">
+                        <div class="tool-header">
+                            <div class="tool-icon power-bi-icon"></div>
+                            <h3>Power BI</h3>
+                        </div>
+                        <p>Herramienta de visualización e inteligencia de negocios que permite transformar datos de RRHH en insights accionables mediante dashboards interactivos y reportes dinámicos.</p>
+                        <ul>
+                            <li><strong>Propósito:</strong> Visualizar, analizar y compartir datos de People Analytics</li>
+                            <li><strong>Dificultad:</strong> Baja a Media (interfaz intuitiva con capacidad de escalamiento)</li>
+                            <li><strong>Valor añadido:</strong> Democratización de datos de RRHH en toda la organización</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="tool-card power-automate">
+                        <div class="tool-header">
+                            <div class="tool-icon power-automate-icon"></div>
+                            <h3>Power Automate</h3>
+                        </div>
+                        <p>Plataforma de automatización de procesos que permite crear flujos de trabajo sin código para tareas repetitivas, aprobaciones, alertas y procesos de RRHH.</p>
+                        <ul>
+                            <li><strong>Propósito:</strong> Automatizar procesos y flujos de trabajo de RRHH</li>
+                            <li><strong>Dificultad:</strong> Baja a Media (interfaz visual de arrastrar y soltar)</li>
+                            <li><strong>Valor añadido:</strong> Libera tiempo para análisis de alto valor eliminando tareas manuales</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>El Valor de estas Herramientas en People Analytics</h3>
+            
+            <p>La integración de Power BI y Power Automate en una estrategia de People Analytics ofrece múltiples beneficios:</p>
+            
+            <ul>
+                <li><strong>Democratización de datos:</strong> Permite que personas sin conocimientos técnicos avanzados puedan acceder a insights basados en datos complejos.</li>
+                <li><strong>Integración ecosistémica:</strong> Ambas herramientas se conectan con múltiples fuentes de datos y otros sistemas de Microsoft 365 utilizados en la organización.</li>
+                <li><strong>Escalabilidad:</strong> Desde soluciones simples hasta complejas, las herramientas crecen con las necesidades analíticas de la organización.</li>
+                <li><strong>Automatización del ciclo analítico:</strong> Power Automate puede programar actualizaciones de datos, enviar alertas basadas en KPIs y distribuir reportes de Power BI automáticamente.</li>
+                <li><strong>Seguridad y gobernanza:</strong> Ambas herramientas incorporan controles de acceso y auditoría críticos para datos sensibles de RRHH.</li>
+            </ul>
+            
+            <div class="flip-card-container">
+                <div class="flip-card">
+                    <div class="flip-card-front">
+                        <h3>¿Sabías que...?</h3>
+                        <p>Descubre un dato interesante sobre estas herramientas</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Según un estudio de Forrester, las organizaciones que implementan soluciones de Power Platform experimentan un ROI del 362% en tres años, con una recuperación de la inversión en menos de 6 meses, principalmente debido a la reducción de tiempo en tareas manuales y a la toma de decisiones más rápida basada en datos.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Prerrequisitos para este Módulo</h3>
+            <p>Para aprovechar al máximo esta sección del curso:</p>
+            <ul>
+                <li>No se requiere experiencia previa con Power BI o Power Automate</li>
+                <li>Es útil tener conocimientos básicos de Excel y familiaridad con gestión de datos</li>
+                <li>Para practicar después del curso, necesitarás acceso a una cuenta de Microsoft con licencia adecuada</li>
+            </ul>
+            
+            <p>A lo largo de este módulo, te proporcionaremos ejemplos prácticos centrados específicamente en casos de uso de People Analytics, mostrando cómo estas herramientas pueden transformar la gestión del capital humano basada en datos.</p>
+        </section>
+
+
+
+<div style="max-width: 800px; margin: 20px auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #fafafa; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+  <h2 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; margin-bottom: 10px;">Video</h2>
+  <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #555; line-height: 1.6;">
+  Automatiza, analiza y actúa: el futuro de RRHH está en tus manos con Power BI y Power Automate.
+  </p>
+</div>
+
+<div style="width: 70%; margin: 0 auto; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://player.vimeo.com/video/1061871549?h=58fcbfb8ad&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+          frameborder="0" 
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+          title="1000001761">
+  </iframe>
+</div>
+
+        <section id="power-bi-analytics">
+            <h2>2. Power BI en People Analytics</h2>
+            
+            <p>Power BI es una potente plataforma de análisis y visualización de datos que permite a los profesionales de recursos humanos transformar datos dispersos en narrativas visuales convincentes y paneles interactivos, facilitando la toma de decisiones basada en evidencia.</p>
+            
+            <h3>¿Qué es Power BI?</h3>
+            
+            <div class="two-column">
+                <div class="column">
+                    <p>Power BI es una suite de herramientas de análisis empresarial de Microsoft que incluye:</p>
+                    <ul>
+                        <li><strong>Power BI Desktop:</strong> Aplicación para crear reportes y dashboards complejos</li>
+                        <li><strong>Power BI Service:</strong> Plataforma basada en la nube para compartir y colaborar</li>
+                        <li><strong>Power BI Mobile:</strong> Aplicaciones para acceder a insights desde dispositivos móviles</li>
+                    </ul>
+                    <p>Sus capacidades principales incluyen:</p>
+                    <ul>
+                        <li>Conexión con múltiples fuentes de datos (Excel, SQL, SharePoint, etc.)</li>
+                        <li>Transformación y limpieza de datos</li>
+                        <li>Modelado de relaciones entre tablas</li>
+                        <li>Creación de visualizaciones interactivas</li>
+                        <li>Cálculos analíticos con DAX (Data Analysis Expressions)</li>
+                        <li>Publicación y distribución de informes</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <div class="image-container">
+                        <img src="https://i.postimg.cc/7Lk1QbFh/Power_Bi-min.png " alt="Interfaz de Power BI Desktop" />
+                        <p class="image-caption">La interfaz principal de Power BI Desktop</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Aplicaciones de Power BI en People Analytics</h3>
+            
+            <p>Power BI se ha convertido en una herramienta esencial para equipos de People Analytics por su capacidad para visualizar métricas de RRHH y descubrir patrones ocultos en los datos de capital humano.</p>
+            
+            <div class="dashboard-preview">
+                <h4>Vista Previa: Dashboard de People Analytics</h4>
+                
+                <div class="kpi-row">
+                    <div class="kpi-card">
+                        <div class="kpi-value">86.7%</div>
+                        <div class="kpi-label">Tasa de Retención</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">24.3</div>
+                        <div class="kpi-label">Días para Contratar</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">$8,240</div>
+                        <div class="kpi-label">Costo por Contratación</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">7.8</div>
+                        <div class="kpi-label">Compromiso (0-10)</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-item">
+                        <div class="chart-title">Rotación por Departamento</div>
+                        <div class="https://i.postimg.cc/m2vwxmvm/Manos_de_Mujer_en_PC_fondo_oscuro.jpg " style="height: 200px; background: linear-gradient(90deg, #e3f2fd, #bbdefb); border-radius: 4px;"></div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="chart-title">Tendencia de Headcount</div>
+                        <div class="https://i.postimg.cc/1RDGS7XY/graphicstock-business-people-reading-graphs-and-charts_SCxcotRcZZ-min.jpg " style="height: 200px; background: linear-gradient(90deg, #e8f5e9, #c8e6c9); border-radius: 4px;"></div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-item">
+                        <div class="chart-title">Distribución Salarial por Nivel</div>
+                        <div class="https://i.postimg.cc/7Lc3HpSj/graphicstock-business-people-reading-graphs-and-charts_r0mr_0q-Z-min.jpg " style="height: 200px; background: linear-gradient(90deg, #fff3e0, #ffe0b2); border-radius: 4px;"></div>
+                    </div>
+                    <div class="chart-item">
+                        <div class="chart-title">Factores de Engagement</div>
+                        <div class="https://i.postimg.cc/cHbQJPYV/graphicstock-businessmen-discussing-electronic-data-in-touchpad_B8WT6W5cX--min.jpg " style="height: 200px; background: linear-gradient(90deg, #e8eaf6, #c5cae9); border-radius: 4px;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">Casos de Uso Comunes en RRHH</div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p>Power BI ofrece soluciones para numerosos desafíos analíticos en recursos humanos:</p>
+                            
+                            <h4>1. Análisis de Headcount y Rotación</h4>
+                            <ul>
+                                <li>Seguimiento de tendencias de personal por departamento, ubicación o nivel</li>
+                                <li>Análisis de patrones de rotación y factores predictivos</li>
+                                <li>Modelado de escenarios de crecimiento y planificación de personal</li>
+                            </ul>
+                            
+                            <h4>2. Analítica de Talento</h4>
+                            <ul>
+                                <li>Mapas de calor de desempeño y potencial</li>
+                                <li>Análisis de brechas de habilidades y planificación de desarrollo</li>
+                                <li>Seguimiento de planes de sucesión y bench strength</li>
+                            </ul>
+                            
+                            <h4>3. Compensación y Equidad</h4>
+                            <ul>
+                                <li>Análisis comparativo de salarios frente a mercado</li>
+                                <li>Detección de inequidades salariales entre grupos demográficos</li>
+                                <li>Análisis de efectividad de programas de incentivos</li>
+                            </ul>
+                            
+                            <h4>4. Engagement y Cultura</h4>
+                            <ul>
+                                <li>Visualización de resultados de encuestas de clima</li>
+                                <li>Seguimiento de tendencias de engagement por diversos segmentos</li>
+                                <li>Correlación entre factores culturales y resultados de negocio</li>
+                            </ul>
+                            
+                            <h4>5. Métricas de Reclutamiento</h4>
+                            <ul>
+                                <li>Análisis de embudo de contratación y eficiencia del proceso</li>
+                                <li>Evaluación del ROI de diferentes fuentes de reclutamiento</li>
+                                <li>Seguimiento de KPIs como tiempo de contratación y costo por contratación</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Creando tu Primer Dashboard de People Analytics</h3>
+            
+            <p>Aunque un curso completo de Power BI requeriría varias sesiones, podemos explorar los pasos básicos para crear un dashboard simple de People Analytics:</p>
+            
+            <div class="step-container">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Identificar Datos y Métricas</h4>
+                        <p>Antes de abrir Power BI, define claramente:</p>
+                        <ul>
+                            <li>Preguntas de negocio que quieres responder</li>
+                            <li>Fuentes de datos necesarias (HRIS, encuestas, etc.)</li>
+                            <li>KPIs principales y secundarios a visualizar</li>
+                            <li>Audiencia objetivo del dashboard</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Preparar y Conectar Datos</h4>
+                        <p>En Power BI Desktop:</p>
+                        <ul>
+                            <li>Usa "Obtener datos" para importar desde Excel, CSV, o conectar a bases de datos</li>
+                            <li>Utiliza el Editor de consultas para limpiar y transformar datos</li>
+                            <li>Crea relaciones entre tablas diferentes (ej. empleados y departamentos)</li>
+                            <li>Verifica la calidad y consistencia de datos importados</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Crear Visualizaciones Básicas</h4>
+                        <p>Comienza con visualizaciones simples pero efectivas:</p>
+                        <ul>
+                            <li>Tarjetas para KPIs clave como headcount total o tasa de rotación</li>
+                            <li>Gráficos de barras para comparaciones (ej. rotación por departamento)</li>
+                            <li>Gráficos de líneas para tendencias temporales</li>
+                            <li>Tablas o matrices para datos detallados</li>
+                        </ul>
+                        <p>Power BI ofrece funcionalidad de arrastrar y soltar para crear estas visualizaciones.</p>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Añadir Interactividad</h4>
+                        <p>Haz que tu dashboard sea interactivo:</p>
+                        <ul>
+                            <li>Añade segmentadores (slicers) para filtrar por fecha, departamento, etc.</li>
+                            <li>Configura la interacción entre visualizaciones</li>
+                            <li>Crea jerarquías para hacer drill-down (ej. región > ubicación > departamento)</li>
+                            <li>Añade tooltips enriquecidos para mostrar detalles adicionales</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Publicar y Compartir</h4>
+                        <p>Una vez completado tu dashboard:</p>
+                        <ul>
+                            <li>Publica en Power BI Service para compartirlo</li>
+                            <li>Configura permisos de acceso basados en roles</li>
+                            <li>Programa actualizaciones automáticas de datos</li>
+                            <li>Comparte mediante enlaces o incrusta en sitios como SharePoint</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="true-false-container">
+                <h3>Comprueba tus Conocimientos</h3>
+                <div class="question">
+                    <p><strong>1. Power BI solo puede conectarse a fuentes de datos de Microsoft como Excel.</strong></p>
+                    <div class="options">
+                        <button class="option-btn" data-value="false">Verdadero</button>
+                        <button class="option-btn" data-value="true">Falso</button>
+                    </div>
+                    <div class="feedback" id="feedback-1"></div>
+                </div>
+                <div class="question">
+                    <p><strong>2. Para crear visualizaciones en Power BI, necesitas conocimientos avanzados de programación.</strong></p>
+                    <div class="options">
+                        <button class="option-btn" data-value="false">Verdadero</button>
+                        <button class="option-btn" data-value="true">Falso</button>
+                    </div>
+                    <div class="feedback" id="feedback-2"></div>
+                </div>
+                <div class="question">
+                    <p><strong>3. Los dashboards de Power BI pueden actualizarse automáticamente cuando cambian los datos de origen.</strong></p>
+                    <div class="options">
+                        <button class="option-btn" data-value="true">Verdadero</button>
+                        <button class="option-btn" data-value="false">Falso</button>
+                    </div>
+                    <div class="feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <div class="flip-card-container">
+                <div class="flip-card">
+                    <div class="flip-card-front">
+                        <h3>Demo Práctica</h3>
+                        <p>Visualiza rotación por departamento y antigüedad</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Para un análisis simple de rotación en Power BI:</p>
+                        <ol>
+                            <li>Importa datos de empleados con campos: ID, Departamento, Fecha Inicio, Fecha Fin, Motivo</li>
+                            <li>Añade columna calculada "Antigüedad" = DATEDIFF(FechaInicio, FechaFin, MONTH)</li>
+                            <li>Crea visualización de mapa de calor con Departamento en eje Y y rangos de Antigüedad en eje X</li>
+                            <li>Los valores pueden representar conteo o % de rotación</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Recursos para Profundizar</h3>
+            <p>Si deseas expandir tus conocimientos en Power BI para People Analytics:</p>
+            <ul>
+                <li>Microsoft Learn ofrece cursos gratuitos en línea sobre Power BI</li>
+                <li>La comunidad de Power BI comparte templates específicos para RRHH</li>
+                <li>Hay certificaciones oficiales de Microsoft para diferentes niveles de experiencia</li>
+            </ul>
+        </section>
+
+        <section id="power-automate-analytics">
+            <h2>3. Power Automate en People Analytics</h2>
+            
+            <p>Power Automate (anteriormente conocido como Microsoft Flow) es una herramienta que permite automatizar flujos de trabajo entre aplicaciones y servicios sin necesidad de conocimientos avanzados de programación. Para los profesionales de People Analytics, representa una oportunidad para eliminar tareas manuales repetitivas y enfocar su tiempo en análisis de alto valor.</p>
+            
+            <h3>¿Qué es Power Automate?</h3>
+            
+            <div class="two-column">
+                <div class="column">
+                    <p>Power Automate es una plataforma de automatización de procesos que permite:</p>
+                    <ul>
+                        <li>Crear flujos de trabajo automatizados mediante una interfaz visual</li>
+                        <li>Conectar más de 300 servicios y aplicaciones diferentes</li>
+                        <li>Programar tareas recurrentes</li>
+                        <li>Configurar notificaciones y alertas basadas en condiciones</li>
+                        <li>Implementar aprobaciones con múltiples participantes</li>
+                        <li>Automatizar extracción y procesamiento de datos</li>
+                    </ul>
+                    <p>Los flujos pueden iniciarse mediante:</p>
+                    <ul>
+                        <li>Desencadenadores automáticos (cuando algo cambia)</li>
+                        <li>Botones instantáneos (activación manual)</li>
+                        <li>Programación (fechas y horas específicas)</li>
+                        <li>Bots de procesamiento (RPA para tareas de escritorio)</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <div class="image-container">
+                        <img src="https://i.postimg.cc/FKWNzkgn/Logo_Power_Automate.png " alt="Interfaz de Power Automate" />
+                        <p class="image-caption">Creación de un flujo en la interfaz de Power Automate</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Aplicaciones de Power Automate en People Analytics</h3>
+            
+            <p>Power Automate puede transformar numerosos procesos dentro del ciclo de People Analytics:</p>
+            
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">Automatización de Recopilación de Datos</div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p>La obtención de datos consistentes y actualizados es un desafío común en People Analytics. Power Automate puede:</p>
+                            <ul>
+                                <li><strong>Enviar formularios periódicos:</strong> Automatizar el envío de encuestas de pulso o solicitudes de actualización de datos.</li>
+                                <li><strong>Extraer datos de múltiples sistemas:</strong> Programar la extracción regular de datos de sistemas como HRIS, ATS, LMS o plataformas de evaluación de desempeño.</li>
+                                <li><strong>Consolidar información:</strong> Combinar datos de distintas fuentes en un único repositorio para análisis.</li>
+                                <li><strong>Validar calidad de datos:</strong> Verificar automáticamente la integridad y coherencia de datos, alertando sobre valores atípicos o campos incompletos.</li>
+                                <li><strong>Transcribir datos no estructurados:</strong> Procesar correos electrónicos o formularios de texto libre para extraer datos estructurados.</li>
+                            </ul>
+                            <p>Ejemplo práctico: Un flujo que extrae semanalmente datos de nuevas contrataciones del ATS, datos de headcount del HRIS, y métricas de engagement de la plataforma de encuestas, consolidándolos en un único archivo Excel o base de datos para actualizar dashboards de Power BI.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">Distribución de Insights</div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p>Compartir los insights generados con los stakeholders adecuados es crucial para el impacto de People Analytics. Power Automate facilita:</p>
+                            <ul>
+                                <li><strong>Distribución programada de informes:</strong> Enviar automáticamente extractos de dashboards de Power BI o informes personalizados a distintos grupos según sus necesidades.</li>
+                                <li><strong>Alertas basadas en umbrales:</strong> Notificar a gestores cuando ciertos KPIs cruzan umbrales predefinidos (ej. rotación por encima del 15% en un departamento).</li>
+                                <li><strong>Informes contextualizados:</strong> Generar documentos de Word o PDF con narrativas y visualizaciones adaptadas a diferentes audiencias.</li>
+                                <li><strong>Actualización de intranet:</strong> Publicar automáticamente métricas actualizadas en sitios de SharePoint o equipos de Teams.</li>
+                            </ul>
+                            <p>Ejemplo práctico: Un flujo que monitoriza diariamente los dashboards de People Analytics, y cuando detecta una tendencia significativa (ej. pico de solicitudes de vacaciones en un área específica), genera un informe personalizado para el gestor correspondiente con recomendaciones basadas en patrones históricos.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">Acciones Basadas en Datos</div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p>People Analytics debe cerrar el ciclo activando respuestas basadas en insights. Power Automate permite:</p>
+                            <ul>
+                                <li><strong>Flujos de aprobación:</strong> Iniciar procesos de aprobación basados en eventos específicos detectados en los datos.</li>
+                                <li><strong>Comunicaciones personalizadas:</strong> Enviar mensajes personalizados basados en segmentos identificados (ej. empleados con riesgo de rotación).</li>
+                                <li><strong>Actualización de sistemas:</strong> Modificar registros en sistemas operacionales basándose en recomendaciones analíticas.</li>
+                                <li><strong>Ciclos de feedback:</strong> Solicitar información adicional cuando se detectan patrones que requieren más investigación.</li>
+                            </ul>
+                            <p>Ejemplo práctico: Un flujo que analiza mensualmente los patrones de tiempo extra y, cuando identifica empleados consistentemente sobrecargados, inicia automáticamente un proceso que incluye: notificación al manager, programación de una reunión de check-in, y envío de una breve encuesta al empleado sobre su bienestar y carga de trabajo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Creando tu Primer Flujo para People Analytics</h3>
+            
+            <p>Veamos un ejemplo práctico de cómo crear un flujo simple pero útil para apoyar procesos de People Analytics:</p>
+            
+            <div class="interactive-mock">
+                <div class="mock-header">
+                    <div class="mock-title">Flujo: Alerta de Rotación por Departamento</div>
+                    <div class="mock-controls">
+                        <div class="mock-btn red"></div>
+                        <div class="mock-btn yellow"></div>
+                        <div class="mock-btn green"></div>
+                    </div>
+                </div>
+                <div class="mock-content">
+                    <div class="flow-diagram">
+                        <div class="flow-step">
+                            <h4>Desencadenador</h4>
+                            <p>Programado: Cada lunes a las 8:00 AM</p>
+                        </div>
+                        <div class="flow-step">
+                            <h4>Acción</h4>
+                            <p>Obtener datos de rotación del último mes por departamento</p>
+                        </div>
+                        <div class="flow-step">
+                            <h4>Condición</h4>
+                            <p>¿Algún departamento > 5% de rotación?</p>
+                        </div>
+                        <div class="flow-step">
+                            <h4>Acción si Verdadero</h4>
+                            <p>Enviar email con análisis detallado a HRBP correspondiente</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <p>// Pseudocódigo del flujo</p>
+                        <p>TRIGGER [Schedule: Weekly on Monday at 8:00 AM]</p>
+                        <p>ACTION [Get items from "Employee Exits" SharePoint list where Exit Date is in last 30 days]</p>
+                        <p>ACTION [Get items from "Employees" SharePoint list grouped by Department]</p>
+                        <p>ACTION [Calculate turnover percentage per department]</p>
+                        <p>CONDITION [If any department has turnover > 5%]</p>
+                        <p>  ACTION [Get HRBP email from "Department Info" SharePoint list]</p>
+                        <p>  ACTION [Create HTML table with department turnover details]</p>
+                        <p>  ACTION [Send email to HRBP with subject "Alerta: Alta rotación en [Department]"]</p>
+                        <p>  ACTION [Create item in "Turnover Alerts" SharePoint list for tracking]</p>
+                        <p>ENDIF</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-container">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Identificar la Necesidad</h4>
+                        <p>Antes de crear cualquier automatización, define claramente:</p>
+                        <ul>
+                            <li>¿Qué proceso manual estás intentando automatizar?</li>
+                            <li>¿Cuál es el valor de esta automatización?</li>
+                            <li>¿Quiénes son los stakeholders involucrados?</li>
+                            <li>¿Qué sistemas o datos se necesitan?</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Seleccionar el Desencadenador</h4>
+                        <p>El desencadenador determina cuándo se ejecutará tu flujo:</p>
+                        <ul>
+                            <li><strong>Programado:</strong> Para informes regulares o verificaciones periódicas</li>
+                            <li><strong>Basado en eventos:</strong> Cuando se añade un registro, se modifica un archivo, etc.</li>
+                            <li><strong>Manual:</strong> Cuando un usuario pulsa un botón</li>
+                            <li><strong>Basado en aprobación:</strong> Cuando se completa un proceso de aprobación</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Configurar Conexiones y Acciones</h4>
+                        <p>Añade las acciones necesarias para tu flujo:</p>
+                        <ul>
+                            <li>Conecta a las fuentes de datos relevantes (SharePoint, Excel, SQL, etc.)</li>
+                            <li>Configura operaciones de obtención y manipulación de datos</li>
+                            <li>Añade lógica condicional para diferentes escenarios</li>
+                            <li>Establece las acciones finales (enviar emails, actualizar registros, etc.)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Probar y Refinar</h4>
+                        <p>Antes de implementar completamente:</p>
+                        <ul>
+                            <li>Ejecuta pruebas para verificar que el flujo funciona como se espera</li>
+                            <li>Evalúa los resultados y refina la lógica si es necesario</li>
+                            <li>Considera escenarios de error y añade manejo de excepciones</li>
+                            <li>Documenta el propósito y funcionamiento del flujo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="true-false-container">
+                <h3>Comprueba tus Conocimientos</h3>
+                <div class="question">
+                    <p><strong>1. Power Automate es principalmente una herramienta para crear visualizaciones de datos.</strong></p>
+                    <div class="options">
+                        <button class="option-btn" data-value="false">Verdadero</button>
+                        <button class="option-btn" data-value="true">Falso</button>
+                    </div>
+                    <div class="feedback" id="feedback-4"></div>
+                </div>
+                <div class="question">
+                    <p><strong>2. Para utilizar Power Automate, es necesario conocer un lenguaje de programación como Python o R.</strong></p>
+                    <div class="options">
+                        <button class="option-btn" data-value="false">Verdadero</button>
+                        <button class="option-btn" data-value="true">Falso</button>
+                    </div>
+                    <div class="feedback" id="feedback-5"></div>
+                </div>
+                <div class="question">
+                    <p><strong>3. Un mismo flujo de Power Automate puede conectarse a múltiples sistemas y aplicaciones diferentes.</strong></p>
+                    <div class="options">
+                        <button class="option-btn" data-value="true">Verdadero</button>
+                        <button class="option-btn" data-value="false">Falso</button>
+                    </div>
+                    <div class="feedback" id="feedback-6"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="integracion-herramientas">
+            <h2>4. Conexión de Power BI y Power Automate con People Analytics</h2>
+            
+            <p>El verdadero potencial de estas herramientas se manifiesta cuando se integran en un ecosistema completo de People Analytics. La combinación de Power BI y Power Automate crea un ciclo virtuoso donde los datos se transforman en insights, y los insights desencadenan acciones automatizadas.</p>
+            
+            <div class="image-container">
+                <img src="https://i.postimg.cc/sg14Ztpf/planb-980-min.jpg " alt="Ciclo de People Analytics con Power Platform" />
+                <p class="image-caption">El ciclo completo de People Analytics potenciado por Power Platform</p>
+            </div>
+            
+            <h3>Escenarios de Integración</h3>
+            
+            <p>Veamos algunos escenarios prácticos que ilustran cómo estas herramientas pueden trabajar juntas:</p>
+            
+            <div class="two-column">
+                <div class="column">
+                    <div class="tool-card">
+                        <h4>Monitoreo Proactivo de Engagement</h4>
+                        <p><strong>Desafío:</strong> Identificar tempranamente señales de desengagement en equipos críticos.</p>
+                        <p><strong>Solución integrada:</strong></p>
+                        <ol>
+                            <li><strong>Power BI:</strong> Dashboard que analiza múltiples indicadores de engagement (participación en reuniones, contribuciones en plataformas colaborativas, horas de conexión)</li>
+                            <li><strong>Power Automate:</strong> Flujo que monitoriza diariamente métricas clave y, cuando detecta descensos significativos en un equipo, activa un protocolo de respuesta</li>
+                            <li><strong>Acción resultante:</strong> Notificaciones al manager, programación de check-ins, y envío automático de una encuesta rápida al equipo</li>
+                        </ol>
+                        <p><strong>Beneficio:</strong> Intervención temprana antes de que los problemas de engagement afecten al desempeño o deriven en rotación.</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="tool-card">
+                        <h4>Optimización de Procesos de Contratación</h4>
+                        <p><strong>Desafío:</strong> Reducir el tiempo de contratación manteniendo la calidad de candidatos.</p>
+                        <p><strong>Solución integrada:</strong></p>
+                        <ol>
+                            <li><strong>Power BI:</strong> Dashboard que analiza cada etapa del embudo de contratación, identificando cuellos de botella y correlacionando fuentes de reclutamiento con calidad de contrataciones</li>
+                            <li><strong>Power Automate:</strong> Flujos que automatizan comunicaciones con candidatos, recordatorios para entrevistadores, y priorizan vacantes basándose en impacto empresarial</li>
+                            <li><strong>Acción resultante:</strong> Reasignación dinámica de recursos de reclutamiento hacia canales más efectivos y posiciones críticas</li>
+                        </ol>
+                        <p><strong>Beneficio:</strong> Reducción del tiempo de contratación y mejora en la calidad de candidatos contratados.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="two-column">
+                <div class="column">
+                    <div class="tool-card">
+                        <h4>Gestión Predictiva de Rotación</h4>
+                        <p><strong>Desafío:</strong> Anticipar y mitigar riesgos de pérdida de talento clave.</p>
+                        <p><strong>Solución integrada:</strong></p>
+                        <ol>
+                            <li><strong>Power BI:</strong> Modelo predictivo que asigna puntuaciones de riesgo de rotación basado en múltiples variables (compensación vs. mercado, carga de trabajo, tiempo sin promoción, etc.)</li>
+                            <li><strong>Power Automate:</strong> Flujo mensual que identifica empleados de alto valor en zona de riesgo y genera planes de retención personalizados</li>
+                            <li><strong>Acción resultante:</strong> Alertas a managers, recomendaciones específicas de intervención, y seguimiento de efectividad de acciones tomadas</li>
+                        </ol>
+                        <p><strong>Beneficio:</strong> Reducción de rotación no deseada y mayor retención de talento clave.</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="tool-card">
+                        <h4>Cultura Data-Driven en RRHH</h4>
+                        <p><strong>Desafío:</strong> Fomentar el uso de datos en todos los niveles de la función de RRHH.</p>
+                        <p><strong>Solución integrada:</strong></p>
+                        <ol>
+                            <li><strong>Power BI:</strong> Dashboards personalizados para diferentes roles en RRHH, desde especialistas hasta HRBPs y directivos</li>
+                            <li><strong>Power Automate:</strong> Distribución automática de insights relevantes según calendario (ej. previo a ciclos de revisión salarial, planificación de personal, etc.)</li>
+                            <li><strong>Acción resultante:</strong> Incorporación de datos en reuniones regulares y decisiones cotidianas de RRHH</li>
+                        </ol>
+                        <p><strong>Beneficio:</strong> Transformación cultural hacia la toma de decisiones basada en evidencia en toda la función de RRHH.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Conectando el Ecosistema Completo</h3>
+            
+            <p>Más allá de Power BI y Power Automate, el ecosistema completo de Microsoft Power Platform ofrece herramientas adicionales que pueden potenciar aún más tu estrategia de People Analytics:</p>
+            
+            <div class="connector-container">
+                <div class="connector">
+                    <div class="tool-icon power-bi-icon" style="width: 80px; height: 80px;"></div>
+                </div>
+                <div class="connector">
+                    <div class="tool-icon power-automate-icon" style="width: 80px; height: 80px;"></div>
+                </div>
+                <div class="connector">
+                    <img src="https://i.postimg.cc/Wbz5MFVP/Power_apps-min.jpg" alt="Power Apps Icon" />
+                </div>
+                <div class="connector">
+                    <img src="https://i.postimg.cc/pXDLJZtw/shutterstock_2255295925-min.jpg}" alt="Power Virtual Agents Icon" />
+                </div>
+            </div>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h4>Power Apps</h4>
+                    <p>Permite crear aplicaciones personalizadas sin código que pueden:</p>
+                    <ul>
+                        <li>Facilitar la captura de datos específicos de RRHH</li>
+                        <li>Crear interfaces para gestionar procesos de talent management</li>
+                        <li>Desarrollar herramientas para managers con insights de sus equipos</li>
+                        <li>Implementar soluciones móviles para feedback continuo</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h4>Power Virtual Agents</h4>
+                    <p>Facilita la creación de chatbots conversacionales que pueden:</p>
+                    <ul>
+                        <li>Responder preguntas frecuentes sobre políticas de RRHH</li>
+                        <li>Guiar a managers en la interpretación de datos de People Analytics</li>
+                        <li>Capturar feedback continuo de empleados</li>
+                        <li>Ofrecer recomendaciones basadas en datos históricos</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flip-card-container">
+                <div class="flip-card">
+                    <div class="flip-card-front">
+                        <h3>¿Sabías que...?</h3>
+                        <p>Descubre un dato interesante sobre la integración de herramientas</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Las organizaciones que integran sus herramientas de análisis con sistemas de automatización reportan un 42% más de adopción de insights analíticos por parte de managers de línea, según un estudio de Bersin. Esto se debe a que los datos llegan en el momento adecuado y con acciones concretas recomendadas.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Ejercicio Práctico: Diseña tu Solución Integrada</h3>
+            
+            <div class="drag-container">
+                <h4>Conecta los Desafíos de People Analytics con las Soluciones Adecuadas</h4>
+                <p>Arrastra cada desafío a la herramienta más adecuada para abordarlo:</p>
+                
+                <div class="drag-items">
+                    <div class="drag-item" draggable="true" data-target="bi">Identificar departamentos con brecha salarial de género</div>
+                    <div class="drag-item" draggable="true" data-target="automate">Enviar alertas cuando tiempo-para-contratar supera 30 días</div>
+                    <div class="drag-item" draggable="true" data-target="bi">Visualizar correlación entre horas extra y rotación</div>
+                    <div class="drag-item" draggable="true" data-target="automate">Distribuir informes semanales personalizados a cada HRBP</div>
+                </div>
+                
+                <div class="drop-zones">
+                    <div class="drop-zone" data-type="bi">
+                        <div class="drop-zone-title">Power BI</div>
+                        <p>Análisis y visualización</p>
+                    </div>
+                    <div class="drop-zone" data-type="automate">
+                        <div class="drop-zone-title">Power Automate</div>
+                        <p>Automatización y flujos de trabajo</p>
+                    </div>
+                </div>
+                
+                <div class="feedback" id="feedback-drag" style="margin-top: 1rem; display: none;">
+                    ¡Excelente! Has identificado correctamente qué herramienta es más adecuada para cada desafío. Recuerda que muchas soluciones requieren la combinación de ambas herramientas para obtener resultados óptimos.
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion">
+            <h2>5. Conclusión: Primeros Pasos y Ruta de Aprendizaje</h2>
+            
+            <p>En esta introducción a Power BI y Power Automate hemos explorado cómo estas herramientas pueden transformar la práctica de People Analytics, haciendo que los datos de capital humano sean más accesibles, accionables y valiosos para la organización.</p>
+            
+            <h3>Resumen de Conceptos Clave</h3>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h4>Power BI</h4>
+                    <ul>
+                        <li>Herramienta de visualización e inteligencia de negocios</li>
+                        <li>Permite transformar datos complejos en narrativas visuales</li>
+                        <li>Facilita el descubrimiento de patrones y tendencias en datos de RRHH</li>
+                        <li>Democratiza el acceso a analytics para usuarios no técnicos</li>
+                        <li>Soporta desde análisis descriptivos hasta predictivos</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h4>Power Automate</h4>
+                    <ul>
+                        <li>Plataforma de automatización de procesos sin código</li>
+                        <li>Permite crear flujos de trabajo entre múltiples aplicaciones</li>
+                        <li>Automatiza tareas repetitivas para liberar tiempo para análisis</li>
+                        <li>Facilita la distribución de insights y activación de acciones</li>
+                        <li>Cierra el ciclo entre datos y decisiones</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Por Dónde Empezar</h3>
+            
+            <p>Si te interesa implementar estas herramientas en tu estrategia de People Analytics, aquí tienes algunos consejos para comenzar:</p>
+            
+            <div class="step-container">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Identifica un Caso de Uso de Alto Valor y Baja Complejidad</h4>
+                        <p>Busca un "quick win" que:</p>
+                        <ul>
+                            <li>Resuelva un problema real y visible para stakeholders clave</li>
+                            <li>Utilice datos que ya están disponibles y son relativamente limpios</li>
+                            <li>Tenga un alcance limitado para implementación rápida</li>
+                            <li>Ejemplo: Dashboard de headcount y movimientos mensuales por departamento</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Aprende lo Básico con Recursos Gratuitos</h4>
+                        <p>Aprovecha la abundancia de recursos de aprendizaje:</p>
+                        <ul>
+                            <li>Microsoft Learn - cursos estructurados gratuitos</li>
+                            <li>YouTube - tutoriales paso a paso</li>
+                            <li>Comunidad Power BI - foros y ejemplos compartidos</li>
+                            <li>Plantillas prediseñadas para RRHH - adaptables a tus necesidades</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Construye un MVP (Producto Mínimo Viable)</h4>
+                        <p>Desarrolla una primera versión funcional:</p>
+                        <ul>
+                            <li>Enfócate en las 2-3 métricas más importantes</li>
+                            <li>Crea visualizaciones simples pero efectivas</li>
+                            <li>Obtén feedback temprano de usuarios clave</li>
+                            <li>Itera basándote en el feedback</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Documenta y Comparte Éxitos</h4>
+                        <p>Crea una base para expandir tu trabajo:</p>
+                        <ul>
+                            <li>Documenta el proceso y aprendizajes</li>
+                            <li>Cuantifica el impacto (tiempo ahorrado, mejoras en decisiones)</li>
+                            <li>Comparte resultados con stakeholders</li>
+                            <li>Construye una comunidad de práctica</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Escala Gradualmente</h4>
+                        <p>Expande de manera progresiva:</p>
+                        <ul>
+                            <li>Aumenta complejidad técnica (de descriptivo a predictivo)</li>
+                            <li>Amplía alcance de proyectos </li>
+                            <li>Integra con más fuentes de datos</li>
+                            <li>Explora herramientas adicionales del ecosistema Power Platform</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Ruta de Aprendizaje Sugerida</h3>
+            
+            <div class="tab-container">
+                <div class="tab-navigation">
+                    <button class="tab-button active" data-tab="beginner">Principiante</button>
+                    <button class="tab-button" data-tab="intermediate">Intermedio</button>
+                    <button class="tab-button" data-tab="advanced">Avanzado</button>
+                </div>
+                
+                <div class="tab-content active" id="beginner">
+                    <h4>Nivel Principiante</h4>
+                    <ul>
+                        <li><strong>Power BI:</strong> Aprende a conectar con Excel, crear visualizaciones básicas y publicar un dashboard simple</li>
+                        <li><strong>Power Automate:</strong> Crea flujos básicos con desencadenadores programados y acciones de email</li>
+                        <li><strong>Proyecto:</strong> Dashboard mensual de métricas básicas (headcount, rotación, contrataciones) con distribución automatizada</li>
+                    </ul>
+                </div>
+                
+                <div class="tab-content" id="intermediate">
+                    <h4>Nivel Intermedio</h4>
+                    <ul>
+                        <li><strong>Power BI:</strong> Domina transformaciones de datos, relaciones entre tablas y cálculos DAX básicos</li>
+                        <li><strong>Power Automate:</strong> Implementa flujos con condiciones, variables y conexiones a múltiples sistemas</li>
+                        <li><strong>Proyecto:</strong> Dashboard interactivo de análisis de talent pipeline con alertas automatizadas basadas en brechas identificadas</li>
+                    </ul>
+                </div>
+                
+                <div class="tab-content" id="advanced">
+                    <h4>Nivel Avanzado</h4>
+                    <ul>
+                        <li><strong>Power BI:</strong> Implementa modelos analíticos complejos, medidas DAX avanzadas y storytelling visual</li>
+                        <li><strong>Power Automate:</strong> Crea flujos con lógica de negocio compleja, integración con APIs y automatización RPA</li>
+                        <li><strong>Proyecto:</strong> Centro integral de People Analytics con predictores de rotación, simuladores de escenarios y acciones automatizadas basadas en findings</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Reflexión Final</h3>
+            
+            <p>Las herramientas como Power BI y Power Automate están democratizando el acceso a People Analytics, permitiendo que organizaciones de todos los tamaños y niveles de madurez analítica puedan tomar decisiones de capital humano más objetivas e impactantes.</p>
+            
+            <p>El verdadero valor de estas herramientas no está en su sofisticación técnica, sino en su capacidad para:</p>
+            <ul>
+                <li>Transformar datos en narrativas que resuenan con líderes de negocio</li>
+                <li>Hacer visible lo invisible en patrones de comportamiento organizacional</li>
+                <li>Convertir insights en acciones concretas que mejoran la experiencia de los empleados</li>
+                <li>Liberar tiempo de los profesionales de RRHH para trabajo estratégico</li>
+            </ul>
+            
+            <p>A medida que explores estas herramientas, recuerda que la tecnología es solo un facilitador. El verdadero éxito en People Analytics siempre dependerá de hacer las preguntas correctas, interpretar los datos en contexto, y conectar los insights con acciones significativas que impacten positivamente a las personas y a la organización.</p>
+            
+            <div class="flip-card-container">
+                <div class="flip-card">
+                    <div class="flip-card-front">
+                        <h3>Mensaje Final</h3>
+                        <p>Reflexión sobre el futuro de People Analytics</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>"El futuro de People Analytics no pertenece necesariamente a los científicos de datos, sino a quienes puedan combinar comprensión del negocio, empatía por las personas, y capacidad para aprovechar herramientas tecnológicas que democratizan el poder de los datos."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Curso de People Analytics | Desarrollado por el Equipo Multidisciplinario de Expertos</p>
+    </footer>
+
+    <script>
+        // Accordion functionality
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('active');
+                const content = header.nextElementSibling;
+                
+                if (header.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = 0;
+                }
+            });
+        });
+
+        // True/False questions
+        const optionBtns = document.querySelectorAll('.option-btn');
+        
+        optionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const isCorrect = btn.getAttribute('data-value') === 'true';
+                const questionDiv = btn.closest('.question');
+                const feedbackDiv = questionDiv.querySelector('.feedback');
+                
+                // Disable all buttons in this question
+                questionDiv.querySelectorAll('.option-btn').forEach(b => {
+                    b.disabled = true;
+                });
+                
+                // Show feedback
+                feedbackDiv.style.display = 'block';
+                
+                if (isCorrect) {
+                    feedbackDiv.classList.add('correct');
+                    feedbackDiv.classList.remove('incorrect');
+                    feedbackDiv.textContent = '¡Correcto! Tu respuesta es acertada.';
+                } else {
+                    feedbackDiv.classList.add('incorrect');
+                    feedbackDiv.classList.remove('correct');
+                    feedbackDiv.textContent = 'Incorrecto. Revisa el contenido y vuelve a intentarlo.';
+                }
+            });
+        });
+
+        // Set specific feedback for each question
+        document.getElementById('feedback-1').textContent = 'Correcto. Power BI puede conectarse a cientos de fuentes de datos diferentes, incluyendo bases de datos on-premise, servicios en la nube, archivos planos, y APIs web, no solo productos de Microsoft.';
+        document.getElementById('feedback-2').textContent = 'Correcto. Power BI está diseñado con una interfaz intuitiva de arrastrar y soltar que permite a usuarios sin conocimientos de programación crear visualizaciones complejas. Solo para análisis muy avanzados se necesitaría conocer DAX.';
+        document.getElementById('feedback-3').textContent = 'Correcto. Power BI Service permite programar actualizaciones automáticas de datos, garantizando que los dashboards muestren siempre la información más reciente sin intervención manual.';
+        document.getElementById('feedback-4').textContent = 'Correcto. Power Automate es una herramienta de automatización de flujos de trabajo, no de visualización. Para visualizaciones se utiliza Power BI.';
+        document.getElementById('feedback-5').textContent = 'Correcto. Power Automate utiliza una interfaz visual de "arrastrar y soltar" que no requiere conocimientos de programación, aunque conocer conceptos básicos como variables y condiciones es útil para flujos más complejos.';
+        document.getElementById('feedback-6').textContent = 'Correcto. Una de las principales ventajas de Power Automate es su capacidad para integrar más de 300 servicios y aplicaciones diferentes, permitiendo flujos de trabajo que conectan múltiples sistemas.';
+
+        // Drag and drop functionality
+        const dragItems = document.querySelectorAll('.drag-item');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        let completedDrags = 0;
+        const totalDrags = dragItems.length;
+
+        dragItems.forEach(item => {
+            item.addEventListener('dragstart', function() {
+                this.classList.add('dragging');
+            });
+
+            item.addEventListener('dragend', function() {
+                this.classList.remove('dragging');
+            });
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('active');
+            });
+
+            zone.addEventListener('dragleave', function() {
+                this.classList.remove('active');
+            });
+
+            zone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('active');
+                const draggable = document.querySelector('.dragging');
+                if (draggable) {
+                    const targetType = this.getAttribute('data-type');
+                    const draggableTarget = draggable.getAttribute('data-target');
+                    
+                    if (targetType === draggableTarget) {
+                        // Correct match
+                        draggable.style.backgroundColor = 'var(--success-color)';
+                        this.appendChild(draggable);
+                        draggable.setAttribute('draggable', 'false');
+                        completedDrags++;
+                        
+                        // Check if all items are dropped correctly
+                        if (completedDrags === totalDrags) {
+                            document.getElementById('feedback-drag').style.display = 'block';
+                        }
+                    }
+                }
+            });
+        });
+
+        // Tabs functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to current button and content
+                button.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
