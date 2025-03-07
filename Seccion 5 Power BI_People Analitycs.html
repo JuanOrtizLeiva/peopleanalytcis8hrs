@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso: Power BI con People Analytics - Sección 5</title>
+    <style>
+        :root {
+            --primary-color: #2C6BAC;
+            --primary-dark: #1B4978;
+            --secondary-color: #7CC6FE;
+            --secondary-dark: #4A9FE6;
+            --accent-color: #FF8A00;
+            --accent-dark: #E67300;
+            --background-color: #f8f9fa;
+            --text-color: #333333;
+            --text-light: #ffffff;
+            --light-gray: #e9ecef;
+            --dark-gray: #495057;
+            --success-color: #28a745;
+            --success-dark: #1e7e34;
+            --danger-color: #dc3545;
+            --danger-dark: #bd2130;
+            --warning-color: #ffc107;
+            --warning-dark: #d39e00;
+            --info-color: #17a2b8;
+            --info-dark: #138496;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --box-shadow-hover: 0 6px 10px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease-in-out;
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255, 255, 255, 0.15)" d="M0,192L48,181.3C96,171,192,149,288,149.3C384,149,480,171,576,165.3C672,160,768,128,864,138.7C960,149,1056,203,1152,208C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-position: bottom;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+            margin: 30px 0 15px;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin: 20px 0 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .subsection {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Tarjetas informativas - Versión corregida */
+        .info-box {
+            position: relative;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            overflow: visible;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+        }
+
+        /* Variantes de colores para info-box */
+        .info-box.primary {
+            background-color: var(--primary-color);
+        }
+
+        .info-box.secondary {
+            background-color: var(--secondary-dark);
+        }
+
+        .info-box.accent {
+            background-color: var(--accent-color);
+        }
+
+        .info-box.success {
+            background-color: var(--success-color);
+        }
+
+        .info-box.info {
+            background-color: var(--info-color);
+        }
+
+        .info-box.warning {
+            background-color: var(--warning-color);
+            color: var(--text-color);
+        }
+
+        .info-box h4 {
+            color: var(--text-light);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .info-box.warning h4 {
+            color: var(--text-color);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .info-box p {
+            margin-bottom: 15px;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-box ul, .info-box ol {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .info-box li {
+            margin-bottom: 8px;
+        }
+
+        /* Elementos interactivos */
+        /* Tarjetas giratorias con mejor contraste - Versión corregida */
+        .flip-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            width: 300px;
+            height: 220px; /* Aumentado de 200px a 220px */
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 25px; /* Aumentado de 20px a 25px */
+            border-radius: var(--border-radius);
+        }
+
+        .flip-card-front {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            border: 2px solid var(--primary-color);
+        }
+
+        .flip-card-front h3 {
+            color: var(--text-light);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .flip-card-front p {
+            margin-bottom: 0;
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .flip-card-back {
+            background-color: var(--secondary-dark);
+            color: var(--text-light);
+            transform: rotateY(180deg);
+            overflow-y: auto;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .flip-card-back h4 {
+            color: var(--text-light);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-card-back p {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        /* Tabla interactiva */
+        .interactive-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .interactive-table thead {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .interactive-table th, .interactive-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .interactive-table tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+
+        .interactive-table tr {
+            transition: var(--transition);
+        }
+
+        .interactive-table tr:hover {
+            background-color: #dfe6e9;
+        }
+
+        /* Quiz de verdadero/falso */
+        .quiz-container {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .quiz-options {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-option {
+            padding: 10px 20px;
+            border: 2px solid var(--primary-dark);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .quiz-option:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .quiz-option.selected {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: var(--success-dark);
+            border: 1px solid var(--success-color);
+        }
+
+        .quiz-feedback.incorrect {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: var(--danger-dark);
+            border: 1px solid var(--danger-color);
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .btn-check {
+            background-color: var(--success-dark);
+        }
+
+        .btn-check:hover {
+            background-color: var(--success-color);
+        }
+
+        .btn-reset {
+            background-color: var(--danger-dark);
+        }
+
+        .btn-reset:hover {
+            background-color: var(--danger-color);
+        }
+
+        /* Código y sintaxis */
+        .code-block {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            overflow-x: auto;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+        }
+
+        /* Efecto de resaltado */
+        .highlight {
+            background-color: rgba(255, 138, 0, 0.2);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: var(--accent-dark);
+        }
+
+        /* Tips importantes */
+        .tip-box {
+            background-color: rgba(23, 162, 184, 0.1);
+            border-left: 4px solid var(--info-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .tip-box h4 {
+            color: var(--info-dark);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .tip-box h4::before {
+            content: '💡';
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+
+        /* KPI Cards */
+        .kpi-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .kpi-card {
+            flex: 1;
+            min-width: 200px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            transition: var(--transition);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .kpi-title {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .kpi-delta {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .kpi-delta.positive {
+            color: var(--success-color);
+        }
+
+        .kpi-delta.negative {
+            color: var(--danger-color);
+        }
+
+        .kpi-icon {
+            margin-right: 5px;
+        }
+
+        /* Nuevos componentes sin acordeones */
+        .info-panel {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 25px 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .info-panel:hover {
+            box-shadow: var(--box-shadow-hover);
+            transform: translateY(-3px);
+        }
+
+        .info-panel-header {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-panel-header:before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .info-panel-content {
+            padding: 20px;
+        }
+
+        .info-panel-content ul {
+            padding-left: 20px;
+        }
+
+        .info-panel-content ul li {
+            margin-bottom: 8px;
+        }
+
+        /* Diseño de dos columnas */
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        /* Tarjetas de información */
+        .info-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .info-card {
+            flex: 1;
+            min-width: 250px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 15px;
+            border-left: 5px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .info-card:nth-child(2) {
+            border-left-color: var(--secondary-color);
+        }
+
+        .info-card:nth-child(3) {
+            border-left-color: var(--info-color);
+        }
+
+        .info-card:nth-child(4) {
+            border-left-color: var(--success-color);
+        }
+
+        .info-card:nth-child(5) {
+            border-left-color: var(--warning-color);
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .info-card-title {
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 5px;
+        }
+
+        .info-card:nth-child(2) .info-card-title {
+            color: var(--secondary-dark);
+        }
+
+        .info-card:nth-child(3) .info-card-title {
+            color: var(--info-dark);
+        }
+
+        .info-card:nth-child(4) .info-card-title {
+            color: var(--success-dark);
+        }
+
+        .info-card:nth-child(5) .info-card-title {
+            color: var(--warning-dark);
+        }
+
+        /* Secciones alternadas */
+        .alt-section {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: var(--border-radius);
+        }
+
+        .alt-section:nth-child(odd) {
+            background-color: var(--background-color);
+        }
+
+        .alt-section:nth-child(even) {
+            background-color: rgba(124, 198, 254, 0.1);
+            border: 1px solid rgba(124, 198, 254, 0.3);
+        }
+
+        /* Feature list with icons */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0 10px 35px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .feature-list li:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 24px;
+            height: 24px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .feature-list li.check:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>');
+        }
+
+        .feature-list li.chart:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2.5 2.1h-15V5h15v14.1zm0-16.1h-15c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>');
+        }
+
+        .feature-list li.time:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>');
+        }
+
+        .feature-list li.action:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>');
+        }
+
+        .feature-list li.user:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+        }
+
+        .feature-list li.filter:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>');
+        }
+
+        .feature-list li.design:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>');
+        }
+
+        /* Dashboard mockups */
+        .dashboard-mockup {
+            background-color: #f5f5f5;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 25px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+        }
+
+        .dashboard-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dashboard-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .filter {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter:before {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>');
+            background-size: contain;
+            margin-right: 5px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: 15px;
+        }
+
+        .dashboard-card {
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-1 {
+            grid-column: span 3;
+            grid-row: span 2;
+        }
+
+        .card-2 {
+            grid-column: span 5;
+            grid-row: span 2;
+        }
+
+        .card-3 {
+            grid-column: span 4;
+            grid-row: span 2;
+        }
+
+        .card-4 {
+            grid-column: span 6;
+            grid-row: span 3;
+        }
+
+        .card-5 {
+            grid-column: span 6;
+            grid-row: span 3;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--dark-gray);
+        }
+
+        .card-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .card-content.kpi {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .card-kpi-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .card-kpi-label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        /* Step indicator */
+        .step-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .step-container:before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--light-gray);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .step.active .step-number {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--dark-gray);
+            font-weight: bold;
+        }
+
+        /* Consulta de medios para responsividad */
+        @media (max-width: 768px) {
+            .flip-card-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .flip-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .quiz-options {
+                flex-direction: column;
+            }
+
+            .kpi-container {
+                flex-direction: column;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-1, .card-2, .card-3, .card-4, .card-5 {
+                grid-column: span 1;
+            }
+
+            .step-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .step-container:before {
+                top: 0;
+                bottom: 0;
+                left: 24px;
+                width: 2px;
+                height: auto;
+            }
+
+            .step {
+                flex-direction: row;
+                gap: 15px;
+            }
+
+            .step-number {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Power BI con People Analytics</h1>
+            <p>Sección 5: Dashboards Interactivos</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2>Diseñando dashboards efectivos para People Analytics</h2>
+            <p>Bienvenidos a la quinta y última sección de nuestro curso sobre <strong>Power BI para People Analytics</strong>. A lo largo de las secciones anteriores, hemos explorado los fundamentos de Power BI, aprendido a preparar datos, crear visualizaciones básicas y desarrollar cálculos avanzados con DAX. Ahora, vamos a integrar todo ese conocimiento para diseñar dashboards interactivos que proporcionen insights accionables sobre el capital humano de la organización.</p>
+            
+            <p>Un dashboard bien diseñado es mucho más que una colección de gráficos. Es una herramienta estratégica que permite a los profesionales de RRHH y a los líderes de la organización comprender las tendencias clave, identificar oportunidades de mejora y tomar decisiones informadas sobre su fuerza laboral.</p>
+            
+            <div class="info-box primary">
+                <h4>Principios fundamentales de diseño de dashboards</h4>
+                <p>Un dashboard efectivo de People Analytics debe seguir estos principios clave:</p>
+                <ul>
+                    <li><strong>Centrarse en el usuario:</strong> Diseñar pensando en quién va a utilizar el dashboard y qué preguntas necesita responder.</li>
+                    <li><strong>Contar una historia:</strong> Organizar las visualizaciones de manera que guíen al usuario a través de una narrativa coherente.</li>
+                    <li><strong>Mantener la simplicidad:</strong> Evitar la sobrecarga de información y centrarse en los KPIs más relevantes.</li>
+                    <li><strong>Facilitar la exploración:</strong> Permitir que los usuarios profundicen en los datos mediante filtros y segmentaciones intuitivas.</li>
+                    <li><strong>Promover la acción:</strong> Asegurar que los insights revelados conduzcan a acciones concretas y medibles.</li>
+                </ul>
+            </div>
+            
+            <div class="subsection">
+                <h3>¿Qué aprenderemos en esta sección?</h3>
+                <ul class="feature-list">
+                    <li class="design"><strong>Diseño de dashboards claros y útiles:</strong> Principios de diseño visual, organización de elementos y mejores prácticas de usabilidad.</li>
+                    <li class="filter"><strong>Filtros y segmentaciones:</strong> Cómo implementar controles interactivos que permitan a los usuarios explorar los datos desde diferentes perspectivas.</li>
+                    <li class="action"><strong>Visualizaciones avanzadas:</strong> Técnicas para crear visualizaciones más sofisticadas que revelen insights profundos sobre la fuerza laboral.</li>
+                    <li class="chart"><strong>Navegación y jerarquías:</strong> Cómo estructurar dashboards multi-nivel que permitan tanto la visión general como el análisis detallado.</li>
+                    <li class="user"><strong>Diseño orientado a diferentes audiencias:</strong> Adaptación de dashboards para ejecutivos, managers y especialistas de RRHH.</li>
+                </ul>
+                
+                <p>Al final de esta sección, serás capaz de crear un dashboard completo de People Analytics con métricas clave de rotación, diversidad, compensación y compromiso, proporcionando a tu organización una herramienta poderosa para la toma de decisiones basada en datos.</p>
+            </div>
+        </section>
+
+        <!-- Primera parte: Diseño de dashboards claros -->
+        <section class="section">
+            <h2>1. Diseñar dashboards claros y útiles</h2>
+            
+            <p>El diseño de un dashboard efectivo comienza con una comprensión clara de su propósito y su audiencia. Antes de empezar a arrastrar visualizaciones, debemos plantearnos algunas preguntas fundamentales.</p>
+            
+            <div class="info-box secondary">
+                <h4>Preguntas clave para el diseño de tu dashboard</h4>
+                <ol>
+                    <li><strong>¿Quién va a utilizar el dashboard?</strong> ¿Ejecutivos C-level, gerentes de línea, especialistas de RRHH?</li>
+                    <li><strong>¿Qué preguntas de negocio necesitan responder?</strong> ¿Rotación, diversidad, compensación, productividad?</li>
+                    <li><strong>¿Con qué frecuencia se consultará?</strong> ¿Diariamente, semanalmente, mensualmente?</li>
+                    <li><strong>¿Qué nivel de detalle requieren?</strong> ¿Visión general o capacidad para profundizar en detalles?</li>
+                    <li><strong>¿Qué acciones esperas que se tomen basadas en este dashboard?</strong> ¿Decisiones estratégicas, intervenciones operativas?</li>
+                </ol>
+            </div>
+            
+            <div class="subsection">
+                <h3>Principios de diseño visual</h3>
+                <p>Una vez que tengas claros los objetivos y la audiencia, considera estos principios de diseño visual para crear dashboards efectivos:</p>
+                
+                <div class="info-card-container">
+                    <div class="info-card">
+                        <div class="info-card-title">Jerarquía visual</div>
+                        <p>Organiza los elementos por importancia, guiando la atención del usuario con tamaños, colores y posicionamiento. Los KPIs más importantes deben ser lo primero que se ve.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-title">Simplicidad</div>
+                        <p>Elimina elementos decorativos innecesarios y visualizaciones redundantes. Cada elemento debe tener un propósito claro y contribuir a responder las preguntas clave.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-title">Consistencia</div>
+                        <p>Mantén un diseño coherente en colores, fuentes y estilos de visualización. Usa los mismos colores para representar los mismos conceptos en todo el dashboard.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-title">Espacio en blanco</div>
+                        <p>No sobrecargues el dashboard. El espacio en blanco ayuda a separar secciones, reducir el desorden visual y mejorar la legibilidad general.</p>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <h4>Paleta de colores para People Analytics</h4>
+                    <p>Establece una paleta de colores coherente con significados consistentes. Por ejemplo:</p>
+                    <ul>
+                        <li><strong>Azules:</strong> Métricas generales de fuerza laboral (headcount, antigüedad)</li>
+                        <li><strong>Verdes:</strong> Indicadores positivos (contrataciones, promociones, compromiso)</li>
+                        <li><strong>Rojos:</strong> Indicadores de alerta (rotación, absentismo)</li>
+                        <li><strong>Naranjas/Amarillos:</strong> Áreas que requieren atención</li>
+                        <li><strong>Grises:</strong> Contexto, promedios o benchmarks</li>
+                    </ul>
+                    <p>Recuerda considerar la accesibilidad para daltónicos utilizando combinaciones que no dependan solo del color para transmitir información (añade patrones, etiquetas o iconos).</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Estructura del dashboard</h3>
+                <p>Una estructura efectiva guía al usuario a través de la información de manera intuitiva y lógica:</p>
+                
+                <div class="alt-section">
+                    <h4>El patrón Z de lectura</h4>
+                    <p>Los usuarios occidentales tienden a escanear una página en patrón de Z: de izquierda a derecha en la parte superior, luego en diagonal hacia abajo a la izquierda, y finalmente de izquierda a derecha en la parte inferior.</p>
+                    
+                    <p>Basándote en este patrón:</p>
+                    <ul>
+                        <li><strong>Esquina superior izquierda:</strong> Título del dashboard y filtros principales</li>
+                        <li><strong>Parte superior:</strong> KPIs y métricas críticas (tarjetas o pequeños gráficos)</li>
+                        <li><strong>Centro:</strong> Visualizaciones principales que muestran tendencias o comparaciones clave</li>
+                        <li><strong>Parte inferior:</strong> Detalles adicionales, tablas o visualizaciones secundarias</li>
+                    </ul>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>División en secciones</h4>
+                    <p>Para dashboards complejos, considera dividir el contenido en secciones temáticas claramente definidas:</p>
+                    
+                    <ol>
+                        <li><strong>Resumen ejecutivo:</strong> KPIs clave y tendencias principales</li>
+                        <li><strong>Demografía:</strong> Composición de la fuerza laboral (edad, género, antigüedad)</li>
+                        <li><strong>Rotación:</strong> Análisis detallado de salidas y retención</li>
+                        <li><strong>Talento:</strong> Desempeño, potencial, promociones</li>
+                        <li><strong>Compensación:</strong> Análisis salarial, equidad, competitividad</li>
+                    </ol>
+                    
+                    <p>Puedes separar estas secciones mediante líneas divisorias sutiles, fondos de color diferenciados o incluso crear páginas separadas en Power BI si el contenido es extenso.</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-mockup">
+                <div class="dashboard-header">
+                    <div class="dashboard-title">Dashboard de People Analytics - Resumen Ejecutivo</div>
+                    <div class="dashboard-controls">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    </div>
+                </div>
+                
+                
+                <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
+                    <iframe title="Reporte Ufro" width="800" height="500" src="https://app.powerbi.com/view?r=eyJrIjoiNzM0OWU4MGYtMTdmNC00YmViLTgwMGEtNTE2NWI3NjgwMGRiIiwidCI6IjUyZTllYWQ5LTk1MzQtNGMzZS04YTAwLTYxZjk2OGI5NzUwYiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+                </div>
+                
+                <p style="text-align: center; font-style: italic; color: #666;">Dashboard interactivo desarrollado con Power BI, mostrando métricas clave de People Analytics en tiempo real.</p>
+            </div>
+            
+            <div class="tip-box">
+                <h4>Diseño responsivo</h4>
+                <p>Recuerda que tus dashboards pueden verse en diferentes dispositivos y pantallas. Power BI permite crear diseños responsivos que se adaptan a distintos tamaños de pantalla. Algunas recomendaciones:</p>
+                <ul>
+                    <li>Prueba tu dashboard en diferentes tamaños de pantalla y resoluciones</li>
+                    <li>Utiliza la función "Vista móvil" de Power BI para optimizar la visualización en dispositivos móviles</li>
+                    <li>Considera crear versiones específicas para dispositivos móviles de tus dashboards más importantes</li>
+                    <li>Prioriza las visualizaciones y KPIs más importantes en la parte superior para que sean visibles sin necesidad de desplazamiento</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Segunda parte: Añadir filtros y segmentaciones -->
+        <section class="section">
+            <h2>2. Añadir filtros y segmentaciones</h2>
+            
+            <p>Los filtros y segmentaciones son elementos fundamentales que transforman un dashboard estático en una herramienta interactiva de análisis. Permiten a los usuarios explorar los datos desde diferentes perspectivas y responder preguntas específicas sin necesidad de crear múltiples versiones del dashboard.</p>
+            
+            <div class="info-box accent">
+                <h4>¿Qué son los filtros y segmentaciones?</h4>
+                <p>Tanto los filtros como las segmentaciones permiten limitar los datos que se muestran en las visualizaciones, pero tienen diferentes usos y características:</p>
+                <div class="two-columns">
+                    <div class="column">
+                        <h4>Filtros</h4>
+                        <ul>
+                            <li>Pueden ser visibles o invisibles para el usuario</li>
+                            <li>Pueden aplicarse a nivel de visualización, página o informe</li>
+                            <li>Permiten filtrado avanzado (contiene, mayor que, entre, etc.)</li>
+                            <li>Normalmente ubicados en el panel lateral de filtros</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h4>Segmentaciones</h4>
+                        <ul>
+                            <li>Siempre visibles y forman parte del diseño</li>
+                            <li>Más intuitivas y amigables para el usuario</li>
+                            <li>Ocupan espacio en el dashboard</li>
+                            <li>Disponibles en varios estilos: listas, desplegables, deslizadores, etc.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Estrategias efectivas para filtros y segmentaciones</h3>
+                
+                <div class="alt-section">
+                    <h4>Selección de filtros relevantes</h4>
+                    <p>No todos los campos deben ser filtros. Selecciona dimensiones que realmente aporten valor al análisis de People Analytics:</p>
+                    
+                    <div class="info-card-container">
+                        <div class="info-card">
+                            <div class="info-card-title">Filtros organizacionales</div>
+                            <p>Departamento, función, nivel jerárquico, ubicación, unidad de negocio</p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-card-title">Filtros demográficos</div>
+                            <p>Rango de edad, género, antigüedad, nivel educativo</p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-card-title">Filtros temporales</div>
+                            <p>Año, trimestre, mes, comparativa año tras año</p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-card-title">Filtros de desempeño</div>
+                            <p>Nivel de evaluación, potencial, calificación de talento</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Diseño de segmentaciones</h4>
+                    <p>El diseño de las segmentaciones puede mejorar significativamente la usabilidad del dashboard:</p>
+                    
+                    <ul class="feature-list">
+                        <li class="filter"><strong>Barra de segmentaciones horizontal:</strong> Coloca segmentaciones frecuentemente usadas en una barra horizontal en la parte superior del dashboard.</li>
+                        <li class="filter"><strong>Panel de filtros dedicado:</strong> Para dashboards complejos, crea una página o sección dedicada exclusivamente a los filtros avanzados.</li>
+                        <li class="filter"><strong>Segmentaciones sincronizadas:</strong> Configura segmentaciones para que afecten a múltiples páginas del informe usando la opción "Sincronizar segmentaciones".</li>
+                        <li class="filter"><strong>Estilo visual consistente:</strong> Mantén un estilo coherente en todas las segmentaciones para mejorar la experiencia del usuario.</li>
+                        <li class="filter"><strong>Valores predeterminados:</strong> Configura valores predeterminados útiles para que el dashboard tenga sentido al abrirlo por primera vez.</li>
+                    </ul>
+                </div>
+                
+                <div class="flip-card-container">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Filtros interactivos</h3>
+                                <p>Temporalidad en Power BI</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>Tip para filtros de tiempo</h4>
+                                <p>Crea un parámetro "Período de análisis" que permita al usuario elegir entre diferentes perspectivas temporales: MTD (mes actual), QTD (trimestre actual), YTD (año actual), o períodos personalizados. Esto añade flexibilidad sin sobrecargar la interfaz.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Filtros interactivos</h3>
+                                <p>Filtros jerárquicos</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>Encadenamiento de filtros</h4>
+                                <p>Implementa filtros jerárquicos que se actualicen según selecciones previas. Por ejemplo, al seleccionar una división, el filtro de departamentos muestra solo los departamentos de esa división. Esto reduce la sobrecarga cognitiva del usuario.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Filtros interactivos</h3>
+                                <p>Marcadores para escenarios</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>Análisis predefinidos</h4>
+                                <p>Utiliza marcadores de Power BI para crear "vistas" predefinidas que apliquen automáticamente combinaciones específicas de filtros. Por ejemplo: "Vista rotación alta", "Vista desequilibrio de género", etc. Ahorra tiempo a los usuarios en análisis frecuentes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Implementación paso a paso</h3>
+                <p>Vamos a ver cómo implementar filtros efectivos en un dashboard de People Analytics:</p>
+                
+                <div class="step-container">
+                    <div class="step completed">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Identificar dimensiones clave</div>
+                    </div>
+                    <div class="step completed">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Preparar campos para filtros</div>
+                    </div>
+                    <div class="step active">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Diseñar segmentaciones</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Configurar interactividad</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Probar y ajustar</div>
+                    </div>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Paso 1: Identificar dimensiones clave</h4>
+                    <p>Para un dashboard de rotación de personal, las dimensiones de filtrado más relevantes podrían ser:</p>
+                    <ul>
+                        <li>Período de tiempo (año, trimestre, mes)</li>
+                        <li>Departamento/Área funcional</li>
+                        <li>Nivel jerárquico</li>
+                        <li>Ubicación/Oficina</li>
+                        <li>Tipo de salida (voluntaria vs. involuntaria)</li>
+                        <li>Antigüedad (agrupada en rangos)</li>
+                    </ul>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Paso 2: Preparar campos para filtros</h4>
+                    <p>Es importante preparar adecuadamente los campos que se utilizarán como filtros:</p>
+                    <ul>
+                        <li>Asegurar que no hay valores inconsistentes o errores tipográficos</li>
+                        <li>Crear jerarquías para dimensiones como tiempo (Año > Trimestre > Mes) o estructura organizativa (División > Departamento > Equipo)</li>
+                        <li>Considerar la creación de campos calculados específicos para filtrado, como rangos de antigüedad o categorías de desempeño</li>
+                    </ul>
+                    
+                    <div class="code-block">
+                        <pre>// Ejemplo de cálculo DAX para categorizar antigüedad para filtros
+Rango de Antigüedad = 
+SWITCH(
+    TRUE(),
+    Empleados[Antigüedad_Años] < 1, "Menos de 1 año",
+    Empleados[Antigüedad_Años] < 3, "1-2 años",
+    Empleados[Antigüedad_Años] < 6, "3-5 años",
+    Empleados[Antigüedad_Años] < 11, "6-10 años",
+    "Más de 10 años"
+)</pre>
+                    </div>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Paso 3: Diseñar segmentaciones</h4>
+                    <p>Selecciona el tipo de segmentación más adecuado para cada dimensión:</p>
+                    <ul>
+                        <li><strong>Lista:</strong> Para dimensiones con pocos valores (departamentos, tipo de salida)</li>
+                        <li><strong>Desplegable:</strong> Para dimensiones con muchos valores (oficinas, managers)</li>
+                        <li><strong>Control deslizante:</strong> Para rangos numéricos (edad, antigüedad)</li>
+                        <li><strong>Segmentaciones de jerarquía:</strong> Para navegar por estructuras jerárquicas (Región > País > Ciudad)</li>
+                        <li><strong>Segmentaciones de fecha relativa:</strong> Para análisis temporales flexibles (último mes, trimestre actual, YTD)</li>
+                    </ul>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Paso 4: Configurar interactividad</h4>
+                    <p>Define cómo interactúan las visualizaciones entre sí y con los filtros:</p>
+                    <ul>
+                        <li>Configura las interacciones entre visualizaciones (Vista > Editar interacciones)</li>
+                        <li>Decide qué visualizaciones actúan como filtros para otras</li>
+                        <li>Establece el alcance de las segmentaciones (página única o informe completo)</li>
+                        <li>Configura los filtros cruzados entre visualizaciones relacionadas</li>
+                    </ul>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Paso 5: Probar y ajustar</h4>
+                    <p>Finalmente, es crucial probar exhaustivamente los filtros y segmentaciones:</p>
+                    <ul>
+                        <li>Verifica que todas las visualizaciones responden correctamente a los filtros</li>
+                        <li>Comprueba que las combinaciones de filtros producen resultados coherentes</li>
+                        <li>Valida que los filtros funcionan correctamente con datos extremos o atípicos</li>
+                        <li>Obtén feedback de usuarios reales y ajusta en función de sus necesidades</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="info-box warning">
+                <h4>Errores comunes a evitar</h4>
+                <ul>
+                    <li><strong>Sobrecarga de filtros:</strong> Demasiados filtros abruman al usuario y complican la interfaz.</li>
+                    <li><strong>Falta de valores predeterminados:</strong> Sin valores iniciales, el usuario puede enfrentarse a visualizaciones vacías o confusas.</li>
+                    <li><strong>Interacciones inesperadas:</strong> Filtros que afectan visualizaciones de formas no intuitivas.</li>
+                    <li><strong>Rendimiento deficiente:</strong> Demasiadas segmentaciones con muchos valores pueden ralentizar el dashboard.</li>
+                    <li><strong>Poca visibilidad:</strong> Filtros importantes ocultos o poco destacados que los usuarios no descubren.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tercera parte: Visualizaciones avanzadas -->
+        <section class="section">
+            <h2>3. Visualizaciones avanzadas para People Analytics</h2>
+            
+            <p>Más allá de los gráficos básicos, Power BI ofrece visualizaciones avanzadas que pueden proporcionar insights más profundos sobre datos de recursos humanos. En esta sección, exploraremos algunas visualizaciones particularmente efectivas para People Analytics.</p>
+            
+            <div class="subsection">
+                <h3>Mapas de calor (Heatmaps)</h3>
+                <p>Los mapas de calor son extremadamente útiles para identificar patrones en datos multidimensionales de RRHH, como la distribución de rotación por departamento y antigüedad, o evaluaciones de desempeño por gerente y categoría.</p>
+                
+                <div class="info-box primary">
+                    <h4>Aplicaciones de mapas de calor en People Analytics</h4>
+                    <ul>
+                        <li><strong>Rotación por departamento y antigüedad:</strong> Identifica rápidamente si la rotación se concentra en empleados nuevos de ciertos departamentos o en veteranos de otros.</li>
+                        <li><strong>Distribución salarial por nivel y desempeño:</strong> Visualiza la equidad salarial y detecta anomalías en la relación desempeño-compensación.</li>
+                        <li><strong>Compromiso por equipo y pregunta de encuesta:</strong> Detecta áreas específicas de preocupación en equipos particulares.</li>
+                        <li><strong>Tiempo para contratar por rol y ubicación:</strong> Identifica cuellos de botella en procesos de reclutamiento para roles específicos en ciertas ubicaciones.</li>
+                    </ul>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Implementación de un mapa de calor efectivo</h4>
+                    <p>Para crear mapas de calor efectivos en Power BI:</p>
+                    <ol>
+                        <li>Utiliza la visualización de "Matriz" como base</li>
+                        <li>Configura filas y columnas con las dimensiones relevantes</li>
+                        <li>Añade una medida numérica como el valor de la matriz</li>
+                        <li>Aplica formato condicional basado en el valor:</li>
+                        <ul>
+                            <li>Selecciona una escala de colores apropiada (por ejemplo, blanco a azul para valores neutros, verde a rojo para valores positivos/negativos)</li>
+                            <li>Ajusta los rangos de valores para destacar diferencias significativas</li>
+                            <li>Considera usar formato condicional basado en reglas para destacar valores específicos</li>
+                        </ul>
+                        <li>Añade etiquetas de datos o tooltips enriquecidos para proporcionar contexto adicional</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Diagramas de dispersión (Scatter Plots)</h3>
+                <p>Los diagramas de dispersión son ideales para analizar relaciones entre variables continuas en datos de RRHH, como la correlación entre salario y desempeño, o entre antigüedad y compromiso.</p>
+                
+                <div class="info-box secondary">
+                    <h4>Casos de uso para diagramas de dispersión</h4>
+                    <ul>
+                        <li><strong>Análisis de compensación:</strong> Visualiza la relación entre salario y desempeño, identificando empleados sub o sobre compensados.</li>
+                        <li><strong>Análisis de compromiso:</strong> Explora la relación entre antigüedad y puntuaciones de compromiso para identificar patrones.</li>
+                        <li><strong>Análisis de contratación:</strong> Compara tiempo para contratar vs. calidad de contratación por fuente de reclutamiento.</li>
+                        <li><strong>Análisis de capacitación:</strong> Visualiza la relación entre horas de capacitación y mejora en desempeño.</li>
+                    </ul>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Enriqueciendo diagramas de dispersión</h4>
+                    <p>Para maximizar el valor analítico de un diagrama de dispersión en People Analytics:</p>
+                    <ul>
+                        <li><strong>Añade una tercera dimensión usando el tamaño de los puntos:</strong> Por ejemplo, el tamaño puede representar el número de empleados en cada combinación.</li>
+                        <li><strong>Utiliza colores para una cuarta dimensión:</strong> Los colores pueden representar departamentos, niveles de desempeño, o cualquier categoría relevante.</li>
+                        <li><strong>Incluye líneas de tendencia:</strong> Ayudan a visualizar la relación general entre las variables.</li>
+                        <li><strong>Divide en cuadrantes:</strong> Añade líneas de referencia para crear cuadrantes significativos (por ejemplo, alto desempeño/baja compensación vs. alto desempeño/alta compensación).</li>
+                        <li><strong>Implementa tooltips detallados:</strong> Al pasar el cursor sobre un punto, muestra información adicional relevante para ese grupo de empleados.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Gráficos de embudo (Funnel Charts)</h3>
+                <p>Los gráficos de embudo son perfectos para visualizar procesos secuenciales con pérdidas en cada etapa, como el embudo de reclutamiento o los programas de desarrollo de talento.</p>
+                
+                <div class="flip-card-container">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Gráfico de embudo</h3>
+                                <p>Embudo de reclutamiento</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>Aplicación en reclutamiento</h4>
+                                <p>Visualiza el flujo de candidatos desde la aplicación hasta la contratación: Aplicaciones → Preselección → Entrevistas → Pruebas → Ofertas → Contrataciones. Identifica rápidamente dónde se están perdiendo más candidatos.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Gráfico de embudo</h3>
+                                <p>Desarrollo de liderazgo</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>Aplicación en desarrollo</h4>
+                                <p>Monitorea la progresión en programas de desarrollo: Identificados → Evaluados → Seleccionados → Completaron formación → Promovidos. Evalúa la efectividad de tus programas de desarrollo de talento.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Gráfico de embudo</h3>
+                                <p>Onboarding de empleados</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>Aplicación en onboarding</h4>
+                                <p>Visualiza la progresión de nuevos empleados: Contratados → Completaron orientación → Integrados al equipo → Capacitación completada → Productivos. Identifica oportunidades de mejora en el proceso de incorporación.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Mejores prácticas para gráficos de embudo</h4>
+                    <ul>
+                        <li><strong>Etiquetas claras:</strong> Cada etapa debe tener un nombre claro y el número/porcentaje de elementos en esa etapa.</li>
+                        <li><strong>Tasas de conversión:</strong> Incluye las tasas de conversión entre etapas para identificar rápidamente cuellos de botella.</li>
+                        <li><strong>Comparativas:</strong> Considera mostrar múltiples embudos para comparar diferentes períodos, departamentos o ubicaciones.</li>
+                        <li><strong>Rangos objetivo:</strong> Añade indicadores visuales de las tasas de conversión objetivo para cada etapa.</li>
+                        <li><strong>Complementa con detalles:</strong> Combina el embudo con tablas detalladas que permitan profundizar en cada etapa.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Visualizaciones personalizadas para People Analytics</h3>
+                <p>Power BI permite importar visualizaciones personalizadas desde la Tienda de Power BI. Algunas particularmente útiles para People Analytics son:</p>
+                
+                <div class="info-card-container">
+                    <div class="info-card">
+                        <div class="info-card-title">Org Chart</div>
+                        <p>Visualiza la estructura organizativa de manera jerárquica. Útil para análisis de span of control, planeación de sucesión y visualización de dotación.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-title">Bullet Chart</div>
+                        <p>Ideal para mostrar progreso hacia metas de RRHH como contratación, diversidad o capacitación, con indicadores de objetivo y rangos de desempeño.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-title">Sankey Diagram</div>
+                        <p>Excelente para visualizar flujos, como movimientos internos entre departamentos, progresión de carrera o fuentes de talento.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-title">Calendar</div>
+                        <p>Útil para patrones temporales en ausencias, contrataciones o salidas, mostrando densidad de eventos en formato de calendario.</p>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <h4>Instalación de visualizaciones personalizadas</h4>
+                    <p>Para añadir estas visualizaciones a Power BI:</p>
+                    <ol>
+                        <li>En Power BI Desktop, ve a "Visualizaciones" en el panel derecho</li>
+                        <li>Haz clic en los tres puntos (...) y selecciona "Obtener más visualizaciones"</li>
+                        <li>Navega o busca la visualización deseada</li>
+                        <li>Haz clic en "Añadir" para importarla a tu informe</li>
+                    </ol>
+                    <p>Recuerda que algunas visualizaciones personalizadas pueden tener limitaciones en términos de rendimiento o funcionalidad en comparación con las visualizaciones nativas de Power BI.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cuarta parte: Ejercicio: Crear un dashboard -->
+        <section class="section">
+            <h2>4. Ejercicio: Crear un dashboard con métricas clave</h2>
+            
+            <p>Para aplicar lo aprendido, vamos a desarrollar un ejercicio completo de creación de un dashboard de People Analytics centrado en rotación y diversidad. Este ejercicio integrará visualizaciones efectivas, filtros interactivos y un diseño claro y útil.</p>
+            
+            <div class="subsection">
+                <h3>Planteamiento del ejercicio</h3>
+                <p>Eres el analista de People Analytics en una empresa de tecnología con múltiples departamentos y ubicaciones. La Directora de RRHH te ha pedido desarrollar un dashboard interactivo que permita a los líderes de la organización monitorear y analizar los siguientes aspectos:</p>
+                
+                <ul>
+                    <li>Rotación de personal (general, por departamento, por nivel, voluntaria vs. involuntaria)</li>
+                    <li>Diversidad (género, edad, origen étnico) en toda la organización y especialmente en posiciones de liderazgo</li>
+                    <li>Tendencias a lo largo del tiempo para identificar mejoras o deterioros</li>
+                    <li>Comparaciones entre diferentes unidades de negocio y ubicaciones</li>
+                </ul>
+                
+                <p>Para este ejercicio, asumiremos que ya has preparado los datos y desarrollado las medidas DAX necesarias para los diferentes KPIs.</p>
+            </div>
+            
+            <div class="subsection">
+                <h3>Paso 1: Definir la estructura del dashboard</h3>
+                
+                <div class="alt-section">
+                    <h4>Estructura general</h4>
+                    <p>Para este dashboard, utilizaremos un enfoque con múltiples páginas para organizar la información de manera clara y enfocada:</p>
+                    
+                    <ol>
+                        <li><strong>Página de resumen:</strong> KPIs generales y tendencias principales de rotación y diversidad</li>
+                        <li><strong>Página de rotación:</strong> Análisis detallado de rotación por múltiples dimensiones</li>
+                        <li><strong>Página de diversidad:</strong> Análisis profundo de diversidad en diferentes niveles y departamentos</li>
+                        <li><strong>Página de comparativas:</strong> Herramientas para comparar diferentes unidades organizativas</li>
+                    </ol>
+                    
+                    <p>Cada página tendrá una barra de filtros consistente en la parte superior para mantener la coherencia en la navegación.</p>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Filtros comunes</h4>
+                    <p>Para todo el dashboard, implementaremos estos filtros principales:</p>
+                    
+                    <ul>
+                        <li><strong>Período:</strong> Año, trimestre (con opción para seleccionar períodos específicos o usar períodos relativos como YTD)</li>
+                        <li><strong>Departamento/Unidad de negocio:</strong> Permitiendo selección múltiple o jerárquica</li>
+                        <li><strong>Ubicación:</strong> País, ciudad, oficina</li>
+                        <li><strong>Nivel organizacional:</strong> Para análisis por jerarquía</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Paso 2: Diseñar la página de resumen</h3>
+                
+                <div class="info-box info">
+                    <h4>Elementos de la página de resumen</h4>
+                    <p>La página de resumen debe proporcionar una vista general rápida del estado de rotación y diversidad en la organización. Incluirá:</p>
+                    <ol>
+                        <li><strong>KPIs principales:</strong> Tarjetas con métricas clave como tasa de rotación general, porcentaje de diversidad de género y porcentaje de diversidad en liderazgo.</li>
+                        <li><strong>Tendencias:</strong> Gráficos de líneas mostrando la evolución de rotación y diversidad en los últimos 12 meses.</li>
+                        <li><strong>Mapa de calor organizacional:</strong> Matriz que muestre rotación por departamento y nivel.</li>
+                        <li><strong>Filtros globales:</strong> Segmentaciones para período, departamento, ubicación.</li>
+                        <li><strong>Navegación:</strong> Botones para acceder a las páginas detalladas de rotación y diversidad.</li>
+                    </ol>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Visualizaciones para la página de resumen</h4>
+                    <p>Para la página de resumen, implementaremos estas visualizaciones específicas:</p>
+                    
+                    <ul class="feature-list">
+                        <li class="chart"><strong>Tarjetas de KPI:</strong> Headcount total, tasa de rotación anualizada (con comparativa año anterior), porcentaje de diversidad de género en liderazgo.</li>
+                        <li class="chart"><strong>Gráfico de líneas:</strong> Tendencia mensual de rotación con línea de objetivo (para mostrar progreso).</li>
+                        <li class="chart"><strong>Matriz con formato condicional:</strong> Mapa de calor de rotación por departamento (filas) y nivel (columnas).</li>
+                        <li class="chart"><strong>Gráfico de barras horizontales:</strong> Top 5 razones de salida voluntaria (para destacar principales áreas de enfoque).</li>
+                        <li class="chart"><strong>Gráfico de embudo:</strong> Proporción de diversidad por nivel jerárquico (para visualizar el "leaky pipeline" de diversidad).</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Paso 3: Diseñar las páginas detalladas</h3>
+                
+                <div class="alt-section">
+                    <h4>Página de rotación</h4>
+                    <p>La página de rotación profundizará en todos los aspectos de la rotación de personal:</p>
+                    
+                    <ul>
+                        <li><strong>KPIs específicos de rotación:</strong> Rotación voluntaria, involuntaria, regretted (empleados de alto desempeño), early (menos de 1 año).</li>
+                        <li><strong>Gráfico combinado:</strong> Barras para número de salidas y línea para tasa de rotación por mes.</li>
+                        <li><strong>Diagrama de dispersión:</strong> Relación entre rotación y antigüedad promedio por departamento (tamaño = headcount).</li>
+                        <li><strong>Mapa de calor:</strong> Rotación por manager (para identificar posibles problemas de liderazgo).</li>
+                        <li><strong>Tabla detallada:</strong> Lista filtrable de salidas con detalles como motivo, antigüedad, y desempeño.</li>
+                    </ul>
+                    
+                    <p>Filtros adicionales específicos para esta página:</p>
+                    <ul>
+                        <li>Tipo de salida (Voluntaria/Involuntaria)</li>
+                        <li>Rango de antigüedad</li>
+                        <li>Nivel de desempeño previo</li>
+                    </ul>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Página de diversidad</h4>
+                    <p>La página de diversidad se centrará en diferentes aspectos de la composición de la fuerza laboral:</p>
+                    
+                    <ul>
+                        <li><strong>Distribución demográfica:</strong> Gráficos de barras para género, edad, origen étnico.</li>
+                        <li><strong>Análisis por nivel:</strong> Matriz que muestre representación de diferentes grupos por nivel organizacional.</li>
+                        <li><strong>Tendencias de contratación:</strong> Evolución de la diversidad en nuevas contrataciones.</li>
+                        <li><strong>Análisis de promociones:</strong> Tasas de promoción por grupo demográfico.</li>
+                        <li><strong>Equidad salarial:</strong> Análisis de brechas salariales controlando por nivel y desempeño.</li>
+                    </ul>
+                    
+                    <p>Filtros adicionales específicos para esta página:</p>
+                    <ul>
+                        <li>Dimensión de diversidad (Género, Edad, Origen étnico)</li>
+                        <li>Antigüedad</li>
+                        <li>Fuente de contratación</li>
+                    </ul>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Página de comparativas</h4>
+                    <p>La página de comparativas permitirá a los usuarios confrontar datos entre diferentes unidades organizativas:</p>
+                    
+                    <ul>
+                        <li><strong>Selector de unidades a comparar:</strong> Permitir seleccionar 2-3 departamentos, ubicaciones o managers para comparación directa.</li>
+                        <li><strong>Gráficos de barras comparativos:</strong> Mostrar KPIs clave lado a lado para las unidades seleccionadas.</li>
+                        <li><strong>Tabla comparativa:</strong> Matriz con múltiples métricas para las unidades seleccionadas, con formato condicional para destacar diferencias significativas.</li>
+                        <li><strong>Tendencias paralelas:</strong> Gráficos de líneas superpuestos para ver evolución comparativa a lo largo del tiempo.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Paso 4: Implementar interactividad avanzada</h3>
+                
+                <div class="info-box accent">
+                    <h4>Funcionalidades interactivas avanzadas</h4>
+                    <p>Para elevar la utilidad del dashboard, implementaremos estas funcionalidades interactivas:</p>
+                    <ul>
+                        <li><strong>Marcadores:</strong> Para alternar entre diferentes vistas predefinidas (por ejemplo, "Vista de rotación crítica", "Vista de equidad de género").</li>
+                        <li><strong>Drill-through:</strong> Configurar páginas de detalle accesibles al hacer clic en elementos específicos (por ejemplo, hacer clic en un departamento para ver todos sus datos).</li>
+                        <li><strong>Tooltips personalizados:</strong> Crear páginas de tooltips enriquecidos que muestren información contextual al pasar el cursor sobre visualizaciones clave.</li>
+                        <li><strong>Botones de navegación:</strong> Para moverse fácilmente entre las diferentes páginas del informe.</li>
+                        <li><strong>Jerarquías interactivas:</strong> Permitir hacer drill-down desde nivel organizacional hasta equipos específicos.</li>
+                    </ul>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Configuración de tooltips personalizados</h4>
+                    <p>Los tooltips personalizados pueden aportar un valor significativo a tu dashboard de People Analytics:</p>
+                    <ol>
+                        <li>Crea una página de tamaño reducido (por ejemplo, 320 x 240 píxeles)</li>
+                        <li>Diseña visualizaciones complementarias para mostrar en el tooltip</li>
+                        <li>En las propiedades de la página, marca "Tooltip page"</li>
+                        <li>En la visualización principal, configura "Tooltip" para usar esta página personalizada</li>
+                    </ol>
+                    <p>Por ejemplo, al pasar el cursor sobre un departamento en el mapa de calor de rotación, el tooltip podría mostrar la evolución temporal de rotación para ese departamento específico y sus principales razones de salida.</p>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Implementación de drill-through</h4>
+                    <p>El drill-through permite a los usuarios profundizar rápidamente en los datos:</p>
+                    <ol>
+                        <li>Crea una página de detalle específica (por ejemplo, "Detalle de Departamento")</li>
+                        <li>En la pestaña "Drill-through", añade los campos de filtro necesarios (por ejemplo, "Departamento")</li>
+                        <li>Diseña visualizaciones que muestren detalles relevantes para ese filtro específico</li>
+                        <li>En las visualizaciones de la página principal, configura la interacción para permitir drill-through</li>
+                    </ol>
+                    <p>Esto permitirá, por ejemplo, hacer clic derecho en "Marketing" en un gráfico de rotación por departamento y seleccionar "Drill through" para ver una página detallada sobre rotación en Marketing.</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Paso 5: Publicación y distribución</h3>
+                
+                <div class="info-box success">
+                    <h4>Estrategias para compartir el dashboard</h4>
+                    <p>Una vez completado tu dashboard, hay varias formas de compartirlo con stakeholders:</p>
+                    <ul>
+                        <li><strong>Publicación en Power BI Service:</strong> Comparte con usuarios específicos o grupos de seguridad.</li>
+                        <li><strong>Configuración de suscripciones:</strong> Programa envíos automáticos por correo electrónico con capturas de los dashboards.</li>
+                        <li><strong>Informes paginados:</strong> Crea versiones en formato de informe para distribución formal.</li>
+                        <li><strong>Integración en SharePoint/Teams:</strong> Incorpora el dashboard en sitios de SharePoint o canales de Teams para mayor visibilidad.</li>
+                        <li><strong>Aplicaciones de Power BI:</strong> Crea una aplicación personalizada con múltiples dashboards relacionados.</li>
+                    </ul>
+                </div>
+                
+                <div class="alt-section">
+                    <h4>Establecimiento de actualizaciones automáticas</h4>
+                    <p>Para mantener la relevancia del dashboard, configura actualizaciones automáticas:</p>
+                    <ol>
+                        <li>En Power BI Service, ve a las configuraciones del conjunto de datos</li>
+                        <li>Configura la "Actualización programada" según la frecuencia necesaria</li>
+                        <li>Si es necesario, configura credenciales para conexiones a fuentes de datos</li>
+                        <li>Establece notificaciones en caso de fallos de actualización</li>
+                    </ol>
+                    <p>La frecuencia de actualización dependerá de la dinámica de tu organización y la naturaleza de los datos, pero para datos de RRHH típicamente una actualización diaria o semanal es suficiente.</p>
+                </div>
+            </div>
+            
+            <div class="tip-box">
+                <h4>Consideraciones finales</h4>
+                <p>Antes de dar por finalizado tu dashboard de People Analytics, considera estos aspectos:</p>
+                <ul>
+                    <li><strong>Seguridad y privacidad:</strong> Asegúrate de que solo las personas adecuadas tienen acceso a datos sensibles.</li>
+                    <li><strong>Documentación:</strong> Crea documentación clara sobre definiciones, fuentes de datos y metodologías de cálculo.</li>
+                    <li><strong>Feedback:</strong> Establece un mecanismo para recibir y actuar sobre el feedback de los usuarios.</li>
+                    <li><strong>Evolución:</strong> Planifica revisiones regulares para mantener el dashboard relevante y útil.</li>
+                    <li><strong>Formación:</strong> Ofrece sesiones de formación para maximizar el aprovechamiento del dashboard.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Quinta parte: Conclusión -->
+        <section class="section">
+            <h2>5. Conclusión: El Futuro de People Analytics con Power BI</h2>
+            
+            <p>A lo largo de este curso, hemos explorado cómo Power BI puede transformar la forma en que las organizaciones abordan People Analytics, proporcionando insights valiosos que impulsan decisiones informadas sobre el capital humano. Al llegar al final de nuestro recorrido, es importante reflexionar sobre el futuro de esta disciplina y cómo seguir evolucionando nuestras capacidades analíticas.</p>
+            
+            <div class="subsection">
+                <h3>Tendencias emergentes</h3>
+                
+                <div class="info-card-container">
+                    <div class="info-card">
+                        <div class="info-card-title">IA y análisis predictivo</div>
+                        <p>La integración de IA en Power BI está permitiendo análisis predictivos más sofisticados, desde modelos de propensión a la rotación hasta recomendaciones de desarrollo personalizadas basadas en patrones históricos.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-title">Análisis en tiempo real</div>
+                

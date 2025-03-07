@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<!-- saved from url=(0080)file:///C:/Users/jyjva/Downloads/seccion3-powerbi-people-analytics-mejorado.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso: Power BI con People Analytics - Sección 3</title>
+    <style>
+        :root {
+            --primary-color: #2C6BAC;
+            --primary-dark: #1B4978;
+            --secondary-color: #7CC6FE;
+            --secondary-dark: #4A9FE6;
+            --accent-color: #FF8A00;
+            --accent-dark: #E67300;
+            --background-color: #f8f9fa;
+            --text-color: #333333;
+            --text-light: #ffffff;
+            --light-gray: #e9ecef;
+            --dark-gray: #495057;
+            --success-color: #28a745;
+            --success-dark: #1e7e34;
+            --danger-color: #dc3545;
+            --danger-dark: #bd2130;
+            --warning-color: #ffc107;
+            --warning-dark: #d39e00;
+            --info-color: #17a2b8;
+            --info-dark: #138496;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --box-shadow-hover: 0 6px 10px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease-in-out;
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255, 255, 255, 0.15)" d="M0,192L48,181.3C96,171,192,149,288,149.3C384,149,480,171,576,165.3C672,160,768,128,864,138.7C960,149,1056,203,1152,208C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-position: bottom;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+            margin: 30px 0 15px;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin: 20px 0 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .subsection {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Elementos interactivos */
+        /* Tarjetas giratorias con mejor contraste */
+        .flip-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            border-radius: var(--border-radius);
+        }
+
+        .flip-card-front {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            border: 2px solid var(--primary-color);
+        }
+
+        .flip-card-front h3 {
+            color: var(--text-light);
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .flip-card-front p {
+            margin-bottom: 0;
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .flip-card-back {
+            background-color: var(--secondary-dark);
+            color: var(--text-light);
+            transform: rotateY(180deg);
+            overflow-y: auto;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .flip-card-back h4 {
+            color: var(--text-light);
+            margin-top: 0;
+            font-size: 1.3rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-card-back p {
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+
+        /* Tabla interactiva */
+        .interactive-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .interactive-table thead {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .interactive-table th, .interactive-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .interactive-table tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+
+        .interactive-table tr {
+            transition: var(--transition);
+        }
+
+        .interactive-table tr:hover {
+            background-color: #dfe6e9;
+        }
+
+        /* Quiz de verdadero/falso */
+        .quiz-container {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .quiz-options {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-option {
+            padding: 10px 20px;
+            border: 2px solid var(--primary-dark);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .quiz-option:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .quiz-option.selected {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: var(--success-dark);
+            border: 1px solid var(--success-color);
+        }
+
+        .quiz-feedback.incorrect {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: var(--danger-dark);
+            border: 1px solid var(--danger-color);
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .btn-check {
+            background-color: var(--success-dark);
+        }
+
+        .btn-check:hover {
+            background-color: var(--success-color);
+        }
+
+        .btn-reset {
+            background-color: var(--danger-dark);
+        }
+
+        .btn-reset:hover {
+            background-color: var(--danger-color);
+        }
+
+        /* Código y sintaxis */
+        .code-block {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            overflow-x: auto;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+        }
+
+        /* Efecto de resaltado */
+        .highlight {
+            background-color: rgba(255, 138, 0, 0.2);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: var(--accent-dark);
+        }
+
+        /* Tips importantes */
+        .tip-box {
+            background-color: rgba(23, 162, 184, 0.1);
+            border-left: 4px solid var(--info-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .tip-box h4 {
+            color: var(--info-dark);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .tip-box h4::before {
+            content: '💡';
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+
+        /* Visualizaciones */
+        .visualization-container {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .visualization-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 10px;
+        }
+
+        .visualization-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .visualization-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .visualization-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.6;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .visualization-icon:hover {
+            opacity: 1;
+        }
+
+        /* Matriz con mapa de calor */
+        .heatmap-matrix {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin: 20px 0;
+        }
+
+        .heatmap-matrix th, .heatmap-matrix td {
+            padding: 8px 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .heatmap-matrix th {
+            background-color: #f8fafc;
+            font-weight: bold;
+            color: var(--dark-gray);
+        }
+
+        .heatmap-matrix tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .heatmap-matrix tr:hover {
+            background-color: #e2e8f0;
+        }
+
+        .heatmap-matrix th:first-child {
+            text-align: left;
+        }
+
+        .heatmap-matrix td:first-child {
+            text-align: left;
+            font-weight: bold;
+            color: var(--dark-gray);
+        }
+
+        .heatmap-matrix td.heat-level-1 {
+            background-color: #EFF6FF;
+            color: #1E3A8A;
+        }
+
+        .heatmap-matrix td.heat-level-2 {
+            background-color: #DBEAFE;
+            color: #1E3A8A;
+        }
+
+        .heatmap-matrix td.heat-level-3 {
+            background-color: #BFDBFE;
+            color: #1E40AF;
+        }
+
+        .heatmap-matrix td.heat-level-4 {
+            background-color: #93C5FD;
+            color: #1E40AF;
+        }
+
+        .heatmap-matrix td.heat-level-5 {
+            background-color: #60A5FA;
+            color: white;
+        }
+
+        .heatmap-matrix td.heat-level-6 {
+            background-color: #3B82F6;
+            color: white;
+        }
+
+        .heatmap-matrix td.heat-level-7 {
+            background-color: #2563EB;
+            color: white;
+        }
+
+        .heatmap-matrix td.heat-level-8 {
+            background-color: #1D4ED8;
+            color: white;
+        }
+
+        .heatmap-matrix td.heat-level-9 {
+            background-color: #1E40AF;
+            color: white;
+        }
+
+        .heatmap-matrix td.heat-level-10 {
+            background-color: #1E3A8A;
+            color: white;
+        }
+
+        /* Gráficas simuladas */
+        .chart-container {
+            position: relative;
+            height: 350px; /* Aumentado de 300px a 350px */
+            margin: 20px 0 70px 0; /* Añadido margen inferior de 70px */
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+        }
+
+        .bar-chart {
+            display: flex;
+            height: 250px;
+            align-items: flex-end;
+            gap: 8px;
+            padding-top: 20px;
+            margin-bottom: 40px; /* Añadido margen inferior para etiquetas */
+        }
+
+        .bar {
+            flex: 1;
+            background-color: var(--primary-color);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: var(--transition);
+            min-width: 30px;
+        }
+
+        .bar:hover {
+            background-color: var(--primary-dark);
+            transform: scaleY(1.05);
+            transform-origin: bottom;
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -30px; /* Aumentado de -25px a -30px */
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.9rem; /* Aumentado de 0.8rem a 0.9rem */
+            color: var(--dark-gray);
+            font-weight: bold;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            font-weight: bold;
+        }
+
+        .chart-axis {
+            position: absolute;
+            left: 40px;
+            right: 20px;
+            height: 1px;
+            background-color: var(--dark-gray);
+            bottom: 50px; /* Aumentado de 40px a 50px */
+        }
+
+        .chart-title {
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* Gráfico circular */
+        .pie-chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .pie-chart {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--primary-dark) 0% 35%,
+                var(--secondary-dark) 35% 55%,
+                var(--info-color) 55% 70%, 
+                var(--success-color) 70% 85%,
+                var(--warning-color) 85% 100%
+            );
+            position: relative;
+            box-shadow: var(--box-shadow);
+        }
+
+        .pie-legend {
+            margin-left: 30px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+
+        .legend-text {
+            font-size: 0.9rem;
+        }
+
+        /* KPI Cards */
+        .kpi-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .kpi-card {
+            flex: 1;
+            min-width: 200px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            transition: var(--transition);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .kpi-title {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .kpi-delta {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .kpi-delta.positive {
+            color: var(--success-color);
+        }
+
+        .kpi-delta.negative {
+            color: var(--danger-color);
+        }
+
+        .kpi-icon {
+            margin-right: 5px;
+        }
+
+        /* Nuevos componentes sin acordeones */
+        .info-panel {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 25px 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .info-panel:hover {
+            box-shadow: var(--box-shadow-hover);
+            transform: translateY(-3px);
+        }
+
+        .info-panel-header {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-panel-header:before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .info-panel-header.practices:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>');
+        }
+
+        .info-panel-header.variants:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>');
+        }
+
+        .info-panel-header.when-use:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>');
+        }
+
+        .info-panel-header.tips:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/></svg>');
+        }
+
+        .info-panel-header.difference:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H5v-2h7v2zm7-4H5v-2h14v2zm0-4H5V7h14v2z"/></svg>');
+        }
+
+        .info-panel-header.formatting:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>');
+        }
+
+        .info-panel-content {
+            padding: 20px;
+        }
+
+        .info-panel-content ul {
+            padding-left: 20px;
+        }
+
+        .info-panel-content ul li {
+            margin-bottom: 8px;
+        }
+
+        /* Diseño de dos columnas */
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        /* Tarjetas de información */
+        .info-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .info-card {
+            flex: 1;
+            min-width: 250px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 15px;
+            border-left: 5px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .info-card:nth-child(2) {
+            border-left-color: var(--secondary-color);
+        }
+
+        .info-card:nth-child(3) {
+            border-left-color: var(--info-color);
+        }
+
+        .info-card:nth-child(4) {
+            border-left-color: var(--success-color);
+        }
+
+        .info-card:nth-child(5) {
+            border-left-color: var(--warning-color);
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .info-card-title {
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 5px;
+        }
+
+        .info-card:nth-child(2) .info-card-title {
+            color: var(--secondary-dark);
+        }
+
+        .info-card:nth-child(3) .info-card-title {
+            color: var(--info-dark);
+        }
+
+        .info-card:nth-child(4) .info-card-title {
+            color: var(--success-dark);
+        }
+
+        .info-card:nth-child(5) .info-card-title {
+            color: var(--warning-dark);
+        }
+
+        /* Secciones alternadas */
+        .alt-section {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: var(--border-radius);
+        }
+
+        .alt-section:nth-child(odd) {
+            background-color: var(--background-color);
+        }
+
+        .alt-section:nth-child(even) {
+            background-color: rgba(124, 198, 254, 0.1);
+            border: 1px solid rgba(124, 198, 254, 0.3);
+        }
+
+        /* Feature list with icons */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0 10px 35px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .feature-list li:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 24px;
+            height: 24px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .feature-list li.check:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>');
+        }
+
+        .feature-list li.chart:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2.5 2.1h-15V5h15v14.1zm0-16.1h-15c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>');
+        }
+
+        .feature-list li.time:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>');
+        }
+
+        .feature-list li.action:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>');
+        }
+
+        .feature-list li.user:before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%232C6BAC" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+        }
+
+        /* Consulta de medios para responsividad */
+        @media (max-width: 768px) {
+            .flip-card-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .flip-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .quiz-options {
+                flex-direction: column;
+            }
+
+            .kpi-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Power BI con People Analytics</h1>
+            <p>Sección 3: Visualizaciones Básicas</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2>Introducción a las visualizaciones para People Analytics</h2>
+            <p>Bienvenidos a la tercera sección de nuestro curso sobre <strong>Power BI para People Analytics</strong>. En las secciones anteriores, exploramos los fundamentos de Power BI y aprendimos cómo preparar datos de recursos humanos para el análisis. Ahora, nos adentraremos en una de las partes más emocionantes: la creación de visualizaciones efectivas.</p>
+            
+            <p>Las visualizaciones son el puente entre los datos complejos y los insights accionables. En People Analytics, estas visualizaciones permiten que los profesionales de RRHH y los líderes de la organización comprendan rápidamente patrones, tendencias y anomalías en los datos relacionados con su fuerza laboral.</p>
+            
+            <div class="subsection">
+                <h3>¿Por qué son importantes las visualizaciones?</h3>
+                
+                <div class="feature-list">
+                    <li class="check"><strong>Simplifican la complejidad:</strong> Convierten datos numerosos y complejos en patrones visuales intuitivos</li>
+                    <li class="action"><strong>Facilitan la comunicación:</strong> Ayudan a transmitir mensajes clave a audiencias diversas, desde especialistas de RRHH hasta ejecutivos</li>
+                    <li class="time"><strong>Aceleran la comprensión:</strong> Permiten identificar tendencias e insights mucho más rápido que analizando tablas de datos</li>
+                    <li class="chart"><strong>Conducen a la acción:</strong> Cuando se entienden los datos, es más fácil tomar decisiones informadas</li>
+                    <li class="user"><strong>Aumentan el compromiso:</strong> Las visualizaciones interactivas fomentan la exploración y el descubrimiento</li>
+                </div>
+            </div>
+            
+            <div class="tip-box">
+                <h4>El ciclo del insight</h4>
+                <p>Recuerda siempre que el objetivo final de cualquier visualización en People Analytics es generar un insight que conduzca a una acción. Las mejores visualizaciones siguen este ciclo:</p>
+                <p><strong>Datos → Visualización → Insight → Acción → Impacto en el negocio</strong></p>
+            </div>
+        </section>
+
+        <!-- Primera parte: Visualizaciones básicas -->
+        <section class="section">
+            <h2>1. Crear gráficos simples: barras, líneas, tablas</h2>
+            
+            <p>Power BI ofrece una amplia gama de visualizaciones integradas que pueden aplicarse inmediatamente a tus datos de RRHH. Comencemos con las más fundamentales y versátiles.</p>
+            
+            <div class="subsection">
+                <h3>Gráficos de barras: la base del análisis comparativo</h3>
+                <p>Los gráficos de barras son probablemente la visualización más común y versátil para datos de recursos humanos. Son ideales para comparar valores entre diferentes categorías, como departamentos, ubicaciones o períodos de tiempo.</p>
+                
+                <div class="visualization-container">
+                    <div class="visualization-header">
+                        <div class="visualization-title">Headcount por departamento</div>
+                        <div class="visualization-controls">
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="1"></circle>
+                                <circle cx="19" cy="12" r="1"></circle>
+                                <circle cx="5" cy="12" r="1"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-title">Número de empleados por departamento</div>
+                        <div class="bar-chart">
+                            <div class="bar" style="height: 70%;">
+                                <div class="bar-value">154</div>
+                                <div class="bar-label">Ventas</div>
+                            </div>
+                            <div class="bar" style="height: 85%;">
+                                <div class="bar-value">187</div>
+                                <div class="bar-label">TI</div>
+                            </div>
+                            <div class="bar" style="height: 40%;">
+                                <div class="bar-value">88</div>
+                                <div class="bar-label">RRHH</div>
+                            </div>
+                            <div class="bar" style="height: 60%;">
+                                <div class="bar-value">132</div>
+                                <div class="bar-label">Finanzas</div>
+                            </div>
+                            <div class="bar" style="height: 100%;">
+                                <div class="bar-value">220</div>
+                                <div class="bar-label">Operaciones</div>
+                            </div>
+                            <div class="bar" style="height: 50%;">
+                                <div class="bar-value">110</div>
+                                <div class="bar-label">Marketing</div>
+                            </div>
+                            <div class="bar" style="height: 30%;">
+                                <div class="bar-value">66</div>
+                                <div class="bar-label">Legal</div>
+                            </div>
+                        </div>
+                        <div class="chart-axis"></div>
+                    </div>
+                    
+                    <div class="info-panel">
+                        <div class="info-panel-header practices">Mejores prácticas para gráficos de barras</div>
+                        <div class="info-panel-content">
+                            <ul>
+                                <li><strong>Ordenar las barras:</strong> Generalmente, es mejor ordenar las barras por valor (de mayor a menor) en lugar de alfabéticamente, para facilitar la comparación.</li>
+                                <li><strong>Limitar el número de barras:</strong> Trata de mantener el número de barras por debajo de 10 para evitar la sobrecarga visual.</li>
+                                <li><strong>Usar colores con propósito:</strong> Utiliza diferentes colores solo cuando quieras destacar categorías específicas.</li>
+                                <li><strong>Incluir etiquetas de datos:</strong> Añade los valores numéricos en las barras para una referencia precisa.</li>
+                                <li><strong>Considerar orientación:</strong> Las barras horizontales funcionan mejor para categorías con nombres largos.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card-container">
+                        <div class="info-card">
+                            <div class="info-card-title">Barras apiladas</div>
+                            <p>Ideales para mostrar la composición dentro de categorías, como la distribución de género por departamento.</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Barras agrupadas</div>
+                            <p>Perfectas para comparar múltiples métricas por categoría, como rotación vs contrataciones por departamento.</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Cascada</div>
+                            <p>Excelentes para mostrar el impacto acumulativo de factores, como los cambios en headcount (contrataciones, salidas, transferencias).</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Pirámide</div>
+                            <p>Un tipo especializado de gráfico de barras horizontal para mostrar distribuciones demográficas, como la estructura de edad.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Gráficos de líneas: visualizando tendencias a lo largo del tiempo</h3>
+                <p>Los gráficos de líneas son la mejor opción cuando necesitas mostrar tendencias y cambios a lo largo del tiempo, un aspecto crucial en People Analytics para métricas como rotación, contrataciones o compromiso de los empleados.</p>
+                
+                <div class="visualization-container">
+                    <div class="visualization-header">
+                        <div class="visualization-title">Tendencia de rotación mensual (últimos 12 meses)</div>
+                        <div class="visualization-controls">
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="1"></circle>
+                                <circle cx="19" cy="12" r="1"></circle>
+                                <circle cx="5" cy="12" r="1"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container" style="position: relative; height: 350px;">
+                        <div class="chart-title">Tasa de rotación mensual (%)</div>
+                        <svg width="100%" height="250" style="overflow: visible; margin-top: 20px;">
+                            <!-- Eje Y -->
+                            <line x1="50" y1="0" x2="50" y2="250" stroke="#666" stroke-width="1"></line>
+                            <text x="10" y="10" font-size="12" fill="#666">4%</text>
+                            <text x="10" y="70" font-size="12" fill="#666">3%</text>
+                            <text x="10" y="130" font-size="12" fill="#666">2%</text>
+                            <text x="10" y="190" font-size="12" fill="#666">1%</text>
+                            <text x="10" y="250" font-size="12" fill="#666">0%</text>
+                            
+                            <!-- Líneas de cuadrícula -->
+                            <line x1="50" y1="10" x2="900" y2="10" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"></line>
+                            <line x1="50" y1="70" x2="900" y2="70" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"></line>
+                            <line x1="50" y1="130" x2="900" y2="130" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"></line>
+                            <line x1="50" y1="190" x2="900" y2="190" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"></line>
+                            <line x1="50" y1="250" x2="900" y2="250" stroke="#666" stroke-width="1"></line>
+                            
+                            <!-- Eje X (meses) -->
+                            <text x="80" y="270" font-size="10" fill="#666">Ene</text>
+                            <text x="150" y="270" font-size="10" fill="#666">Feb</text>
+                            <text x="220" y="270" font-size="10" fill="#666">Mar</text>
+                            <text x="290" y="270" font-size="10" fill="#666">Abr</text>
+                            <text x="360" y="270" font-size="10" fill="#666">May</text>
+                            <text x="430" y="270" font-size="10" fill="#666">Jun</text>
+                            <text x="500" y="270" font-size="10" fill="#666">Jul</text>
+                            <text x="570" y="270" font-size="10" fill="#666">Ago</text>
+                            <text x="640" y="270" font-size="10" fill="#666">Sep</text>
+                            <text x="710" y="270" font-size="10" fill="#666">Oct</text>
+                            <text x="780" y="270" font-size="10" fill="#666">Nov</text>
+                            <text x="850" y="270" font-size="10" fill="#666">Dic</text>
+                            
+                            <!-- Línea de datos (rotación) -->
+                            <polyline points="80,190 150,170 220,150 290,110 360,130 430,90 500,70 570,50 640,90 710,120 780,150 850,130" fill="none" stroke="#2C6BAC" stroke-width="3"></polyline>
+                            
+                            <!-- Puntos de datos -->
+                            <circle cx="80" cy="190" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="150" cy="170" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="220" cy="150" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="290" cy="110" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="360" cy="130" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="430" cy="90" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="500" cy="70" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="570" cy="50" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="640" cy="90" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="710" cy="120" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="780" cy="150" r="4" fill="#2C6BAC"></circle>
+                            <circle cx="850" cy="130" r="4" fill="#2C6BAC"></circle>
+                            
+                            <!-- Etiquetas de datos -->
+                            <text x="80" y="175" font-size="10" fill="#2C6BAC" text-anchor="middle">1.5%</text>
+                            <text x="150" y="155" font-size="10" fill="#2C6BAC" text-anchor="middle">2.0%</text>
+                            <text x="220" y="135" font-size="10" fill="#2C6BAC" text-anchor="middle">2.5%</text>
+                            <text x="290" y="95" font-size="10" fill="#2C6BAC" text-anchor="middle">3.5%</text>
+                            <text x="360" y="115" font-size="10" fill="#2C6BAC" text-anchor="middle">3.0%</text>
+                            <text x="430" y="75" font-size="10" fill="#2C6BAC" text-anchor="middle">4.0%</text>
+                            <text x="500" y="55" font-size="10" fill="#2C6BAC" text-anchor="middle">4.5%</text>
+                            <text x="570" y="35" font-size="10" fill="#2C6BAC" text-anchor="middle">5.0%</text>
+                            <text x="640" y="75" font-size="10" fill="#2C6BAC" text-anchor="middle">4.0%</text>
+                            <text x="710" y="105" font-size="10" fill="#2C6BAC" text-anchor="middle">3.3%</text>
+                            <text x="780" y="135" font-size="10" fill="#2C6BAC" text-anchor="middle">2.5%</text>
+                            <text x="850" y="115" font-size="10" fill="#2C6BAC" text-anchor="middle">3.0%</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="two-columns">
+                        <div class="column">
+                            <div class="info-panel">
+                                <div class="info-panel-header when-use">Cuándo usar gráficos de líneas</div>
+                                <div class="info-panel-content">
+                                    <p>Los gráficos de líneas son ideales para las siguientes situaciones en People Analytics:</p>
+                                    <ul>
+                                        <li><strong>Tendencias a lo largo del tiempo:</strong> Evolución de headcount, rotación, contrataciones, o cualquier métrica que cambie con el tiempo.</li>
+                                        <li><strong>Comparaciones temporales:</strong> Para comparar métricas año tras año o mes tras mes.</li>
+                                        <li><strong>Identificación de patrones estacionales:</strong> Por ejemplo, para detectar si la rotación tiene picos en ciertos meses del año.</li>
+                                        <li><strong>Seguimiento de KPIs:</strong> Para visualizar el progreso hacia objetivos específicos a lo largo del tiempo.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="column">
+                            <div class="info-panel">
+                                <div class="info-panel-header practices">Mejores prácticas para gráficos de líneas</div>
+                                <div class="info-panel-content">
+                                    <ul>
+                                        <li><strong>Usar escalas apropiadas:</strong> Evita cortar el eje Y desde un punto que no sea cero, a menos que quieras enfatizar pequeños cambios.</li>
+                                        <li><strong>Limitar el número de líneas:</strong> No más de 4-5 líneas por gráfico para mantener la legibilidad.</li>
+                                        <li><strong>Etiquetar directamente:</strong> Cuando sea posible, etiqueta las líneas directamente en lugar de usar una leyenda separada.</li>
+                                        <li><strong>Considerar líneas de tendencia:</strong> Añade líneas de tendencia para identificar la dirección general entre fluctuaciones.</li>
+                                        <li><strong>Destacar eventos importantes:</strong> Marca reorganizaciones, cambios de política u otros eventos que podrían explicar cambios significativos.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Tablas y matrices: el poder de los detalles estructurados</h3>
+                <p>Aunque a veces subestimadas, las tablas y matrices son componentes esenciales de cualquier dashboard de People Analytics, especialmente cuando se necesitan detalles precisos o comparaciones en múltiples dimensiones.</p>
+                
+                <div class="visualization-container">
+                    <div class="visualization-header">
+                        <div class="visualization-title">Matriz de rotación por departamento y antigüedad</div>
+                        <div class="visualization-controls">
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="1"></circle>
+                                <circle cx="19" cy="12" r="1"></circle>
+                                <circle cx="5" cy="12" r="1"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <table class="heatmap-matrix">
+                        <thead>
+                            <tr>
+                                <th>Departamento</th>
+                                <th>&lt;1 año</th>
+                                <th>1-2 años</th>
+                                <th>3-5 años</th>
+                                <th>6-10 años</th>
+                                <th>&gt;10 años</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ventas</td>
+                                <td class="heat-level-10">18.5%</td>
+                                <td class="heat-level-8">14.2%</td>
+                                <td class="heat-level-5">8.7%</td>
+                                <td class="heat-level-2">3.5%</td>
+                                <td class="heat-level-1">1.2%</td>
+                                <td class="heat-level-7">12.8%</td>
+                            </tr>
+                            <tr>
+                                <td>Tecnología</td>
+                                <td class="heat-level-8">14.3%</td>
+                                <td class="heat-level-7">12.6%</td>
+                                <td class="heat-level-6">10.1%</td>
+                                <td class="heat-level-3">5.2%</td>
+                                <td class="heat-level-2">2.8%</td>
+                                <td class="heat-level-6">9.7%</td>
+                            </tr>
+                            <tr>
+                                <td>RRHH</td>
+                                <td class="heat-level-7">12.0%</td>
+                                <td class="heat-level-5">8.4%</td>
+                                <td class="heat-level-4">6.3%</td>
+                                <td class="heat-level-2">3.1%</td>
+                                <td class="heat-level-1">1.0%</td>
+                                <td class="heat-level-4">6.2%</td>
+                            </tr>
+                            <tr>
+                                <td>Finanzas</td>
+                                <td class="heat-level-6">10.5%</td>
+                                <td class="heat-level-4">7.8%</td>
+                                <td class="heat-level-3">4.2%</td>
+                                <td class="heat-level-2">2.5%</td>
+                                <td class="heat-level-1">0.9%</td>
+                                <td class="heat-level-3">5.8%</td>
+                            </tr>
+                            <tr>
+                                <td>Operaciones</td>
+                                <td class="heat-level-9">16.7%</td>
+                                <td class="heat-level-7">12.3%</td>
+                                <td class="heat-level-5">9.1%</td>
+                                <td class="heat-level-3">4.6%</td>
+                                <td class="heat-level-1">1.5%</td>
+                                <td class="heat-level-6">10.2%</td>
+                            </tr>
+                            <tr>
+                                <td>Marketing</td>
+                                <td class="heat-level-9">15.9%</td>
+                                <td class="heat-level-8">13.5%</td>
+                                <td class="heat-level-6">9.8%</td>
+                                <td class="heat-level-3">4.7%</td>
+                                <td class="heat-level-2">2.1%</td>
+                                <td class="heat-level-7">12.3%</td>
+                            </tr>
+                            <tr>
+                                <td>Legal</td>
+                                <td class="heat-level-4">7.2%</td>
+                                <td class="heat-level-3">5.6%</td>
+                                <td class="heat-level-2">3.8%</td>
+                                <td class="heat-level-1">2.3%</td>
+                                <td class="heat-level-1">1.2%</td>
+                                <td class="heat-level-2">3.9%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Promedio</strong></td>
+                                <td class="heat-level-8"><strong>13.6%</strong></td>
+                                <td class="heat-level-6"><strong>10.6%</strong></td>
+                                <td class="heat-level-5"><strong>7.4%</strong></td>
+                                <td class="heat-level-3"><strong>3.7%</strong></td>
+                                <td class="heat-level-1"><strong>1.5%</strong></td>
+                                <td class="heat-level-5"><strong>8.7%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="two-columns">
+                        <div class="column">
+                            <div class="info-panel">
+                                <div class="info-panel-header difference">Diferencia entre tablas y matrices</div>
+                                <div class="info-panel-content">
+                                    <p>Aunque parecidas, las tablas y matrices tienen diferencias importantes en Power BI:</p>
+                                    <ul>
+                                        <li><strong>Tablas:</strong> Muestran datos en un formato simple de filas y columnas, similar a Excel. Son ideales para listas detalladas y conjuntos de datos donde cada columna representa un campo distinto.</li>
+                                        <li><strong>Matrices:</strong> Permiten organizar datos en formato de tabla dinámica, con valores agrupados en filas y columnas. Son excelentes para mostrar datos jerárquicos y comparaciones cruzadas, como en el ejemplo de rotación por departamento y antigüedad.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="column">
+                            <div class="info-panel">
+                                <div class="info-panel-header formatting">Mejorando matrices con formateo condicional</div>
+                                <div class="info-panel-content">
+                                    <p>El formateo condicional, como el mapa de calor mostrado arriba, puede transformar una matriz simple en una potente herramienta visual:</p>
+                                    <ul>
+                                        <li><strong>Mapas de calor:</strong> Usar gradientes de color para destacar valores altos y bajos, ideal para identificar puntos problemáticos.</li>
+                                        <li><strong>Barras de datos:</strong> Añadir barras en las celdas para representar visualmente los valores numéricos.</li>
+                                        <li><strong>Iconos:</strong> Usar símbolos como flechas o indicadores de semáforo para mostrar el estado o tendencia.</li>
+                                        <li><strong>Colores de fondo/texto:</strong> Resaltar celdas específicas basadas en umbrales o condiciones.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flip-card-container">
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h3>Consejo experto</h3>
+                            <p>Escoge la visualización correcta</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h4>Guía rápida</h4>
+                            <p>Para comparaciones entre categorías: gráficos de barras</p>
+                            <p>Para tendencias temporales: gráficos de líneas</p>
+                            <p>Para proporciones del todo: gráficos circulares o de anillos</p>
+                            <p>Para relaciones: gráficos de dispersión</p>
+                            <p>Para detalles precisos: tablas y matrices</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h3>Consejo experto</h3>
+                            <p>El poder del color</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h4>Uso estratégico</h4>
+                            <p>Usa colores consistentes en todo el dashboard (rojo para rotación, verde para contrataciones, etc.). Considera la accesibilidad para daltónicos usando paletas como "Viridis" o "Cividis". Reserva colores brillantes para destacar información clave.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h3>Consejo experto</h3>
+                            <p>No sobrecargues</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h4>Simplicidad efectiva</h4>
+                            <p>Una visualización efectiva transmite un mensaje claro. Elimina elementos decorativos innecesarios y mantén una alta proporción de "datos/tinta". Pregúntate: "¿Cada elemento de esta visualización contribuye a la comprensión de los datos?"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Segunda parte: Aplicaciones prácticas -->
+        <section class="section">
+            <h2>2. Aplicaciones: distribución de edades, diversidad</h2>
+            
+            <p>Ahora que hemos revisado las visualizaciones básicas, veamos cómo aplicarlas en casos prácticos específicos de People Analytics. En esta sección, exploraremos visualizaciones para dos análisis comunes: la distribución demográfica y la diversidad organizacional.</p>
+            
+            <div class="subsection">
+                <h3>Visualizando la distribución de edades</h3>
+                <p>Comprender la estructura demográfica de la organización es fundamental para la planificación de fuerza laboral, programas de desarrollo y estrategias de sucesión.</p>
+                
+                <div class="visualization-container">
+                    <div class="visualization-header">
+                        <div class="visualization-title">Distribución por grupos de edad</div>
+                        <div class="visualization-controls">
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="1"></circle>
+                                <circle cx="19" cy="12" r="1"></circle>
+                                <circle cx="5" cy="12" r="1"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 30px; margin: 20px 0;">
+                        <div style="flex: 1;">
+                            <div class="chart-container" style="height: 350px;">
+                                <div class="chart-title">Pirámide de edad por género</div>
+                                <svg width="100%" height="300" style="overflow: visible;">
+                                    <!-- Eje central -->
+                                    <line x1="50%" y1="0" x2="50%" y2="300" stroke="#666" stroke-width="1" stroke-dasharray="5,5"></line>
+                                    
+                                    <!-- Etiquetas de grupos de edad -->
+                                    <text x="50%" y="25" text-anchor="middle" font-size="12" fill="#666">56-65</text>
+                                    <text x="50%" y="75" text-anchor="middle" font-size="12" fill="#666">46-55</text>
+                                    <text x="50%" y="125" text-anchor="middle" font-size="12" fill="#666">36-45</text>
+                                    <text x="50%" y="175" text-anchor="middle" font-size="12" fill="#666">26-35</text>
+                                    <text x="50%" y="225" text-anchor="middle" font-size="12" fill="#666">18-25</text>
+                                    
+                                    <!-- Líneas horizontales -->
+                                    <line x1="0" y1="50" x2="100%" y2="50" stroke="#ddd" stroke-width="1"></line>
+                                    <line x1="0" y1="100" x2="100%" y2="100" stroke="#ddd" stroke-width="1"></line>
+                                    <line x1="0" y1="150" x2="100%" y2="150" stroke="#ddd" stroke-width="1"></line>
+                                    <line x1="0" y1="200" x2="100%" y2="200" stroke="#ddd" stroke-width="1"></line>
+                                    <line x1="0" y1="250" x2="100%" y2="250" stroke="#ddd" stroke-width="1"></line>
+                                    
+                                    <!-- Barras hombres (izquierda) -->
+                                    <rect x="20%" y="0" width="30%" height="40" fill="#1B4978" opacity="0.8"></rect>
+                                    <rect x="25%" y="50" width="25%" height="40" fill="#1B4978" opacity="0.8"></rect>
+                                    <rect x="15%" y="100" width="35%" height="40" fill="#1B4978" opacity="0.8"></rect>
+                                    <rect x="5%" y="150" width="45%" height="40" fill="#1B4978" opacity="0.8"></rect>
+                                    <rect x="30%" y="200" width="20%" height="40" fill="#1B4978" opacity="0.8"></rect>
+                                    
+                                    <!-- Barras mujeres (derecha) -->
+                                    <rect x="50%" y="0" width="20%" height="40" fill="#4A9FE6" opacity="0.8"></rect>
+                                    <rect x="50%" y="50" width="30%" height="40" fill="#4A9FE6" opacity="0.8"></rect>
+                                    <rect x="50%" y="100" width="40%" height="40" fill="#4A9FE6" opacity="0.8"></rect>
+                                    <rect x="50%" y="150" width="35%" height="40" fill="#4A9FE6" opacity="0.8"></rect>
+                                    <rect x="50%" y="200" width="25%" height="40" fill="#4A9FE6" opacity="0.8"></rect>
+                                    
+                                    <!-- Etiquetas de porcentaje -->
+                                    <text x="35%" y="25" text-anchor="middle" font-size="12" fill="white">8%</text>
+                                    <text x="37.5%" y="75" text-anchor="middle" font-size="12" fill="white">12%</text>
+                                    <text x="32.5%" y="125" text-anchor="middle" font-size="12" fill="white">18%</text>
+                                    <text x="27.5%" y="175" text-anchor="middle" font-size="12" fill="white">22%</text>
+                                    <text x="40%" y="225" text-anchor="middle" font-size="12" fill="white">10%</text>
+                                    
+                                    <text x="60%" y="25" text-anchor="middle" font-size="12" fill="white">5%</text>
+                                    <text x="65%" y="75" text-anchor="middle" font-size="12" fill="white">15%</text>
+                                    <text x="70%" y="125" text-anchor="middle" font-size="12" fill="white">20%</text>
+                                    <text x="67.5%" y="175" text-anchor="middle" font-size="12" fill="white">17%</text>
+                                    <text x="62.5%" y="225" text-anchor="middle" font-size="12" fill="white">13%</text>
+                                    
+                                    <!-- Leyenda -->
+                                    <rect x="20%" y="270" width="15" height="15" fill="#1B4978" opacity="0.8"></rect>
+                                    <text x="22%" y="283" font-size="12" fill="#666" dx="20">Hombres</text>
+                                    
+                                    <rect x="70%" y="270" width="15" height="15" fill="#4A9FE6" opacity="0.8"></rect>
+                                    <text x="72%" y="283" font-size="12" fill="#666" dx="20">Mujeres</text>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div style="flex: 1;">
+                            <div class="kpi-container">
+                                <div class="kpi-card">
+                                    <div class="kpi-title">Edad promedio</div>
+                                    <div class="kpi-value">37.4</div>
+                                    <div class="kpi-delta positive">
+                                        <span class="kpi-icon">▲</span> 0.8 vs. año anterior
+                                    </div>
+                                </div>
+                                
+                                <div class="kpi-card">
+                                    <div class="kpi-title">% Millennials (25-40)</div>
+                                    <div class="kpi-value">42%</div>
+                                    <div class="kpi-delta positive">
+                                        <span class="kpi-icon">▲</span> 3% vs. año anterior
+                                    </div>
+                                </div>
+                                
+                                <div class="kpi-card">
+                                    <div class="kpi-title">% Baby Boomers (57-75)</div>
+                                    <div class="kpi-value">12%</div>
+                                    <div class="kpi-delta negative">
+                                        <span class="kpi-icon">▼</span> 2.5% vs. año anterior
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="subsection" style="margin-top: 20px;">
+                                <h4>Insights clave</h4>
+                                <ul>
+                                    <li>La mayoría de la fuerza laboral (59%) está concentrada en el rango de 26-45 años</li>
+                                    <li>Mayor proporción de hombres en grupos de mayor edad (46+ años)</li>
+                                    <li>Las mujeres representan mayor proporción en el grupo más joven (18-25)</li>
+                                    <li>El envejecimiento de la fuerza laboral es lento pero constante (edad promedio aumentando)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alt-section">
+                        <h4>Visualizaciones recomendadas para análisis demográfico</h4>
+                        <div class="info-card-container">
+                            <div class="info-card">
+                                <div class="info-card-title">Pirámide poblacional</div>
+                                <p>Ideal para mostrar la distribución por edad y género simultáneamente, permitiendo identificar desequilibrios.</p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">Histogramas</div>
+                                <p>Útiles para mostrar la distribución de edades en intervalos definidos, revelando la forma general de la distribución.</p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">Gráficos de dispersión</div>
+                                <p>Excelentes para explorar relaciones entre edad y otras variables como salario, antigüedad o puntuaciones de desempeño.</p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">Mapas de calor</div>
+                                <p>Efectivos para visualizar la distribución de edad por departamento, ubicación u otras categorías.</p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">Indicadores</div>
+                                <p>Para mostrar métricas clave como edad promedio o porcentajes por generación.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alt-section">
+                        <h4>Consideraciones al visualizar datos demográficos</h4>
+                        <ul class="feature-list">
+                            <li class="check"><strong>Agrupación apropiada:</strong> Usa rangos de edad que tengan sentido para tu organización y objetivos (por ejemplo, agrupaciones generacionales vs. décadas).</li>
+                            <li class="chart"><strong>Contextualización:</strong> Compara con datos del sector o mercado laboral general para entender si tu distribución es atípica.</li>
+                            <li class="time"><strong>Cambios a lo largo del tiempo:</strong> No solo muestres el estado actual, sino también cómo ha evolucionado la estructura demográfica.</li>
+                            <li class="user"><strong>Evita estereotipos:</strong> Ten cuidado con las conclusiones basadas únicamente en edad o generación, que pueden perpetuar estereotipos.</li>
+                            <li class="action"><strong>Privacidad:</strong> En organizaciones pequeñas, asegúrate de que los grupos sean lo suficientemente grandes para mantener el anonimato.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Analizando diversidad e inclusión</h3>
+                <p>La diversidad e inclusión se han convertido en prioridades estratégicas para las organizaciones. Las visualizaciones efectivas pueden ayudar a monitorear el progreso y identificar áreas de mejora.</p>
+                
+                <div class="visualization-container">
+                    <div class="visualization-header">
+                        <div class="visualization-title">Dashboard de diversidad organizacional</div>
+                        <div class="visualization-controls">
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            <svg class="visualization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="1"></circle>
+                                <circle cx="19" cy="12" r="1"></circle>
+                                <circle cx="5" cy="12" r="1"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0;">
+                        <!-- Composición de género -->
+                        <div style="flex: 1; min-width: 300px;">
+                            <div class="chart-title">Composición por género</div>
+                            <div class="pie-chart-container">
+                                <div class="pie-chart" style="background: conic-gradient(var(--primary-dark) 0% 58%, var(--secondary-dark) 58% 100%);"></div>
+                                <div class="pie-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--primary-dark);"></div>
+                                        <div class="legend-text">Hombres: 58%</div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--secondary-dark);"></div>
+                                        <div class="legend-text">Mujeres: 42%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Diversidad étnica -->
+                        <div style="flex: 1; min-width: 300px;">
+                            <div class="chart-title">Composición étnica</div>
+                            <div class="pie-chart-container">
+                                <div class="pie-chart" style="background: conic-gradient(
+                                    var(--primary-dark) 0% 45%, 
+                                    var(--secondary-dark) 45% 65%, 
+                                    var(--info-color) 65% 80%,
+                                    var(--accent-color) 80% 90%,
+                                    var(--success-color) 90% 100%
+                                );"></div>
+                                <div class="pie-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--primary-dark);"></div>
+                                        <div class="legend-text">Grupo A: 45%</div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--secondary-dark);"></div>
+                                        <div class="legend-text">Grupo B: 20%</div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--info-color);"></div>
+                                        <div class="legend-text">Grupo C: 15%</div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--accent-color);"></div>
+                                        <div class="legend-text">Grupo D: 10%</div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--success-color);"></div>
+                                        <div class="legend-text">Grupo E: 10%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Matriz de diversidad por nivel -->
+                    <div style="margin-top: 30px;">
+                        <div class="chart-title">Representación de género por nivel jerárquico</div>
+                        <table class="heatmap-matrix">
+                            <thead>
+                                <tr>
+                                    <th>Nivel jerárquico</th>
+                                    <th>Hombres</th>
+                                    <th>Mujeres</th>
+                                    <th>% Mujeres</th>
+                                    <th>vs. Meta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ejecutivo C-level</td>
+                                    <td>8</td>
+                                    <td>2</td>
+                                    <td class="heat-level-2">20%</td>
+                                    <td style="color: var(--danger-color);">-20%</td>
+                                </tr>
+                                <tr>
+                                    <td>SVP/Director</td>
+                                    <td>24</td>
+                                    <td>12</td>
+                                    <td class="heat-level-4">33%</td>
+                                    <td style="color: var(--danger-color);">-7%</td>
+                                </tr>
+                                <tr>
+                                    <td>Gerente Senior</td>
+                                    <td>42</td>
+                                    <td>28</td>
+                                    <td class="heat-level-5">40%</td>
+                                    <td style="color: #FFC107;">0%</td>
+                                </tr>
+                                <tr>
+                                    <td>Gerente</td>
+                                    <td>64</td>
+                                    <td>52</td>
+                                    <td class="heat-level-6">45%</td>
+                                    <td style="color: var(--success-color);">+5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Supervisor</td>
+                                    <td>78</td>
+                                    <td>72</td></tr></tbody></table></div></div></div></section></div></body></html>
