@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa de Curso: People Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #4f46e5;
+            --secondary: #818cf8;
+            --accent1: #f43f5e;
+            --accent2: #06b6d4;
+            --accent3: #fb923c;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gradient1: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient2: linear-gradient(45deg, #f43f5e, #ec4899);
+            --gradient3: linear-gradient(45deg, #06b6d4, #0ea5e9);
+            --gradient4: linear-gradient(45deg, #fb923c, #f59e0b);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.15);
+            --shadow-intense: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            font-size: 10pt;
+            line-height: 1.4;
+            width: 100%;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.4in;
+        }
+        
+        .page {
+            background: white;
+            box-shadow: var(--shadow-intense);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: var(--gradient1);
+            padding: 1.8rem 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+        }
+        
+        .header h1 {
+            font-size: 28pt;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 i {
+            margin-right: 0.5rem;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .header p {
+            font-size: 14pt;
+            opacity: 0.9;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .program-details {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            position: relative;
+            gap: 0.8rem;
+        }
+        
+        .detail {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .detail:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .detail i {
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .important-note {
+            background: #fffbeb;
+            border-left: 5px solid var(--accent3);
+            padding: 1rem 1.2rem;
+            margin: 1.5rem 2rem;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+            font-style: italic;
+            font-size: 10pt;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .important-note i {
+            color: var(--accent3);
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+        
+        .modules-container {
+            padding: 1.5rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .module {
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .module:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .module::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background-size: 200% 200%;
+            animation: shine 3s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes shine {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .module-header {
+            padding: 1rem 1.2rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .module-header::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -75px;
+            right: -75px;
+            z-index: -1;
+        }
+        
+        .module-header::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            bottom: -40px;
+            left: 20%;
+            z-index: -1;
+        }
+        
+        .module-header i {
+            font-size: 2.2rem;
+            margin-right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            width: 3.5rem;
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .module:hover .module-header i {
+            transform: rotateY(180deg);
+        }
+        
+        .module-header h3 {
+            font-size: 14pt;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .module-content {
+            padding: 1.2rem;
+            background: white;
+            position: relative;
+        }
+        
+        .module-content p {
+            font-size: 10pt;
+            color: #475569;
+            margin-bottom: 1rem;
+        }
+        
+        .module-1 .module-header {
+            background: var(--gradient2);
+        }
+        
+        .module-2 .module-header {
+            background: var(--gradient3);
+        }
+        
+        .module-3 .module-header {
+            background: var(--gradient4);
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+        
+        .topic {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 6px;
+            background: #f8fafc;
+            transition: all 0.2s ease;
+        }
+        
+        .topic:hover {
+            background: #f1f5f9;
+            transform: translateX(3px);
+        }
+        
+        .module-1 .topic:hover {
+            box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.2);
+        }
+        
+        .module-2 .topic:hover {
+            box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.2);
+        }
+        
+        .module-3 .topic:hover {
+            box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.2);
+        }
+        
+        .topic i {
+            color: var(--primary);
+            margin-right: 0.5rem;
+            font-size: 0.7rem;
+            min-width: 10px;
+        }
+        
+        .module-1 .topic i {
+            color: var(--accent1);
+        }
+        
+        .module-2 .topic i {
+            color: var(--accent2);
+        }
+        
+        .module-3 .topic i {
+            color: var(--accent3);
+        }
+        
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: white;
+            color: var(--dark);
+            font-size: 8pt;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+        }
+        
+        .badge i {
+            margin-right: 0.3rem;
+        }
+        
+        .module-1 .badge {
+            border-top: 3px solid var(--accent1);
+        }
+        
+        .module-2 .badge {
+            border-top: 3px solid var(--accent2);
+        }
+        
+        .module-3 .badge {
+            border-top: 3px solid var(--accent3);
+        }
+        
+        .course-info {
+            margin: 2rem;
+            margin-top: 1rem;
+            background: var(--gradient1);
+            padding: 1.2rem;
+            border-radius: 12px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-intense);
+            overflow: hidden;
+        }
+        
+        .course-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background-size: 200% 200%;
+            animation: shine 3s infinite;
+            pointer-events: none;
+        }
+        
+        .course-info h3 {
+            font-size: 14pt;
+            margin-right: 1rem;
+            position: relative;
+        }
+        
+        .course-info p {
+            opacity: 0.9;
+            font-size: 10pt;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                background: none;
+            }
+            
+            .page {
+                box-shadow: none;
+                border-radius: 0;
+                page-break-inside: avoid;
+            }
+            
+            .module:hover {
+                transform: none;
+                box-shadow: var(--shadow);
+            }
+            
+            .topic:hover {
+                transform: none;
+                background: #f8fafc;
+            }
+            
+            .detail:hover {
+                transform: none;
+                background: rgba(255, 255, 255, 0.2);
+            }
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.2in;
+            }
+            
+            .header {
+                padding: 1.3rem 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 22pt;
+            }
+            
+            .header p {
+                font-size: 12pt;
+            }
+            
+            .program-details {
+                gap: 0.5rem;
+            }
+            
+            .detail {
+                font-size: 9pt;
+                padding: 0.3rem 0.6rem;
+            }
+            
+            .important-note {
+                margin: 1rem;
+                padding: 0.8rem 1rem;
+            }
+            
+            .modules-container {
+                padding: 1rem;
+                gap: 1.2rem;
+            }
+            
+            .module-header i {
+                font-size: 1.8rem;
+                width: 2.8rem;
+                height: 2.8rem;
+            }
+            
+            .module-header h3 {
+                font-size: 12pt;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 18pt;
+            }
+            
+            .header p {
+                font-size: 11pt;
+            }
+            
+            .badge {
+                font-size: 7pt;
+                right: 10px;
+            }
+            
+            .module-content p {
+                font-size: 9pt;
+            }
+            
+            .program-details {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.4rem;
+            }
+            
+            .detail {
+                width: 100%;
+            }
+            
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> People Analytics</h1>
+            <p>Programa de Curso Introductorio</p>
+            
+            <div class="program-details">
+                <div class="detail">
+                    <i class="fas fa-clock"></i>
+                    <span>Duración: 8 horas</span>
+                </div>
+                <div class="detail">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Nivel: Introductorio</span>
+                </div>
+                <div class="detail">
+                    <i class="fas fa-laptop-code"></i>
+                    <span>Formato: Teórico-Práctico</span>
+                </div>
+                <div class="detail">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Certificación incluida</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="important-note">
+            <i class="fas fa-info-circle"></i>
+            <strong>Nota importante:</strong> Este es un curso de nivel introductorio. No es necesario tener conocimientos previos de las herramientas. A pesar de desarrollar ejercicios completos, el objetivo es conocer las herramientas y sus potenciales usos.
+        </div>
+        
+        <div class="modules-container">
+            <div class="module module-1">
+                <div class="badge">
+                    <i class="fas fa-fire"></i>Fundamentos
+                </div>
+                <div class="module-header">
+                    <i class="fas fa-brain"></i>
+                    <h3>Módulo 1: Fundamentos de People Analytics</h3>
+                </div>
+                <div class="module-content">
+                    <p>Introducción a los conceptos y fundamentos esenciales de People Analytics, enfocándonos en cómo transformar datos en insights accionables para la gestión de talento.</p>
+                    
+                    <div class="topics-grid">
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Conceptos y definiciones fundamentales</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Casos de uso en RRHH</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Procesamiento cerebral de información</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Sesgos cognitivos en RRHH</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Ejercicios prácticos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="module module-2">
+                <div class="badge">
+                    <i class="fas fa-tools"></i>Herramientas
+                </div>
+                <div class="module-header">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>Módulo 2: Power BI en People Analytics</h3>
+                </div>
+                <div class="module-content">
+                    <p>Introducción práctica al uso de Power BI como herramienta para el análisis y visualización de datos en el contexto de recursos humanos.</p>
+                    
+                    <div class="topics-grid">
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Interfaz y funcionalidades básicas</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Importación y transformación de datos</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Creación de dashboards interactivos</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Visualización de KPIs de RRHH</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Ejercicios prácticos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="module module-3">
+                <div class="badge">
+                    <i class="fas fa-rocket"></i>Automatización
+                </div>
+                <div class="module-header">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Módulo 3: Automatización con Power Automate</h3>
+                </div>
+                <div class="module-content">
+                    <p>Aprenderás a automatizar procesos rutinarios de RRHH para mejorar la eficiencia y potenciar los beneficios de People Analytics en las organizaciones.</p>
+                    
+                    <div class="topics-grid">
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Fundamentos de Power Automate</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Creación de flujos automáticos</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Integración con Microsoft 365</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Power BI + Power Automate</span>
+                        </div>
+                        <div class="topic">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Ejercicios prácticos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+</body>
+</html>
