@@ -3,1822 +3,1834 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso de People Analytics - Sección 5</title>
+    <title>Sección 5: Implementación Estratégica de People Analytics</title>
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --background-color: #f9f9f9;
-            --text-color: #333333;
-            --light-text: #ffffff;
-            --success-color: #27ae60;
-            --error-color: #c0392b;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Paleta de colores profesional e impactante con mejor contraste */
+            --primary-color: #2C4C6B;    /* Azul más oscuro para mejor contraste */
+            --secondary-color: #E05D3B;  /* Coral más oscuro */
+            --accent-color: #7BA7C7;     /* Azul medio para acentos */
+            --background-color: #FFFFFF; /* Fondo blanco puro para máximo contraste */
+            --background-secondary: #E8F4F9; /* Azul muy pálido para fondos de secciones */
+            --text-color: #1A1F25;       /* Casi negro para texto principal */
+            --text-light: #FFFFFF;       /* Blanco para texto sobre fondos oscuros */
+            --light-color: #D5E9F2;      /* Azul muy claro para fondos secundarios */
+            --success-color: #368F6C;    /* Verde más oscuro */
+            --warning-color: #E67E10;    /* Naranja más oscuro */
+            --info-color: #4A91C8;       /* Azul medio para información */
+            
+            /* Sombras y efectos */
+            --card-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            --hover-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+            --border-radius: 10px;
+            
+            /* Espaciado */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-xxl: 3rem;
         }
-
+            
+            /* Tipografía */
+            --heading-font: 'Montserrat', sans-serif;
+            --body-font: 'Open Sans', sans-serif;
+            
+            /* Espaciado */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-xxl: 3rem;
+            
+            /* Bordes y sombras */
+            --border-radius: 8px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap');
+        
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--background-color);
-            padding: 0;
-            margin: 0;
+            padding: var(--spacing-lg);
+            max-width: 1200px;
+            margin: 0 auto;
         }
-
+        
         header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: var(--light-text);
-            padding: 2rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-xl) var(--spacing-lg);
+            background: #1A355A; /* Azul oscuro elegante */
+            color: #FFFFFF; /* Blanco puro */
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
-
+        
         header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
+            color: #FFFFFF;
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
+        
         header p {
+            color: #E0E6F0;
             font-size: 1.2rem;
             max-width: 800px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
-
-        header::before {
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+            font-weight: 700;
+            margin: var(--spacing-lg) 0 var(--spacing-md);
+            color: var(--primary-color);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            font-weight: 900;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
             content: "";
             position: absolute;
-            top: 0;
+            bottom: -10px;
             left: 0;
             width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="%233498db" opacity="0.2"/></svg>');
-            background-size: cover;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        section {
-            margin-bottom: 3rem;
-            background-color: #ffffff;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 2rem;
-            transition: transform 0.3s ease;
-        }
-
-        section:hover {
-            transform: translateY(-5px);
-        }
-
-        h2 {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--secondary-color);
-        }
-
+        
         h3 {
+            font-size: 1.5rem;
             color: var(--secondary-color);
-            margin: 1.5rem 0 1rem;
         }
-
+        
+        h4 {
+            font-size: 1.25rem;
+        }
+        
         p {
-            margin-bottom: 1rem;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.05rem;
+            line-height: 1.7;
         }
-
-        ul, ol {
-            margin-bottom: 1rem;
-            padding-left: 2rem;
+        
+        .author-info {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
         }
-
-        li {
-            margin-bottom: 0.5rem;
+        
+        .author-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            box-shadow: var(--card-shadow);
+            max-width: 800px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 0 auto;
+            border-top: 5px solid var(--primary-color);
         }
-
-        .image-container {
-            margin: 2rem 0;
+        
+        .author-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .author-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: var(--spacing-xs);
             text-align: center;
         }
-
-        .image-container img {
-            max-width: 100%;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-
-        .image-caption {
-            margin-top: 0.5rem;
-            font-style: italic;
-            color: #666;
-        }
-
+        
+        /* Tarjetas giratorias */
         .flip-card-container {
-            perspective: 1000px;
-            margin: 2rem 0;
-            height: 200px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
         }
-
+        
         .flip-card {
+            background-color: transparent;
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .flip-card-inner {
             position: relative;
             width: 100%;
             height: 100%;
             text-align: center;
-            transition: transform 0.8s;
+            transition: transform 0.6s;
             transform-style: preserve-3d;
-            cursor: pointer;
+            box-shadow: var(--card-shadow);
         }
-
-        .flip-card-container:hover .flip-card {
+        
+        .flip-card:hover .flip-card-inner {
             transform: rotateY(180deg);
         }
-
+        
         .flip-card-front, .flip-card-back {
             position: absolute;
             width: 100%;
             height: 100%;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+            border-radius: var(--border-radius);
             display: flex;
-            align-items: center;
-            justify-content: center;
             flex-direction: column;
-            padding: 2rem;
-            border-radius: var(--border-radius);
+            justify-content: center;
+            align-items: center;
+            padding: var(--spacing-md);
         }
-
+        
         .flip-card-front {
-            background: linear-gradient(45deg, var(--secondary-color), #2980b9);
-            color: var(--light-text);
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            box-shadow: var(--card-shadow);
+            font-size: 1.05rem;
+            font-weight: 600;
+            padding: var(--spacing-md);
         }
-
+        
         .flip-card-back {
-            background: linear-gradient(45deg, var(--primary-color), #1a252f);
-            color: var(--light-text);
-            transform: rotateY(180deg);
-        }
-
-        .accordion {
-            margin: 2rem 0;
-        }
-
-        .accordion-item {
-            margin-bottom: 1rem;
-        }
-
-        .accordion-header {
             background-color: var(--secondary-color);
-            color: var(--light-text);
-            padding: 1rem;
-            cursor: pointer;
+            color: var(--text-light);
+            transform: rotateY(180deg);
+            box-shadow: var(--card-shadow);
+            font-size: 1.05rem;
+            padding: var(--spacing-md);
+        }
+        
+        /* Acordeones */
+        .accordion {
+            margin-bottom: var(--spacing-lg);
             border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: var(--spacing-md);
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background-color 0.3s ease;
-        }
-
-        .accordion-header:hover {
-            background-color: #2980b9;
-        }
-
-        .accordion-header::after {
-            content: '+';
-            font-size: 1.5rem;
-        }
-
-        .accordion-header.active::after {
-            content: '-';
-        }
-
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            background-color: #f1f1f1;
-            border-radius: 0 0 var(--border-radius) var(--border-radius);
-        }
-
-        .accordion-content-inner {
-            padding: 1rem;
-        }
-
-        .two-column {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .column {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .trend-card {
-            background-color: #f8f9fa;
+            transition: all 0.3s ease;
             border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--box-shadow);
-            border-left: 4px solid var(--secondary-color);
+            margin-bottom: 2px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .accordion-header:hover {
+            background-color: #3a5d85;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .accordion-icon {
             transition: transform 0.3s ease;
         }
-
-        .trend-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .trend-card h4 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-
-        .future-scenario {
-            background-color: #f8f9fa;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            margin: 2rem 0;
-            position: relative;
+        
+        .accordion-content {
+            background-color: white;
+            padding: 0 var(--spacing-md);
+            max-height: 0;
             overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.5s ease;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            font-size: 1.05rem;
         }
-
-        .future-scenario::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--secondary-color), var(--accent-color));
+        
+        .accordion.active .accordion-content {
+            max-height: 1000px;
+            padding: var(--spacing-lg);
+            border-left: 2px solid var(--primary-color);
+            border-right: 2px solid var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: var(--spacing-md);
         }
-
-        .scenario-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
+        
+        .accordion.active .accordion-icon {
+            transform: rotate(180deg);
         }
-
-        .scenario-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--secondary-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            color: white;
-            font-weight: bold;
-        }
-
-        .scenario-title {
-            font-size: 1.3rem;
-            color: var(--primary-color);
-        }
-
-        .scenario-year {
-            margin-left: auto;
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-
-        .scenario-content {
-            padding-left: 3.5rem;
-        }
-
-        .matrix-container {
-            margin: 2rem 0;
+        
+        /* Tabla interactiva */
+        .table-container {
+            margin: var(--spacing-xl) 0;
             overflow-x: auto;
         }
-
-        .tech-matrix {
+        
+        .interactive-table {
             width: 100%;
             border-collapse: collapse;
+            box-shadow: var(--card-shadow);
+            background-color: white;
             border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: var(--box-shadow);
         }
-
-        .tech-matrix th, .tech-matrix td {
-            padding: 1rem;
+        
+        .interactive-table th, .interactive-table td {
+            padding: var(--spacing-md);
             text-align: left;
-            border: 1px solid #eee;
+            border-bottom: 1px solid #eee;
         }
-
-        .tech-matrix th {
-            background-color: var(--primary-color);
+        
+        .interactive-table th {
+            background: var(--gradient-primary);
             color: white;
+            position: sticky;
+            top: 0;
+            font-weight: 600;
         }
-
-        .tech-matrix tr:nth-child(even) {
-            background-color: #f8f9fa;
+        
+        .interactive-table tr:hover {
+            background-color: rgba(0, 198, 251, 0.05);
         }
-
-        .tech-matrix td:first-child {
-            font-weight: bold;
-            color: var(--secondary-color);
+        
+        .interactive-table .highlight {
+            background-color: rgba(0, 91, 234, 0.08);
         }
-
-        .readiness-high {
-            color: var(--success-color);
-            font-weight: bold;
-        }
-
-        .readiness-medium {
-            color: #f39c12;
-            font-weight: bold;
-        }
-
-        .readiness-low {
-            color: var(--error-color);
-            font-weight: bold;
-        }
-
-        .poll-container {
-            background-color: #f8f9fa;
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .poll-question {
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        .poll-options {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .poll-option {
-            display: flex;
-            align-items: center;
+        
+        /* Preguntas de verdadero/falso */
+        .quiz-container {
             background-color: white;
-            padding: 0.8rem;
+            padding: var(--spacing-lg);
             border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin: var(--spacing-xl) 0;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .question {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .options {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-sm);
+        }
+        
+        .option {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background-color: var(--light-color);
+            border: 2px solid var(--light-color);
+            border-radius: 50px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
-
-        .poll-option:hover {
-            background-color: #e9ecef;
+        
+        .option:hover {
+            background-color: #e3e7e8;
+            transform: translateY(-2px);
         }
-
-        .poll-option input[type="radio"] {
-            margin-right: 1rem;
+        
+        .option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(0, 91, 234, 0.1);
         }
-
-        .poll-results {
-            margin-top: 1.5rem;
+        
+        .feedback {
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
             display: none;
         }
-
-        .poll-bar {
+        
+        .feedback.correct {
+            color: var(--success-color);
+            background-color: rgba(40, 167, 69, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .feedback.incorrect {
+            color: var(--warning-color);
+            background-color: rgba(255, 88, 88, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        /* Elementos arrastrables */
+        .drag-drop-container {
+            margin: var(--spacing-xl) 0;
             display: flex;
-            align-items: center;
-            margin-bottom: 0.8rem;
-        }
-
-        .poll-label {
-            width: 200px;
-            font-weight: bold;
-        }
-
-        .poll-progress {
-            flex: 1;
-            height: 20px;
-            background-color: #e9ecef;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .poll-fill {
-            height: 100%;
-            background-color: var(--secondary-color);
-            border-radius: 10px;
-        }
-
-        .poll-percentage {
-            margin-left: 1rem;
-            font-weight: bold;
-            width: 50px;
-            text-align: right;
-        }
-
-        .capability-assessment {
-            margin: 2rem 0;
-        }
-
-        .capability-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background-color: #f8f9fa;
-            border-radius: var(--border-radius);
-        }
-
-        .capability-name {
-            width: 200px;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .capability-scale {
-            flex: 1;
-            display: flex;
-            gap: 0.3rem;
-        }
-
-        .scale-point {
-            flex: 1;
-            height: 30px;
-            background-color: #e9ecef;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .scale-point:hover {
-            background-color: #dee2e6;
-        }
-
-        .scale-point.selected {
-            background-color: var(--secondary-color);
-        }
-
-        .capability-labels {
-            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
             justify-content: space-between;
-            margin-top: 0.5rem;
-            color: #666;
-            font-size: 0.8rem;
         }
-
-        .roadmap-container {
-            margin: 3rem 0;
-            position: relative;
+        
+        .drag-items, .drop-targets {
+            flex: 1;
+            min-width: 280px;
         }
-
-        .roadmap-timeline {
-            position: relative;
-            margin-left: 50px;
+        
+        .drag-item {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border-radius: var(--border-radius);
+            cursor: move;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 1.05rem;
+            font-weight: 500;
         }
-
-        .roadmap-timeline::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background-color: var(--secondary-color);
-            border-radius: 4px;
+        
+        .drag-item.dragging {
+            opacity: 0.5;
+            transform: scale(1.05);
         }
-
-        .roadmap-phase {
-            position: relative;
-            margin-bottom: 2rem;
-            padding-left: 2rem;
-        }
-
-        .roadmap-marker {
-            position: absolute;
-            left: -38px;
-            top: 0;
-            width: 30px;
-            height: 30px;
-            background-color: var(--secondary-color);
-            border-radius: 50%;
+        
+        .drop-target {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+            min-height: 50px;
+            border: 2px dashed var(--primary-color);
+            border-radius: var(--border-radius);
+            background-color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            z-index: 1;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            color: var(--text-color);
+            font-weight: 500;
         }
-
-        .roadmap-content {
-            background-color: #f8f9fa;
+        
+        .drop-target.dragover {
+            background-color: rgba(74, 145, 200, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .drop-target.correct {
+            border-color: var(--success-color);
+            background-color: rgba(54, 143, 108, 0.15);
+            color: var(--text-color);
+            font-weight: 600;
+        }
+        
+        .drop-target.incorrect {
+            border-color: var(--warning-color);
+            background-color: rgba(230, 126, 16, 0.15);
+            color: var(--text-color);
+            font-weight: 600;
+        }
+        
+        .drag-drop-reset {
+            text-align: center;
+            margin-top: var(--spacing-lg);
+        }
+        
+        /* Resumen de la sección */
+        .section-summary {
+            background: var(--background-secondary);
+            padding: var(--spacing-lg);
             border-radius: var(--border-radius);
-            padding: 1.5rem;
-            box-shadow: var(--box-shadow);
+            margin: var(--spacing-xl) 0;
+            box-shadow: var(--card-shadow);
+            border-left: 5px solid var(--primary-color);
+            font-size: 1.05rem;
         }
-
-        .roadmap-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+        
+        .summary-heading {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.3rem;
         }
-
-        .roadmap-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-
-        .roadmap-timeframe {
-            color: #666;
-            font-style: italic;
-        }
-
-        .true-false-container {
-            margin: 2rem 0;
-        }
-
-        .question {
-            background-color: #f1f1f1;
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 1rem;
-        }
-
-        .options {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .option-btn {
-            padding: 0.5rem 1rem;
+        
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: var(--spacing-sm) var(--spacing-lg);
             background-color: var(--secondary-color);
-            color: var(--light-text);
+            color: white;
             border: none;
             border-radius: var(--border-radius);
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .option-btn:hover {
-            background-color: #2980b9;
-        }
-
-        .feedback {
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            display: none;
-        }
-
-        .correct {
-            background-color: rgba(39, 174, 96, 0.2);
-            border: 1px solid var(--success-color);
-        }
-
-        .incorrect {
-            background-color: rgba(192, 57, 43, 0.2);
-            border: 1px solid var(--error-color);
-        }
-
-        .bubble-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 2rem 0;
-            justify-content: center;
-        }
-
-        .tech-bubble {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, var(--secondary-color), #1a5276);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
             text-align: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
-
-        .tech-bubble:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        
+        .btn:hover {
+            background-color: #f27e61;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
-
-        .tech-bubble .bubble-content {
-            padding: 1rem;
+        
+        .btn-primary {
+            background-color: var(--primary-color);
         }
-
-        .tech-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        
+        .btn-primary:hover {
+            background-color: #4e6b90;
+        }
+        
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+        
+        .btn-accent:hover {
+            background-color: #a9cfe3;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-success:hover {
+            background-color: #68daa9;
+        }
+        
+        .btn-reset {
+            background-color: var(--text-color);
+            margin-top: var(--spacing-md);
+        }
+        
+        .btn-reset:hover {
+            background-color: #3d4857;
+        }
+        
+        /* Elementos adicionales */
+        .quote {
+            font-style: italic;
+            padding: var(--spacing-lg);
+            background-color: var(--light-color);
+            border-left: 4px solid var(--secondary-color);
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .note {
+            background-color: rgba(74, 145, 200, 0.15);
+            border-left: 4px solid var(--info-color);
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+        
+        .warning {
+            background-color: rgba(230, 126, 16, 0.15);
+            border-left: 4px solid var(--warning-color);
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+        
+        .tip {
+            background-color: rgba(54, 143, 108, 0.15);
+            border-left: 4px solid var(--success-color);
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+        
+        /* Gráfico interactivo */
+        .chart-container {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
+            height: 400px;
             background-color: white;
             border-radius: var(--border-radius);
-            padding: 2rem;
-            width: 80%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
+            box-shadow: var(--card-shadow);
+            margin: var(--spacing-xl) 0;
+            padding: var(--spacing-lg);
         }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        footer {
-            background-color: var(--primary-color);
-            color: var(--light-text);
-            text-align: center;
-            padding: 1rem;
-            margin-top: 2rem;
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--spacing-md);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.75rem;
+            }
+            
+            h3 {
+                font-size: 1.4rem;
+            }
+            
+            .flip-card-container {
+                justify-content: center;
+            }
+            
+            .drag-drop-container {
+                flex-direction: column;
+            }
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Acordeones
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const accordion = this.parentElement;
+                    accordion.classList.toggle('active');
+                });
+            });
+            
+            // Preguntas verdadero/falso
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const options = question.querySelectorAll('.option');
+                    const correctFeedback = question.querySelector('.feedback.correct');
+                    const incorrectFeedback = question.querySelector('.feedback.incorrect');
+                    const correctAnswer = question.dataset.answer;
+                    
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    correctFeedback.style.display = 'none';
+                    incorrectFeedback.style.display = 'none';
+                    
+                    if (this.dataset.value === correctAnswer) {
+                        correctFeedback.style.display = 'block';
+                    } else {
+                        incorrectFeedback.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Drag and Drop
+            let dragItems = document.querySelectorAll('.drag-item');
+            const dropTargets = document.querySelectorAll('.drop-target');
+            let originalDragItems = [];
+            let draggedItem = null;
+            
+            // Guardar el estado original de los elementos arrastrables
+            dragItems.forEach(item => {
+                originalDragItems.push({
+                    element: item.cloneNode(true),
+                    parent: item.parentNode
+                });
+                setupDraggable(item);
+            });
+            
+            function setupDraggable(item) {
+                item.setAttribute('draggable', 'true');
+                
+                item.addEventListener('dragstart', function() {
+                    draggedItem = this;
+                    this.classList.add('dragging');
+                });
+                
+                item.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+            }
+            
+            dropTargets.forEach(target => {
+                target.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragover');
+                });
+                
+                target.addEventListener('dragleave', function() {
+                    this.classList.remove('dragover');
+                });
+                
+                target.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                    
+                    if (draggedItem) {
+                        const matchValue = draggedItem.dataset.match;
+                        const expectValue = this.dataset.expect;
+                        
+                        if (matchValue === expectValue) {
+                            this.classList.add('correct');
+                            this.textContent = draggedItem.textContent;
+                        } else {
+                            this.classList.add('incorrect');
+                            this.textContent = draggedItem.textContent + ' (incorrecto)';
+                        }
+                        
+                        draggedItem.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Función para reiniciar el ejercicio de arrastrar y soltar
+            const resetDragDropButton = document.createElement('button');
+            resetDragDropButton.textContent = '↻ Reiniciar ejercicio';
+            resetDragDropButton.className = 'btn btn-reset';
+            resetDragDropButton.addEventListener('click', function() {
+                // Limpiar los drop targets
+                dropTargets.forEach(target => {
+                    target.textContent = target.getAttribute('data-original-text') || target.dataset.expect;
+                    target.classList.remove('correct', 'incorrect');
+                });
+                
+                // Eliminar los elementos arrastables actuales
+                const dragItemsContainer = document.querySelector('.drag-items');
+                dragItemsContainer.innerHTML = '';
+                
+                // Restaurar los elementos originales
+                originalDragItems.forEach(item => {
+                    const newItem = item.element.cloneNode(true);
+                    dragItemsContainer.appendChild(newItem);
+                    setupDraggable(newItem);
+                    newItem.style.display = 'block';
+                });
+                
+                // Actualizar la lista de elementos arrastrables
+                dragItems = document.querySelectorAll('.drag-item');
+            });
+            
+            // Añadir el botón de reinicio
+            const dragDropContainers = document.querySelectorAll('.drag-drop-container');
+            dragDropContainers.forEach(container => {
+                const resetContainer = document.createElement('div');
+                resetContainer.className = 'drag-drop-reset';
+                resetContainer.appendChild(resetDragDropButton.cloneNode(true));
+                container.appendChild(resetContainer);
+                
+                // Guardar el texto original de los drop targets
+                const targets = container.querySelectorAll('.drop-target');
+                targets.forEach(target => {
+                    target.setAttribute('data-original-text', target.textContent);
+                });
+            });
+            
+            // Asegurarse de que los botones de reinicio funcionen
+            document.querySelectorAll('.btn-reset').forEach(button => {
+                button.addEventListener('click', function() {
+                    const container = this.closest('.drag-drop-container');
+                    const targets = container.querySelectorAll('.drop-target');
+                    const items = container.querySelectorAll('.drag-item');
+                    
+                    targets.forEach(target => {
+                        target.textContent = target.getAttribute('data-original-text') || target.dataset.expect;
+                        target.classList.remove('correct', 'incorrect');
+                    });
+                    
+                    items.forEach(item => {
+                        item.style.display = 'block';
+                    });
+                });
+            });
+            
+            // Interactive Table
+            const tableRows = document.querySelectorAll('.interactive-table tbody tr');
+            
+            tableRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    this.classList.toggle('highlight');
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <header>
-        <h1>El Futuro de People Analytics</h1>
-        <p>Sección 5: Tendencias Emergentes y Aplicaciones Avanzadas</p>
+        <h1>Sección 5: Implementación Estratégica de People Analytics</h1>
+        <p>Convierte la teoría en práctica a través de un enfoque sistemático y adaptable</p>
     </header>
-
-    <div class="container">
-        <section id="tendencias-emergentes">
-            <h2>1. Tendencias Transformadoras en People Analytics</h2>
-            
-            <p>El campo de People Analytics está evolucionando rápidamente, impulsado por avances tecnológicos, cambios en las expectativas de la fuerza laboral y nuevos desafíos organizacionales. Para mantenerse a la vanguardia, es crucial comprender las tendencias emergentes que están redefiniendo cómo las organizaciones abordan la analítica del capital humano.</p>
-            
-            <div class="image-container">
-                <img src="https://i.postimg.cc/SRJ0nmfL/STORYB_3.jpg" alt="Tendencias emergentes en People Analytics" />
-                <p class="image-caption">Evolución y convergencia de tendencias en People Analytics</p>
+    
+    <div class="author-info">
+    </div>
+    
+    <div class="section-summary">
+        <h3 class="summary-heading">Resumen de la Sección</h3>
+        <p>Esta sección proporciona un marco práctico para implementar iniciativas de People Analytics en tu organización. Aprenderás a diseñar una estrategia alineada con los objetivos de negocio, construir las capacidades necesarias en tu equipo, seleccionar las herramientas adecuadas, gestionar el cambio cultural y medir el impacto de tus iniciativas. Cada subsección incluye ejemplos prácticos, herramientas interactivas y consejos de expertos para ayudarte a superar los desafíos comunes de implementación.</p>
+    </div>
+    
+    <h2 id="parte1">Parte 1: Diseño de una Estrategia de People Analytics Alineada con el Negocio</h2>
+    
+    <p>Implementar People Analytics en una organización requiere más que herramientas avanzadas o científicos de datos talentosos; necesita una estrategia cuidadosamente diseñada que esté perfectamente alineada con los objetivos comerciales más amplios. Esta alineación garantiza que los esfuerzos de People Analytics generen valor tangible y obtengan el apoyo necesario de los líderes de la organización.</p>
+    
+    <h3>El Modelo VBPA (Análisis de Personas Basado en Valor)</h3>
+    
+    <p>El marco VBPA proporciona un enfoque paso a paso para crear una estrategia de People Analytics que se centra en generar valor real para la empresa:</p>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>1. Identificación de Impulsores de Valor</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>El primer paso es encontrar dónde exactamente la mejora en la gestión de personas puede ayudar más a los resultados del negocio. Estos "impulsores de valor" son diferentes para cada empresa, pero normalmente incluyen:</p>
+            <ul>
+                <li><strong>Eficiencia operativa:</strong> Hacer más con menos recursos y mejorar la productividad</li>
+                <li><strong>Innovación:</strong> Crear nuevos productos o servicios más rápidamente</li>
+                <li><strong>Experiencia del cliente:</strong> Lograr que los clientes estén más satisfechos y sigan con nosotros</li>
+                <li><strong>Crecimiento:</strong> Expandirse a nuevos mercados o tipos de clientes</li>
+            </ul>
+            <p>Se recomienda hablar directamente con los líderes de la empresa para identificar estos puntos de valor y entender cómo el trabajo con las personas puede influir en ellos.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>2. Definición de Preguntas Críticas</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Después de identificar qué áreas son más importantes para el negocio, hay que crear preguntas específicas sobre las personas que, al responderlas, nos ayudarán a mejorar esas áreas. Estas preguntas guiarán todo el trabajo de análisis.</p>
+            <p>Por ejemplo, en vez de solo pensar en general "necesitamos mejorar la retención", podríamos preguntar:</p>
+            <ul>
+                <li>"¿Qué características comparten nuestros vendedores con mejor desempeño?"</li>
+                <li>"¿Cómo podemos organizar mejor a nuestros empleados para fomentar más creatividad e ideas nuevas?"</li>
+                <li>"¿Qué comportamientos tienen los jefes de los equipos donde la gente permanece más tiempo en la empresa?"</li>
+                <li>"¿Podemos detectar anticipadamente cuando un empleado valioso está considerando renunciar?"</li>
+            </ul>
+            <p>Es mejor trabajar con pocas preguntas (3-5) por año para poder concentrarse en ellas a fondo y obtener respuestas de calidad.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>3. Mapeo de Datos y Capacidades</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Con las preguntas clave ya definidas, necesitamos hacer un inventario honesto de los datos e información que tenemos disponible actualmente en la organización.</p>
+            <p>Este mapeo debe incluir:</p>
+            <ul>
+                <li><strong>Inventario de datos:</strong> ¿Qué información tenemos guardada? Por ejemplo, datos de contratación, evaluaciones de desempeño, encuestas de clima, etc. Necesitamos evaluar si están actualizados, completos y si son fáciles de acceder.</li>
+                <li><strong>Habilidades de análisis:</strong> ¿Qué capacidades de análisis tenemos en el equipo? ¿Alguien sabe usar Excel avanzado, herramientas estadísticas o programas específicos para analizar datos?</li>
+                <li><strong>Lo que nos falta:</strong> ¿Qué datos adicionales necesitamos recopilar? ¿Qué habilidades debemos desarrollar o contratar?</li>
+            </ul>
+            <p>Es muy importante ser sinceros sobre lo que nos falta actualmente. Muchos proyectos de People Analytics fracasan porque sobreestiman las capacidades o datos disponibles.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>4. Priorización de Iniciativas</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>No todas las preguntas críticas pueden abordarse simultáneamente. Es esencial priorizar las iniciativas de People Analytics basándose en:</p>
+            <ul>
+                <li><strong>Valor potencial:</strong> El impacto esperado en los resultados empresariales</li>
+                <li><strong>Viabilidad técnica:</strong> La disponibilidad de datos y capacidades analíticas</li>
+                <li><strong>Preparación organizacional:</strong> El nivel de apoyo y capacidad de acción de los stakeholders</li>
+                <li><strong>Tiempo hasta el valor:</strong> La rapidez con que la iniciativa puede generar resultados tangibles</li>
+            </ul>
+            <p>El Dr. Johnson recomienda utilizar una matriz de priorización 2x2 (valor vs. viabilidad) para visualizar y comunicar estas decisiones de priorización.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>5. Desarrollo de Roadmap</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Finalmente, desarrolla un roadmap detallado que establezca cómo se desplegarán las iniciativas de People Analytics a lo largo del tiempo. Este roadmap debe incluir:</p>
+            <ul>
+                <li><strong>Hitos claros:</strong> Puntos de control específicos para medir el progreso</li>
+                <li><strong>Recursos requeridos:</strong> Inversiones necesarias en tecnología, talento y desarrollo de capacidades</li>
+                <li><strong>Dependencias:</strong> Relaciones entre iniciativas y requisitos previos</li>
+                <li><strong>Métricas de éxito:</strong> Indicadores claros para evaluar el impacto</li>
+            </ul>
+            <p>La Dra. Martínez sugiere revisar y ajustar este roadmap trimestralmente para responder a cambios en el entorno empresarial o en las prioridades organizacionales.</p>
+        </div>
+    </div>
+    
+    <div class="note">
+        <p><strong>Consejo de Experto:</strong> "La estrategia más sofisticada de People Analytics fracasará si no está anclada en problemas empresariales reales que los líderes de la organización se preocupan por resolver. Comienza con sus prioridades, habla su idioma y demuestra valor rápidamente."</p>
+    </div>
+    
+    <h3>Evaluación de Alineación Estratégica</h3>
+    
+    <p>Antes de avanzar con la implementación, es crucial evaluar qué tan bien está alineada tu estrategia de People Analytics con la dirección general del negocio. La siguiente herramienta interactiva te ayudará a realizar esta evaluación:</p>
+    
+    <div class="quiz-container">
+        <h4>Evaluación de Alineación Estratégica</h4>
+        <p>Responde verdadero o falso a las siguientes afirmaciones sobre la estrategia de People Analytics de tu organización:</p>
+        
+        <div class="question" data-answer="true">
+            <p><strong>1. Las iniciativas de People Analytics están directamente vinculadas a los KPIs estratégicos de la organización.</strong></p>
+            <div class="options">
+                <div class="option" data-value="true">Verdadero</div>
+                <div class="option" data-value="false">Falso</div>
             </div>
-            
-            <h3>Transformación Tecnológica</h3>
-            
-            <div class="two-column">
-                <div class="column">
-                    <div class="trend-card">
-                        <h4>IA Generativa y Análisis del Trabajo</h4>
-                        <p>La inteligencia artificial generativa está revolucionando la forma en que analizamos y comprendemos el trabajo:</p>
-                        <ul>
-                            <li><strong>Análisis automático de descripciones de puestos</strong> para identificar competencias clave y brechas</li>
-                            <li><strong>Generación de insights personalizados</strong> a partir de grandes volúmenes de datos de desempeño</li>
-                            <li><strong>Asistentes virtuales</strong> que proporcionan recomendaciones analíticas a managers</li>
-                            <li><strong>Análisis semántico avanzado</strong> de feedback cualitativo y comunicaciones internas</li>
-                        </ul>
-                        <p>Las organizaciones están comenzando a utilizar LLMs (Large Language Models) para identificar patrones complejos en datos no estructurados que antes eran inaccesibles para el análisis tradicional.</p>
-                    </div>
-                </div>
-                
-                <div class="column">
-                    <div class="trend-card">
-                        <h4>Análisis Predictivo Continuo</h4>
-                        <p>Los modelos predictivos están evolucionando de análisis estáticos a dinámicos:</p>
-                        <ul>
-                            <li><strong>Modelos que aprenden y se adaptan continuamente</strong> con nuevos datos</li>
-                            <li><strong>Predicciones en tiempo real</strong> que responden a cambios en condiciones organizacionales</li>
-                            <li><strong>Análisis integrado en flujos de trabajo</strong> proporcionando insights justo cuando se necesitan</li>
-                            <li><strong>Automatización de intervenciones</strong> basadas en umbrales predictivos</li>
-                        </ul>
-                        <p>Este enfoque "always-on" está reemplazando los análisis periódicos, permitiendo a las organizaciones responder proactivamente a tendencias emergentes en su fuerza laboral.</p>
-                    </div>
-                </div>
+            <div class="feedback correct">¡Correcto! Esta alineación es fundamental para demostrar el valor de People Analytics.</div>
+            <div class="feedback incorrect">Incorrecto. Sin esta alineación, es difícil demostrar el valor de tus iniciativas de People Analytics.</div>
+        </div>
+        
+        <div class="question" data-answer="false">
+            <p><strong>2. No necesitamos involucrar a los líderes de negocios en la definición de nuestra estrategia de People Analytics.</strong></p>
+            <div class="options">
+                <div class="option" data-value="true">Verdadero</div>
+                <div class="option" data-value="false">Falso</div>
             </div>
-            
-            <div class="two-column">
-                <div class="column">
-                    <div class="trend-card">
-                        <h4>Análisis de Redes Organizacionales (ONA)</h4>
-                        <p>El ONA está emergiendo como una herramienta poderosa para entender la "organización real" más allá del organigrama formal:</p>
-                        <ul>
-                            <li><strong>Mapeo de patrones de colaboración e influencia</strong> a través de metadata de comunicaciones</li>
-                            <li><strong>Identificación de "conectores" clave</strong> y cuellos de botella en flujos de información</li>
-                            <li><strong>Correlación entre estructuras de red</strong> y resultados organizacionales</li>
-                            <li><strong>Diseño de intervenciones para optimizar</strong> patrones de colaboración</li>
-                        </ul>
-                        <p>Compañías líderes están utilizando ONA para rediseñar espacios de trabajo, optimizar equipos virtuales, y desarrollar estratégicamente capital social.</p>
-                    </div>
-                </div>
-                
-                <div class="column">
-                    <div class="trend-card">
-                        <h4>Análisis de la Experiencia del Empleado (EX Analytics)</h4>
-                        <p>El enfoque se está desplazando de métricas aisladas a una comprensión holística de la experiencia del empleado:</p>
-                        <ul>
-                            <li><strong>Integración de múltiples fuentes de datos</strong> (surveys, HRIS, digital footprint, etc.)</li>
-                            <li><strong>Análisis de "momentos que importan"</strong> a lo largo del recorrido del empleado</li>
-                            <li><strong>Personalización basada en segmentos</strong> y preferencias individuales</li>
-                            <li><strong>Vinculación de experiencia del empleado</strong> con experiencia del cliente</li>
-                        </ul>
-                        <p>Esta tendencia refleja una aproximación más centrada en el empleado, similar a cómo el marketing evolucionó hacia estrategias centradas en el cliente.</p>
-                    </div>
-                </div>
+            <div class="feedback correct">¡Correcto! La participación de los líderes empresariales es esencial para garantizar la relevancia y el apoyo a las iniciativas de People Analytics.</div>
+            <div class="feedback incorrect">Incorrecto. Sin el involucramiento de los líderes de negocio, las iniciativas de People Analytics corren el riesgo de desconectarse de las necesidades reales de la organización.</div>
+        </div>
+        
+        <div class="question" data-answer="true">
+            <p><strong>3. Nuestra estrategia de People Analytics incluye "quick wins" para demostrar valor a corto plazo.</strong></p>
+            <div class="options">
+                <div class="option" data-value="true">Verdadero</div>
+                <div class="option" data-value="false">Falso</div>
             </div>
-            
-            <h3>Transformación Metodológica</h3>
-            
-            <div class="two-column">
-                <div class="column">
-                    <div class="trend-card">
-                        <h4>Democratización y Autoservicio</h4>
-                        <p>Los insights analíticos están cada vez más accesibles para usuarios no técnicos:</p>
-                        <ul>
-                            <li><strong>Dashboards interactivos personalizados</strong> para diferentes stakeholders</li>
-                            <li><strong>Interfaces conversacionales</strong> que permiten consultas en lenguaje natural</li>
-                            <li><strong>Plataformas "no-code/low-code"</strong> para crear análisis personalizados</li>
-                            <li><strong>Formación en alfabetización de datos</strong> para managers y HRBPs</li>
-                        </ul>
-                        <p>Esta democratización está transformando People Analytics de una función especializada a una capacidad organizacional distribuida.</p>
-                    </div>
-                </div>
-                
-                <div class="column">
-                    <div class="trend-card">
-                        <h4>Analítica Ética y Explicable</h4>
-                        <p>La transparencia y ética en algorithms están ganando importancia crítica:</p>
-                        <ul>
-                            <li><strong>Marcos éticos explícitos</strong> para guiar el uso de datos de empleados</li>
-                            <li><strong>Algoritmos "glass box"</strong> cuyas decisiones pueden ser explicadas</li>
-                            <li><strong>Auditorías de equidad</strong> para identificar y mitigar sesgos algorítmicos</li>
-                            <li><strong>Participación de empleados</strong> en el diseño de sistemas analíticos</li>
-                        </ul>
-                        <p>Organizaciones líderes reconocen que la confianza es un prerequisito para el éxito de People Analytics, y están priorizando prácticas éticas y transparentes.</p>
-                    </div>
-                </div>
+            <div class="feedback correct">¡Correcto! Los "quick wins" ayudan a construir credibilidad y mantener el impulso mientras se desarrollan capacidades para iniciativas más complejas.</div>
+            <div class="feedback incorrect">Incorrecto. Sin demostrar valor a corto plazo, es difícil mantener el apoyo y la inversión en iniciativas de People Analytics a largo plazo.</div>
+        </div>
+        
+        <div class="question" data-answer="false">
+            <p><strong>4. Podemos implementar efectivamente People Analytics sin un entendimiento claro de los problemas de negocio que estamos tratando de resolver.</strong></p>
+            <div class="options">
+                <div class="option" data-value="true">Verdadero</div>
+                <div class="option" data-value="false">Falso</div>
             </div>
-            
-            <div class="two-column">
-                <div class="column">
-                    <div class="trend-card">
-                        <h4>Análisis Multi-fuente e Integrado</h4>
-                        <p>Los límites tradicionales entre datos internos y externos se están difuminando:</p>
-                        <ul>
-                            <li><strong>Combinación de datos internos</strong> con inteligencia de mercado laboral externo</li>
-                            <li><strong>Integración con datos operacionales</strong> y financieros para análisis end-to-end</li>
-                            <li><strong>Incorporación de datos alternativos</strong> como redes sociales o fuentes públicas</li>
-                            <li><strong>Consorcios analíticos</strong> para benchmark anónimo entre organizaciones</li>
-                        </ul>
-                        <p>Esta tendencia está permitiendo insights más contextualizados y estratégicos que conectan el capital humano con resultados de negocio.</p>
-                    </div>
-                </div>
-                
-                <div class="column">
-                    <div class="trend-card">
-                        <h4>Experimentación Continua</h4>
-                        <p>Las organizaciones están adoptando metodologías más rigurosas y científicas:</p>
-                        <ul>
-                            <li><strong>A/B testing</strong> de intervenciones de RRHH para medir impacto causal</li>
-                            <li><strong>Micro-experimentos</strong> para validar hipótesis antes de implementaciones a gran escala</li>
-                            <li><strong>Comunidades de práctica</strong> para compartir resultados experimentales</li>
-                            <li><strong>Ciclos cortos de feedback</strong> entre análisis e implementación</li>
-                        </ul>
-                        <p>Este enfoque experimental está elevando el rigor y credibilidad de People Analytics, transformándolo de descriptivo a prescriptivo.</p>
-                    </div>
-                </div>
+            <div class="feedback correct">¡Correcto! People Analytics debe comenzar con problemas claros de negocio, no con los datos o herramientas disponibles.</div>
+            <div class="feedback incorrect">Incorrecto. Sin un enfoque claro en los problemas empresariales, People Analytics se convierte en un ejercicio técnico que no genera valor real.</div>
+        </div>
+        
+        <div class="question" data-answer="true">
+            <p><strong>5. Es importante tener métricas específicas para medir el impacto de las iniciativas de People Analytics.</strong></p>
+            <div class="options">
+                <div class="option" data-value="true">Verdadero</div>
+                <div class="option" data-value="false">Falso</div>
             </div>
-            
-            <h3>Transformación de Aplicación Estratégica</h3>
-            
-            <div class="two-column">
-                <div class="column">
-                    <div class="trend-card">
-                        <h4>Analytics de la Fuerza Laboral Extendida</h4>
-                        <p>El alcance analítico se está expandiendo más allá de empleados tradicionales:</p>
-                        <ul>
-                            <li><strong>Análisis integrado</strong> de trabajadores contingentes, freelancers y contratistas</li>
-                            <li><strong>Optimización de la composición</strong> entre talento interno, externo y automatizado</li>
-                            <li><strong>Plataformas de gestión</strong> de talento total a través de ecosistemas</li>
-                            <li><strong>Medición de valor comparativo</strong> de diferentes modelos de acceso al talento</li>
-                        </ul>
-                        <p>Esta tendencia refleja la realidad cambiante del trabajo, donde las fronteras organizacionales son cada vez más porosas y fluidas.</p>
-                    </div>
+            <div class="feedback correct">¡Correcto! Sin métricas claras, es imposible demostrar el ROI y justificar la inversión continua en People Analytics.</div>
+            <div class="feedback incorrect">Incorrecto. Las métricas específicas son esenciales para demostrar el impacto y el valor de las iniciativas de People Analytics.</div>
+        </div>
+    </div>
+    
+    <h2 id="parte2">Parte 2: Construcción de Capacidades y Formación de Equipos</h2>
+    
+    <p>Implementar People Analytics con éxito requiere más que datos y tecnología; demanda un equipo con las habilidades adecuadas y una estructura organizativa que facilite la colaboración entre los expertos en datos y los profesionales de RR.HH. En esta sección, exploraremos cómo construir estas capacidades críticas y formar equipos efectivos de People Analytics.</p>
+    
+    <h3>Las Seis Habilidades Esenciales para People Analytics</h3>
+    
+    <p>Para hacer bien el análisis de personas en una organización, se necesitan desarrollar estas seis capacidades fundamentales:</p>
+    
+    <div class="flip-card-container">
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Capacidad Analítica</h4>
+                    <p>La habilidad para aplicar métodos estadísticos y de ciencia de datos</p>
                 </div>
-                
-                <div class="column">
-                    <div class="trend-card">
-                        <h4>Modelos Predictivos de Habilidades</h4>
-                        <p>Las habilidades están emergiendo como la nueva "moneda" del mercado laboral:</p>
-                        <ul>
-                            <li><strong>Taxonomías dinámicas de habilidades</strong> que evolucionan con cambios de mercado</li>
-                            <li><strong>Proyecciones de demanda futura</strong> de habilidades basadas en tendencias tecnológicas</li>
-                            <li><strong>Optimización de rutas de desarrollo</strong> basadas en adyacencia de habilidades</li>
-                            <li><strong>Análisis de "vida media"</strong> de diferentes habilidades y conocimientos</li>
-                        </ul>
-                        <p>Organizaciones líderes están utilizando estos modelos para transformar su enfoque de adquisición, desarrollo y despliegue de talento.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="flip-card-container">
-                <div class="flip-card">
-                    <div class="flip-card-front">
-                        <h3>¿Sabías que...?</h3>
-                        <p>Descubre un dato interesante sobre las tendencias emergentes</p>
-                    </div>
-                    <div class="flip-card-back">
-                        <p>Según un estudio reciente de Deloitte, las organizaciones que integran análisis avanzados de la fuerza laboral con datos operacionales y financieros tienen 3.1 veces más probabilidades de reportar mejoras significativas en la toma de decisiones estratégicas. Sin embargo, solo el 15% de las empresas ha logrado esta integración a un nivel maduro.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="true-false-container">
-                <h3>Comprueba tus Conocimientos sobre Tendencias Emergentes</h3>
-                <div class="question">
-                    <p><strong>1. El análisis de redes organizacionales (ONA) se enfoca principalmente en optimizar la estructura formal de la empresa.</strong></p>
-                    <div class="options">
-                        <button class="option-btn" data-value="false">Verdadero</button>
-                        <button class="option-btn" data-value="true">Falso</button>
-                    </div>
-                    <div class="feedback" id="feedback-1"></div>
-                </div>
-                <div class="question">
-                    <p><strong>2. Los modelos predictivos actuales están evolucionando hacia un enfoque de análisis continuo y en tiempo real.</strong></p>
-                    <div class="options">
-                        <button class="option-btn" data-value="true">Verdadero</button>
-                        <button class="option-btn" data-value="false">Falso</button>
-                    </div>
-                    <div class="feedback" id="feedback-2"></div>
-                </div>
-                <div class="question">
-                    <p><strong>3. La tendencia de "democratización de analytics" implica que ya no se necesitan especialistas en análisis de datos en RRHH.</strong></p>
-                    <div class="options">
-                        <button class="option-btn" data-value="false">Verdadero</button>
-                        <button class="option-btn" data-value="true">Falso</button>
-                    </div>
-                    <div class="feedback" id="feedback-3"></div>
+                <div class="flip-card-back">
+                    <p>Incluye estadísticas descriptivas, inferencial, modelado predictivo, machine learning y visualización de datos. Esta capacidad es la base técnica del People Analytics.</p>
                 </div>
             </div>
-        </section>
-
-        <section id="aplicaciones-avanzadas">
-            <h2>2. Aplicaciones Avanzadas de People Analytics</h2>
-            
-            <p>Más allá de los casos de uso tradicionales, las organizaciones están explorando aplicaciones más sofisticadas que aprovechan técnicas analíticas avanzadas para resolver desafíos complejos de capital humano. Estas aplicaciones representan la frontera actual de la práctica de People Analytics.</p>
-            
-            <h3>Modelado Predictivo y Prescriptivo Avanzado</h3>
-            
-            <div class="accordion">
-                <div class="accordion-item">
-                    <div class="accordion-header">Analytics de Carrera y Movilidad Interna</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>Las organizaciones están desarrollando sistemas sofisticados para optimizar la movilidad interna y desarrollo de carrera:</p>
-                            
-                            <h4>Componentes clave:</h4>
-                            <ul>
-                                <li><strong>Modelos de similitud de roles</strong> que identifican conexiones no obvias entre posiciones aparentemente no relacionadas basadas en perfil de habilidades</li>
-                                <li><strong>Análisis de trayectorias históricas</strong> para identificar rutas de carrera que han generado mayor retención y desempeño</li>
-                                <li><strong>Sistemas de recomendación</strong> que sugieren oportunidades personalizadas basadas en perfil individual y preferencias</li>
-                                <li><strong>Simulaciones de mercado interno</strong> que optimizan el matching entre talento disponible y roles vacantes</li>
-                            </ul>
-                            
-                            <h4>Caso práctico:</h4>
-                            <p>Una multinacional tecnológica implementó un "marketplace interno de talento" potenciado por analytics que permitió:</p>
-                            <ul>
-                                <li>Reducción del 35% en contrataciones externas para roles de nivel medio y senior</li>
-                                <li>Incremento del 28% en movimientos laterales entre departamentos</li>
-                                <li>Aumento significativo en retención de empleados high-potential que previamente reportaban limitadas oportunidades de desarrollo</li>
-                                <li>Identificación de habilidades adyacentes no reconocidas previamente, ampliando significativamente el pool de candidatos internos</li>
-                            </ul>
-                        </div>
-                    </div>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Gestión de Datos</h4>
+                    <p>La capacidad para obtener, limpiar e integrar diversos conjuntos de datos</p>
                 </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">Modelos de Workforce Planning con IA</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>La planificación de la fuerza laboral está evolucionando más allá de forecasting básico hacia modelos dinámicos y multifactoriales:</p>
-                            
-                            <h4>Componentes clave:</h4>
-                            <ul>
-                                <li><strong>Simulaciones Monte Carlo</strong> que modelan múltiples escenarios de negocio y su impacto en necesidades de personal</li>
-                                <li><strong>Algoritmos de optimización</strong> que determinan la combinación óptima de contratos permanentes, temporales, y automatización</li>
-                                <li><strong>Modelos de impacto de automación</strong> que predicen qué roles serán más afectados por tecnologías emergentes</li>
-                                <li><strong>Análisis de escenarios "what-if"</strong> para evaluar diferentes estrategias de workforce planning en tiempo real</li>
-                            </ul>
-                            
-                            <h4>Caso práctico:</h4>
-                            <p>Una institución financiera implementó un sistema avanzado de workforce planning que:</p>
-                            <ul>
-                                <li>Integró datos de estrategia de negocio, tendencias de mercado, y dinámica interna de talento</li>
-                                <li>Permitió visualizar el impacto de diferentes escenarios de expansión, tecnología, y regulación</li>
-                                <li>Identificó "zonas de riesgo" donde la disponibilidad de habilidades críticas no se alineaba con proyecciones de crecimiento</li>
-                                <li>Generó optimizaciones de presupuesto del 12% manteniendo capacidades críticas mediante mejor equilibrio de modelos de acceso al talento</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">Analytics de Bienestar y Performance Sostenible</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>Organizaciones están desarrollando aproximaciones holísticas para analizar y optimizar la relación entre bienestar, productividad y desempeño sostenible:</p>
-                            
-                            <h4>Componentes clave:</h4>
-                            <ul>
-                                <li><strong>Indicadores tempranos de burnout</strong> basados en patrones de trabajo, comunicación, y otros indicadores indirectos</li>
-                                <li><strong>Análisis de impacto</strong> de diferentes modalidades de trabajo (presencial, remoto, híbrido) en bienestar y productividad</li>
-                                <li><strong>Correlación entre bienestar</strong> y métricas de negocio como innovación, retención de clientes, o calidad</li>
-                                <li><strong>Modelos de optimización</strong> que balancean productividad a corto plazo con sostenibilidad a largo plazo</li>
-                            </ul>
-                            
-                            <h4>Caso práctico:</h4>
-                            <p>Una consultora global implementó un programa de "Performance Sostenible" basado en analytics que:</p>
-                            <ul>
-                                <li>Utilizó datos anónimos de actividad digital para identificar patrones insostenibles de trabajo</li>
-                                <li>Implementó alertas personalizadas cuando los indicadores sugerían riesgo elevado de agotamiento</li>
-                                <li>Correlacionó métricas de bienestar con resultados de proyectos, demostrando que equipos con patrones de trabajo equilibrados generaban mayor satisfacción de clientes</li>
-                                <li>Logró reducción del 22% en solicitudes de baja por estrés y mejora del 18% en scores de energía y compromiso</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="flip-card-back">
+                    <p>Abarca la captura, almacenamiento, gobernanza y gestión de calidad de datos. Sin datos confiables y accesibles, incluso los análisis más sofisticados fallarán.</p>
                 </div>
             </div>
-            
-            <h3>Análisis Avanzado de la Experiencia del Empleado</h3>
-            
-            <div class="accordion">
-                <div class="accordion-item">
-                    <div class="accordion-header">Analytics de Cultura y Sentimiento</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>Técnicas avanzadas de NLP (Natural Language Processing) y análisis de sentimiento están transformando cómo las organizaciones entienden su cultura:</p>
-                            
-                            <h4>Componentes clave:</h4>
-                            <ul>
-                                <li><strong>Análisis de sentimiento</strong> aplicado a comunicaciones internas, encuestas abiertas, y plataformas colaborativas</li>
-                                <li><strong>Identificación de temas emergentes</strong> sin categorías predefinidas mediante técnicas no supervisadas</li>
-                                <li><strong>Detección de subculturas</strong> y diferencias significativas entre unidades o departamentos</li>
-                                <li><strong>Correlación entre atributos culturales</strong> y resultados organizacionales específicos</li>
-                            </ul>
-                            
-                            <h4>Caso práctico:</h4>
-                            <p>Una empresa farmacéutica implementó un sistema de "cultural sensing" que:</p>
-                            <ul>
-                                <li>Analizó continuamente comunicaciones internas, foros de colaboración, y encuestas abiertas</li>
-                                <li>Identificó variaciones significativas en percepción de inclusión entre divisiones que no aparecían en métricas tradicionales</li>
-                                <li>Detectó tempranamente resistencia a una iniciativa de transformación, permitiendo ajustes en la estrategia de comunicación</li>
-                                <li>Correlacionó aspectos específicos de cultura con velocidad de innovación, permitiendo intervenciones focalizadas</li>
-                            </ul>
-                        </div>
-                    </div>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Conocimiento del Negocio</h4>
+                    <p>Comprensión profunda de la estrategia y operaciones de la organización</p>
                 </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">Análisis Multimodal de Engagement</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>Los enfoques avanzados integran múltiples fuentes de datos para una comprensión holística del engagement:</p>
-                            
-                            <h4>Componentes clave:</h4>
-                            <ul>
-                                <li><strong>Integración de datos activos y pasivos</strong>, combinando encuestas explícitas con indicadores comportamentales</li>
-                                <li><strong>Análisis de patrones temporales</strong> que identifican fluctuaciones en engagement y sus desencadenantes</li>
-                                <li><strong>Segmentación multidimensional</strong> basada en preferencias, motivadores y características laborales</li>
-                                <li><strong>Modelos predictivos personalizados</strong> que identifican factores de engagement específicos para diferentes perfiles</li>
-                            </ul>
-                            
-                            <h4>Caso práctico:</h4>
-                            <p>Una empresa de tecnología desarrolló un "Engagement Intelligence System" que:</p>
-                            <ul>
-                                <li>Combinó datos tradicionales de encuestas con patrones de colaboración, calendarios y contribuciones a proyectos</li>
-                                <li>Identificó que diferentes segmentos de empleados tenían "firmas de engagement" distintas</li>
-                                <li>Detectó correlaciones no obvias (por ejemplo, el impacto del tiempo entre 1:1s con managers en engagement de distintos perfiles)</li>
-                                <li>Permitió personalizar estrategias de engagement basadas en persona, rol y momento profesional, incrementando scores en grupos previamente desafiantes</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">Análisis Multimodal de Engagement</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>Los enfoques avanzados integran múltiples fuentes de datos para una comprensión holística del engagement:</p>
-                            
-                            <h4>Componentes clave:</h4>
-                            <ul>
-                                <li><strong>Integración de datos activos y pasivos</strong>, combinando encuestas explícitas con indicadores comportamentales</li>
-                                <li><strong>Análisis de patrones temporales</strong> que identifican fluctuaciones en engagement y sus desencadenantes</li>
-                                <li><strong>Segmentación multidimensional</strong> basada en preferencias, motivadores y características laborales</li>
-                                <li><strong>Modelos predictivos personalizados</strong> que identifican factores de engagement específicos para diferentes perfiles</li>
-                            </ul>
-                            
-                            <h4>Caso práctico:</h4>
-                            <p>Una empresa de tecnología desarrolló un "Engagement Intelligence System" que:</p>
-                            <ul>
-                                <li>Combinó datos tradicionales de encuestas con patrones de colaboración, calendarios y contribuciones a proyectos</li>
-                                <li>Identificó que diferentes segmentos de empleados tenían "firmas de engagement" distintas</li>
-                                <li>Detectó correlaciones no obvias (por ejemplo, el impacto del tiempo entre 1:1s con managers en engagement de distintos perfiles)</li>
-                                <li>Permitió personalizar estrategias de engagement basadas en persona, rol y momento profesional, incrementando scores en grupos previamente desafiantes</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">Analytics de la Experiencia Integrada</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>Aproximaciones avanzadas están conectando la experiencia del empleado con otros dominios como experiencia del cliente y resultados de negocio:</p>
-                            
-                            <h4>Componentes clave:</h4>
-                            <ul>
-                                <li><strong>Análisis de la cadena de valor</strong> que conecta experiencia del empleado, experiencia del cliente y resultados financieros</li>
-                                <li><strong>Modelado de transferencia emocional</strong> entre empleados y clientes en diferentes contextos</li>
-                                <li><strong>Optimización conjunta</strong> de inversiones en experiencia de empleado y cliente</li>
-                                <li><strong>Análisis de impacto cruzado</strong> de diferentes iniciativas organizacionales</li>
-                            </ul>
-                            
-                            <h4>Caso práctico:</h4>
-                            <p>Una cadena de retail implementó un sistema de "Experience Analytics" que:</p>
-                            <ul>
-                                <li>Cruzó datos de satisfacción de empleados con NPS de clientes y resultados financieros a nivel de tienda</li>
-                                <li>Cuantificó el impacto económico de mejoras específicas en experiencia del empleado</li>
-                                <li>Identificó los "momentos de verdad" donde la experiencia del empleado tenía mayor impacto en la experiencia del cliente</li>
-                                <li>Optimizó la asignación de recursos entre iniciativas de empleados y clientes, logrando un ROI 46% superior al enfoque tradicional</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="flip-card-back">
+                    <p>Permite formular las preguntas correctas y contextualizar los resultados analíticos en términos de impacto empresarial. Traduce datos en insights accionables.</p>
                 </div>
             </div>
-            
-            <h3>Aplicaciones en la Intersección con Tecnologías Emergentes</h3>
-            
-            <div class="bubble-container">
-                <div class="tech-bubble" data-tech="ai">
-                    <div class="bubble-content">IA Generativa</div>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Expertise en RR.HH.</h4>
+                    <p>Conocimiento especializado en prácticas de gestión del talento</p>
                 </div>
-                <div class="tech-bubble" data-tech="blockchain">
-                    <div class="bubble-content">Blockchain</div>
-                </div>
-                <div class="tech-bubble" data-tech="vr">
-                    <div class="bubble-content">VR/AR</div>
-                </div>
-                <div class="tech-bubble" data-tech="iot">
-                    <div class="bubble-content">IoT</div>
-                </div>
-                <div class="tech-bubble" data-tech="quantum">
-                    <div class="bubble-content">Computación Cuántica</div>
+                <div class="flip-card-back">
+                    <p>Proporciona el contexto necesario para formular hipótesis relevantes, interpretar resultados y desarrollar intervenciones efectivas basadas en análisis.</p>
                 </div>
             </div>
-            
-            <!-- Modales para cada tecnología -->
-            <div class="tech-modal" id="modal-ai">
-                <div class="modal-content">
-                    <span class="close-modal">&times;</span>
-                    <h3>IA Generativa en People Analytics</h3>
-                    <p>La inteligencia artificial generativa está transformando numerosos aspectos de People Analytics:</p>
-                    
-                    <h4>Aplicaciones Avanzadas:</h4>
-                    <ul>
-                        <li><strong>Análisis semántico profundo:</strong> Procesamiento avanzado de feedback cualitativo, respuestas abiertas y documentación para extraer insights no estructurados</li>
-                        <li><strong>Copilots analíticos:</strong> Asistentes de IA que ayudan a HRBPs y managers a interpretar datos y generar recomendaciones personalizadas</li>
-                        <li><strong>Generación de narrativas:</strong> Transformación automática de datos complejos en insights narrativos comprensibles y accionables</li>
-                        <li><strong>Simulación de escenarios:</strong> Creación de escenarios hipotéticos y modelado de sus impactos potenciales</li>
-                    </ul>
-                    
-                    <h4>Caso Práctico:</h4>
-                    <p>Una organización global de servicios profesionales implementó un "HR Copilot" basado en IA generativa que:</p>
-                    <ul>
-                        <li>Proporciona a managers interpretaciones personalizadas de datos de desempeño, engagement y desarrollo de sus equipos</li>
-                        <li>Genera recomendaciones específicas basadas en patrones históricos y mejores prácticas</li>
-                        <li>Responde a consultas en lenguaje natural sobre tendencias de capital humano</li>
-                        <li>Aumentó significativamente el uso de insights analíticos entre managers, particularmente aquellos con menor alfabetización de datos</li>
-                    </ul>
-                    
-                    <h4>Consideraciones:</h4>
-                    <p>El aprovechamiento de IA generativa en People Analytics requiere:</p>
-                    <ul>
-                        <li>Robustos guardarrailes éticos para evitar perpetuar sesgos o hacer recomendaciones inapropiadas</li>
-                        <li>Balancear automatización con juicio humano, especialmente en decisiones sensibles</li>
-                        <li>Transparencia sobre el rol de la IA en el análisis y las limitaciones de los modelos</li>
-                    </ul>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Narración de Datos</h4>
+                    <p>Habilidad para comunicar hallazgos de manera convincente</p>
+                </div>
+                <div class="flip-card-back">
+                    <p>Transforma análisis complejos en narrativas claras y persuasivas que impulsan la acción. Es esencial para superar la brecha entre insight y acción.</p>
                 </div>
             </div>
-            
-            <div class="tech-modal" id="modal-blockchain">
-                <div class="modal-content">
-                    <span class="close-modal">&times;</span>
-                    <h3>Blockchain en People Analytics</h3>
-                    <p>Aunque menos maduro que otras aplicaciones, blockchain está emergiendo como una tecnología relevante para ciertos casos de uso:</p>
-                    
-                    <h4>Aplicaciones Avanzadas:</h4>
-                    <ul>
-                        <li><strong>Credenciales verificables:</strong> Sistemas descentralizados para verificar habilidades, certificaciones y experiencia laboral</li>
-                        <li><strong>Datos de talento autosberados:</strong> Modelos donde los empleados controlan y monetizan sus propios datos</li>
-                        <li><strong>Contratos inteligentes:</strong> Automatización de acuerdos laborales, compensación o distribución de beneficios</li>
-                        <li><strong>Analítica descentralizada:</strong> Frameworks que permiten análisis colaborativo mientras protegen privacidad de datos</li>
-                    </ul>
-                    
-                    <h4>Caso Práctico:</h4>
-                    <p>Un consorcio de empresas tecnológicas está desarrollando un "Skills Passport" basado en blockchain que:</p>
-                    <ul>
-                        <li>Permite a empleados mantener registros verificables de habilidades, experiencia y credenciales</li>
-                        <li>Facilita análisis de brechas de habilidades a nivel de industria mientras protege datos individuales</li>
-                        <li>Habilita contratación basada en habilidades verificadas en lugar de proxies como títulos o empresas anteriores</li>
-                        <li>Reduce fricción en movilidad laboral manteniendo soberanía individual de datos</li>
-                    </ul>
-                    
-                    <h4>Consideraciones:</h4>
-                    <p>La aplicación de blockchain en People Analytics enfrenta desafíos significativos:</p>
-                    <ul>
-                        <li>Complejidad tecnológica y curva de adopción</li>
-                        <li>Necesidad de estándares comunes entre organizaciones</li>
-                        <li>Tensión entre aplicaciones descentralizadas y realidades regulatorias</li>
-                        <li>Consumo energético de ciertas implementaciones blockchain</li>
-                    </ul>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Consultoría de Cambio</h4>
+                    <p>Capacidad para facilitar la implementación de insights</p>
+                </div>
+                <div class="flip-card-back">
+                    <p>Permite trabajar con stakeholders para convertir hallazgos analíticos en intervenciones efectivas y cambios en prácticas de gestión del talento.</p>
                 </div>
             </div>
-            
-            <div class="tech-modal" id="modal-vr">
-                <div class="modal-content">
-                    <span class="close-modal">&times;</span>
-                    <h3>Realidad Virtual/Aumentada en People Analytics</h3>
-                    <p>VR/AR están generando nuevas fuentes de datos y métodos analíticos en contextos de aprendizaje, colaboración y evaluación:</p>
-                    
-                    <h4>Aplicaciones Avanzadas:</h4>
-                    <ul>
-                        <li><strong>Análisis de competencias en simulaciones:</strong> Evaluación de habilidades en entornos virtuales realistas</li>
-                        <li><strong>Analytics de colaboración inmersiva:</strong> Análisis de patrones de interacción en espacios virtuales compartidos</li>
-                        <li><strong>Visualización experiencial de datos:</strong> Representaciones inmersivas de datos complejos para facilitar comprensión</li>
-                        <li><strong>Formación adaptativa:</strong> Personalización de experiencias de aprendizaje basada en análisis en tiempo real</li>
-                    </ul>
-                    
-                    <h4>Caso Práctico:</h4>
-                    <p>Una empresa de logística implementó un "VR Assessment Center" que:</p>
-                    <ul>
-                        <li>Utiliza entornos virtuales para simular situaciones críticas de liderazgo y toma de decisiones</li>
-                        <li>Captura métricas comportamentales detalladas como patrones de movimiento, foco visual y secuencia de acciones</li>
-                        <li>Aplica analytics para identificar patrones predictivos de desempeño futuro</li>
-                        <li>Logró un incremento del 32% en precisión predictiva comparado con métodos tradicionales de assessment</li>
-                    </ul>
-                    
-                    <h4>Consideraciones:</h4>
-                    <p>La implementación efectiva de VR/AR en People Analytics requiere:</p>
-                    <ul>
-                        <li>Balance entre inmersión y accesibilidad</li>
-                        <li>Protocolos éticos para datos biométricos o comportamentales</li>
-                        <li>Validación de correlación entre comportamiento en entornos virtuales y reales</li>
-                        <li>Consideraciones de equidad para empleados con diferentes capacidades</li>
-                    </ul>
+        </div>
+    </div>
+    
+    <div class="note">
+        <p><strong>¿Sabías que...?</strong> Según estudios recientes, las organizaciones que balancean sus capacidades analíticas con fuertes habilidades de narración de datos y consultoría tienen 3 veces más probabilidades de generar impacto empresarial significativo con sus iniciativas de People Analytics que aquellas que se centran exclusivamente en capacidades técnicas.</p>
+    </div>
+    
+    <h3>Modelos de Equipos para People Analytics</h3>
+    
+    <p>No existe un único modelo organizativo "correcto" para People Analytics. El Dr. Johnson ha identificado cuatro modelos principales, cada uno con ventajas y desventajas específicas:</p>
+    
+    <div class="table-container">
+        <table class="interactive-table">
+            <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Características</th>
+                    <th>Ventajas</th>
+                    <th>Desventajas</th>
+                    <th>Ideal Para</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Centralizado</strong></td>
+                    <td>Equipo dedicado de People Analytics que reporta al CHRO o COO</td>
+                    <td>
+                        - Escala y eficiencia<br>
+                        - Consistencia metodológica<br>
+                        - Desarrollo de talento especializado
+                    </td>
+                    <td>
+                        - Posible desconexión del negocio<br>
+                        - Potenciales cuellos de botella<br>
+                        - Mayor tiempo de respuesta
+                    </td>
+                    <td>Organizaciones grandes con necesidades analíticas complejas</td>
+                </tr>
+                <tr>
+                    <td><strong>Federado</strong></td>
+                    <td>Pequeño equipo central que define estándares, con analistas incorporados en unidades de negocio</td>
+                    <td>
+                        - Proximidad a los stakeholders<br>
+                        - Respuesta rápida a necesidades locales<br>
+                        - Mejor entendimiento del contexto
+                    </td>
+                    <td>
+                        - Riesgo de silos de datos<br>
+                        - Duplicación de esfuerzos<br>
+                        - Inconsistencia metodológica
+                    </td>
+                    <td>Organizaciones diversificadas con unidades de negocio relativamente autónomas</td>
+                </tr>
+                <tr>
+                    <td><strong>Centro de Excelencia</strong></td>
+                    <td>Equipo especializado que proporciona servicios de análisis a toda la organización</td>
+                    <td>
+                        - Especialización profunda<br>
+                        - Economías de escala<br>
+                        - Visión transversal de la organización
+                    </td>
+                    <td>
+                        - Riesgo de distanciamiento de RR.HH.<br>
+                        - Posible percepción como "torre de marfil"<br>
+                        - Desafíos en la priorización
+                    </td>
+                    <td>Organizaciones con múltiples funciones de soporte compartidas</td>
+                </tr>
+                <tr>
+                    <td><strong>Consultivo</strong></td>
+                    <td>Equipo pequeño de consultores internos que colaboran con partners externos para proyectos específicos</td>
+                    <td>
+                        - Flexibilidad y agilidad<br>
+                        - Bajo costo fijo<br>
+                        - Acceso a capacidades especializadas
+                    </td>
+                    <td>
+                        - Dependencia de proveedores externos<br>
+                        - Reto en la transferencia de conocimiento<br>
+                        - Menor control sobre datos
+                    </td>
+                    <td>Organizaciones en etapas iniciales de madurez analítica o con recursos limitados</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <h3>Los Cinco Roles Fundamentales en un Equipo de People Analytics</h3>
+    
+    <p>Sin importar cómo organices tu equipo, estos cinco roles son esenciales para que el análisis de personas funcione correctamente:</p>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>People Analytics Leader</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Responsabilidades:</strong></p>
+            <ul>
+                <li>Definir la visión y estrategia de People Analytics</li>
+                <li>Obtener y mantener el apoyo de la alta dirección</li>
+                <li>Establecer prioridades y asignar recursos</li>
+                <li>Conectar las iniciativas analíticas con prioridades de negocio</li>
+                <li>Gestionar relaciones con stakeholders clave</li>
+            </ul>
+            <p><strong>Habilidades clave:</strong> Visión estratégica, comunicación ejecutiva, conocimiento del negocio, comprensión técnica básica de analítica, gestión de cambio.</p>
+            <p><strong>Antecedentes típicos:</strong> Líderes de RR.HH. con experiencia en transformación, consultores de gestión con especialización en capital humano, o líderes de análisis de negocio que han migrado a RR.HH.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>Data Scientist</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Responsabilidades:</strong></p>
+            <ul>
+                <li>Diseñar y ejecutar análisis estadísticos avanzados</li>
+                <li>Desarrollar y validar modelos predictivos</li>
+                <li>Aplicar técnicas de machine learning a problemas de RR.HH.</li>
+                <li>Evaluar el rigor metodológico de los análisis</li>
+                <li>Mantenerse actualizado sobre métodos analíticos emergentes</li>
+            </ul>
+            <p><strong>Habilidades clave:</strong> Estadística avanzada, programación (R, Python), machine learning, visualización de datos, pensamiento crítico.</p>
+            <p><strong>Antecedentes típicos:</strong> Graduados en estadística, ciencias de la computación o campos cuantitativos afines; científicos de datos de otras funciones con interés en aplicaciones de RR.HH.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>HR Data Engineer</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Responsabilidades:</strong></p>
+            <ul>
+                <li>Diseñar e implementar pipelines de datos de RR.HH.</li>
+                <li>Integrar múltiples fuentes de datos (HRIS, ATS, engagement, desempeño)</li>
+                <li>Asegurar la calidad y consistencia de los datos</li>
+                <li>Implementar medidas de seguridad y privacidad de datos</li>
+                <li>Desarrollar y mantener data warehouses de RR.HH.</li>
+            </ul>
+            <p><strong>Habilidades clave:</strong> Arquitectura de datos, SQL, herramientas ETL, bases de datos, gobernanza de datos, privacidad y seguridad.</p>
+            <p><strong>Antecedentes típicos:</strong> Ingenieros de datos, administradores de bases de datos, especialistas en sistemas de información de RR.HH., profesionales de IT con experiencia en datos de personas.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>HR Business Translator</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Responsabilidades:</strong></p>
+            <ul>
+                <li>Traducir problemas de negocio en preguntas analíticas</li>
+                <li>Interpretar resultados analíticos en términos de implicaciones prácticas</li>
+                <li>Comunicar insights de manera convincente a stakeholders</li>
+                <li>Facilitar la aplicación de insights en decisiones de RR.HH.</li>
+                <li>Gestionar proyectos de People Analytics de principio a fin</li>
+            </ul>
+            <p><strong>Habilidades clave:</strong> Conocimiento de RR.HH., alfabetización de datos, narración de datos (data storytelling), consultoría interna, gestión de proyectos.</p>
+            <p><strong>Antecedentes típicos:</strong> Business partners de RR.HH. con interés en datos, consultores de RR.HH., profesionales de RR.HH. con formación adicional en analytics.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>Visualization Specialist</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Responsabilidades:</strong></p>
+            <ul>
+                <li>Diseñar dashboards interactivos y visualizaciones efectivas</li>
+                <li>Transformar datos complejos en visuales intuitivos</li>
+                <li>Implementar soluciones de autoservicio para stakeholders</li>
+                <li>Capacitar a usuarios en herramientas de visualización</li>
+                <li>Asegurar que las visualizaciones transmitan mensajes claros</li>
+            </ul>
+            <p><strong>Habilidades clave:</strong> Herramientas de BI (Tableau, Power BI), diseño de información, principios de UX, comunicación visual, pensamiento centrado en el usuario.</p>
+            <p><strong>Antecedentes típicos:</strong> Especialistas en BI, diseñadores de información, analistas de datos con fuerte inclinación visual, profesionales de marketing analítico.</p>
+        </div>
+    </div>
+    
+    <div class="tip">
+        <p><strong>Consejo de Experto:</strong> "En las etapas iniciales, es mejor tener generalistas versátiles que puedan desempeñar múltiples roles, en lugar de especialistas profundos. A medida que madure la función, podrás ir incorporando roles más especializados."</p>
+    </div>
+    
+    <h3>Estrategias para Desarrollar Capacidades</h3>
+    
+    <p>Construir un equipo efectivo de People Analytics generalmente implica una combinación de las siguientes estrategias:</p>
+    
+    <ol>
+        <li><strong>Desarrollo interno:</strong> Identificar y capacitar a profesionales de RR.HH. con aptitud analítica o a analistas de otras funciones interesados en aplicaciones de RR.HH.</li>
+        <li><strong>Contratación externa:</strong> Incorporar talento especializado del mercado, particularmente para roles técnicos como científicos de datos o ingenieros de datos.</li>
+        <li><strong>Colaboración interdepartamental:</strong> Formar alianzas con equipos de analítica de otras funciones (finanzas, marketing, operaciones) para compartir recursos y conocimientos.</li>
+        <li><strong>Asociaciones académicas:</strong> Colaborar con universidades para proyectos de investigación aplicada o programas de pasantías.</li>
+        <li><strong>Proveedores externos:</strong> Aprovechar consultores especializados o servicios gestionados para complementar capacidades internas.</li>
+    </ol>
+    
+    <p>Se recomienda un enfoque balanceado que combine tres estrategias:</p>
+    <ul>
+        <li><strong>Construir:</strong> Desarrollar habilidades básicas dentro de tu propio equipo</li>
+        <li><strong>Pedir prestado:</strong> Usar talento que ya existe en otras áreas de la empresa</li>
+        <li><strong>Comprar:</strong> Contratar expertos externos para necesidades muy específicas</li>
+    </ul>
+    
+    <h3>Evaluación de Habilidades en People Analytics</h3>
+    
+    <p>Para identificar brechas de habilidades y priorizar el desarrollo de capacidades, la Dra. Martínez ha desarrollado el siguiente ejercicio de autoevaluación:</p>
+    
+    <div class="drag-drop-container">
+        <div class="drag-items">
+            <h4>Perfiles de Habilidades</h4>
+            <div class="drag-item" data-match="data-scientist">Fuerte en estadística y programming, pero limitado conocimiento de RR.HH.</div>
+            <div class="drag-item" data-match="hr-translator">Excelente conocimiento de RR.HH. y negocio, alfabetización de datos básica.</div>
+            <div class="drag-item" data-match="data-engineer">Experto en bases de datos y ETL, familiaridad limitada con casos de uso de RR.HH.</div>
+            <div class="drag-item" data-match="viz-specialist">Habilidades avanzadas en dashboards y storytelling visual, comprensión moderada de estadística.</div>
+            <div class="drag-item" data-match="pa-leader">Fuerte visión estratégica y gestión de stakeholders, comprensión holística pero no profunda.</div>
+        </div>
+        
+        <div class="drop-targets">
+            <h4>Roles Correspondientes</h4>
+            <div class="drop-target" data-expect="data-scientist">Científico de Datos de People Analytics</div>
+            <div class="drop-target" data-expect="hr-translator">HR Business Translator</div>
+            <div class="drop-target" data-expect="data-engineer">HR Data Engineer</div>
+            <div class="drop-target" data-expect="viz-specialist">Especialista en Visualización</div>
+            <div class="drop-target" data-expect="pa-leader">Líder de People Analytics</div>
+        </div>
+    </div>
+    
+    <h2 id="parte3">Parte 3: Selección e Implementación de Herramientas y Tecnologías</h2>
+    
+    <p>La tecnología es un facilitador crítico para People Analytics, pero la selección de herramientas puede resultar abrumadora dada la proliferación de soluciones en el mercado. Esta sección proporciona un marco para evaluar, seleccionar e implementar efectivamente las herramientas y tecnologías adecuadas para tu estrategia de People Analytics.</p>
+    
+    <h3>Las Cinco Categorías de Tecnología para People Analytics</h3>
+    
+    <p>Para entender mejor las herramientas disponibles, podemos dividir las tecnologías para análisis de personas en cinco grandes categorías:</p>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>1. Sistemas de Registro y Captura de Datos</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Estas son las fuentes principales donde se almacena la información sobre las personas en una organización:</p>
+            <ul>
+                <li><strong>Sistemas centrales de RRHH:</strong> Son como el "cerebro" que guarda toda la información básica de los empleados: sus datos personales, salarios, puestos, estructura organizacional y eventos importantes como contrataciones o ascensos. Ejemplos son sistemas como Workday, SAP SuccessFactors u Oracle HCM.</li>
+                <li><strong>Sistemas de reclutamiento:</strong> Guardan información sobre candidatos, procesos de selección y contrataciones. Ejemplos incluyen Greenhouse, Lever o SmartRecruiters.</li>
+                <li><strong>Plataformas de aprendizaje:</strong> Registran los cursos, capacitaciones y desarrollo del personal. Ejemplos son Cornerstone, Docebo o SAP Litmos.</li>
+                <li><strong>Herramientas de desempeño y compromiso:</strong> Capturan evaluaciones, feedback y encuestas de clima laboral. Ejemplos incluyen Culture Amp, Qualtrics o 15Five.</li>
+                <li><strong>Sistemas de gestión de horarios:</strong> Registran asistencia, horas trabajadas y programación. Ejemplos son Kronos, ADP o Dayforce.</li>
+            </ul>
+            <p>Es importante evaluar no solo si tenemos estos sistemas, sino qué tan fácil es extraer los datos para analizarlos. A veces tenemos la información pero está "atrapada" en sistemas que no permiten exportarla fácilmente.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>2. Infraestructura de Datos</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Estos componentes nos permiten unir, almacenar y gestionar información de múltiples fuentes:</p>
+            <ul>
+                <li><strong>Almacenes de datos:</strong> Son como grandes "bibliotecas digitales" donde guardamos toda la información de forma organizada. En lugar de tener los datos dispersos en diferentes sistemas, los centralizamos en un solo lugar. Ejemplos incluyen herramientas como Snowflake, Amazon Redshift o Google BigQuery.</li>
+                <li><strong>Herramientas para mover datos:</strong> Son como "transportadores" que extraen la información de los sistemas originales, la transforman al formato que necesitamos y la colocan en nuestro almacén central. Ejemplos son Informatica, Talend o Apache Airflow.</li>
+                <li><strong>Gestión de datos maestros:</strong> Sistemas que nos ayudan a mantener una única versión "oficial" de los datos, evitando duplicados o inconsistencias.</li>
+                <li><strong>Catálogos de datos:</strong> Son como el "índice" de nuestra biblioteca de datos, nos ayudan a encontrar qué información está disponible y dónde.</li>
+                <li><strong>Herramientas de calidad de datos:</strong> Nos ayudan a vigilar y mejorar la calidad de la información, detectando errores o inconsistencias.</li>
+            </ul>
+            <p>Para organizaciones que ya tienen experiencia con análisis de datos, puede ser útil crear un "lago de datos de personas" centralizado que reúna toda la información relevante sobre el personal en un solo lugar.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>3. Herramientas Analíticas</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Estas son las herramientas que nos permiten analizar la información, crear modelos y generar insights útiles:</p>
+            <ul>
+                <li><strong>Plataformas de visualización:</strong> Programas que convierten los datos en gráficos y paneles visuales fáciles de entender (como Tableau, Power BI o Looker). Son como traductores que convierten números complejos en imágenes claras.</li>
+                <li><strong>Herramientas de análisis estadístico:</strong> Programas y lenguajes para realizar análisis más profundos y crear modelos predictivos (como R, Python o SQL). Son como microscopios que nos permiten ver patrones ocultos en los datos.</li>
+                <li><strong>Plataformas especializadas en People Analytics:</strong> Soluciones diseñadas específicamente para RRHH con funcionalidades predefinidas (como Visier, One Model o Crunchr). Son como "kits de herramientas" ya preparados para análisis de personas.</li>
+                <li><strong>Herramientas de análisis de texto:</strong> Nos permiten analizar comentarios, encuestas abiertas y otros textos (como SAS Text Analytics o IBM Watson). Son como "lectores inteligentes" que encuentran patrones en las palabras.</li>
+                <li><strong>Herramientas de análisis de redes:</strong> Nos ayudan a entender las relaciones y colaboraciones entre personas (como Microsoft Workplace Analytics o TrustSphere). Son como "mapas sociales" que muestran cómo se conectan las personas.</li>
+            </ul>
+            <p>La elección entre herramientas generales de análisis o plataformas especializadas en RRHH dependerá de las capacidades técnicas de tu equipo y cuánta personalización necesitas.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>4. Plataformas de Entrega</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Estas soluciones ayudan a entregar insights a stakeholders y facilitar decisiones basadas en datos:</p>
+            <ul>
+                <li><strong>Dashboards de Autoservicio:</strong> Interfaces intuitivas para que los líderes accedan a métricas clave (Tableau Server, Power BI Service)</li>
+                <li><strong>Portales de People Analytics:</strong> Plataformas dedicadas para democratizar el acceso a insights de personas (Visier, Crunchr)</li>
+                <li><strong>Herramientas de Data Storytelling:</strong> Soluciones que combinan narrativa y visualización para comunicar insights (Toucan Toco, Nugit)</li>
+                <li><strong>Embedded Analytics:</strong> Capacidades analíticas integradas en aplicaciones de RR.HH. existentes</li>
+                <li><strong>Chat y Natural Language Interfaces:</strong> Soluciones que permiten consultas en lenguaje natural (IBM Watson Assistant, Microsoft Power BI Q&A)</li>
+            </ul>
+            <p>El Dr. Johnson enfatiza que la adopción de los insights generados por People Analytics depende en gran medida de cuán accesibles y accionables sean para los tomadores de decisiones.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>5. Componentes de Gobernanza</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Estos elementos aseguran que los datos de personas se utilicen de manera ética, segura y conforme a regulaciones:</p>
+            <ul>
+                <li><strong>Herramientas de Privacidad de Datos:</strong> Soluciones para gestionar consentimientos y anonimización (OneTrust, BigID)</li>
+                <li><strong>Plataformas de Seguridad de Datos:</strong> Herramientas para proteger datos sensibles de personas (Varonis, Imperva)</li>
+                <li><strong>Soluciones de Gobernanza de Datos:</strong> Plataformas para gestionar políticas y estándares de datos (Collibra, Alation)</li>
+                <li><strong>Frameworks de Ética de IA:</strong> Herramientas para detectar y mitigar sesgos en algoritmos (IBM AI Fairness 360, Microsoft Fairlearn)</li>
+                <li><strong>Sistemas de Gestión de Metadatos:</strong> Soluciones para documentar lineage y usos aprobados de datos</li>
+            </ul>
+            <p>La Dra. Martínez destaca que estos componentes de gobernanza son cada vez más críticos a medida que las organizaciones implementan análisis más avanzados que podrían impactar significativamente las carreras y experiencias de los empleados.</p>
+        </div>
+    </div>
+    
+    <div class="warning">
+        <p><strong>Advertencia:</strong> Uno de los errores más comunes en People Analytics es la "parálisis tecnológica" - invertir demasiado en herramientas complejas antes de tener claridad sobre los casos de uso que generarán valor para el negocio. Comienza con soluciones simples que resuelvan tus necesidades inmediatas y ve construyendo tu tecnología poco a poco.</p>
+    </div>
+    
+    <h3>Cómo Elegir la Tecnología Adecuada</h3>
+    
+    <p>Para seleccionar las herramientas tecnológicas que realmente necesitas, sigue estos seis pasos:</p>
+    
+    <div class="flip-card-container">
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Paso 1: Mapeo de Capacidades</h4>
+                    <p>Identificar las capacidades tecnológicas necesarias para tu estrategia</p>
+                </div>
+                <div class="flip-card-back">
+                    <p>Evalúa qué capacidades técnicas específicas se requieren para responder a las preguntas críticas identificadas en tu estrategia de People Analytics.</p>
                 </div>
             </div>
-            
-            <div class="tech-modal" id="modal-iot">
-                <div class="modal-content">
-                    <span class="close-modal">&times;</span>
-                    <h3>Internet de las Cosas (IoT) en People Analytics</h3>
-                    <p>Los sensores y dispositivos conectados están creando nuevas dimensiones de datos para analizar experiencia, colaboración y bienestar:</p>
-                    
-                    <h4>Aplicaciones Avanzadas:</h4>
-                    <ul>
-                        <li><strong>Análisis del entorno de trabajo:</strong> Evaluación de condiciones ambientales y su impacto en productividad y bienestar</li>
-                        <li><strong>Optimización de espacios:</strong> Análisis de patrones de utilización para diseño efectivo de oficinas</li>
-                        <li><strong>Medición de colaboración física:</strong> Comprensión de interacciones presenciales complementando datos digitales</li>
-                        <li><strong>Monitoreo de bienestar:</strong> Integración de datos de wearables para promover salud (con consentimiento explícito)</li>
-                    </ul>
-                    
-                    <h4>Caso Práctico:</h4>
-                    <p>Una compañía de consultoría implementó un "Smart Workplace Analytics" que:</p>
-                    <ul>
-                        <li>Utilizó sensores anónimos para analizar patrones de ocupación y movimiento en oficinas híbridas</li>
-                        <li>Correlacionó factores ambientales (luz, ruido, CO2) con productividad reportada</li>
-                        <li>Identificó patrones óptimos de colaboración presencial vs. remota para diferentes tipos de trabajo</li>
-                        <li>Redujo costos inmobiliarios en 20% mientras aumentó satisfacción con el espacio de trabajo en 15%</li>
-                    </ul>
-                    
-                    <h4>Consideraciones:</h4>
-                    <p>El uso de IoT en People Analytics presenta consideraciones importantes:</p>
-                    <ul>
-                        <li>Preocupaciones de privacidad y vigilancia percibida</li>
-                        <li>Necesidad de anonimización y consentimiento transparente</li>
-                        <li>Seguridad de datos de dispositivos conectados</li>
-                        <li>Equilibrio entre insights valiosos y sensación de intrusión</li>
-                    </ul>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Paso 2: Evaluación del Ecosistema</h4>
+                    <p>Inventariar las herramientas actuales y sus capacidades</p>
+                </div>
+                <div class="flip-card-back">
+                    <p>Documenta las herramientas existentes en tu organización y su potencial para ser aprovechadas para People Analytics antes de considerar nuevas inversiones.</p>
                 </div>
             </div>
-            
-            <div class="tech-modal" id="modal-quantum">
-                <div class="modal-content">
-                    <span class="close-modal">&times;</span>
-                    <h3>Computación Cuántica en People Analytics</h3>
-                    <p>Aunque aún en etapas muy tempranas, la computación cuántica tiene el potencial de transformar ciertos aspectos de analytics avanzado:</p>
-                    
-                    <h4>Aplicaciones Potenciales Futuras:</h4>
-                    <ul>
-                        <li><strong>Optimización compleja:</strong> Resolución de problemas de optimización multivariable en workforce planning o scheduling</li>
-                        <li><strong>Simulación organizacional:</strong> Modelado de sistemas complejos con múltiples interdependencias</li>
-                        <li><strong>Machine learning cuántico:</strong> Algoritmos de aprendizaje más potentes para patrones complejos</li>
-                        <li><strong>Criptografía cuántica:</strong> Protección avanzada para datos sensibles de empleados</li>
-                    </ul>
-                    
-                    <h4>Estado Actual:</h4>
-                    <p>La aplicación práctica en People Analytics está todavía en fase especulativa:</p>
-                    <ul>
-                        <li>Algunas organizaciones pioneras están explorando simulaciones cuánticas para modelar dinámicas organizacionales complejas</li>
-                        <li>Proyectos de investigación estudian aplicaciones en optimización de fuerza laboral a gran escala</li>
-                        <li>Se están desarrollando conceptos de "quantum-ready analytics" que puedan aprovechar estas capacidades cuando maduren</li>
-                    </ul>
-                    
-                    <h4>Consideraciones:</h4>
-                    <p>La preparación para computación cuántica en People Analytics implica:</p>
-                    <ul>
-                        <li>Formación en conceptos fundamentales de computación cuántica</li>
-                        <li>Identificación de casos de uso donde la ventaja cuántica sería significativa</li>
-                        <li>Experimentación con algoritmos cuánticos en simuladores clásicos</li>
-                        <li>Asociaciones con instituciones académicas o startups especializadas</li>
-                    </ul>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Paso 3: Análisis de Brechas</h4>
+                    <p>Identificar las brechas entre capacidades requeridas y disponibles</p>
+                </div>
+                <div class="flip-card-back">
+                    <p>Compara las capacidades necesarias con las ya disponibles para identificar brechas específicas que deben abordarse con nuevas soluciones.</p>
                 </div>
             </div>
-            
-            <h3>Preparación para Tecnologías Emergentes</h3>
-            
-            <p>La integración efectiva de tecnologías emergentes en People Analytics requiere una evaluación estratégica de preparación, impacto potencial y consideraciones éticas. La siguiente matriz puede ayudar a priorizar inversiones en nuevas capacidades:</p>
-            
-            <div class="matrix-container">
-                <table class="tech-matrix">
-                    <thead>
-                        <tr>
-                            <th>Tecnología</th>
-                            <th>Madurez Actual</th>
-                            <th>Potencial de Impacto</th>
-                            <th>Complejidad de Implementación</th>
-                            <th>Consideraciones Éticas</th>
-                            <th>Preparación Recomendada</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>IA Generativa</td>
-                            <td>Media-Alta</td>
-                            <td>Transformacional</td>
-                            <td>Media</td>
-                            <td>Significativas (sesgos, transparencia)</td>
-                            <td class="readiness-high">Implementación Activa</td>
-                        </tr>
-                        <tr>
-                            <td>Análisis de Redes</td>
-                            <td>Alta</td>
-                            <td>Alto</td>
-                            <td>Media</td>
-                            <td>Moderadas (privacidad)</td>
-                            <td class="readiness-high">Implementación Activa</td>
-                        </tr>
-                        <tr>
-                            <td>Analytics de Experiencia</td>
-                            <td>Media</td>
-                            <td>Alto</td>
-                            <td>Media</td>
-                            <td>Moderadas (privacy by design)</td>
-                            <td class="readiness-high">Implementación Activa</td>
-                        </tr>
-                        <tr>
-                            <td>IoT Workplace</td>
-                            <td>Media</td>
-                            <td>Medio</td>
-                            <td>Alta</td>
-                            <td>Altas (vigilancia)</td>
-                            <td class="readiness-medium">Piloto Controlado</td>
-                        </tr>
-                        <tr>
-                            <td>VR/AR Analytics</td>
-                            <td>Baja-Media</td>
-                            <td>Alto (en contextos específicos)</td>
-                            <td>Alta</td>
-                            <td>Moderadas (datos biométricos)</td>
-                            <td class="readiness-medium">Piloto Controlado</td>
-                        </tr>
-                        <tr>
-                            <td>Blockchain Skills</td>
-                            <td>Baja</td>
-                            <td>Disruptivo (potencial)</td>
-                            <td>Muy Alta</td>
-                            <td>Moderadas (control de datos)</td>
-                            <td class="readiness-low">Monitoreo Activo</td>
-                        </tr>
-                        <tr>
-                            <td>Computación Cuántica</td>
-                            <td>Muy Baja</td>
-                            <td>Transformacional (potencial)</td>
-                            <td>Extremadamente Alta</td>
-                            <td>Desconocidas</td>
-                            <td class="readiness-low">Exploración Teórica</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="flip-card-container">
-                <div class="flip-card">
-                    <div class="flip-card-front">
-                        <h3>Consejo Práctico</h3>
-                        <p>¿Cómo evaluar qué tecnologías emergentes priorizar en tu organización?</p>
-                    </div>
-                    <div class="flip-card-back">
-                        <p>"El enfoque más efectivo para tecnologías emergentes es el 'horizonte triple': implementar activamente tecnologías maduras con casos de uso claros (como IA aplicada), desarrollar pilotos controlados para tecnologías en desarrollo (como analytics de entornos virtuales), y explorar conceptualmente tecnologías más distantes (como computación cuántica). Este enfoque equilibra innovación con pragmatismo y evita tanto la parálisis como la persecución de tendencias pasajeras."</p>
-                    </div>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Paso 4: Make vs. Buy</h4>
+                    <p>Decidir entre construir, comprar o adaptar soluciones</p>
+                </div>
+                <div class="flip-card-back">
+                    <p>Evalúa si cada brecha debe abordarse mediante desarrollo interno, adquisición de soluciones comerciales o adaptación de herramientas existentes.</p>
                 </div>
             </div>
-        </section>
-
-        <section id="escenarios-futuros">
-            <h2>3. Escenarios Futuros: La Evolución de People Analytics</h2>
-            
-            <p>Mirando hacia el futuro, podemos anticipar cómo People Analytics podría evolucionar en los próximos años. Estos escenarios representan posibilidades basadas en tendencias actuales y nos ayudan a prepararnos para diferentes futuros potenciales.</p>
-            
-            <div class="future-scenario">
-                <div class="scenario-header">
-                    <div class="scenario-icon">1</div>
-                    <div class="scenario-title">El Asistente Analítico Ubicuo</div>
-                    <div class="scenario-year">2026-2028</div>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Paso 5: Evaluación de Proveedores</h4>
+                    <p>Evaluar sistemáticamente las soluciones candidatas</p>
                 </div>
-                <div class="scenario-content">
-                    <p>En este escenario, la IA generativa se ha integrado profundamente en las herramientas de trabajo cotidianas, democratizando el acceso a insights analíticos:</p>
-                    
-                    <h4>Características principales:</h4>
-                    <ul>
-                        <li>Asistentes analíticos integrados en todas las plataformas de RRHH, desde ATS hasta sistemas de desempeño</li>
-                        <li>Interfaces conversacionales que permiten a cualquier profesional consultar datos complejos en lenguaje natural</li>
-                        <li>Recomendaciones contextuales que aparecen justo cuando se necesitan, sin necesidad de buscarlas</li>
-                        <li>Analytics "invisibles" que operan en segundo plano, proporcionando insights relevantes sin fricción</li>
-                    </ul>
-                    
-                    <h4>Implicaciones:</h4>
-                    <ul>
-                        <li><strong>Rol de analistas:</strong> Evolución hacia diseñadores de sistemas analíticos más que ejecutores de análisis específicos</li>
-                        <li><strong>Toma de decisiones:</strong> Mayor integración de datos en decisiones cotidianas, no solo en proyectos específicos</li>
-                        <li><strong>Habilidades requeridas:</strong> Énfasis en formulación de preguntas efectivas y pensamiento crítico sobre insights generados</li>
-                        <li><strong>Gobernanza:</strong> Necesidad de gestionar calidad y relevancia de recomendaciones automatizadas</li>
-                    </ul>
+                <div class="flip-card-back">
+                    <p>Utiliza criterios predefinidos para evaluar soluciones potenciales, incluyendo funcionalidad, escalabilidad, experiencia de usuario, seguridad y costo total.</p>
                 </div>
             </div>
-            
-            <div class="future-scenario">
-                <div class="scenario-header">
-                    <div class="scenario-icon">2</div>
-                    <div class="scenario-title">El Ecosistema Analítico Interconectado</div>
-                    <div class="scenario-year">2027-2030</div>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Paso 6: Validación con Casos de Uso</h4>
+                    <p>Validar soluciones con casos de uso específicos</p>
                 </div>
-                <div class="scenario-content">
-                    <p>En este escenario, los límites tradicionales entre datos internos y externos se difuminan, creando un ecosistema analítico más rico y contextualizado:</p>
-                    
-                    <h4>Características principales:</h4>
-                    <ul>
-                        <li>Estándares abiertos que facilitan el intercambio seguro de datos entre organizaciones</li>
-                        <li>Blockchain y tecnologías descentralizadas que permiten análisis federados manteniendo privacidad</li>
-                        <li>Inteligencia de mercado laboral en tiempo real integrada con sistemas internos</li>
-                        <li>Modelos analíticos entrenados colaborativamente por múltiples organizaciones</li>
-                    </ul>
-                    
-                    <h4>Implicaciones:</h4>
-                    <ul>
-                        <li><strong>Ventaja competitiva:</strong> Desplazamiento desde acceso a datos hacia capacidad de interpretación contextual</li>
-                        <li><strong>Privacidad:</strong> Nuevos modelos donde empleados controlan y potencialmente monetizan sus propios datos</li>
-                        <li><strong>Benchmarking:</strong> Comparaciones más granulares y específicas entre organizaciones similares</li>
-                        <li><strong>Innovación:</strong> Aceleración de mejores prácticas a través de ecosistemas compartidos</li>
-                    </ul>
+                <div class="flip-card-back">
+                    <p>Prueba las soluciones finalistas con casos de uso reales para evaluar su efectividad en la práctica antes de comprometerte con una implementación completa.</p>
                 </div>
             </div>
-            
-            <div class="future-scenario">
-                <div class="scenario-header">
-                    <div class="scenario-icon">3</div>
-                    <div class="scenario-title">La Organización Adaptativa</div>
-                    <div class="scenario-year">2028-2032</div>
+        </div>
+    </div>
+    
+    <h3>Cómo Evaluar las Soluciones de People Analytics</h3>
+    
+    <p>A la hora de comparar distintas herramientas y plataformas, evalúalas usando estos criterios, dando más importancia a los que sean más relevantes para tu organización:</p>
+    
+    <div class="table-container">
+        <table class="interactive-table">
+            <thead>
+                <tr>
+                    <th>Categoría</th>
+                    <th>Criterios</th>
+                    <th>Preguntas Clave</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="4"><strong>Funcionalidad</strong></td>
+                    <td>Cobertura de Casos de Uso</td>
+                    <td>¿La solución aborda los casos de uso prioritarios identificados en tu estrategia?</td>
+                </tr>
+                <tr>
+                    <td>Profundidad Analítica</td>
+                    <td>¿Soporta los métodos analíticos requeridos (descriptivo, diagnóstico, predictivo, prescriptivo)?</td>
+                </tr>
+                <tr>
+                    <td>Preparación para IA</td>
+                    <td>¿Incorpora capacidades de IA/ML o puede integrarse con herramientas que las ofrezcan?</td>
+                </tr>
+                <tr>
+                    <td>Contenido Preconfigurado</td>
+                    <td>¿Incluye dashboards, métricas o modelos preconfigurados relevantes para tus necesidades?</td>
+                </tr>
+                <tr>
+                    <td rowspan="4"><strong>Datos y Integración</strong></td>
+                    <td>Conectividad</td>
+                    <td>¿Se integra fácilmente con tus fuentes de datos y sistemas existentes?</td>
+                </tr>
+                <tr>
+                    <td>Flexibilidad del Modelo de Datos</td>
+                    <td>¿Puede adaptarse a tu estructura organizativa y taxonomías específicas?</td>
+                </tr>
+                <tr>
+                    <td>Escalabilidad de Datos</td>
+                    <td>¿Puede manejar el volumen, variedad y velocidad de tus datos actuales y futuros?</td>
+                </tr>
+                <tr>
+                    <td>APIs y Extensibilidad</td>
+                    <td>¿Ofrece APIs robustas para la integración con otros sistemas o desarrollo personalizado?</td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><strong>Experiencia de Usuario</strong></td>
+                    <td>Facilidad de Uso</td>
+                    <td>¿Es intuitiva para usuarios de diferentes niveles de sofisticación analítica?</td>
+                </tr>
+                <tr>
+                    <td>Capacidades Móviles</td>
+                    <td>¿Ofrece experiencia adecuada en dispositivos móviles para usuarios ejecutivos?</td>
+                </tr>
+                <tr>
+                    <td>Personalización</td>
+                    <td>¿Permite personalizar visualizaciones, informes y dashboards según necesidades específicas?</td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><strong>Seguridad y Gobernanza</strong></td>
+                    <td>Controles de Acceso</td>
+                    <td>¿Ofrece granularidad en permisos para proteger datos sensibles de personas?</td>
+                </tr>
+                <tr>
+                    <td>Cumplimiento Normativo</td>
+                    <td>¿Cumple con regulaciones relevantes de privacidad y protección de datos?</td>
+                </tr>
+                <tr>
+                    <td>Auditoría y Lineage</td>
+                    <td>¿Mantiene registros de auditoría y documentación de lineage de datos?</td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><strong>Económicos y Estratégicos</strong></td>
+                    <td>Costo Total de Propiedad</td>
+                    <td>¿Cuál es el costo total considerando licencias, implementación, mantenimiento y recursos internos?</td>
+                </tr>
+                <tr>
+                    <td>Tiempo hasta el Valor</td>
+                    <td>¿Cuánto tiempo tomará implementar la solución y comenzar a generar insights?</td>
+                </tr>
+                <tr>
+                    <td>Innovación y Roadmap</td>
+                    <td>¿Tiene el proveedor un historial de innovación y un roadmap alineado con tus necesidades?</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <h3>Tres Formas de Implementar tu Tecnología</h3>
+    
+    <p>Existen tres estrategias principales para poner en marcha las herramientas de People Analytics:</p>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>Enfoque Big Bang</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Características:</strong></p>
+            <ul>
+                <li>Implementación completa de una solución integral en toda la organización</li>
+                <li>Transformación significativa de procesos y prácticas existentes</li>
+                <li>Cambio amplio en cómo los datos de personas son capturados, analizados y utilizados</li>
+            </ul>
+            <p><strong>Ventajas:</strong></p>
+            <ul>
+                <li>Transformación completa y coherente</li>
+                <li>Menor complejidad de integración a largo plazo</li>
+                <li>Evita la perpetuación de sistemas y prácticas obsoletos</li>
+            </ul>
+            <p><strong>Desventajas:</strong></p>
+            <ul>
+                <li>Alto riesgo de implementación</li>
+                <li>Requiere inversión inicial significativa</li>
+                <li>Puede enfrentar resistencia organizacional sustancial</li>
+                <li>Tiempo más largo hasta generar valor</li>
+            </ul>
+            <p><strong>Ideal para:</strong> Organizaciones que están emprendiendo una transformación digital más amplia de RR.HH. o que tienen una necesidad urgente de modernizar significativamente sus capacidades analíticas.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>Enfoque Modular</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Características:</strong></p>
+            <ul>
+                <li>Implementación por módulos o componentes funcionales</li>
+                <li>Priorización de módulos basada en valor potencial y complejidad</li>
+                <li>Implementación secuencial con una arquitectura general coherente</li>
+            </ul>
+            <p><strong>Ventajas:</strong></p>
+            <ul>
+                <li>Balance entre coherencia arquitectónica y flexibilidad</li>
+                <li>Distribución de la inversión a lo largo del tiempo</li>
+                <li>Permite aprender y ajustar el enfoque entre módulos</li>
+                <li>Generación de valor incremental</li>
+            </ul>
+            <p><strong>Desventajas:</strong></p>
+            <ul>
+                <li>Requiere planificación cuidadosa de la arquitectura</li>
+                <li>Potenciales desafíos de integración entre módulos</li>
+                <li>Mayor complejidad en la gestión de proyecto</li>
+            </ul>
+            <p><strong>Ideal para:</strong> Organizaciones medianas a grandes con una clara visión de su arquitectura de People Analytics pero que necesitan distribuir la implementación a lo largo del tiempo.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>Enfoque Ágil/Incremental</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Características:</strong></p>
+            <ul>
+                <li>Comienza con "MVP" (Producto Mínimo Viable) enfocado en casos de uso específicos</li>
+                <li>Expansión iterativa basada en aprendizajes y valor demostrado</li>
+                <li>Adaptación continua del roadmap basada en retroalimentación</li>
+            </ul>
+            <p><strong>Ventajas:</strong></p>
+            <ul>
+                <li>Riesgo reducido con inversión inicial menor</li>
+                <li>Valor demostrable más rápido ("quick wins")</li>
+                <li>Mayor capacidad para adaptar el enfoque basado en aprendizajes</li>
+                <li>Construcción gradual de aceptación y apoyo</li>
+            </ul>
+            <p><strong>Desventajas:</strong></p>
+            <ul>
+                <li>Posible acumulación de deuda técnica</li>
+                <li>Riesgo de crear silos de datos o soluciones desconectadas</li>
+                <li>Puede resultar en duplicación o redundancia tecnológica</li>
+            </ul>
+            <p><strong>Ideal para:</strong> Organizaciones en etapas iniciales de madurez analítica, equipos con recursos limitados, o entornos que requieren demostrar valor rápidamente para asegurar apoyo continuo.</p>
+        </div>
+    </div>
+    
+    <div class="note">
+        <p><strong>Consejo de Experto:</strong> "Para la mayoría de las organizaciones, lo mejor es combinar elementos del enfoque modular y ágil: diseñar un plan general ordenado e implementarlo por partes, siendo flexible dentro de cada parte para adaptarse según lo que vaya funcionando."</p>
+    </div>
+    
+    <h3>Quiz: Selección de Tecnología para People Analytics</h3>
+    
+    <div class="quiz-container">
+        <h4>¿Cuál enfoque de implementación es más adecuado para cada escenario?</h4>
+        
+        <div class="question" data-answer="agile">
+            <p><strong>1. Una organización mediana con poca experiencia en analytics que desea comenzar a utilizar datos para mejorar sus procesos de onboarding.</strong></p>
+            <div class="options">
+                <div class="option" data-value="big-bang">Enfoque Big Bang</div>
+                <div class="option" data-value="modular">Enfoque Modular</div>
+                <div class="option" data-value="agile">Enfoque Ágil/Incremental</div>
+            </div>
+            <div class="feedback correct">¡Correcto! El enfoque ágil/incremental es ideal para organizaciones con poca experiencia en analytics, permitiendo demostrar valor rápidamente con un caso de uso específico como onboarding.</div>
+            <div class="feedback incorrect">Incorrecto. Una organización con poca experiencia debería comenzar con un enfoque más gradual como el ágil/incremental, enfocándose en un caso de uso específico para demostrar valor y construir capacidades.</div>
+        </div>
+        
+        <div class="question" data-answer="modular">
+            <p><strong>2. Una empresa global que está implementando un nuevo HRIS y desea desarrollar simultáneamente capacidades avanzadas de People Analytics.</strong></p>
+            <div class="options">
+                <div class="option" data-value="big-bang">Enfoque Big Bang</div>
+                <div class="option" data-value="modular">Enfoque Modular</div>
+                <div class="option" data-value="agile">Enfoque Ágil/Incremental</div>
+            </div>
+            <div class="feedback correct">¡Correcto! El enfoque modular permite alinear la implementación con el nuevo HRIS mientras desarrolla capacidades analíticas por módulos, balanceando coherencia arquitectónica con implementación manejable.</div>
+            <div class="feedback incorrect">Incorrecto. La implementación de un nuevo HRIS ofrece la oportunidad para una arquitectura coherente, pero un enfoque modular es más manejable que un big bang completo, permitiendo desarrollo por etapas mientras mantiene la coherencia general.</div>
+        </div>
+        
+        <div class="question" data-answer="big-bang">
+            <p><strong>3. Una organización que está experimentando una transformación digital completa y ha identificado People Analytics como una capacidad estratégica crítica.</strong></p>
+            <div class="options">
+                <div class="option" data-value="big-bang">Enfoque Big Bang</div>
+                <div class="option" data-value="modular">Enfoque Modular</div>
+                <div class="option" data-value="agile">Enfoque Ágil/Incremental</div>
+            </div>
+            <div class="feedback correct">¡Correcto! El enfoque big bang se alinea con una transformación digital más amplia, permitiendo un rediseño completo de los procesos y sistemas de People Analytics.</div>
+            <div class="feedback incorrect">Incorrecto. Una transformación digital completa ofrece la oportunidad para un rediseño fundamental (Big Bang) de las capacidades de People Analytics, alineado con la renovación más amplia de sistemas y procesos.</div>
+        </div>
+        
+        <div class="question" data-answer="agile">
+            <p><strong>4. Un equipo de People Analytics recién formado con presupuesto limitado que necesita demostrar valor a los líderes escépticos.</strong></p>
+            <div class="options">
+                <div class="option" data-value="big-bang">Enfoque Big Bang</div>
+                <div class="option" data-value="modular">Enfoque Modular</div>
+                <div class="option" data-value="agile">Enfoque Ágil/Incremental</div>
+            </div>
+            <div class="feedback correct">¡Correcto! El enfoque ágil/incremental permite al equipo generar "quick wins" con inversión limitada, construyendo credibilidad y apoyo para futuras inversiones.</div>
+            <div class="feedback incorrect">Incorrecto. Un equipo nuevo con presupuesto limitado y necesidad de convencer a stakeholders escépticos debe enfocarse en quick wins a través de un enfoque ágil/incremental, demostrando valor rápidamente antes de solicitar inversiones mayores.</div>
+        </div>
+        
+        <div class="question" data-answer="modular">
+            <p><strong>5. Una empresa con analítica de RR.HH. madura que desea modernizar su plataforma para incorporar capacidades de IA generativa y análisis predictivo avanzado.</strong></p>
+            <div class="options">
+                <div class="option" data-value="big-bang">Enfoque Big Bang</div>
+                <div class="option" data-value="modular">Enfoque Modular</div>
+                <div class="option" data-value="agile">Enfoque Ágil/Incremental</div>
+            </div>
+            <div class="feedback correct">¡Correcto! El enfoque modular permite a la organización mantener sus capacidades existentes mientras moderniza progresivamente componentes específicos para incorporar IA y análisis predictivo.</div>
+            <div class="feedback incorrect">Incorrecto. Una organización con analítica madura puede utilizar un enfoque modular para modernizar componentes específicos (incorporando IA y análisis predictivo) mientras mantiene la funcionalidad existente que ya está generando valor.</div>
+        </div>
+    </div>
+    
+    <h2 id="parte4">Parte 4: Gestión del Cambio y Adopción Organizacional</h2>
+    
+    <p>Implementar People Analytics no es solo un desafío técnico; es fundamentalmente un desafío de cambio organizacional. Las tecnologías más avanzadas y los análisis más sofisticados tendrán poco impacto si los tomadores de decisiones no los adoptan en sus prácticas cotidianas. Esta sección explora estrategias para gestionar efectivamente el cambio cultural y organizacional necesario para extraer valor real de las inversiones en People Analytics.</p>
+    
+    <h3>Los Cinco Obstáculos que Impiden Adoptar People Analytics</h3>
+    
+    <p>Para que el análisis de personas tenga éxito, hay que superar estas cinco barreras comunes:</p>
+    
+    <div class="flip-card-container">
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Barreras de Conocimiento</h4>
+                    <p>Falta de comprensión o familiaridad con analytics</p>
                 </div>
-                <div class="scenario-content">
-                    <p>En este escenario, People Analytics evoluciona de sistema de soporte a decisiones a sistema nervioso central que permite adaptación organizacional continua:</p>
-                    
-                    <h4>Características principales:</h4>
-                    <ul>
-                        <li>Sistemas que integran datos internos, externos, y señales del mercado en tiempo real</li>
-                        <li>Capacidad de recomendar y simular reorganizaciones dinámicas basadas en necesidades cambiantes</li>
-                        <li>Optimización continua de asignación de talento basada en habilidades, preferencias y prioridades</li>
-                        <li>Experimentación continua con diferentes configuraciones organizacionales</li>
-                    </ul>
-                    
-                    <h4>Implicaciones:</h4>
-                    <ul>
-                        <li><strong>Estructuras:</strong> Evolución hacia formas organizacionales más fluidas y adaptativas</li>
-                        <li><strong>Liderazgo:</strong> Nuevas competencias centradas en orquestación más que control directo</li>
-                        <li><strong>Talento:</strong> Mayor movilidad interna y trayectorias de carrera menos lineales</li>
-                        <li><strong>Gestión del cambio:</strong> Transición de proyectos puntuales a capacidad de adaptación continua</li>
-                    </ul>
+                <div class="flip-card-back">
+                    <p>Muchos stakeholders carecen de alfabetización de datos básica. Pueden no entender términos estadísticos, malinterpretar visualizaciones o carecer de confianza para aplicar insights analíticos en sus decisiones.</p>
                 </div>
             </div>
-            
-            <div class="future-scenario">
-                <div class="scenario-header">
-                    <div class="scenario-icon">4</div>
-                    <div class="scenario-title">La Fuerza Laboral Aumentada</div>
-                    <div class="scenario-year">2030-2035</div>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Barreras de Confianza</h4>
+                    <p>Escepticismo sobre la validez o relevancia de los datos</p>
                 </div>
-                <div class="scenario-content">
-                    <p>En este escenario, la frontera entre humanos, IA y automatización se difumina, creando un enfoque integrado de la fuerza laboral total:</p>
-                    
-                    <h4>Características principales:</h4>
-                    <ul>
-                        <li>Analytics que optimizan la distribución de trabajo entre humanos, IA y sistemas automatizados</li>
-                        <li>Enfoque en "colaboración aumentada" donde IA amplifica capacidades humanas</li>
-                        <li>Métricas de desempeño integradas para equipos híbridos humano-máquina</li>
-                        <li>Análisis de complementariedad de habilidades entre humanos y sistemas de IA</li>
-                    </ul>
-                    
-                    <h4>Implicaciones:</h4>
-                    <ul>
-                        <li><strong>Roles de RRHH:</strong> Expansión para incluir la "gestión" de componentes digitales de la fuerza laboral</li>
-                        <li><strong>Planificación:</strong> Modelos integrados que consideran simultáneamente contratación, upskilling y automatización</li>
-                        <li><strong>Cultura:</strong> Adaptación para integrar efectivamente colaboradores humanos y digitales</li>
-                        <li><strong>Indicadores:</strong> Nuevas métricas de productividad y valor que capturan contribuciones combinadas</li>
-                    </ul>
+                <div class="flip-card-back">
+                    <p>Los stakeholders pueden cuestionar la precisión, integridad o relevancia de los datos subyacentes. La transparencia metodológica y la validación con expertos del dominio son críticas para superar esta barrera.</p>
                 </div>
             </div>
-            
-            <h3>Implicaciones para Profesionales de RRHH</h3>
-            
-            <p>Estos escenarios futuros sugieren habilidades y competencias clave que los profesionales deberían desarrollar para mantenerse relevantes y efectivos:</p>
-            
-            <div class="two-column">
-                <div class="column">
-                    <h4>Habilidades Técnicas Emergentes</h4>
-                    <ul>
-                        <li><strong>IA aplicada:</strong> Capacidad para trabajar con sistemas de IA, comprender sus capacidades y limitaciones</li>
-                        <li><strong>Diseño de sistemas:</strong> Arquitectura de ecosistemas analíticos en lugar de análisis individuales</li>
-                        <li><strong>Integración tecnológica:</strong> Combinación efectiva de múltiples plataformas y fuentes de datos</li>
-                        <li><strong>Ética tecnológica:</strong> Evaluación y mitigación de riesgos en sistemas algorítmicos</li>
-                        <li><strong>Alfabetización avanzada en datos:</strong> Capacidad para evaluar críticamente outputs de sistemas cada vez más autónomos</li>
-                    </ul>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Barreras de Proceso</h4>
+                    <p>Falta de integración en flujos de trabajo existentes</p>
                 </div>
-                <div class="column">
-                    <h4>Competencias Estratégicas</h4>
-                    <ul>
-                        <li><strong>Pensamiento sistémico:</strong> Comprensión de interrelaciones complejas y efectos de segundo orden</li>
-                        <li><strong>Diseño organizacional adaptativo:</strong> Capacidad para configurar estructuras fluidas y evolutivas</li>
-                        <li><strong>"Augmented leadership":</strong> Liderazgo efectivo en entornos que combinan talento humano y digital</li>
-                        <li><strong>Anticipación estratégica:</strong> Identificación de implicaciones futuras de tendencias emergentes</li>
-                        <li><strong>Storytelling analítico avanzado:</strong> Capacidad para convertir insights complejos en narrativas accionables</li>
-                    </ul>
+                <div class="flip-card-back">
+                    <p>Si acceder y aplicar insights analíticos requiere procesos separados de los flujos de trabajo habituales, la adopción será baja. La integración en sistemas y procesos existentes es clave para la adopción sostenida.</p>
                 </div>
             </div>
-            
-            <h3>Tu Opinión sobre el Futuro</h3>
-            
-            <div class="poll-container">
-                <div class="poll-question">¿Cuál de estos escenarios futuros consideras más probable en los próximos 5-10 años?</div>
-                
-                <div class="poll-options">
-                    <label class="poll-option">
-                        <input type="radio" name="future-scenario" value="assistant">
-                        El Asistente Analítico Ubicuo
-                    </label>
-                    <label class="poll-option">
-                        <input type="radio" name="future-scenario" value="ecosystem">
-                        El Ecosistema Analítico Interconectado
-                    </label>
-                    <label class="poll-option">
-                        <input type="radio" name="future-scenario" value="adaptive">
-                        La Organización Adaptativa
-                    </label>
-                    <label class="poll-option">
-                        <input type="radio" name="future-scenario" value="augmented">
-                        La Fuerza Laboral Aumentada
-                    </label>
-                    <label class="poll-option">
-                        <input type="radio" name="future-scenario" value="other">
-                        Otro escenario (reflexiona personalmente)
-                    </label>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Barreras Culturales</h4>
+                    <p>Resistencia a decisiones basadas en datos</p>
                 </div>
-                
-                <button id="submit-poll" class="option-btn" style="margin-top: 1rem;">Ver Resultados</button>
-                
-                <div class="poll-results">
-                    <h4>Resultados de la Comunidad</h4>
-                    
-                    <div class="poll-bar">
-                        <div class="poll-label">Asistente Analítico</div>
-                        <div class="poll-progress">
-                            <div class="poll-fill" style="width: 45%;"></div>
-                        </div>
-                        <div class="poll-percentage">45%</div>
-                    </div>
-                    
-                    <div class="poll-bar">
-                        <div class="poll-label">Ecosistema Interconectado</div>
-                        <div class="poll-progress">
-                            <div class="poll-fill" style="width: 25%;"></div>
-                        </div>
-                        <div class="poll-percentage">25%</div>
-                    </div>
-                    
-                    <div class="poll-bar">
-                        <div class="poll-label">Organización Adaptativa</div>
-                        <div class="poll-progress">
-                            <div class="poll-fill" style="width: 15%;"></div>
-                        </div>
-                        <div class="poll-percentage">15%</div>
-                    </div>
-                    
-                    <div class="poll-bar">
-                        <div class="poll-label">Fuerza Laboral Aumentada</div>
-                        <div class="poll-progress">
-                            <div class="poll-fill" style="width: 10%;"></div>
-                        </div>
-                        <div class="poll-percentage">10%</div>
-                    </div>
-                    
-                    <div class="poll-bar">
-                        <div class="poll-label">Otro escenario</div>
-                        <div class="poll-progress">
-                            <div class="poll-fill" style="width: 5%;"></div>
-                        </div>
-                        <div class="poll-percentage">5%</div>
-                    </div>
-                    
-                    <p style="margin-top: 1rem; font-style: italic;">Nota: Estos resultados son simulados para representar tendencias generales. Tu reflexión personal es lo más valioso.</p>
+                <div class="flip-card-back">
+                    <p>Muchas organizaciones tienen una cultura de decisión basada en intuición, experiencia o jerarquía. Cambiar hacia una cultura que valore la evidencia y los datos como insumos clave para decisiones es un cambio profundo.</p>
                 </div>
             </div>
-        </section>
-
-        <section id="evaluacion-preparacion">
-            <h2>4. Evaluación de tu Preparación para el Futuro</h2>
-            
-            <p>Para navegar exitosamente el futuro de People Analytics, es importante evaluar honestamente tu nivel actual de preparación, tanto a nivel individual como organizacional. Esta auto-evaluación te ayudará a identificar áreas de fortaleza y oportunidades de desarrollo.</p>
-            
-            <h3>Autoevaluación de Capacidades Individuales</h3>
-            
-            <p>Evalúa tu nivel actual de competencia en cada una de estas áreas clave para el futuro de People Analytics:</p>
-            
-            <div class="capability-assessment">
-                <div class="capability-row">
-                    <div class="capability-name">Alfabetización de Datos Avanzada</div>
-                    <div class="capability-scale">
-                        <div class="scale-point" data-level="1"></div>
-                        <div class="scale-point" data-level="2"></div>
-                        <div class="scale-point" data-level="3"></div>
-                        <div class="scale-point" data-level="4"></div>
-                        <div class="scale-point" data-level="5"></div>
-                    </div>
+        </div>
+        
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h4>Barreras de Incentivos</h4>
+                    <p>Falta de motivación para adoptar nuevos enfoques</p>
                 </div>
-                <div class="capability-labels">
-                    <span>Básico</span>
-                    <span>Avanzado</span>
-                </div>
-                
-                <div class="capability-row">
-                    <div class="capability-name">Storytelling con Datos</div>
-                    <div class="capability-scale">
-                        <div class="scale-point" data-level="1"></div>
-                        <div class="scale-point" data-level="2"></div>
-                        <div class="scale-point" data-level="3"></div>
-                        <div class="scale-point" data-level="4"></div>
-                        <div class="scale-point" data-level="5"></div>
-                    </div>
-                </div>
-                
-                <div class="capability-row">
-                    <div class="capability-name">Diseño de Experiencias Analíticas</div>
-                    <div class="capability-scale">
-                        <div class="scale-point" data-level="1"></div>
-                        <div class="scale-point" data-level="2"></div>
-                        <div class="scale-point" data-level="3"></div>
-                        <div class="scale-point" data-level="4"></div>
-                        <div class="scale-point" data-level="5"></div>
-                    </div>
-                </div>
-                
-                <div class="capability-row">
-                    <div class="capability-name">Comprensión de IA/ML</div>
-                    <div class="capability-scale">
-                        <div class="scale-point" data-level="1"></div>
-                        <div class="scale-point" data-level="2"></div>
-                        <div class="scale-point" data-level="3"></div>
-                        <div class="scale-point" data-level="4"></div>
-                        <div class="scale-point" data-level="5"></div>
-                    </div>
-                </div>
-                
-                <div class="capability-row">
-                    <div class="capability-name">Ética y Gobernanza de Datos</div>
-                    <div class="capability-scale">
-                        <div class="scale-point" data-level="1"></div>
-                        <div class="scale-point" data-level="2"></div>
-                        <div class="scale-point" data-level="3"></div>
-                        <div class="scale-point" data-level="4"></div>
-                        <div class="scale-point" data-level="5"></div>
-                    </div>
-                </div>
-                
-                <div class="capability-row">
-                    <div class="capability-name">Pensamiento Sistémico</div>
-                    <div class="capability-scale">
-                        <div class="scale-point" data-level="1"></div>
-                        <div class="scale-point" data-level="2"></div>
-                        <div class="scale-point" data-level="3"></div>
-                        <div class="scale-point" data-level="4"></div>
-                        <div class="scale-point" data-level="5"></div>
-                    </div>
-                </div>
-                
-                <div class="capability-row">
-                    <div class="capability-name">Gestión del Cambio</div>
-                    <div class="capability-scale">
-                        <div class="scale-point" data-level="1"></div>
-                        <div class="scale-point" data-level="2"></div>
-                        <div class="scale-point" data-level="3"></div>
-                        <div class="scale-point" data-level="4"></div>
-                        <div class="scale-point" data-level="5"></div>
-                    </div>
+                <div class="flip-card-back">
+                    <p>Si los sistemas de evaluación, reconocimiento y recompensa no valoran explícitamente el uso de datos en la toma de decisiones, los líderes tendrán pocos incentivos para cambiar sus prácticas establecidas.</p>
                 </div>
             </div>
-            
-            <div id="assessment-feedback" style="background-color: #f8f9fa; border-radius: 8px; padding: 1.5rem; margin-top: 1.5rem; display: none;">
-                <h4>Áreas de Enfoque Recomendadas</h4>
-                <p>Basado en tu autoevaluación, considera desarrollar capacidades en estas áreas prioritarias:</p>
-                <ul id="development-priorities">
-                </ul>
-                <p>Recuerda que el desarrollo de estas capacidades es un proceso continuo. Considera crear un plan personalizado que combine aprendizaje formal, proyectos prácticos, y mentoría.</p>
-            </div>
-            
-            <h3>Evaluación de Madurez Organizacional</h3>
-            
-            <p>También es importante evaluar dónde se encuentra tu organización en su recorrido de People Analytics. Responde a estas preguntas para identificar fortalezas y áreas de oportunidad:</p>
-            
-            <div class="accordion">
-                <div class="accordion-item">
-                    <div class="accordion-header">Infraestructura y Datos</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <div class="checkbox-list">
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org1">
-                                    <div class="checkbox-label">
-                                        <label for="org1">Los datos relevantes de capital humano están consolidados en un sistema central o data warehouse</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org2">
-                                    <div class="checkbox-label">
-                                        <label for="org2">Existen procesos establecidos para garantizar calidad y actualización de datos</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org3">
-                                    <div class="checkbox-label">
-                                        <label for="org3">Los datos de RRHH están integrados con datos operacionales y financieros</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org4">
-                                    <div class="checkbox-label">
-                                        <label for="org4">Existen herramientas adecuadas para visualización y análisis</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org5">
-                                    <div class="checkbox-label">
-                                        <label for="org5">Los principios de privacidad y ética están integrados en la arquitectura de datos</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">Capacidades y Talento</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <div class="checkbox-list">
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org6">
-                                    <div class="checkbox-label">
-                                        <label for="org6">Existe un equipo dedicado a People Analytics con roles claramente definidos</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org7">
-                                    <div class="checkbox-label">
-                                        <label for="org7">El equipo tiene un balance adecuado de habilidades técnicas y conocimiento de negocio</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org8">
-                                    <div class="checkbox-label">
-                                        <label for="org8">Existe un programa formal para desarrollar alfabetización de datos en RRHH</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org9">
-                                    <div class="checkbox-label">
-                                        <label for="org9">Hay colaboración efectiva con IT, finanzas, y otras funciones analíticas</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org10">
-                                    <div class="checkbox-label">
-                                        <label for="org10">Los líderes de RRHH demuestran comfort utilizando datos para decisiones</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">Procesos y Gobernanza</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <div class="checkbox-list">
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org11">
-                                    <div class="checkbox-label">
-                                        <label for="org11">Existe un proceso claro para priorizar iniciativas de People Analytics</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org12">
-                                    <div class="checkbox-label">
-                                        <label for="org12">People Analytics está integrado en procesos estratégicos de planificación</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org13">
-                                    <div class="checkbox-label">
-                                        <label for="org13">Existe un marco de gobernanza formal para uso ético de datos</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org14">
-                                    <div class="checkbox-label">
-                                        <label for="org14">Se realiza evaluación sistemática del valor e impacto de iniciativas analíticas</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org15">
-                                    <div class="checkbox-label">
-                                        <label for="org15">Existe un proceso para convertir insights en acciones concretas y medir resultados</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">Cultura y Adopción</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <div class="checkbox-list">
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org16">
-                                    <div class="checkbox-label">
-                                        <label for="org16">Los líderes sénior piden y utilizan análisis de datos para decisiones de talento</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org17">
-                                    <div class="checkbox-label">
-                                        <label for="org17">Hay narrativas de éxito y casos de uso que demuestran el valor de People Analytics</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org18">
-                                    <div class="checkbox-label">
-                                        <label for="org18">Managers de línea adoptan y utilizan herramientas analíticas regularmente</label>
-                                    </div>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="org19">
-                                    <div class="checkbox
+        </div>
+    </div>
+    
+    <div class="warning">
+        <p><strong>Advertencia:</strong> Según investigaciones recientes, más del 70% de las iniciativas de People Analytics que fracasan lo hacen por factores humanos y organizacionales, no por problemas tecnológicos. Ignorar la gestión del cambio casi garantiza el fracaso de tu proyecto.</p>
+    </div>
+    
+    <h3>El Modelo ADOPT: Un Plan Paso a Paso para el Cambio</h3>
+    
+    <p>Para lograr que la gente realmente utilice el análisis de personas en su trabajo diario, podemos seguir este marco de cinco pasos:</p>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>A - Awareness (Conciencia)</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Objetivo:</strong> Crear conciencia sobre qué es el People Analytics, para qué sirve y cómo puede ayudar.</p>
+            <p><strong>Actividades clave:</strong></p>
+            <ul>
+                <li><strong>Explica de forma sencilla:</strong> Desarrolla una explicación clara que conecte el análisis de personas con problemas cotidianos que los gerentes y líderes enfrentan.</li>
+                <li><strong>Muestra ejemplos reales:</strong> Comparte historias de cómo otras empresas similares han resuelto problemas usando estos métodos.</li>
+                <li><strong>Realiza presentaciones personalizadas:</strong> Prepara pequeñas charlas para diferentes áreas mostrando ejemplos específicos de su contexto.</li>
+                <li><strong>Comunica constantemente:</strong> Usa diferentes canales (intranet, correos, reuniones) para compartir mensajes sobre People Analytics.</li>
+            </ul>
+            <p><strong>¿Cómo saber si funciona?:</strong> Las personas comienzan a hablar sobre People Analytics y muestran interés en saber más; empiezan a identificar problemas donde estos análisis podrían ayudar.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>D - Data Literacy (Alfabetización de Datos)</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Objetivo:</strong> Ayudar a las personas a entender e interpretar datos y gráficos básicos.</p>
+            <p><strong>Actividades clave:</strong></p>
+            <ul>
+                <li><strong>Capacitaciones a diferentes niveles:</strong> Ofrece entrenamientos diferenciados según el nivel de conocimiento previo (básico, intermedio, avanzado) y el rol de cada persona.</li>
+                <li><strong>Guías de interpretación:</strong> Crea materiales simples que expliquen cómo leer e interpretar los gráficos y reportes más comunes.</li>
+                <li><strong>Embajadores internos:</strong> Identifica personas en cada área que tengan facilidad con los datos y puedan ayudar a sus compañeros.</li>
+                <li><strong>Horas de consulta:</strong> Establece sesiones periódicas donde el equipo de análisis esté disponible para responder preguntas.</li>
+            </ul>
+            <p><strong>¿Cómo saber si funciona?:</strong> Las personas interpretan correctamente los reportes, hacen preguntas más profundas sobre los datos y se sienten cómodas discutiendo información basada en números.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>O - Operationalization (Operacionalización)</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Objetivo:</strong> Integrar el análisis de datos en los procesos y rutinas diarias para que sea parte natural del trabajo.</p>
+            <p><strong>Actividades clave:</strong></p>
+            <ul>
+                <li><strong>Incorpora los datos en procesos existentes:</strong> Incluye información analítica en procesos que ya existen, como las revisiones de talento, la planificación de sucesión o la elaboración de presupuestos.</li>
+                <li><strong>Integra las visualizaciones en los sistemas habituales:</strong> Coloca gráficos y datos directamente en las herramientas que los usuarios ya utilizan diariamente.</li>
+                <li><strong>Actualiza los formatos de reuniones:</strong> Modifica las agendas y plantillas para incluir espacios dedicados a revisar datos relevantes.</li>
+                <li><strong>Configura alertas automáticas:</strong> Programa notificaciones que se envíen cuando ciertos indicadores importantes superen límites predefinidos.</li>
+            </ul>
+            <p><strong>¿Cómo saber si funciona?:</strong> El uso de datos se vuelve una parte natural del trabajo diario, no una actividad extra o especial; las decisiones incluyen sistemáticamente información basada en datos.</p>
+        </div>
+    </div>
+    
+    <div class="accordion">
+        <div class="accordion-header">
+            <span>P - Proof Points (Puntos de Prueba)</span>
+            <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Objetivo:</strong> Demostrar con ejemplos reales y concretos que el análisis de personas realmente funciona y genera beneficios.</p>
+            <p><strong>Actividades clave:</strong></p>
+            <ul>
+                <li><strong>Implementa proyectos pequeños de éxito rápido:</strong> Identifica problemas sencillos que puedan resolverse rápidamente con análisis básicos.</li>
+                <li><strong>Mide los resultados:</strong> Documenta cuidadosamente la situación antes y después de aplicar las soluciones basadas en datos, mostrando números concretos de mejora.</li>
+                <li><strong>Cuenta historias convincentes:</strong> Desarrolla narrativas interesantes que muestren tanto el proceso como los resultados obtenidos.</li>
+                <li><strong>Comparte los éxitos:</strong> Crea canales para difundir las historias de éxito por toda la organización.</li>
+            </ul>
+            <p><strong>¿Cómo saber si funciona?:</strong> Se generan múltiples casos de éxito bien documentados; las personas comienzan a solicitar análisis similares para sus propias áreas; crece la confianza en el valor del People Analytics.</p>
+        </div>
