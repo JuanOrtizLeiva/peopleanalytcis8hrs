@@ -3,1757 +3,1420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso: Power BI con People Analytics - Sección 2</title>
+    <title>Introducción a Power BI para People Analytics - Sección 2</title>
     <style>
+        /* Variables CSS para la paleta de colores - Azul Elegante */
         :root {
-            --primary-color: #2C6BAC;
-            --primary-dark: #1B4978;
-            --secondary-color: #7CC6FE;
-            --secondary-dark: #4A9FE6;
-            --accent-color: #FF8A00;
-            --accent-dark: #E67300;
-            --background-color: #f8f9fa;
-            --text-color: #333333;
-            --text-light: #ffffff;
-            --light-gray: #e9ecef;
-            --dark-gray: #495057;
-            --success-color: #28a745;
-            --success-dark: #1e7e34;
-            --danger-color: #dc3545;
-            --danger-dark: #bd2130;
-            --warning-color: #ffc107;
-            --warning-dark: #d39e00;
-            --info-color: #17a2b8;
-            --info-dark: #138496;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --box-shadow-hover: 0 6px 10px rgba(0, 0, 0, 0.2);
-            --transition: all 0.3s ease-in-out;
-            --border-radius: 8px;
+            --color-primario: #0D47A1; /* Azul elegante principal (más oscuro) */
+            --color-secundario: #1565C0; /* Azul elegante secundario */
+            --color-terciario: #1976D2; /* Azul elegante terciario */
+            --color-acento: #FF8F00; /* Naranja ámbar como acento complementario */
+            --color-acento-claro: #FFE082; /* Ámbar claro */
+            --color-texto: #212121; /* Texto más oscuro para mejor contraste */
+            --color-fondo: #F5F7FA; /* Fondo ligeramente azulado */
+            --color-fondo-seccion: #ffffff; /* Color fondo secciones */
+            --color-borde: #CFD8DC; /* Bordes azulados sutiles */
+            --sombra-suave: 0 4px 12px rgba(13, 71, 161, 0.08); /* Sombra azulada */
+            --radio-borde: 8px; /* Radio para bordes redondeados */
+            --espaciado: 1.5rem; /* Espaciado estándar */
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Estilos generales */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--color-texto);
+            background-color: var(--color-fondo);
             line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--background-color);
-            padding: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .contenedor {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            background: linear-gradient(135deg, var(--color-primario), var(--color-secundario), var(--color-terciario));
             color: white;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            margin-bottom: 30px;
-            box-shadow: var(--box-shadow);
-            position: relative;
-            overflow: hidden;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: var(--sombra-suave);
         }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255, 255, 255, 0.15)" d="M0,192L48,181.3C96,171,192,149,288,149.3C384,149,480,171,576,165.3C672,160,768,128,864,138.7C960,149,1056,203,1152,208C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-            background-position: bottom;
-            background-repeat: no-repeat;
-            opacity: 0.6;
-            z-index: 0;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 1;
+        .header-contenido {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--text-light);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1rem;
+            color: white;
         }
 
         h2 {
             font-size: 2rem;
-            color: var(--primary-dark);
-            margin: 40px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--secondary-color);
+            color: var(--color-primario);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--color-acento);
         }
 
         h3 {
             font-size: 1.5rem;
-            color: var(--dark-gray);
-            margin: 30px 0 15px;
-        }
-
-        h4 {
-            font-size: 1.2rem;
-            color: var(--primary-color);
-            margin: 20px 0 10px;
+            color: var(--color-secundario);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         p {
-            margin-bottom: 20px;
+            margin-bottom: 1.2rem;
             font-size: 1.1rem;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
+        section {
+            background-color: var(--color-fondo-seccion);
+            border-radius: var(--radio-borde);
+            padding: var(--espaciado);
+            margin-bottom: 2rem;
+            box-shadow: var(--sombra-suave);
+            border-top: 4px solid var(--color-primario);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(13, 71, 161, 0.12);
         }
 
-        .section {
-            margin-bottom: 40px;
+        .intro-banner {
+            background: linear-gradient(to right, rgba(255, 143, 0, 0.1), rgba(255, 224, 130, 0.2));
+            border-left: 5px solid var(--color-acento);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 0 var(--radio-borde) var(--radio-borde) 0;
+            box-shadow: 0 4px 15px rgba(255, 143, 0, 0.1);
         }
 
-        .subsection {
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: var(--background-color);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
 
-        /* Elementos interactivos */
-        /* Tarjetas giratorias con mejor contraste */
-        .flip-card-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin: 30px 0;
-        }
-
-        .flip-card {
-            background-color: transparent;
-            width: 300px;
-            height: 200px;
+        /* Estilos para tarjetas giratorias */
+        .tarjeta-giratoria-container {
             perspective: 1000px;
-            cursor: pointer;
-            margin-bottom: 20px;
+            height: 200px;
+            margin-bottom: 2rem;
         }
 
-        .flip-card-inner {
+        .tarjeta-giratoria {
             position: relative;
             width: 100%;
             height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
+            transition: transform 0.8s;
             transform-style: preserve-3d;
-            box-shadow: var(--box-shadow);
-            border-radius: var(--border-radius);
+            cursor: pointer;
         }
 
-        .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
-            box-shadow: var(--box-shadow-hover);
-        }
-
-        .flip-card-front, .flip-card-back {
+        .tarjeta-frente, .tarjeta-reverso {
             position: absolute;
             width: 100%;
             height: 100%;
-            -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            padding: 20px;
-            border-radius: var(--border-radius);
+            border-radius: var(--radio-borde);
+            padding: 1.5rem;
+            box-sizing: border-box;
         }
 
-        .flip-card-front {
-            background-color: var(--primary-dark);
-            color: var(--text-light);
-            border: 2px solid var(--primary-color);
-        }
-
-        .flip-card-front h3 {
-            color: var(--text-light);
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 1.4rem;
-        }
-
-        .flip-card-front p {
-            margin-bottom: 0;
-            font-size: 1.1rem;
-            color: var(--secondary-color);
-            font-weight: bold;
-        }
-
-        .flip-card-back {
-            background-color: var(--secondary-dark);
-            color: var(--text-light);
-            transform: rotateY(180deg);
-            overflow-y: auto;
-            border: 2px solid var(--secondary-color);
-        }
-
-        .flip-card-back h4 {
-            color: var(--text-light);
-            margin-top: 0;
-            font-size: 1.3rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
-
-        .flip-card-back p {
-            margin-bottom: 0;
-            font-size: 1rem;
-        }
-
-        /* Acordeón */
-        .accordion {
-            margin-bottom: 20px;
-        }
-
-        .accordion-item {
-            margin-bottom: 10px;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--box-shadow);
-        }
-
-        .accordion-header {
-            background-color: var(--primary-dark);
+        .tarjeta-frente {
+            background: linear-gradient(145deg, var(--color-primario), var(--color-secundario));
             color: white;
-            padding: 15px 20px;
-            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(13, 71, 161, 0.2);
+        }
+
+        .tarjeta-reverso {
+            background: linear-gradient(145deg, var(--color-acento), #F57C00);
+            color: white;
+            transform: rotateY(180deg);
+            box-shadow: 0 4px 15px rgba(255, 143, 0, 0.2);
+        }
+
+        .girar {
+            transform: rotateY(180deg);
+        }
+
+        /* Estilos para acordeones */
+        .acordeon {
+            margin-bottom: 1rem;
+            border: 1px solid var(--color-borde);
+            border-radius: var(--radio-borde);
+            overflow: hidden;
+        }
+
+        .acordeon-titulo {
+            background: linear-gradient(to right, var(--color-primario), var(--color-secundario));
+            color: white;
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: var(--transition);
-        }
-
-        .accordion-header:hover {
-            background-color: var(--primary-color);
-        }
-
-        .accordion-header::after {
-            content: '+';
-            font-size: 1.5rem;
+            cursor: pointer;
             font-weight: bold;
+            border-radius: var(--radio-borde) var(--radio-borde) 0 0;
+            transition: all 0.3s ease;
+        }
+        
+        .acordeon-titulo:hover {
+            background: linear-gradient(to right, var(--color-secundario), var(--color-primario));
         }
 
-        .accordion-header.active::after {
-            content: '-';
-        }
-
-        .accordion-content {
-            padding: 0;
+        .acordeon-contenido {
+            background-color: white;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
-            background-color: white;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1rem;
         }
 
-        .accordion-content-inner {
-            padding: 20px;
+        .acordeon-contenido.activo {
+            max-height: 500px;
+            padding: 1rem;
         }
 
-        /* Tabla interactiva */
-        .interactive-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            box-shadow: var(--box-shadow);
-            border-radius: var(--border-radius);
-            overflow: hidden;
+        .acordeon-icono {
+            transition: transform 0.3s;
         }
 
-        .interactive-table thead {
-            background-color: var(--primary-dark);
-            color: white;
+        .acordeon-icono.activo {
+            transform: rotate(180deg);
         }
 
-        .interactive-table th, .interactive-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--light-gray);
+        /* Estilos para elementos arrastrables */
+        .arrastrable-container {
+            margin: 2rem 0;
         }
 
-        .interactive-table tr:nth-child(even) {
-            background-color: var(--light-gray);
-        }
-
-        .interactive-table tr {
-            transition: var(--transition);
-        }
-
-        .interactive-table tr:hover {
-            background-color: #dfe6e9;
-        }
-
-        .interactive-table .hidden-row {
-            display: none;
-        }
-
-        .interactive-table .expandable-row {
-            cursor: pointer;
-        }
-
-        .interactive-table .expandable-row:hover {
-            background-color: #e0f7fa;
-        }
-
-        .interactive-table .expandable-icon::after {
-            content: '▶';
-            margin-left: 10px;
-            font-size: 0.8rem;
-            transition: var(--transition);
-        }
-
-        .interactive-table .expandable-row.expanded .expandable-icon::after {
-            content: '▼';
-        }
-
-        /* Quiz de verdadero/falso */
-        .quiz-container {
-            margin: 30px 0;
-            padding: 20px;
-            background-color: var(--light-gray);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-
-        .quiz-question {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .quiz-options {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .quiz-option {
-            padding: 10px 20px;
-            border: 2px solid var(--primary-dark);
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: bold;
-            color: var(--primary-dark);
-        }
-
-        .quiz-option:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .quiz-option.selected {
-            background-color: var(--primary-dark);
-            color: white;
-        }
-
-        .quiz-feedback {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: var(--border-radius);
-            font-weight: bold;
-            display: none;
-        }
-
-        .quiz-feedback.correct {
-            background-color: rgba(40, 167, 69, 0.2);
-            color: var(--success-dark);
-            border: 1px solid var(--success-color);
-        }
-
-        .quiz-feedback.incorrect {
-            background-color: rgba(220, 53, 69, 0.2);
-            color: var(--danger-dark);
-            border: 1px solid var(--danger-color);
-        }
-
-        /* Elementos arrastrables */
-        .draggable-container {
-            margin: 30px 0;
-            padding: 20px;
-            background-color: var(--light-gray);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-
-        .drag-items {
+        .elementos-arrastrables {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .drag-item {
-            padding: 10px 15px;
-            background-color: var(--primary-dark);
+        .elemento-arrastrable {
+            background: linear-gradient(145deg, var(--color-secundario), var(--color-terciario));
             color: white;
-            border-radius: var(--border-radius);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radio-borde);
             cursor: grab;
             user-select: none;
-            transition: var(--transition);
-            border: 1px solid var(--primary-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .drag-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-            background-color: var(--primary-color);
-        }
-
-        .drop-zones {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .drop-zone {
-            min-width: 200px;
-            min-height: 150px;
-            padding: 15px;
-            background-color: white;
-            border: 2px dashed var(--primary-dark);
-            border-radius: var(--border-radius);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex: 1;
-        }
-
-        .drop-zone h4 {
-            text-align: center;
-            margin-top: 0;
-            color: var(--primary-dark);
-        }
-
-        .drop-zone.highlight {
-            background-color: rgba(124, 198, 254, 0.2);
-            border: 2px dashed var(--primary-color);
-        }
-
-        .drop-zone .drag-item {
-            background-color: var(--secondary-dark);
-        }
-
-        /* Botones */
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: var(--primary-dark);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            font-weight: bold;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-
-        .btn:hover {
-            background-color: var(--primary-color);
+        
+        .elemento-arrastrable:hover {
             transform: translateY(-2px);
-            box-shadow: var(--box-shadow-hover);
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
         }
 
-        .btn-check {
-            background-color: var(--success-dark);
+        .elemento-arrastrable:active {
+            cursor: grabbing;
         }
 
-        .btn-check:hover {
-            background-color: var(--success-color);
+        .destinos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .btn-reset {
-            background-color: var(--danger-dark);
-        }
-
-        .btn-reset:hover {
-            background-color: var(--danger-color);
-        }
-
-        /* Video container */
-        .video-container {
-            margin: 30px 0;
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        .video-caption {
-            margin-top: 10px;
-            font-style: italic;
-            color: var(--dark-gray);
-            text-align: center;
-        }
-
-        /* Código y sintaxis */
-        .code-block {
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--primary-color);
-            padding: 15px;
-            margin: 20px 0;
-            font-family: Consolas, Monaco, 'Andale Mono', monospace;
-            overflow-x: auto;
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
-        }
-
-        .code-block pre {
-            margin: 0;
-            white-space: pre-wrap;
-            font-size: 0.9rem;
-        }
-
-        /* Efecto de resaltado */
-        .highlight {
-            background-color: rgba(255, 138, 0, 0.2);
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-weight: bold;
-            color: var(--accent-dark);
-        }
-
-        /* Tips importantes */
-        .tip-box {
-            background-color: rgba(23, 162, 184, 0.1);
-            border-left: 4px solid var(--info-color);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
-        }
-
-        .tip-box h4 {
-            color: var(--info-dark);
-            margin-top: 0;
+        .destino {
+            border: 2px dashed var(--color-borde);
+            border-radius: var(--radio-borde);
+            min-height: 120px;
+            padding: 1rem;
             display: flex;
             align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-color: rgba(236, 239, 241, 0.5);
+            transition: all 0.3s ease;
+            gap: 0.75rem;
         }
 
-        .tip-box h4::before {
-            content: '💡';
-            margin-right: 10px;
-            font-size: 1.3rem;
+        .destino-titulo {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--color-primario);
         }
 
-        /* Consulta de medios para responsividad */
+        .destino.hover {
+            background-color: var(--color-acento-claro);
+            border-color: var(--color-acento);
+        }
+
+        .reiniciar-btn {
+            background: linear-gradient(to right, var(--color-acento), #F57C00);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radio-borde);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 143, 0, 0.2);
+            margin-top: 1rem;
+        }
+
+        .reiniciar-btn:hover {
+            background: linear-gradient(to right, #F57C00, var(--color-acento));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 143, 0, 0.3);
+        }
+
+        /* Estilos para preguntas V/F */
+        .pregunta-vf {
+            background-color: white;
+            border-radius: var(--radio-borde);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--color-borde);
+            box-shadow: 0 2px 8px rgba(13, 71, 161, 0.05);
+        }
+
+        .opciones-vf {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .opcion-vf {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--color-borde);
+            border-radius: var(--radio-borde);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            flex: 1;
+            text-align: center;
+        }
+
+        .opcion-vf:hover {
+            background-color: var(--color-acento-claro);
+            border-color: var(--color-acento);
+        }
+
+        .opcion-vf.seleccionada {
+            background: linear-gradient(to right, var(--color-primario), var(--color-secundario));
+            color: white;
+            border-color: var(--color-primario);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--radio-borde);
+            display: none;
+        }
+
+        .feedback.correcto {
+            background-color: #e8f5e9;
+            border: 1px solid #4CAF50;
+            color: #2E7D32;
+        }
+
+        .feedback.incorrecto {
+            background-color: #ffebee;
+            border: 1px solid #F44336;
+            color: #C62828;
+        }
+
+        /* Estilos para tablas interactivas y mapa de calor */
+        .tabla-interactiva {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background-color: white;
+            border-radius: var(--radio-borde);
+            overflow: hidden;
+            box-shadow: var(--sombra-suave);
+        }
+
+        .tabla-interactiva th {
+            background: linear-gradient(to bottom, var(--color-primario), var(--color-secundario));
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tabla-interactiva th:hover {
+            background: linear-gradient(to bottom, var(--color-secundario), var(--color-primario));
+        }
+
+        .tabla-interactiva td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-borde);
+        }
+
+        .tabla-interactiva tr:nth-child(even) {
+            background-color: rgba(66, 165, 245, 0.05);
+        }
+
+        .tabla-interactiva tr:hover {
+            background-color: rgba(66, 165, 245, 0.1);
+        }
+
+        .tabla-interactiva .fila-expandible {
+            display: none;
+            background-color: var(--color-acento-claro);
+        }
+
+        .tabla-interactiva .fila-expandible td {
+            padding: 1.5rem;
+        }
+
+        .expandir-btn {
+            background-color: var(--color-terciario);
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.2s;
+        }
+
+        .expandir-btn:hover {
+            background-color: var(--color-secundario);
+        }
+
+        /* Estilos específicos para el mapa de calor */
+        .mapa-calor {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 3px;
+            margin: 2rem 0;
+            background-color: white;
+            border-radius: var(--radio-borde);
+            overflow: hidden;
+            box-shadow: var(--sombra-suave);
+        }
+
+        .mapa-calor th {
+            padding: 1rem;
+            text-align: center;
+            background-color: var(--color-primario);
+            color: white;
+            font-weight: bold;
+        }
+
+        .mapa-calor td {
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mapa-calor td:hover::after {
+            content: attr(data-valor) "%";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        .celda-nivel-1 { 
+            background-color: #EF5350; 
+            color: white; 
+        }
+        .celda-nivel-2 { 
+            background-color: #EF9A9A; 
+            color: black; 
+        }
+        .celda-nivel-3 { 
+            background-color: #FFCDD2; 
+            color: black; 
+        }
+        .celda-nivel-4 { 
+            background-color: #FFE0B2; 
+            color: black; 
+        }
+        .celda-nivel-5 { 
+            background-color: #FFECB3; 
+            color: black; 
+        }
+        .celda-nivel-6 { 
+            background-color: #FFF9C4; 
+            color: black; 
+        }
+        .celda-nivel-7 { 
+            background-color: #DCEDC8; 
+            color: black; 
+        }
+        .celda-nivel-8 { 
+            background-color: #C5E1A5; 
+            color: black; 
+        }
+        .celda-nivel-9 { 
+            background-color: #9CCC65; 
+            color: black; 
+        }
+        .celda-nivel-10 { 
+            background-color: #7CB342; 
+            color: white; 
+        }
+
+        /* Estilos para el video demo */
+        .video-container {
+            margin: 2rem 0;
+            background-color: white;
+            border-radius: var(--radio-borde);
+            overflow: hidden;
+            padding: 1.5rem;
+            box-shadow: var(--sombra-suave);
+            border: 1px solid var(--color-borde);
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, var(--color-primario), var(--color-terciario));
+            color: white;
+            padding: 2rem;
+            border-radius: var(--radio-borde);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 300px;
+        }
+
+        .video-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-play {
+            background: linear-gradient(to right, var(--color-acento), #F57C00);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radio-borde);
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-play:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 143, 0, 0.3);
+        }
+
+        /* Estilos para secciones con imágenes */
+        .imagen-interfaz {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 1.5rem 0;
+            border-radius: var(--radio-borde);
+            box-shadow: var(--sombra-suave);
+            border: 1px solid var(--color-borde);
+        }
+
+        .imagen-container {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .imagen-caption {
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: #607D8B;
+        }
+
+        /* Estilos para nota destacada */
+        .nota-destacada {
+            background: linear-gradient(to right, rgba(13, 71, 161, 0.1), rgba(25, 118, 210, 0.05));
+            border-left: 5px solid var(--color-primario);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--radio-borde) var(--radio-borde) 0;
+        }
+
+        /* Estilos responsivos */
         @media (max-width: 768px) {
-            .flip-card-container {
+            .header-contenido {
                 flex-direction: column;
-                align-items: center;
-            }
-            
-            .flip-card {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .drop-zones {
-                flex-direction: column;
+                text-align: center;
             }
 
-            .quiz-options {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .destinos-container {
+                grid-template-columns: 1fr;
+            }
+
+            .opciones-vf {
                 flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>Power BI con People Analytics</h1>
-            <p>Sección 2: Preparación de Datos</p>
+    <header style="background: linear-gradient(135deg, var(--color-primario), var(--color-secundario), var(--color-terciario));">
+        <div class="header-contenido">
+            <div>
+                <h1>Introducción a Power BI para People Analytics</h1>
+                <p style="color: rgba(255, 255, 255, 0.9);">Aprende a analizar y visualizar datos de recursos humanos con una de las herramientas más potentes del mercado</p>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        <section class="section">
-            <h2>Introducción a la preparación de datos</h2>
-            <p>Bienvenidos a la segunda sección de nuestro curso especializado en <strong>Power BI para People Analytics</strong>. En esta parte, nos enfocaremos en uno de los aspectos más fundamentales y que consume más tiempo en cualquier proyecto de análisis: la preparación de datos.</p>
+    <div class="contenedor">
+        <div class="intro-banner">
+            <h2 style="color: var(--color-texto); border-bottom: none; margin-top: 0;">Sección 2: Navegación por la Interfaz de Power BI</h2>
+            <p>En esta sección, exploraremos la interfaz de Power BI Desktop, aprenderemos a importar datos desde diversas fuentes comunes en RRHH y crearemos nuestras primeras visualizaciones para People Analytics.</p>
+        </div>
+
+        <section id="areas-principales-power-bi">
+            <h2>1. Áreas Principales de Power BI Desktop</h2>
             
-            <p>La calidad de los dashboards y visualizaciones que creemos dependerá directamente de la calidad de los datos que utilicemos. Como dice el famoso principio informático: <span class="highlight">"Garbage in, garbage out"</span> (si entra basura, sale basura). Por esta razón, dominar las técnicas de preparación de datos es esencial para cualquier analista de People Analytics.</p>
+            <p>Power BI Desktop es una aplicación potente y completa que combina múltiples componentes necesarios para el análisis y visualización de datos. Comprender su interfaz es el primer paso para aprovechar al máximo sus capacidades. La interfaz se divide en varias áreas fundamentales que trabajan en conjunto para permitirte transformar datos en insights valiosos.</p>
             
-            <div class="subsection">
-                <h3>Objetivos de aprendizaje</h3>
-                <p>Al finalizar esta sección, serás capaz de:</p>
-                <ul>
-                    <li>Conectar Power BI a diferentes fuentes de datos de recursos humanos</li>
-                    <li>Utilizar Power Query para transformar y limpiar datos de personal</li>
-                    <li>Crear relaciones efectivas entre tablas de datos de RRHH</li>
-                    <li>Preparar conjuntos de datos específicos para análisis de People Analytics</li>
-                    <li>Implementar buenas prácticas de modelado de datos para optimizar el rendimiento</li>
-                </ul>
+            <div class="nota-destacada">
+                <h3 style="margin-top: 0;">Nota importante:</h3>
+                <p>Power BI Desktop se actualiza mensualmente con nuevas características y mejoras. Si bien la estructura general se mantiene bastante estable, es posible que encuentres pequeñas diferencias visuales dependiendo de tu versión específica. Las capturas de pantalla utilizadas en este curso corresponden a la versión de marzo 2025.</p>
+            </div>
+
+            <!-- Acordeón: Áreas principales de Power BI Desktop -->
+            <h3>Explorando las áreas clave de Power BI Desktop</h3>
+            
+            <div class="acordeon" id="acordeon1">
+                <div class="acordeon-titulo">
+                    La cinta de opciones
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <p>Ubicada en la parte superior de la ventana, la cinta de opciones sigue un estilo similar al de otras aplicaciones de Microsoft, organizada en pestañas que agrupan funciones relacionadas:</p>
+                    <ul>
+                        <li><strong>Archivo:</strong> Opciones para abrir, guardar, publicar informes y configurar ajustes generales.</li>
+                        <li><strong>Inicio:</strong> Contiene las herramientas más utilizadas para la creación de informes, como visualizaciones, formatos y operaciones básicas.</li>
+                        <li><strong>Insertar:</strong> Permite añadir elementos como formas, botones, imágenes y otros objetos visuales.</li>
+                        <li><strong>Modelado:</strong> Herramientas para trabajar con el modelo de datos, como la creación de medidas, columnas calculadas y relaciones.</li>
+                        <li><strong>Vista:</strong> Opciones para personalizar la visualización del espacio de trabajo.</li>
+                        <li><strong>Ayuda:</strong> Recursos de soporte y aprendizaje.</li>
+                    </ul>
+                    <p>Cada pestaña contextual aparece cuando seleccionas objetos específicos, ofreciendo opciones relevantes para el elemento seleccionado.</p>
+                </div>
+            </div>
+
+            <div class="acordeon" id="acordeon2">
+                <div class="acordeon-titulo">
+                    Panel de visualizaciones
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <p>Este panel es fundamental para la creación y configuración de elementos visuales en tu informe. Se divide en tres secciones principales:</p>
+                    <ul>
+                        <li><strong>Galería de visualizaciones:</strong> Muestra los tipos de gráficos y visualizaciones disponibles (barras, líneas, tablas, mapas, etc.). Aquí también puedes acceder a visualizaciones personalizadas importadas desde la Tienda de Power BI.</li>
+                        <li><strong>Campos:</strong> Donde arrastras los campos de datos que deseas incluir en tu visualización, como ejes, valores, leyendas, etc. Esta área cambia según el tipo de visualización seleccionada.</li>
+                        <li><strong>Formato:</strong> Permite personalizar el aspecto visual de tus gráficos (colores, fuentes, tamaños, etc.) y configurar opciones avanzadas específicas para cada tipo de visualización.</li>
+                    </ul>
+                    <p>El panel de visualizaciones actúa como un puente entre tus datos y la representación visual que estás creando, permitiéndote iterar rápidamente diferentes formas de comunicar tus insights.</p>
+                </div>
+            </div>
+
+            <div class="acordeon" id="acordeon3">
+                <div class="acordeon-titulo">
+                    Panel de campos
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <p>Ubicado generalmente a la derecha de la interfaz, muestra todos los campos de datos disponibles organizados por tablas. Desde aquí puedes:</p>
+                    <ul>
+                        <li>Arrastrar campos directamente al lienzo o al panel de visualizaciones.</li>
+                        <li>Ver rápidamente la estructura de tus datos importados.</li>
+                        <li>Identificar jerarquías y relaciones entre tablas.</li>
+                        <li>Buscar campos específicos a través de la barra de búsqueda.</li>
+                        <li>Acceder a operaciones contextuales para cada campo (como crear medidas rápidas).</li>
+                    </ul>
+                    <p>Los iconos junto a cada campo indican su tipo de datos (texto, número, fecha, etc.), lo que te ayuda a entender cómo Power BI interpretará y visualizará esa información.</p>
+                </div>
+            </div>
+
+            <div class="acordeon" id="acordeon4">
+                <div class="acordeon-titulo">
+                    Área de lienzo (canvas)
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <p>Es el espacio central donde diseñas y organizas tus visualizaciones. Características principales:</p>
+                    <ul>
+                        <li>Área de "arrastrar y soltar" donde colocas y dimensionas tus visualizaciones.</li>
+                        <li>Permite la creación de múltiples páginas (o pestañas) para organizar diferentes conjuntos de visualizaciones.</li>
+                        <li>Admite capas y superposición de elementos visuales.</li>
+                        <li>Ofrece opciones de alineación y distribución para una disposición precisa.</li>
+                        <li>Incluye funciones de zoom para trabajar cómodamente con informes complejos.</li>
+                        <li>Soporta fondos personalizados e imágenes para un diseño profesional.</li>
+                    </ul>
+                    <p>El lienzo es donde todo cobra vida, permitiéndote experimentar con diferentes layouts y configuraciones hasta lograr la experiencia óptima para tus usuarios.</p>
+                </div>
+            </div>
+
+            <div class="acordeon" id="acordeon5">
+                <div class="acordeon-titulo">
+                    Panel de filtros
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <p>Te permite definir y gestionar filtros que controlan qué datos se muestran en tus visualizaciones. Se organiza en tres niveles:</p>
+                    <ul>
+                        <li><strong>Filtros de visualización:</strong> Afectan únicamente a la visualización seleccionada.</li>
+                        <li><strong>Filtros de página:</strong> Se aplican a todas las visualizaciones en la página actual.</li>
+                        <li><strong>Filtros de informe:</strong> Impactan en todas las páginas del informe.</li>
+                        <li><strong>Filtros detallados:</strong> Permiten crear condiciones específicas y complejas.</li>
+                    </ul>
+                    <p>Los filtros son esenciales para crear informes interactivos y dinámicos, permitiendo a los usuarios explorar diferentes perspectivas de los mismos datos sin necesidad de crear múltiples informes estáticos.</p>
+                </div>
+            </div>
+
+            <h3>Los tres modos de vista en Power BI Desktop</h3>
+            
+            <p>Power BI Desktop ofrece tres perspectivas diferentes de tus datos, accesibles mediante pestañas en la barra lateral izquierda:</p>
+            
+            <!-- Tarjetas giratorias: Modos de vista en Power BI -->
+            <div class="grid-container">
+                <div class="tarjeta-giratoria-container">
+                    <div class="tarjeta-giratoria" id="tarjeta1">
+                        <div class="tarjeta-frente">
+                            <h3>Vista de Informe</h3>
+                            <p>Haz clic para conocer más</p>
+                        </div>
+                        <div class="tarjeta-reverso">
+                            <p>Es la vista principal donde diseñas dashboards y visualizaciones. Aquí arrastras, sueltas y configuras gráficos, tablas y otros elementos visuales para comunicar tus insights.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tarjeta-giratoria-container">
+                    <div class="tarjeta-giratoria" id="tarjeta2">
+                        <div class="tarjeta-frente">
+                            <h3>Vista de Datos</h3>
+                            <p>Haz clic para conocer más</p>
+                        </div>
+                        <div class="tarjeta-reverso">
+                            <p>Muestra tus datos en formato tabular, similar a Excel. Permite revisar los datos importados, verificar transformaciones y entender la estructura antes de crear visualizaciones.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tarjeta-giratoria-container">
+                    <div class="tarjeta-giratoria" id="tarjeta3">
+                        <div class="tarjeta-frente">
+                            <h3>Vista de Modelo</h3>
+                            <p>Haz clic para conocer más</p>
+                        </div>
+                        <div class="tarjeta-reverso">
+                            <p>Permite visualizar y gestionar las relaciones entre diferentes tablas de datos. Es esencial para crear modelos de datos complejos con múltiples fuentes de información relacionadas.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <div class="tip-box">
-                <h4>¿Por qué es crucial la preparación de datos?</h4>
-                <p>Según estudios recientes, los analistas de datos dedican entre el 60% y el 80% de su tiempo a la preparación y limpieza de datos. En el contexto de People Analytics, donde los datos suelen provenir de múltiples sistemas y tener diferentes formatos y granularidades, este porcentaje puede ser incluso mayor.</p>
-                <p>Una preparación adecuada de los datos no solo ahorra tiempo a largo plazo, sino que también aumenta significativamente la confiabilidad de los análisis y decisiones basadas en ellos.</p>
+            <p>Estos tres modos de vista te permiten alternar entre diferentes perspectivas de tus datos, facilitando tanto la comprensión de la información como la creación de relaciones complejas y visualizaciones efectivas. Es recomendable familiarizarse con cada una de estas vistas, ya que cada una cumple un propósito específico en el flujo de trabajo de análisis de datos.</p>
+        </section>
+
+        <section id="importacion-datos">
+            <h2>2. Importación de Datos desde Fuentes Comunes en People Analytics</h2>
+            
+            <p>Una de las grandes fortalezas de Power BI es su capacidad para conectarse e importar datos desde una amplia variedad de fuentes. En el contexto de People Analytics, donde la información suele estar distribuida en múltiples sistemas y formatos, esta flexibilidad resulta particularmente valiosa.</p>
+            
+            <p>Veamos las principales fuentes de datos relevantes para profesionales de RRHH y cómo conectarse a ellas de manera efectiva:</p>
+            
+            <h3>Conectándose a archivos de Excel</h3>
+            
+            <p>Microsoft Excel sigue siendo una de las herramientas más utilizadas por departamentos de RRHH para almacenar y manipular datos. Power BI ofrece una integración perfecta con Excel, permitiéndote importar:</p>
+            
+            <ul>
+                <li>Hojas de cálculo completas</li>
+                <li>Tablas definidas</li>
+                <li>Rangos nombrados</li>
+                <li>Múltiples hojas dentro del mismo archivo</li>
+            </ul>
+            
+            <p>Para conectarte a un archivo Excel:</p>
+            
+            <ol>
+                <li>En la pestaña "Inicio", haz clic en "Obtener datos"</li>
+                <li>Selecciona "Excel" en el menú desplegable</li>
+                <li>Navega hasta el archivo deseado y haz clic en "Abrir"</li>
+                <li>En el Navegador, selecciona las hojas o tablas que deseas importar</li>
+                <li>Haz clic en "Cargar" para importar directamente, o en "Transformar datos" si necesitas realizar ajustes previos</li>
+            </ol>
+            
+            <div class="nota-destacada">
+                <h4 style="margin-top: 0;">Consejo profesional:</h4>
+                <p>Si trabajas regularmente con los mismos archivos Excel, considera convertirlos en "Tablas Excel" (usando el comando "Formatear como tabla" en Excel). Esto facilita enormemente la importación y actualización en Power BI, además de hacer que las referencias a los datos sean más robustas.</p>
+            </div>
+            
+            <h3>Conexión a bases de datos SQL y HRIS</h3>
+            
+            <p>Las organizaciones medianas y grandes suelen almacenar datos de empleados en sistemas de información de recursos humanos (HRIS) o bases de datos relacionales. Power BI puede conectarse directamente a estas fuentes:</p>
+            
+            <ul>
+                <li><strong>SQL Server:</strong> Conexión nativa con excelente rendimiento para grandes volúmenes de datos.</li>
+                <li><strong>Oracle:</strong> Compatible con muchos sistemas HRIS empresariales.</li>
+                <li><strong>MySQL/PostgreSQL:</strong> Para implementaciones de bases de datos de código abierto.</li>
+                <li><strong>SAP HANA:</strong> Para organizaciones que utilizan soluciones SAP.</li>
+                <li><strong>Conectores específicos:</strong> Para sistemas populares como Workday, SuccessFactors, ADP, etc.</li>
+            </ul>
+            
+            <p>El proceso de conexión varía ligeramente según la base de datos, pero generalmente implica:</p>
+            
+            <ol>
+                <li>Seleccionar el tipo de base de datos en "Obtener datos"</li>
+                <li>Proporcionar credenciales de servidor y autenticación</li>
+                <li>Seleccionar tablas específicas o escribir consultas SQL personalizadas</li>
+                <li>Configurar el nivel de privacidad y métodos de autenticación</li>
+            </ol>
+            
+            <h3>Importación desde archivos CSV y de texto</h3>
+            
+            <p>Los archivos CSV (valores separados por comas) son extremadamente comunes en People Analytics, especialmente cuando se exportan datos de sistemas que no tienen conectores directos. Para importar estos archivos:</p>
+            
+            <ol>
+                <li>Selecciona "Texto/CSV" en las opciones de "Obtener datos"</li>
+                <li>Navega hasta el archivo y selecciónalo</li>
+                <li>Power BI intentará detectar automáticamente la configuración (delimitadores, codificación, etc.)</li>
+                <li>Ajusta la configuración si es necesario en la vista previa</li>
+                <li>Haz clic en "Cargar" o "Transformar datos"</li>
+            </ol>
+            
+            <div class="nota-destacada">
+                <h4 style="margin-top: 0;">Consideración importante:</h4>
+                <p>Los archivos CSV suelen presentar desafíos con formatos de fecha, caracteres especiales y valores nulos. Es altamente recomendable usar la opción "Transformar datos" para limpiar y formatear estos archivos antes de cargarlos definitivamente.</p>
+            </div>
+            
+            <h3>Conexión a servicios en la nube</h3>
+            
+            <p>Muchas organizaciones han migrado sus sistemas de RRHH a soluciones en la nube. Power BI ofrece conectores para servicios populares como:</p>
+            
+            <ul>
+                <li><strong>Microsoft 365:</strong> SharePoint, Teams, Planner, etc.</li>
+                <li><strong>Google Workspace:</strong> Hojas de cálculo, formularios, etc.</li>
+                <li><strong>Servicios específicos de RRHH:</strong> Conectores para Dynamics 365 HR, LinkedIn, etc.</li>
+                <li><strong>Plataformas SaaS generales:</strong> Salesforce, Zendesk, Marketo, etc.</li>
+            </ul>
+            
+            <p>Para estas conexiones, normalmente necesitarás:</p>
+            
+            <ol>
+                <li>Seleccionar el servicio específico en "Obtener datos"</li>
+                <li>Autenticarte con credenciales del servicio</li>
+                <li>Autorizar a Power BI para acceder a los datos</li>
+                <li>Seleccionar las tablas o entidades específicas a importar</li>
+            </ol>
+
+            <!-- Preguntas Verdadero/Falso -->
+            <h3>Comprueba tu conocimiento sobre importación de datos</h3>
+            
+            <div class="pregunta-vf" id="pregunta1">
+                <p><strong>Power BI solo puede conectarse a una fuente de datos a la vez por informe.</strong></p>
+                <div class="opciones-vf">
+                    <div class="opcion-vf" data-valor="verdadero">Verdadero</div>
+                    <div class="opcion-vf" data-valor="falso">Falso</div>
+                </div>
+                <div class="feedback" id="feedback-pregunta1"></div>
+            </div>
+            
+            <div class="pregunta-vf" id="pregunta2">
+                <p><strong>Al importar datos de Excel, Power BI puede diferenciar entre tablas formateadas y rangos regulares de celdas.</strong></p>
+                <div class="opciones-vf">
+                    <div class="opcion-vf" data-valor="verdadero">Verdadero</div>
+                    <div class="opcion-vf" data-valor="falso">Falso</div>
+                </div>
+                <div class="feedback" id="feedback-pregunta2"></div>
             </div>
         </section>
 
-        <!-- Primera parte: Importar datos de RRHH -->
-        <section class="section">
-            <h2>1. Importar datos de RRHH (Excel, bases de datos)</h2>
+        <section id="transformacion-datos">
+            <h2>3. Transformación de Datos con Power Query</h2>
             
-            <p>El primer paso en cualquier proyecto de Power BI es conectarse a las fuentes de datos relevantes. En el contexto de People Analytics, estas fuentes pueden ser muy diversas, desde simples archivos Excel hasta sistemas complejos de información de recursos humanos.</p>
+            <p>Una de las herramientas más poderosas de Power BI es Power Query, un motor de ETL (Extracción, Transformación y Carga) integrado que permite preparar tus datos antes de visualizarlos. Para profesionales de People Analytics, Power Query es esencial dado que los datos de RRHH frecuentemente requieren limpieza y transformación antes de ser analizados.</p>
             
-            <div class="subsection">
-                <h3>Fuentes comunes de datos de recursos humanos</h3>
-                <p>En la mayoría de las organizaciones, los datos de RRHH se encuentran distribuidos en diferentes sistemas y formatos:</p>
+            <h3>Introducción a Power Query Editor</h3>
+            
+            <p>Power Query Editor es una interfaz intuitiva que te permite transformar datos mediante operaciones que se registran como "pasos" en una secuencia lógica. Cada transformación crea un nuevo paso, y puedes editar, reordenar o eliminar estos pasos en cualquier momento, lo que hace el proceso completamente transparente y reproducible.</p>
+            
+            <p>Para acceder a Power Query Editor, tienes dos opciones principales:</p>
+            
+            <ul>
+                <li>Cuando importas datos, selecciona "Transformar datos" en lugar de "Cargar"</li>
+                <li>Para datos ya cargados, haz clic derecho en la tabla en el panel de Campos y selecciona "Editar consulta"</li>
+            </ul>
+
+            <!-- Tabla interactiva: Operaciones comunes de Power Query -->
+            <h3>Operaciones Comunes en Power Query Editor</h3>
+            
+            <table class="tabla-interactiva" id="tabla-operaciones">
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Operación</th>
+                        <th>Uso Típico en People Analytics</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Limpieza de columnas</td>
+                        <td>Eliminar columnas</td>
+                        <td>Quitar campos confidenciales o irrelevantes</td>
+                        <td><button class="expandir-btn" data-fila="1">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-1">
+                        <td colspan="4">
+                            <p>En conjuntos de datos de RRHH, a menudo hay información sensible o innecesaria para el análisis específico que estamos realizando. Power Query permite eliminar fácilmente columnas seleccionándolas y usando la opción "Quitar columnas" en la pestaña "Inicio". También puedes elegir "Quitar otras columnas" para mantener solo las seleccionadas, lo que es útil cuando necesitas conservar solo unos pocos campos de un conjunto de datos extenso, como mantener solo ID, departamento y métricas de rendimiento de un export completo del HRIS.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Limpieza de columnas</td>
+                        <td>Cambiar tipo de datos</td>
+                        <td>Asegurar formato correcto de fechas de contratación</td>
+                        <td><button class="expandir-btn" data-fila="2">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-2">
+                        <td colspan="4">
+                            <p>Los errores de tipo de datos son comunes en datos de RRHH, especialmente con fechas (contratación, término, evaluaciones) e identificadores de empleado. Power Query puede detectar y cambiar tipos automáticamente o puedes hacerlo manualmente. Por ejemplo, convertir fechas en formato texto (como "20/03/2024") a verdaderas fechas permite análisis temporales como antigüedad o rotación por mes. Igualmente, asegurar que los IDs de empleado sean texto evita problemas con valores como "00123" que se interpretarían como el número 123, causando inconsistencias en el seguimiento.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Filtrado</td>
+                        <td>Filtrar filas</td>
+                        <td>Analizar solo empleados activos</td>
+                        <td><button class="expandir-btn" data-fila="3">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-3">
+                        <td colspan="4">
+                            <p>El filtrado es crítico para análisis específicos de RRHH. Por ejemplo, puedes filtrar para incluir solo empleados actuales (donde "Fecha de término" está vacía), solo ciertos departamentos, o empleados con cierta antigüedad. Power Query ofrece filtros básicos (hacer clic en la flecha junto al nombre de columna) y avanzados (usando la opción "Filtro avanzado"). Los filtros pueden combinar múltiples condiciones con operadores lógicos AND/OR, como "Departamento = Ventas AND País = España AND Antigüedad > 2".</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Transformaciones</td>
+                        <td>Columnas calculadas</td>
+                        <td>Calcular antigüedad o edad</td>
+                        <td><button class="expandir-btn" data-fila="4">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-4">
+                        <td colspan="4">
+                            <p>Las columnas calculadas son esenciales en People Analytics. Por ejemplo, puedes crear una columna de antigüedad restando la fecha de contratación de la fecha actual, o calcular la edad de los empleados a partir de su fecha de nacimiento. Power Query utiliza el lenguaje M para estas operaciones. Por ejemplo, para calcular antigüedad en años: <code>=Duration.Days([Fecha Actual] - [Fecha Contratación]) / 365.25</code>. Otro uso común es crear indicadores (banderas) para segmentación, como <code>=if [Salario] > 50000 then "Alto" else if [Salario] > 30000 then "Medio" else "Bajo"</code> para categorizar empleados por nivel salarial.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Transformaciones</td>
+                        <td>Dividir columnas</td>
+                        <td>Separar nombre completo en nombre y apellido</td>
+                        <td><button class="expandir-btn" data-fila="5">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-5">
+                        <td colspan="4">
+                            <p>Es común en datos de RRHH tener campos combinados que necesitan separarse para análisis detallados. Un ejemplo típico es dividir "Nombre Completo" en "Nombre" y "Apellido", o separar "Departamento-Ubicación" en campos individuales. Power Query puede dividir columnas por delimitador (como espacio, coma o guion) o por número de caracteres. Para dividir un nombre completo, seleccionas la columna, vas a "Transformar" > "Dividir columna" > "Por delimitador" y eliges el espacio como separador, indicando que divida por la primera ocurrencia para separar el nombre del resto del texto.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agregación</td>
+                        <td>Agrupar por</td>
+                        <td>Calcular rotación promedio por departamento</td>
+                        <td><button class="expandir-btn" data-fila="6">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-6">
+                        <td colspan="4">
+                            <p>La agrupación es fundamental para análisis agregados, como calcular promedios salariales por departamento o tasas de rotación por ubicación. Para realizar agrupaciones, ve a "Transformar" > "Agrupar por". En el diálogo, selecciona las columnas para agrupar (como "Departamento") y las agregaciones a calcular (como Count de Empleados, Average de Salario, etc.). Por ejemplo, podrías agrupar por Departamento y Ubicación, calculando conteo de empleados, salario promedio, promedio de evaluación de desempeño y porcentaje de rotación, obteniendo una visión agregada que permite comparar métricas clave entre diferentes unidades organizativas.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Combinación de datos</td>
+                        <td>Combinar consultas</td>
+                        <td>Unir datos de empleados con resultados de evaluaciones</td>
+                        <td><button class="expandir-btn" data-fila="7">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-7">
+                        <td colspan="4">
+                            <p>En People Analytics, frecuentemente necesitamos combinar datos de múltiples sistemas. Por ejemplo, unir información básica de empleados del HRIS con resultados de evaluaciones de desempeño, datos de encuestas de engagement, o métricas de capacitación. Power Query permite realizar operaciones tipo JOIN usando "Inicio" > "Combinar consultas". Puedes elegir diferentes tipos de combinación (inner, left outer, right outer, full outer) según tus necesidades. Por ejemplo, un left join entre la tabla de empleados y la de evaluaciones asegura que mantengas todos los empleados, incluso aquellos sin evaluaciones registradas, lo que es crucial para análisis completos de la fuerza laboral.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Transformaciones avanzadas</td>
+                        <td>Columna condicional</td>
+                        <td>Categorizar nivel de riesgo de rotación</td>
+                        <td><button class="expandir-btn" data-fila="8">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-8">
+                        <td colspan="4">
+                            <p>Las columnas condicionales te permiten crear categorizaciones basadas en múltiples criterios, esencial para segmentación en People Analytics. Por ejemplo, podrías crear una columna "Riesgo de Rotación" con categorías Alto/Medio/Bajo basadas en una combinación de factores como satisfacción, tiempo desde último ascenso, y desviación salarial del mercado. Usando "Agregar columna" > "Columna condicional", puedes definir reglas como: Si Satisfacción < 3 Y Tiempo desde ascenso > 2 años, entonces "Alto"; Si Satisfacción entre 3-4 Y Tiempo desde ascenso > 3 años, entonces "Medio"; etc. Esto facilita la identificación visual de grupos de riesgo en tus visualizaciones posteriores.</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Creación de un Modelo de Datos para People Analytics</h3>
+            
+            <p>La transformación de datos no se trata solo de limpiar información individual, sino de construir un modelo coherente que conecte diferentes aspectos de la experiencia del empleado. En People Analytics, un modelo de datos efectivo típicamente incluiría:</p>
+            
+            <ul>
+                <li><strong>Tabla de Empleados:</strong> Información demográfica y organizacional básica</li>
+                <li><strong>Tabla de Compensación:</strong> Historial salarial y beneficios</li>
+                <li><strong>Tabla de Desempeño:</strong> Evaluaciones y logro de objetivos</li>
+                <li><strong>Tabla de Formación:</strong> Capacitaciones completadas y certificaciones</li>
+                <li><strong>Tabla de Engagement:</strong> Resultados de encuestas y feedback</li>
+                <li><strong>Tablas de Calendario:</strong> Para análisis temporal</li>
+            </ul>
+            
+            <p>Power Query facilita la creación de este modelo a través de relaciones adecuadas entre tablas, que luego pueden visualizarse y ajustarse en la Vista de Modelo de Power BI.</p>
+        </section>
+
+        <section id="visualizaciones-basicas">
+            <h2>4. Creación de Visualizaciones Básicas para People Analytics</h2>
+            
+            <p>Una vez que has importado y transformado tus datos, llega el momento de crear visualizaciones que comuniquen insights valiosos. Power BI ofrece una amplia gama de opciones visuales, desde gráficos estándar hasta visualizaciones personalizadas específicas para ciertos tipos de análisis.</p>
+            
+            <h3>Visualizaciones esenciales para People Analytics</h3>
+            
+            <p>Aunque la elección de visualizaciones dependerá de tus objetivos específicos, existen algunos tipos de visualización particularmente útiles en el contexto de RRHH:</p>
+
+            <!-- Elementos arrastrables: Visualizaciones y su uso -->
+            <h4>Relaciona cada visualización con su uso ideal en People Analytics</h4>
+            <p>Arrastra cada tipo de visualización al caso de uso más apropiado:</p>
+            
+            <div class="arrastrable-container">
+                <div class="elementos-arrastrables" id="elementos-arrastrables">
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="demograficos">Gráficos de barras</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="tendencias">Gráficos de líneas</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="proporciones">Gráficos de pastel/anillos</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="detalles">Tablas y matrices</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="demograficos">Histogramas</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="kpis">Tarjetas y KPIs</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="comparaciones">Treemaps</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="correlaciones">Gráficos de dispersión</div>
+                </div>
                 
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">Sistemas de Información de RRHH (HRIS)</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Los HRIS como Workday, SAP SuccessFactors, Oracle HCM o BambooHR son las fuentes primarias de datos de empleados en muchas organizaciones. Estos sistemas contienen información central como:</p>
-                                <ul>
-                                    <li>Datos demográficos de empleados (edad, género, ubicación)</li>
-                                    <li>Información organizacional (departamento, jerarquía, puestos)</li>
-                                    <li>Historial de empleo (promociones, transferencias, cambios de rol)</li>
-                                    <li>Datos de compensación y beneficios</li>
-                                </ul>
-                                <p>Power BI puede conectarse a estos sistemas a través de conectores específicos, APIs, o mediante la exportación de informes a formatos como CSV o Excel.</p>
-                            </div>
-                        </div>
+                <div class="destinos-container">
+                    <div class="destino" id="destino-demograficos">
+                        <div class="destino-titulo">Análisis Demográficos</div>
+                        <div>Distribución por edad, antigüedad, nivel educativo...</div>
                     </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Sistemas de gestión del talento</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Plataformas especializadas que gestionan aspectos específicos del ciclo de vida del empleado:</p>
-                                <ul>
-                                    <li><strong>Sistemas de reclutamiento (ATS):</strong> Greenhouse, Lever, Taleo, con datos sobre candidatos, fuentes de reclutamiento y tiempos de contratación.</li>
-                                    <li><strong>Plataformas de aprendizaje (LMS):</strong> Cornerstone, Moodle, LinkedIn Learning, que contienen información sobre capacitación y desarrollo.</li>
-                                    <li><strong>Herramientas de gestión del desempeño:</strong> 15Five, Lattice, CultureAmp, con datos de evaluaciones, objetivos y retroalimentación.</li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="destino" id="destino-tendencias">
+                        <div class="destino-titulo">Tendencias Temporales</div>
+                        <div>Evolución de headcount, rotación mensual...</div>
                     </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Herramientas de compromiso y experiencia</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Plataformas que recopilan información sobre el compromiso y experiencia del empleado:</p>
-                                <ul>
-                                    <li><strong>Encuestas de compromiso:</strong> Qualtrics, CultureAmp, Glint, que proporcionan datos sobre satisfacción y compromiso.</li>
-                                    <li><strong>Herramientas de pulso:</strong> TINYpulse, Peakon, que ofrecen feedback continuo y datos en tiempo real.</li>
-                                    <li><strong>Plataformas de reconocimiento:</strong> Bonusly, Kazoo, con datos sobre reconocimiento entre pares y valores organizacionales.</li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="destino" id="destino-proporciones">
+                        <div class="destino-titulo">Distribución Proporcional</div>
+                        <div>Composición de plantilla, asignación de presupuesto...</div>
                     </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Datos operacionales y de productividad</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Sistemas que registran la actividad y productividad de los empleados:</p>
-                                <ul>
-                                    <li><strong>Sistemas de gestión de tiempo:</strong> Kronos, ADP, con datos de horas trabajadas, ausencias y vacaciones.</li>
-                                    <li><strong>Herramientas de colaboración:</strong> Microsoft 365, Slack, Google Workspace, que pueden proporcionar métricas de colaboración y comunicación.</li>
-                                    <li><strong>Sistemas CRM y ERP:</strong> Salesforce, SAP, que contienen datos de rendimiento comercial o productivo vinculables a empleados.</li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="destino" id="destino-detalles">
+                        <div class="destino-titulo">Información Detallada</div>
+                        <div>Listados de empleados, desglose de compensación...</div>
                     </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Archivos y bases de datos manuales</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Muchas organizaciones aún mantienen datos importantes en formatos no estructurados:</p>
-                                <ul>
-                                    <li><strong>Hojas de cálculo:</strong> Archivos Excel o Google Sheets con seguimiento manual de métricas o información histórica.</li>
-                                    <li><strong>Bases de datos Access:</strong> Soluciones departamentales para seguimiento de información específica.</li>
-                                    <li><strong>Archivos CSV:</strong> Exportaciones de diferentes sistemas para análisis ad-hoc.</li>
-                                    <li><strong>Documentos de texto:</strong> Información cualitativa como evaluaciones narrativas o comentarios.</li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="destino" id="destino-kpis">
+                        <div class="destino-titulo">Métricas Clave</div>
+                        <div>Tasas de rotación, tiempo promedio de contratación...</div>
                     </div>
+                    <div class="destino" id="destino-comparaciones">
+                        <div class="destino-titulo">Comparaciones Jerárquicas</div>
+                        <div>Headcount por región, departamento y equipo...</div>
+                    </div>
+                    <div class="destino" id="destino-correlaciones">
+                        <div class="destino-titulo">Análisis de Correlaciones</div>
+                        <div>Relación entre satisfacción y desempeño...</div>
+                    </div>
+                </div>
+                
+                <button class="reiniciar-btn" id="reiniciar-arrastrable">Reiniciar ejercicio</button>
+            </div>
+
+            <h3>Mapa de Calor: Rotación por Departamento y Antigüedad</h3>
+            
+            <p>Los mapas de calor son particularmente útiles para visualizar patrones en datos bidimensionales, como la rotación distribuida por departamento y antigüedad. A continuación se muestra un ejemplo de cómo se vería esta visualización en Power BI:</p>
+            
+            <!-- Tabla de mapa de calor para rotación por departamento y antigüedad -->
+            <table class="mapa-calor">
+                <thead>
+                    <tr>
+                        <th>Departamento</th>
+                        <th>&lt;1 año</th>
+                        <th>1-2 años</th>
+                        <th>2-3 años</th>
+                        <th>3-5 años</th>
+                        <th>&gt;5 años</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ventas</td>
+                        <td class="celda-nivel-2" data-valor="24.5">24.5%</td>
+                        <td class="celda-nivel-3" data-valor="18.7">18.7%</td>
+                        <td class="celda-nivel-5" data-valor="12.3">12.3%</td>
+                        <td class="celda-nivel-7" data-valor="8.2">8.2%</td>
+                        <td class="celda-nivel-9" data-valor="3.5">3.5%</td>
+                    </tr>
+                    <tr>
+                        <td>Marketing</td>
+                        <td class="celda-nivel-3" data-valor="17.8">17.8%</td>
+                        <td class="celda-nivel-4" data-valor="15.2">15.2%</td>
+                        <td class="celda-nivel-6" data-valor="11.4">11.4%</td>
+                        <td class="celda-nivel-8" data-valor="6.8">6.8%</td>
+                        <td class="celda-nivel-10" data-valor="2.1">2.1%</td>
+                    </tr>
+                    <tr>
+                        <td>Tecnología</td>
+                        <td class="celda-nivel-1" data-valor="28.6">28.6%</td>
+                        <td class="celda-nivel-3" data-valor="19.4">19.4%</td>
+                        <td class="celda-nivel-4" data-valor="14.7">14.7%</td>
+                        <td class="celda-nivel-6" data-valor="10.2">10.2%</td>
+                        <td class="celda-nivel-8" data-valor="5.6">5.6%</td>
+                    </tr>
+                    <tr>
+                        <td>Finanzas</td>
+                        <td class="celda-nivel-4" data-valor="15.3">15.3%</td>
+                        <td class="celda-nivel-5" data-valor="12.7">12.7%</td>
+                        <td class="celda-nivel-7" data-valor="8.5">8.5%</td>
+                        <td class="celda-nivel-9" data-valor="4.2">4.2%</td>
+                        <td class="celda-nivel-10" data-valor="2.8">2.8%</td>
+                    </tr>
+                    <tr>
+                        <td>Recursos Humanos</td>
+                        <td class="celda-nivel-3" data-valor="16.9">16.9%</td>
+                        <td class="celda-nivel-5" data-valor="13.2">13.2%</td>
+                        <td class="celda-nivel-6" data-valor="10.8">10.8%</td>
+                        <td class="celda-nivel-8" data-valor="7.3">7.3%</td>
+                        <td class="celda-nivel-9" data-valor="3.9">3.9%</td>
+                    </tr>
+                    <tr>
+                        <td>Operaciones</td>
+                        <td class="celda-nivel-2" data-valor="22.1">22.1%</td>
+                        <td class="celda-nivel-4" data-valor="16.8">16.8%</td>
+                        <td class="celda-nivel-6" data-valor="11.6">11.6%</td>
+                        <td class="celda-nivel-8" data-valor="7.8">7.8%</td>
+                        <td class="celda-nivel-9" data-valor="4.2">4.2%</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Este mapa de calor revela patrones críticos sobre la rotación en la organización:</p>
+            
+            <ul>
+                <li>La rotación es significativamente más alta durante el primer año, especialmente en departamentos técnicos y de ventas.</li>
+                <li>Existe una correlación clara entre antigüedad y retención: a mayor tiempo en la empresa, menor probabilidad de rotación.</li>
+                <li>El departamento de Tecnología muestra la tasa de rotación más alta en el primer año (28.6%), lo que podría indicar problemas de onboarding o expectativas.</li>
+                <li>Finanzas presenta las tasas de rotación más bajas en casi todas las categorías de antigüedad.</li>
+            </ul>
+            
+            <p>Este tipo de visualización permite identificar rápidamente áreas problemáticas (celdas rojas) y buenas prácticas (celdas verdes), facilitando la priorización de intervenciones de recursos humanos.</p>
+        </section>
+
+        <section id="ejercicio-practico">
+            <h2>5. Ejercicio Práctico: Creación de un Dashboard de People Analytics</h2>
+            
+            <p>Para consolidar lo aprendido en esta sección, te guiaremos a través de un ejercicio práctico donde crearás tu primer dashboard de People Analytics. Este ejercicio te ayudará a aplicar los conceptos de interfaz, importación de datos y visualización que hemos cubierto.</p>
+            
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                    </svg>
+                    <h3>Ejercicio Práctico: Dashboard de Rotación y Engagement</h3>
+                    <p>En este video tutorial, aprenderás a crear un dashboard completo que analiza patrones de rotación y nivel de engagement por departamento, antigüedad y otros factores clave.</p>
+                    <p><strong>ID de Video Vimeo:</strong> <span style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px;">video_id_placeholder</span></p>
+                    <button class="btn-play">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        Ver tutorial
+                    </button>
                 </div>
             </div>
             
-            <div class="flip-card-container">
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <h3>¿Sabías que...?</h3>
-                            <p>El Conector Universal</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h4>Dato clave</h4>
-                            <p>Power BI incluye un "Conector Universal" (también conocido como ODBC o API Web genérica) que permite conectarse a prácticamente cualquier fuente de datos, incluso si no tiene un conector específico. Esto es especialmente útil para sistemas de RRHH propietarios o antiguos.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <h3>¿Sabías que...?</h3>
-                            <p>Datos sensibles</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h4>Seguridad ante todo</h4>
-                            <p>Power BI implementa el protocolo de autenticación OAuth2 para conectarse a muchos servicios en la nube, proporcionando una capa adicional de seguridad para los datos sensibles de RRHH sin almacenar credenciales directamente en los archivos.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <h3>¿Sabías que...?</h3>
-                            <p>Power BI Dataflows</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h4>Preparación centralizada</h4>
-                            <p>Power BI Dataflows permite preparar datos una vez y reutilizarlos en múltiples informes, ideal para equipos de RRHH que necesitan crear diversas visualizaciones a partir de los mismos datos básicos de empleados.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h3>Descripción del ejercicio</h3>
             
-            <div class="subsection">
-                <h3>Pasos para conectarse a fuentes de datos</h3>
-                <p>Vamos a explorar el proceso de conexión a las fuentes de datos más comunes en People Analytics:</p>
-                
-                <div class="video-container">
-                    <iframe src="https://player.vimeo.com/video/123456789" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-                </div>
-                <p class="video-caption">Video tutorial: Importando datos a Power BI para análisis de RRHH</p>
-                
-                <h4>Conectarse a archivos Excel</h4>
-                <p>Los archivos Excel siguen siendo una de las fuentes de datos más comunes en RRHH. Para importar datos desde Excel:</p>
-                <ol>
-                    <li>En Power BI Desktop, selecciona <strong>Inicio → Obtener datos → Excel</strong></li>
-                    <li>Navega hasta el archivo Excel y selecciónalo</li>
-                    <li>En el Navegador, selecciona las hojas o tablas que deseas importar</li>
-                    <li>Puedes elegir entre <strong>Cargar</strong> (importar directamente) o <strong>Transformar datos</strong> (para limpiar y preparar antes de importar)</li>
-                </ol>
-                
-                <div class="tip-box">
-                    <h4>Buena práctica</h4>
-                    <p>Si trabajas con archivos Excel que se actualizan regularmente (por ejemplo, exportaciones mensuales de tu HRIS), asegúrate de mantener un formato consistente. Cualquier cambio en la estructura (nombres de columnas, tipos de datos, ubicación de datos) puede romper las conexiones en Power BI.</p>
-                </div>
-                
-                <h4>Conectarse a bases de datos SQL</h4>
-                <p>Muchos sistemas de RRHH almacenan datos en bases de datos SQL. Para conectarte:</p>
-                <ol>
-                    <li>Selecciona <strong>Obtener datos → Base de datos → SQL Server</strong> (o el tipo específico de base de datos)</li>
-                    <li>Ingresa el servidor y nombre de la base de datos</li>
-                    <li>Selecciona el modo de conectividad (Importar o DirectQuery)</li>
-                    <li>Proporciona las credenciales de autenticación</li>
-                    <li>Selecciona las tablas necesarias o escribe una consulta SQL personalizada</li>
-                </ol>
-                
-                <div class="code-block">
-                    <pre>-- Ejemplo de consulta SQL para datos de empleados
-SELECT 
-    e.EmployeeID,
-    e.FirstName,
-    e.LastName,
-    e.HireDate,
-    d.DepartmentName,
-    p.PositionTitle,
-    s.SalaryAmount,
-    m.FirstName + ' ' + m.LastName AS ManagerName
-FROM 
-    Employees e
-    LEFT JOIN Departments d ON e.DepartmentID = d.DepartmentID
-    LEFT JOIN Positions p ON e.PositionID = p.PositionID
-    LEFT JOIN Salaries s ON e.EmployeeID = s.EmployeeID AND s.IsActive = 1
-    LEFT JOIN Employees m ON e.ManagerID = m.EmployeeID
-WHERE 
-    e.TerminationDate IS NULL  -- Solo empleados activos
-    OR e.TerminationDate >= DATEADD(YEAR, -1, GETDATE())  -- O terminados en el último año</pre>
-                </div>
-                
-                <h4>Importar datos desde servicios en la nube</h4>
-                <p>Para sistemas de RRHH basados en la nube:</p>
-                <ol>
-                    <li>Selecciona <strong>Obtener datos → Servicios en línea</strong></li>
-                    <li>Busca el servicio específico (por ejemplo, Dynamics 365, SharePoint, Salesforce)</li>
-                    <li>Sigue el proceso de autenticación</li>
-                    <li>Selecciona los datos que deseas importar</li>
-                </ol>
-                
-                <h4>Conectarse a APIs web</h4>
-                <p>Muchos sistemas modernos de RRHH ofrecen APIs para acceder a sus datos:</p>
-                <ol>
-                    <li>Selecciona <strong>Obtener datos → Web → API web</strong></li>
-                    <li>Proporciona la URL de la API</li>
-                    <li>Configura la autenticación según sea necesario</li>
-                    <li>Si la respuesta es JSON o XML, Power Query ayudará a transformarla en tablas</li>
-                </ol>
-            </div>
+            <p>En este ejercicio práctico, utilizarás un conjunto de datos simulado de una empresa con información sobre:</p>
             
-            <div class="subsection">
-                <h3>Modos de importación y consideraciones</h3>
-                <p>Power BI ofrece diferentes modos para trabajar con datos que afectan el rendimiento y las capacidades:</p>
-                
-                <table class="interactive-table">
-                    <thead>
-                        <tr>
-                            <th>Modo</th>
-                            <th>Descripción</th>
-                            <th>Ventajas</th>
-                            <th>Desventajas</th>
-                            <th>Recomendado para RRHH</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Importación</td>
-                            <td>Los datos se importan completamente a Power BI</td>
-                            <td>Rendimiento rápido, análisis offline, capacidades completas de transformación</td>
-                            <td>Limitado por el tamaño del modelo (1GB), datos no en tiempo real</td>
-                            <td>Análisis históricos, dashboards que no requieren actualización en tiempo real</td>
-                        </tr>
-                        <tr>
-                            <td>DirectQuery</td>
-                            <td>Los datos permanecen en el origen, Power BI envía consultas</td>
-                            <td>Datos siempre actualizados, no hay límite de tamaño</td>
-                            <td>Rendimiento más lento, funcionalidad limitada en transformaciones</td>
-                            <td>Grandes volúmenes de datos, métricas que requieren datos en tiempo real</td>
-                        </tr>
-                        <tr>
-                            <td>Modo compuesto</td>
-                            <td>Combina importación y DirectQuery</td>
-                            <td>Balance entre rendimiento y actualización</td>
-                            <td>Mayor complejidad de configuración</td>
-                            <td>Dashboards con algunos KPIs en tiempo real y análisis históricos detallados</td>
-                        </tr>
-                        <tr>
-                            <td>Streaming</td>
-                            <td>Datos que fluyen en tiempo real</td>
-                            <td>Actualización instantánea</td>
-                            <td>Capacidades analíticas limitadas</td>
-                            <td>Monitoreo en tiempo real (contratación, actividad de empleados, rotación diaria)</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <div class="tip-box">
-                    <h4>Consideración importante</h4>
-                    <p>Al trabajar con datos de RRHH, siempre evalúa la sensibilidad de la información. Aunque el modo de importación suele ofrecer mejor rendimiento, considera usar DirectQuery para datos altamente sensibles (como compensaciones o evaluaciones) para mantenerlos en sus sistemas seguros de origen.</p>
-                </div>
+            <ul>
+                <li>Datos demográficos de empleados (edad, género, ubicación)</li>
+                <li>Información organizacional (departamento, nivel, manager)</li>
+                <li>Historial de empleo (fecha de contratación, promociones)</li>
+                <li>Datos de satisfacción (resultados de encuestas de engagement)</li>
+                <li>Estado laboral (activo, terminado, motivo de salida)</li>
+            </ul>
+            
+            <p>A partir de estos datos, crearás un dashboard interactivo que responderá preguntas como:</p>
+            
+            <ul>
+                <li>¿Cuáles son los patrones de rotación por departamento y antigüedad?</li>
+                <li>¿Existe correlación entre nivel de satisfacción y probabilidad de rotación?</li>
+                <li>¿Qué departamentos muestran los niveles más altos y más bajos de engagement?</li>
+                <li>¿Cómo ha evolucionado la tasa de rotación durante los últimos 12 meses?</li>
+                <li>¿Qué factores demográficos u organizacionales tienen mayor impacto en la retención?</li>
+            </ul>
+            
+            <div class="nota-destacada">
+                <h4 style="margin-top: 0;">Recursos para el ejercicio:</h4>
+                <p>Para completar este ejercicio, necesitarás:</p>
+                <ol>
+                    <li>El conjunto de datos de ejemplo (disponible para descargar desde el enlace proporcionado)</li>
+                    <li>Power BI Desktop instalado en tu ordenador</li>
+                    <li>El video tutorial donde se explica paso a paso el proceso</li>
+                </ol>
+                <p>Recomendamos intentar crear el dashboard por tu cuenta primero y luego comparar tu solución con la presentada en el video.</p>
             </div>
         </section>
 
-        <!-- Segunda parte: Limpiar y transformar datos -->
-        <section class="section">
-            <h2>2. Limpiar y transformar datos con Power Query</h2>
+        <section id="conclusion-seccion2">
+            <h2>Conclusión de la Sección 2</h2>
             
-            <p>Una vez conectados a nuestras fuentes de datos, el siguiente paso es preparar esos datos para el análisis. Power Query es la herramienta integrada en Power BI que nos permite realizar estas transformaciones de manera eficiente y reproducible.</p>
+            <p>En esta segunda sección, hemos explorado los fundamentos prácticos de Power BI para profesionales de People Analytics, centrándonos en tres aspectos clave:</p>
             
-            <div class="subsection">
-                <h3>Introducción a Power Query</h3>
-                <p>Power Query (también conocido como "Editor de consultas" en Power BI) es una herramienta de ETL (Extracción, Transformación y Carga) que permite:</p>
-                <ul>
-                    <li>Limpiar datos inconsistentes o incorrectos</li>
-                    <li>Dar formato y tipo apropiado a los campos</li>
-                    <li>Combinar datos de múltiples fuentes</li>
-                    <li>Crear cálculos y campos personalizados</li>
-                    <li>Filtrar datos innecesarios</li>
-                    <li>Agregar y resumir información</li>
-                </ul>
-                
-                <p>Cada transformación que realizamos en Power Query se registra como un "paso" que se puede editar, eliminar o reordenar, creando un proceso reproducible que se aplica automáticamente cuando los datos se actualizan.</p>
-            </div>
+            <ol>
+                <li><strong>Navegación por la interfaz:</strong> Conocer las diferentes áreas y modos de visualización de Power BI Desktop es el primer paso para sentirse cómodo con la herramienta. Recuerda que puedes alternar entre las vistas de Informe, Datos y Modelo según la tarea que estés realizando.</li>
+                <li><strong>Importación y transformación de datos:</strong> La capacidad de Power BI para conectarse a diversas fuentes y transformar datos utilizando Power Query es fundamental para superar los desafíos típicos de datos fragmentados en RRHH. Las operaciones de limpieza, transformación y modelado establecen la base para análisis robustos.</li>
+                <li><strong>Creación de visualizaciones:</strong> Aprendimos sobre las visualizaciones más relevantes para People Analytics y cómo elegir el tipo correcto según el mensaje que queremos comunicar, incluyendo el uso de mapas de calor para identificar patrones en datos bidimensionales.</li>
+            </ol>
             
-            <div class="subsection">
-                <h3>Transformaciones comunes para datos de RRHH</h3>
-                <p>Veamos algunas de las transformaciones más útiles al trabajar con datos de recursos humanos:</p>
-                
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">Limpieza de datos inconsistentes</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Los datos de RRHH suelen presentar inconsistencias debido a capturas manuales o migraciones entre sistemas:</p>
-                                
-                                <h4>Estandarización de valores</h4>
-                                <p>Para estandarizar valores como departamentos o puestos inconsistentes:</p>
-                                <ol>
-                                    <li>Selecciona la columna</li>
-                                    <li>Clic derecho → Reemplazar valores (para reemplazos individuales)</li>
-                                    <li>O utiliza Transformar → Agrupar por para crear una tabla de mapeo</li>
-                                </ol>
-                                
-                                <div class="code-block">
-                                    <pre>// Ejemplo de mapeo en Power Query (lenguaje M)
-Table.ReplaceValue(
-    #"Tabla previa",
-    "Dept. RH",
-    "Recursos Humanos",
-    Replacer.ReplaceText,
-    {"Departamento"}
-)</pre>
-                                </div>
-                                
-                                <h4>Manejo de nulos y espacios</h4>
-                                <p>Para uniformizar valores vacíos:</p>
-                                <ol>
-                                    <li>Transformar → Reemplazar valores (para convertir textos vacíos "" en valores nulos)</li>
-                                    <li>Para eliminar espacios: Transformar → Recortar</li>
-                                </ol>
-                                
-                                <h4>Corrección de errores tipográficos</h4>
-                                <p>Para identificar y corregir errores tipográficos:</p>
-                                <ol>
-                                    <li>Usa Inicio → Perfiles de columna → Distribución de valores para identificar variantes</li>
-                                    <li>Aplica reemplazos en lote o correcciones basadas en patrones</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Transformación de tipos de datos</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Es crucial asignar los tipos de datos correctos para un análisis efectivo:</p>
-                                
-                                <h4>Fechas y tiempos</h4>
-                                <p>Las fechas son particularmente importantes en RRHH (fechas de contratación, terminación, etc.):</p>
-                                <ol>
-                                    <li>Clic derecho en la columna → Cambiar tipo → Fecha</li>
-                                    <li>Si las fechas están en formatos no estándar, usar Transformar → Fecha → Analizar</li>
-                                </ol>
-                                
-                                <div class="tip-box">
-                                    <h4>Cuidado con los formatos de fecha</h4>
-                                    <p>Diferentes sistemas pueden usar diferentes formatos (MM/DD/AAAA vs DD/MM/AAAA). Siempre verifica visualmente algunas fechas conocidas para confirmar que la transformación se realizó correctamente.</p>
-                                </div>
-                                
-                                <h4>Valores numéricos</h4>
-                                <p>Para salarios, horas trabajadas, puntuaciones de evaluación:</p>
-                                <ol>
-                                    <li>Clic derecho → Cambiar tipo → Decimal para valores con decimales</li>
-                                    <li>Para valores monetarios, usar Cambiar tipo → Moneda</li>
-                                </ol>
-                                
-                                <h4>Textos y categorías</h4>
-                                <p>Para atributos como niveles de desempeño, departamentos:</p>
-                                <ol>
-                                    <li>Verifica que estén como tipo Texto</li>
-                                    <li>Para análisis específicos, considera convertir a Categórico en la vista Modelo</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Creación de columnas calculadas</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Para derivar nuevos insights, a menudo necesitamos crear campos calculados:</p>
-                                
-                                <h4>Antigüedad de empleados</h4>
-                                <p>Para calcular la antigüedad desde la fecha de contratación:</p>
-                                <ol>
-                                    <li>Agregar columna → Columna personalizada</li>
-                                    <li>Utilizar funciones como Date.DiffDays o Date.DiffYears</li>
-                                </ol>
-                                
-                                <div class="code-block">
-                                    <pre>// Calcular años de antigüedad (redondeados)
-Number.Round(
-    (Date.From(DateTime.LocalNow()) - [FechaContratacion]) / Duration.Days(#duration(365, 0, 0, 0)),
-    1
-)</pre>
-                                </div>
-                                
-                                <h4>Categorización</h4>
-                                <p>Para agrupar valores continuos en categorías:</p>
-                                <ol>
-                                    <li>Agregar columna → Columna personalizada</li>
-                                    <li>Utilizar lógica condicional (if...then...else)</li>
-                                </ol>
-                                
-                                <div class="code-block">
-                                    <pre>// Categorizar antigüedad en grupos
-if [Antigüedad] < 1 then "Menos de 1 año"
-else if [Antigüedad] < 3 then "1-3 años"
-else if [Antigüedad] < 5 then "3-5 años"
-else if [Antigüedad] < 10 then "5-10 años"
-else "10+ años"</pre>
-                                </div>
-                                
-                                <h4>Nombres completos</h4>
-                                <p>Para combinar nombres y apellidos en un solo campo:</p>
-                                <ol>
-                                    <li>Agregar columna → Combinar columnas</li>
-                                    <li>Seleccionar las columnas y el separador (espacio)</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Combinación de tablas</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>En People Analytics a menudo necesitamos combinar datos de diferentes sistemas:</p>
-                                
-                                <h4>Combinar consultas (Join)</h4>
-                                <p>Para relacionar datos de diferentes tablas (por ejemplo, empleados y departamentos):</p>
-                                <ol>
-                                    <li>Inicio → Combinar consultas → Combinar consultas</li>
-                                    <li>Seleccionar las tablas y las columnas de relación</li>
-                                    <li>Elegir el tipo de combinación (Inner, Left Outer, Full Outer, etc.)</li>
-                                </ol>
-                                
-                                <div class="tip-box">
-                                    <h4>Combinaciones comunes en RRHH</h4>
-                                    <p><strong>Left Join (Left Outer):</strong> Útil para mantener todos los empleados aunque falten datos en otras tablas (por ejemplo, todos los empleados con sus evaluaciones, incluso si algunos no tienen evaluación).</p>
-                                    <p><strong>Inner Join:</strong> Útil cuando necesitas un conjunto completo (por ejemplo, solo empleados que tienen tanto datos de desempeño como de compensación).</p>
-                                </div>
-                                
-                                <h4>Anexar consultas (Append)</h4>
-                                <p>Para unir datos similares (por ejemplo, informes de distintos períodos):</p>
-                                <ol>
-                                    <li>Inicio → Anexar consultas</li>
-                                    <li>Seleccionar las tablas a combinar verticalmente</li>
-                                </ol>
-                                
-                                <h4>Referencias a consultas</h4>
-                                <p>Para crear versiones derivadas sin duplicar la carga:</p>
-                                <ol>
-                                    <li>Clic derecho en una consulta → Referencia</li>
-                                    <li>Realizar transformaciones adicionales en la nueva consulta</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Datos sensibles y anonimización</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Al trabajar con datos de RRHH, es importante manejar apropiadamente la información sensible:</p>
-                                
-                                <h4>Enmascaramiento</h4>
-                                <p>Para ocultar parte de información sensible:</p>
-                                <ol>
-                                    <li>Agregar columna → Columna personalizada</li>
-                                    <li>Utilizar funciones de texto para mostrar solo parte de la información</li>
-                                </ol>
-                                
-                                <div class="code-block">
-                                    <pre>// Enmascarar parte del ID de empleado
-"EMP" & Text.End([IDEmpleado], 4)</pre>
-                                </div>
-                                
-                                <h4>Agregación</h4>
-                                <p>Para análisis que no requieren datos individuales:</p>
-                                <ol>
-                                    <li>Transformar → Agrupar por</li>
-                                    <li>Seleccionar campos de agrupación y medidas agregadas</li>
-                                </ol>
-                                
-                                <h4>Eliminación</h4>
-                                <p>Para datos que no son necesarios para el análisis:</p>
-                                <ol>
-                                    <li>Clic derecho en columna → Quitar</li>
-                                    <li>Aplicar filtros para eliminar registros sensibles</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <p>Con el ejercicio práctico podrás aplicar estos conocimientos en un escenario realista de análisis de rotación y engagement, consolidando lo aprendido y desarrollando habilidades que serán directamente aplicables en tu entorno laboral.</p>
             
-            <div class="subsection">
-                <h3>Estrategias para mejorar la calidad de datos</h3>
-                <p>Más allá de las transformaciones técnicas, hay estrategias importantes para garantizar la calidad de los datos de RRHH:</p>
-                
-                <div class="quiz-container">
-                    <h4>Quiz rápido: Calidad de datos en RRHH</h4>
-                    
-                    <div class="quiz-question">
-                        <p>1. ¿Cuál de las siguientes NO es una buena práctica para mantener la calidad de datos de RRHH?</p>
-                        <div class="quiz-options">
-                            <div class="quiz-option" data-correct="false">Realizar perfiles de columna para identificar valores atípicos</div>
-                            <div class="quiz-option" data-correct="true">Eliminar automáticamente todos los registros con datos faltantes</div>
-                            <div class="quiz-option" data-correct="false">Documentar todas las transformaciones realizadas en Power Query</div>
-                        </div>
-                        <div class="quiz-feedback"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <p>2. Al encontrar múltiples variantes de un mismo departamento (por ejemplo, "RH", "RRHH", "Recursos Humanos"), la mejor acción es:</p>
-                        <div class="quiz-options">
-                            <div class="quiz-option" data-correct="true">Crear una tabla de mapeo estandarizada y aplicarla consistentemente</div>
-                            <div class="quiz-option" data-correct="false">Mantener todas las variantes para preservar los datos originales</div>
-                            <div class="quiz-option" data-correct="false">Eliminar los registros con las variantes menos comunes</div>
-                        </div>
-                        <div class="quiz-feedback"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <p>3. ¿Cuál de estas acciones es más importante al trabajar con fechas en datos de RRHH?</p>
-                        <div class="quiz-options">
-                            <div class="quiz-option" data-correct="false">Convertir todas las fechas a formato de texto para mayor flexibilidad</div>
-                            <div class="quiz-option" data-correct="true">Verificar que el formato regional de las fechas se interpreta correctamente (DD/MM/AAAA vs MM/DD/AAAA)</div>
-                            <div class="quiz-option" data-correct="false">Almacenar las fechas como valores numéricos para facilitar los cálculos</div>
-                        </div>
-                        <div class="quiz-feedback"></div>
-                    </div>
-                    
-                    <button class="btn btn-check" id="check-quiz">Verificar respuestas</button>
-                    <button class="btn btn-reset" id="reset-quiz">Reiniciar quiz</button>
-                </div>
-                
-                <h4>Profiling de datos</h4>
-                <p>Power Query incluye herramientas de perfilado que son extremadamente útiles para datos de RRHH:</p>
-                <ul>
-                    <li><strong>Distribución de columnas:</strong> Identifica valores atípicos o errores (por ejemplo, edades imposibles)</li>
-                    <li><strong>Calidad de columnas:</strong> Muestra el porcentaje de valores válidos, errores y vacíos</li>
-                    <li><strong>Perfil de columnas:</strong> Proporciona estadísticas como min, max, promedio para identificar anomalías</li>
-                </ul>
-                
-                <h4>Documentación y gobernanza</h4>
-                <p>Para mantener la integridad de los datos a largo plazo:</p>
-                <ul>
-                    <li>Nombra tus pasos de transformación de manera descriptiva</li>
-                    <li>Agrega comentarios a fórmulas complejas</li>
-                    <li>Crea un diccionario de datos que defina cada campo y su origen</li>
-                    <li>Establece un proceso de revisión para cambios importantes en las transformaciones</li>
-                </ul>
-                
-                <h4>Automatización de la limpieza</h4>
-                <p>Para datos que se actualizan regularmente:</p>
-                <ul>
-                    <li>Crea funciones personalizadas para transformaciones recurrentes</li>
-                    <li>Configura alertas para valores fuera de rangos esperados</li>
-                    <li>Considera implementar Power Automate para procesos de validación adicionales</li>
-                </ul>
-            </div>
-            
-            <div class="flip-card-container">
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <h3>Consejo experto</h3>
-                            <p>Paso a paso</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h4>Divide y vencerás</h4>
-                            <p>Al transformar datos complejos de RRHH, crea consultas intermedias para cada etapa importante del proceso (limpieza, transformación, enriquecimiento). Esto facilita la depuración y el mantenimiento cuando los datos o requisitos cambian.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <h3>Consejo experto</h3>
-                            <p>Columnas condicionales</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h4>Uso eficiente</h4>
-                            <p>Para categorizar datos de empleados (como rangos de antigüedad, niveles salariales o grupos de desempeño), utiliza la función "Columna condicional" en lugar de múltiples pasos individuales. Es más rápido de crear y más fácil de mantener.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <h3>Consejo experto</h3>
-                            <p>Manejo de errores</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h4>Estrategia robusta</h4>
-                            <p>En lugar de simplemente eliminar filas con errores (que podrían ser datos valiosos de empleados), usa funciones como try...otherwise o replaceerrors() para manejar excepciones sin perder información. Por ejemplo, convierte fechas inválidas a nulo en lugar de eliminar todo el registro.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <p>En la próxima sección, profundizaremos en técnicas más avanzadas de análisis y visualización específicas para People Analytics, incluyendo el uso de medidas calculadas con DAX, segmentación dinámica de datos y la creación de dashboards interactivos más sofisticados.</p>
         </section>
+    </div>
 
-        <!-- Tercera parte: Ejercicio práctico -->
-        <section class="section">
-            <h2>3. Ejercicio: Preparar un conjunto de datos de empleados</h2>
+    <script>
+        // JavaScript para tarjetas giratorias
+        document.addEventListener('DOMContentLoaded', function() {
+            const tarjetas = document.querySelectorAll('.tarjeta-giratoria');
             
-            <p>Para consolidar lo aprendido, realizaremos un ejercicio práctico completo de preparación de datos para un análisis de People Analytics. Este ejercicio simula un escenario común donde necesitamos integrar datos de múltiples fuentes para crear un conjunto de datos unificado de empleados.</p>
-            
-            <div class="subsection">
-                <h3>Escenario del ejercicio</h3>
-                <p>Eres el analista de People Analytics en una empresa de tecnología. El director de RRHH te ha pedido crear un dashboard que muestre las métricas clave de la fuerza laboral, incluyendo demografía, rotación, compensación y desempeño. Para hacerlo, necesitas combinar datos de tres fuentes diferentes:</p>
-                
-                <ol>
-                    <li><strong>Sistema HRIS principal:</strong> Un archivo Excel con datos básicos de empleados (ID, nombre, departamento, fecha de contratación, etc.)</li>
-                    <li><strong>Sistema de compensación:</strong> Un archivo CSV con información salarial</li>
-                    <li><strong>Sistema de gestión del desempeño:</strong> Una tabla de SQL con resultados de evaluaciones</li>
-                </ol>
-                
-                <p>Tu tarea es preparar estos datos para el análisis en Power BI, limpiando inconsistencias, creando las relaciones necesarias y derivando métricas útiles.</p>
-            </div>
-            
-            <div class="subsection">
-                <h3>Pasos detallados del ejercicio</h3>
-                
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">Paso 1: Importar y limpiar datos de empleados</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p><strong>Fuente:</strong> EmpleadosHRIS.xlsx (hoja "Empleados")</p>
-                                
-                                <h4>Transformaciones necesarias:</h4>
-                                <ol>
-                                    <li>Eliminar columnas innecesarias (notas personales, datos de contacto)</li>
-                                    <li>Cambiar tipos de datos:
-                                        <ul>
-                                            <li>ID_Empleado → Texto</li>
-                                            <li>Fecha_Contratacion → Fecha</li>
-                                            <li>Fecha_Terminacion → Fecha</li>
-                                        </ul>
-                                    </li>
-                                    <li>Limpiar valores inconsistentes en la columna Departamento:
-                                        <ul>
-                                            <li>"Tecnología", "TI", "IT" → "Tecnología de la Información"</li>
-                                            <li>"RRHH", "RH" → "Recursos Humanos"</li>
-                                        </ul>
-                                    </li>
-                                    <li>Crear una columna calculada "Estado" basada en Fecha_Terminacion:
-                                        <ul>
-                                            <li>Si Fecha_Terminacion es nulo → "Activo"</li>
-                                            <li>Si no → "Inactivo"</li>
-                                        </ul>
-                                    </li>
-                                    <li>Calcular columna "Antigüedad_Años" (años desde la contratación hasta hoy o la fecha de terminación)</li>
-                                </ol>
-                                
-                                <div class="code-block">
-                                    <pre>// Cálculo de antigüedad en años
-if [Fecha_Terminacion] = null then
-    Number.Round(
-        (Date.From(DateTime.LocalNow()) - [Fecha_Contratacion]) / Duration.Days(#duration(365, 0, 0, 0)),
-        1
-    )
-else
-    Number.Round(
-        ([Fecha_Terminacion] - [Fecha_Contratacion]) / Duration.Days(#duration(365, 0, 0, 0)),
-        1
-    )</pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Paso 2: Importar y limpiar datos de compensación</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p><strong>Fuente:</strong> Compensacion.csv</p>
-                                
-                                <h4>Transformaciones necesarias:</h4>
-                                <ol>
-                                    <li>Solucionar problemas de codificación (tildes, caracteres especiales)</li>
-                                    <li>Cambiar tipos de datos:
-                                        <ul>
-                                            <li>ID_Empleado → Texto (para coincidir con la tabla de empleados)</li>
-                                            <li>Salario_Anual → Moneda</li>
-                                            <li>Fecha_Efectiva → Fecha</li>
-                                        </ul>
-                                    </li>
-                                    <li>Filtrar para obtener solo el salario más reciente por empleado:
-                                        <ul>
-                                            <li>Agrupar por ID_Empleado</li>
-                                            <li>Seleccionar máximo de Fecha_Efectiva</li>
-                                            <li>Combinar consultas para obtener los detalles de ese registro</li>
-                                        </ul>
-                                    </li>
-                                    <li>Crear una columna para Rango_Salarial basada en Salario_Anual:
-                                        <ul>
-                                            <li>&lt;$30,000 → "Bajo"</li>
-                                            <li>$30,000-$60,000 → "Medio"</li>
-                                            <li>$60,000-$100,000 → "Alto"</li>
-                                            <li>&gt;$100,000 → "Ejecutivo"</li>
-                                        </ul>
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Paso 3: Importar y limpiar datos de desempeño</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p><strong>Fuente:</strong> Base de datos SQL (tabla "Evaluaciones")</p>
-                                
-                                <h4>Transformaciones necesarias:</h4>
-                                <ol>
-                                    <li>Escribir una consulta SQL para obtener las evaluaciones más recientes:
-                                        <div class="code-block">
-                                            <pre>SELECT e.EmployeeID as ID_Empleado, 
-       e.EvaluationDate as Fecha_Evaluacion, 
-       e.OverallScore as Puntuacion, 
-       e.PerformanceLevel as Nivel_Desempeno
-FROM Evaluations e
-INNER JOIN (
-    SELECT EmployeeID, MAX(EvaluationDate) as MaxDate
-    FROM Evaluations
-    GROUP BY EmployeeID
-) recent ON e.EmployeeID = recent.EmployeeID 
-    AND e.EvaluationDate = recent.MaxDate</pre>
-                                        </div>
-                                    </li>
-                                    <li>Cambiar tipos de datos:
-                                        <ul>
-                                            <li>ID_Empleado → Texto</li>
-                                            <li>Fecha_Evaluacion → Fecha</li>
-                                            <li>Puntuacion → Decimal</li>
-                                        </ul>
-                                    </li>
-                                    <li>Estandarizar valores en Nivel_Desempeno:
-                                        <ul>
-                                            <li>"Supera Expectativas", "SE" → "Excepcional"</li>
-                                            <li>"Cumple Expectativas", "CE" → "Satisfactorio"</li>
-                                            <li>"Bajo Expectativas", "BE" → "Necesita Mejorar"</li>
-                                        </ul>
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Paso 4: Combinar los datos</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <h4>Estrategia de combinación:</h4>
-                                <ol>
-                                    <li>Usar la tabla de empleados como base</li>
-                                    <li>Realizar un Left Outer Join con la tabla de compensación:
-                                        <ul>
-                                            <li>Clave de relación: ID_Empleado</li>
-                                            <li>Esto mantendrá todos los empleados aunque no tengan datos de compensación</li>
-                                        </ul>
-                                    </li>
-                                    <li>Realizar un Left Outer Join con la tabla de desempeño:
-                                        <ul>
-                                            <li>Clave de relación: ID_Empleado</li>
-                                            <li>Esto mantendrá todos los empleados aunque no tengan evaluaciones</li>
-                                        </ul>
-                                    </li>
-                                </ol>
-                                
-                                <h4>Transformaciones finales:</h4>
-                                <ol>
-                                    <li>Crear una columna "Tiempo_Desde_Ultima_Evaluacion" que calcule meses desde la última evaluación</li>
-                                    <li>Crear una columna "Alerta_Retención" basada en criterios como:
-                                        <ul>
-                                            <li>Empleados de alto desempeño con salarios bajos para su rol</li>
-                                            <li>Empleados que no han recibido aumentos en más de 18 meses</li>
-                                            <li>Perfiles con alta demanda en el mercado</li>
-                                        </ul>
-                                    </li>
-                                    <li>Aplicar formato final y renombrar columnas para mayor claridad</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="subsection">
-                <h3>Solución del ejercicio</h3>
-                <p>A continuación, te presentamos un enfoque paso a paso para resolver este ejercicio:</p>
-                
-                <div class="video-container">
-                    <iframe src="https://player.vimeo.com/video/987654321" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-                </div>
-                <p class="video-caption">Video tutorial: Solución completa del ejercicio de preparación de datos</p>
-                
-                <div class="tip-box">
-                    <h4>Punto clave de aprendizaje</h4>
-                    <p>Observa cómo en el video utilizamos el panel de Perfiles de Columna para identificar rápidamente valores inconsistentes en los campos "Departamento" y "Nivel_Desempeno". Esta técnica es especialmente útil cuando trabajas con conjuntos de datos grandes donde no puedes revisar manualmente todos los valores.</p>
-                </div>
-            </div>
-            
-            <div class="subsection">
-                <h3>Actividad práctica</h3>
-                <p>Ahora es tu turno de aplicar lo aprendido. Te invitamos a realizar una actividad de clasificación para reforzar los conceptos clave:</p>
-                
-                <div class="draggable-container">
-                    <h4>Clasifica estas tareas de preparación de datos según corresponda</h4>
-                    <p>Arrastra cada tarea a la fase correcta del proceso de preparación de datos:</p>
-                    
-                    <div class="drag-items">
-                        <div class="drag-item" draggable="true" data-category="importacion">Conectarse a la base de datos SQL del HRIS</div>
-                        <div class="drag-item" draggable="true" data-category="importacion">Cargar un archivo Excel de encuestas de compromiso</div>
-                        <div class="drag-item" draggable="true" data-category="importacion">Configurar credenciales para acceso a sistema en la nube</div>
-                        <div class="drag-item" draggable="true" data-category="limpieza">Estandarizar valores de departamentos y ubicaciones</div>
-                        <div class="drag-item" draggable="true" data-category="limpieza">Corregir fechas incorrectas de contratación</div>
-                        <div class="drag-item" draggable="true" data-category="limpieza">Eliminar columnas innecesarias de información personal</div>
-                        <div class="drag-item" draggable="true" data-category="transformacion">Calcular antigüedad en años a partir de fecha de contratación</div>
-                        <div class="drag-item" draggable="true" data-category="transformacion">Crear rangos salariales a partir de valores continuos</div>
-                        <div class="drag-item" draggable="true" data-category="transformacion">Derivar indicadores de riesgo de rotación según criterios</div>
-                        <div class="drag-item" draggable="true" data-category="integracion">Combinar datos de HRIS con resultados de evaluaciones</div>
-                        <div class="drag-item" draggable="true" data-category="integracion">Unir registros de capacitación con datos de empleados</div>
-                        <div class="drag-item" draggable="true" data-category="integracion">Relacionar métricas de desempeño con estructura organizacional</div>
-                    </div>
-                    
-                    <div class="drop-zones">
-                        <div class="drop-zone" data-category="importacion">
-                            <h4>1. Importación de datos</h4>
-                        </div>
-                        <div class="drop-zone" data-category="limpieza">
-                            <h4>2. Limpieza de datos</h4>
-                        </div>
-                        <div class="drop-zone" data-category="transformacion">
-                            <h4>3. Transformación de datos</h4>
-                        </div>
-                        <div class="drop-zone" data-category="integracion">
-                            <h4>4. Integración de datos</h4>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 20px;">
-                        <button class="btn btn-check" id="check-drag">Verificar respuestas</button>
-                        <button class="btn btn-reset" id="reset-drag">Reiniciar actividad</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+            tarjetas.forEach(tarjeta => {
+                tarjeta.addEventListener('click', function() {
+                    this.classList.toggle('girar');
+                });
+            });
 
-        <!-- Cuarta parte: Modelado de datos para People Analytics -->
-        <section class="section">
-            <h2>4. Modelado de datos para People Analytics</h2>
+            // JavaScript para acordeones
+            const acordeones = document.querySelectorAll('.acordeon-titulo');
             
-            <p>Una vez que hemos importado y preparado nuestros datos con Power Query, el siguiente paso es crear un modelo de datos eficiente que permita análisis flexibles y de alto rendimiento. El modelado es especialmente importante en People Analytics, donde a menudo necesitamos analizar los datos desde múltiples perspectivas y niveles de granularidad.</p>
+            acordeones.forEach(acordeon => {
+                acordeon.addEventListener('click', function() {
+                    // Toggle actual
+                    const contenido = this.nextElementSibling;
+                    const icono = this.querySelector('.acordeon-icono');
+                    
+                    contenido.classList.toggle('activo');
+                    icono.classList.toggle('activo');
+                });
+            });
+
+            // JavaScript para tabla interactiva
+            const botonesExpandir = document.querySelectorAll('.expandir-btn');
             
-            <div class="subsection">
-                <h3>Fundamentos del modelado de datos</h3>
-                <p>El modelado de datos en Power BI se basa en el motor de análisis tabular de Analysis Services, que utiliza un enfoque dimensional similar al de los almacenes de datos tradicionales:</p>
-                
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">Tablas de hechos vs tablas de dimensiones</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>En un modelo dimensional típico para People Analytics:</p>
-                                
-                                <h4>Tablas de hechos (métricas)</h4>
-                                <p>Contienen medidas numéricas y claves que se relacionan con dimensiones:</p>
-                                <ul>
-                                    <li><strong>Nómina:</strong> Registros de pagos con montos, fechas, tipo de compensación</li>
-                                    <li><strong>Evaluaciones:</strong> Puntuaciones, fechas de evaluación, evaluador</li>
-                                    <li><strong>Asistencia:</strong> Registro de ausencias, vacaciones, horas extras</li>
-                                    <li><strong>Capacitación:</strong> Horas de formación, costos, calificaciones</li>
-                                    <li><strong>Encuestas:</strong> Respuestas numéricas, fechas, puntuaciones NPS</li>
-                                </ul>
-                                
-                                <h4>Tablas de dimensiones (descriptivas)</h4>
-                                <p>Proporcionan contexto y atributos para clasificar y filtrar:</p>
-                                <ul>
-                                    <li><strong>Empleados:</strong> Información demográfica y laboral básica</li>
-                                    <li><strong>Tiempo:</strong> Jerarquías de año, trimestre, mes, día</li>
-                                    <li><strong>Departamentos:</strong> Estructura organizacional, jerarquía</li>
-                                    <li><strong>Ubicaciones:</strong> Oficinas, regiones, países</li>
-                                    <li><strong>Puestos:</strong> Títulos, niveles, familias de puestos</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+            botonesExpandir.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const filaId = this.getAttribute('data-fila');
+                    const filaExpandible = document.getElementById('fila-expandible-' + filaId);
                     
-                    <div class="accordion-item">
-                        <div class="accordion-header">Relaciones entre tablas</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <h4>Tipos de relaciones</h4>
-                                <p>En Power BI, las relaciones más comunes son:</p>
-                                <ul>
-                                    <li><strong>Uno a muchos (1:N):</strong> La más común, como entre un empleado y sus múltiples evaluaciones</li>
-                                    <li><strong>Uno a uno (1:1):</strong> Por ejemplo, entre un empleado y su compensación actual</li>
-                                    <li><strong>Muchos a muchos (N:N):</strong> Por ejemplo, entre empleados y proyectos (un empleado puede estar en varios proyectos y un proyecto puede tener varios empleados)</li>
-                                </ul>
-                                
-                                <h4>Dirección del filtro</h4>
-                                <p>Determina cómo se propagan los filtros entre tablas:</p>
-                                <ul>
-                                    <li><strong>Single:</strong> Los filtros solo se propagan en una dirección (por defecto)</li>
-                                    <li><strong>Both:</strong> Los filtros se propagan en ambas direcciones (usar con precaución)</li>
-                                    <li><strong>None:</strong> Los filtros no se propagan (raro, para casos especiales)</li>
-                                </ul>
-                                
-                                <div class="tip-box">
-                                    <h4>Consejo práctico</h4>
-                                    <p>En People Analytics, necesitarás filtros bidireccionales cuando quieras responder preguntas como "¿Qué empleados no han recibido capacitación en los últimos 6 meses?". En estos casos, activa la dirección "Both" pero ten cuidado con posibles problemas de ambigüedad.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Jerarquías y niveles de análisis</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Las jerarquías permiten navegar desde lo general a lo específico (drill-down) y son muy útiles en People Analytics:</p>
-                                
-                                <h4>Jerarquías comunes en RRHH</h4>
-                                <ul>
-                                    <li><strong>Organización:</strong> Empresa → División → Departamento → Equipo</li>
-                                    <li><strong>Ubicación:</strong> Región → País → Ciudad → Oficina</li>
-                                    <li><strong>Tiempo:</strong> Año → Trimestre → Mes → Semana → Día</li>
-                                    <li><strong>Posición:</strong> Familia de puestos → Grupo → Nivel → Puesto específico</li>
-                                </ul>
-                                
-                                <p>Para crear una jerarquía en Power BI:</p>
-                                <ol>
-                                    <li>En la vista de Modelo, selecciona la tabla que contendrá la jerarquía</li>
-                                    <li>Clic derecho en el campo que será el nivel superior → Crear jerarquía</li>
-                                    <li>Arrastra los campos subsiguientes a la nueva jerarquía en el orden deseado</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    if (filaExpandible.style.display === 'table-row') {
+                        filaExpandible.style.display = 'none';
+                        this.textContent = 'Ver más';
+                    } else {
+                        filaExpandible.style.display = 'table-row';
+                        this.textContent = 'Ocultar';
+                    }
+                });
+            });
+
+            // JavaScript para preguntas V/F
+            const opcionesVF = document.querySelectorAll('.opcion-vf');
             
-            <div class="subsection">
-                <h3>Modelos estrella para People Analytics</h3>
-                <p>El modelo "estrella" es una de las configuraciones más eficientes para datos de RRHH, con una tabla de hechos central conectada a varias dimensiones:</p>
-                
-                <div class="flip-card-container">
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <h3>Modelo Estrella</h3>
-                                <p>Rotación de personal</p>
-                            </div>
-                            <div class="flip-card-back">
-                                <h4>Estructura</h4>
-                                <p><strong>Tabla de Hechos:</strong> Eventos de rotación (fecha, motivo, voluntario/involuntario)</p>
-                                <p><strong>Dimensiones:</strong> Empleados, Tiempo, Departamentos, Ubicaciones, Motivos de salida</p>
-                            </div>
-                        </div>
-                    </div>
+            opcionesVF.forEach(opcion => {
+                opcion.addEventListener('click', function() {
+                    const preguntaId = this.parentElement.parentElement.id;
+                    const valor = this.getAttribute('data-valor');
+                    const feedback = document.getElementById('feedback-' + preguntaId);
                     
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <h3>Modelo Estrella</h3>
-                                <p>Reclutamiento</p>
-                            </div>
-                            <div class="flip-card-back">
-                                <h4>Estructura</h4>
-                                <p><strong>Tabla de Hechos:</strong> Candidaturas (fecha, fase, resultado)</p>
-                                <p><strong>Dimensiones:</strong> Candidatos, Posiciones, Fuentes de reclutamiento, Reclutadores, Tiempo</p>
-                            </div>
-                        </div>
-                    </div>
+                    // Eliminar selección previa
+                    const opciones = this.parentElement.querySelectorAll('.opcion-vf');
+                    opciones.forEach(op => op.classList.remove('seleccionada'));
                     
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <h3>Modelo Estrella</h3>
-                                <p>Compensación</p>
-                            </div>
-                            <div class="flip-card-back">
-                                <h4>Estructura</h4>
-                                <p><strong>Tabla de Hechos:</strong> Pagos (monto, tipo, fecha)</p>
-                                <p><strong>Dimensiones:</strong> Empleados, Tiempo, Componentes de compensación, Niveles, Monedas</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h4>Ejemplo de implementación: Modelo para análisis de desempeño</h4>
-                <p>Veamos cómo implementar un modelo estrella para analizar datos de desempeño:</p>
-                
-                <div class="code-block">
-                    <pre>-- Tablas necesarias:
+                    // Seleccionar opción actual
+                    this.classList.add('seleccionada');
+                    
+                    // Mostrar feedback
+                    if (preguntaId === 'pregunta1') {
+                        if (valor === 'falso') {
+                            feedback.textContent = '¡Correcto! Power BI permite conectarse e importar datos de múltiples fuentes diferentes en un solo informe, lo que es especialmente valioso para People Analytics donde los datos suelen estar dispersos en varios sistemas.';
+                            feedback.className = 'feedback correcto';
+                        } else {
+                            feedback.textContent = 'Incorrecto. Una de las grandes fortalezas de Power BI es precisamente su capacidad para integrar datos de múltiples fuentes en un solo informe. Puedes combinar datos de Excel, bases de datos SQL, servicios en la nube y muchas otras fuentes simultáneamente.';
+                            feedback.className = 'feedback incorrecto';
+                        }
+                    } else if (preguntaId === 'pregunta2') {
+                        if (valor === 'verdadero') {
+                            feedback.textContent = '¡Correcto! Power BI reconoce las tablas formateadas en Excel (creadas con "Formatear como tabla") y las trata de manera diferente a los rangos regulares de celdas, lo que facilita la importación y actualización de datos.';
+                            feedback.className = 'feedback correcto';
+                        } else {
+                            feedback.textContent = 'Incorrecto. Power BI sí puede diferenciar entre tablas formateadas en Excel (que tienen nombre y estructura definida) y rangos regulares de celdas, ofreciendo opciones específicas para cada tipo durante la importación.';
+                            feedback.className = 'feedback incorrecto';
+                        }
+                    }
+                    
+                    feedback.style.display = 'block';
+                });
+            });
 
-1. Fact_Evaluaciones (Tabla de hechos)
-   - EvaluacionID (clave)
-   - EmpleadoID (clave foránea)
-   - EvaluadorID (clave foránea)
-   - FechaID (clave foránea)
-   - CicloEvaluacionID (clave foránea)
-   - Puntuacion_General (medida)
-   - Puntuacion_Objetivos (medida)
-   - Puntuacion_Competencias (medida)
-
-2. Dim_Empleados (Dimensión)
-   - EmpleadoID (clave)
-   - Nombre
-   - Apellido
-   - FechaContratacion
-   - DepartamentoID (clave foránea a Dim_Departamentos)
-   - Posicion
-   - Nivel
-   - ...otros atributos
-
-3. Dim_Tiempo (Dimensión)
-   - FechaID (clave)
-   - Fecha
-   - Dia
-   - Mes
-   - Trimestre
-   - Año
-   - EsFinDeSemana
-   - ...otros atributos
-
-4. Dim_CiclosEvaluacion (Dimensión)
-   - CicloID (clave)
-   - NombreCiclo
-   - FechaInicio
-   - FechaFin
-   - Tipo (anual, semestral, etc.)
-
-5. Dim_Departamentos (Dimensión)
-   - DepartamentoID (clave)
-   - NombreDepartamento
-   - Division
-   - Director
-   - ...otros atributos</pre>
-                </div>
-                
-                <p>Relaciones a establecer:</p>
-                <ul>
-                    <li>Fact_Evaluaciones[EmpleadoID] → Dim_Empleados[EmpleadoID] (1:N)</li>
-                    <li>Fact_Evaluaciones[FechaID] → Dim_Tiempo[FechaID] (1:N)</li>
-                    <li>Fact_Evaluaciones[CicloEvaluacionID] → Dim_CiclosEvaluacion[CicloID] (1:N)</li>
-                    <li>Dim_Empleados[DepartamentoID] → Dim_Departamentos[DepartamentoID] (1:N)</li>
-                    <li>Fact_Evaluaciones[EvaluadorID] → Dim_Empleados[EmpleadoID] (1:N) (relación en rol "Evaluador")</li>
-                </ul>
-            </div>
+            // JavaScript para elementos arrastrables
+            const elementosArrastrables = document.querySelectorAll('.elemento-arrastrable');
+            const destinos = document.querySelectorAll('.destino');
+            const reiniciarBtn = document.getElementById('reiniciar-arrastrable');
             
-            <div class="subsection">
-                <h3>Optimizaciones para rendimiento</h3>
-                <p>Un modelo bien diseñado no solo proporciona análisis flexibles, sino que también asegura un rendimiento óptimo:</p>
+            // Estado original para poder reiniciar
+            const contenedorOriginal = document.getElementById('elementos-arrastrables');
+            const estadoOriginal = contenedorOriginal.innerHTML;
+            
+            let elementoArrastrado = null;
+            
+            // Función para inicializar eventos de arrastre
+            function inicializarEventosArrastre() {
+                const elementos = document.querySelectorAll('.elemento-arrastrable');
+                elementos.forEach(elemento => {
+                    elemento.addEventListener('dragstart', function(e) {
+                        elementoArrastrado = this;
+                        e.dataTransfer.setData('text/plain', this.getAttribute('data-categoria'));
+                        setTimeout(() => this.style.opacity = '0.4', 0);
+                    });
+                    
+                    elemento.addEventListener('dragend', function() {
+                        this.style.opacity = '1';
+                    });
+                });
+            }
+            
+            // Inicializar eventos de arrastre para los elementos iniciales
+            inicializarEventosArrastre();
+            
+            // Eventos para destinos
+            destinos.forEach(destino => {
+                destino.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('hover');
+                });
                 
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">Reducción del tamaño del modelo</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Estrategias para reducir el tamaño y mejorar el rendimiento:</p>
-                                
-                                <h4>1. Eliminar columnas innecesarias</h4>
-                                <p>Evalúa críticamente cada columna y elimina las que no aportan valor analítico. Por ejemplo:</p>
-                                <ul>
-                                    <li>Comentarios de texto extensos (a menos que planees análisis de texto)</li>
-                                    <li>Campos administrativos internos de los sistemas</li>
-                                    <li>Datos de contacto personal (dirección, teléfono) que no se analizarán</li>
-                                </ul>
-                                
-                                <h4>2. Optimizar tipos de datos</h4>
-                                <p>Usar el tipo de dato más eficiente para cada columna:</p>
-                                <ul>
-                                    <li>Enteros en lugar de decimal cuando sea posible</li>
-                                    <li>Usar valores de fecha en lugar de fecha/hora si no necesitas la hora</li>
-                                    <li>Considerar usar IDs numéricos en lugar de texto para claves</li>
-                                </ul>
-                                
-                                <h4>3. Pre-agregar cuando sea posible</h4>
-                                <p>Si nunca necesitarás análisis a nivel de detalle (por ejemplo, transacciones diarias), considera pre-agregar los datos (por ejemplo, a nivel mensual) para reducir drásticamente el volumen.</p>
-                            </div>
-                        </div>
-                    </div>
+                destino.addEventListener('dragleave', function() {
+                    this.classList.remove('hover');
+                });
+                
+                destino.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('hover');
                     
-                    <div class="accordion-item">
-                        <div class="accordion-header">Uso de tablas calculadas vs medidas</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>La decisión entre crear tablas calculadas o medidas DAX afecta tanto al rendimiento como a la flexibilidad:</p>
-                                
-                                <h4>Tablas calculadas</h4>
-                                <p><strong>Cuándo usarlas:</strong></p>
-                                <ul>
-                                    <li>Para categorizar datos (como bandas salariales, grupos de antigüedad)</li>
-                                    <li>Para crear calendarios personalizados o dimensiones de tiempo</li>
-                                    <li>Para facilitar relaciones complejas (tablas puente)</li>
-                                </ul>
-                                <p><strong>Consideraciones:</strong> Se calculan durante la actualización de datos, aumentan el tamaño del modelo, no responden dinámicamente a selecciones de usuario.</p>
-                                
-                                <h4>Medidas</h4>
-                                <p><strong>Cuándo usarlas:</strong></p>
-                                <ul>
-                                    <li>Para cálculos que deben responder a selecciones/filtros del usuario</li>
-                                    <li>Para métricas clave de RRHH (tasas de rotación, promedios salariales)</li>
-                                    <li>Para comparaciones temporales (year-to-date, year-over-year)</li>
-                                </ul>
-                                <p><strong>Consideraciones:</strong> Se calculan en tiempo real, no aumentan el tamaño del modelo, permiten análisis dinámicos, pero pueden ser más lentas para cálculos muy complejos.</p>
-                                
-                                <div class="tip-box">
-                                    <h4>Regla general para People Analytics</h4>
-                                    <p>Usa tablas calculadas para categorizar y clasificar datos (por ejemplo, rangos de antigüedad o bandas salariales que aparecerán en segmentaciones y filtros). Usa medidas para los KPIs y métricas que se visualizarán en los gráficos (como tasas de rotación, promedios de evaluación, etc.).</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    if (elementoArrastrado) {
+                        const categoria = elementoArrastrado.getAttribute('data-categoria');
+                        const destinoId = this.id.split('-')[1]; // destino-estrategico -> estrategico
+                        
+                        // Comprobar si el elemento va en el destino correcto
+                        if (categoria === destinoId) {
+                            elementoArrastrado.style.background = 'linear-gradient(145deg, var(--color-acento), #F57C00)';
+                        } else {
+                            elementoArrastrado.style.background = 'linear-gradient(145deg, #e57373, #ef5350)';
+                        }
+                        
+                        this.appendChild(elementoArrastrado);
+                        elementoArrastrado = null;
+                    }
+                });
+            });
+            
+            // Reiniciar el ejercicio completamente
+            reiniciarBtn.addEventListener('click', function() {
+                // Restaurar el contenedor original
+                contenedorOriginal.innerHTML = estadoOriginal;
+                
+                // Reinicializar los eventos de arrastre
+                inicializarEventosArrastre();
+                
+                // Eliminar todos los elementos de los destinos excepto los títulos
+                destinos.forEach(destino => {
+                    // Guardar el título y la descripción
+                    const titulo = destino.querySelector('.destino-titulo');
+                    const descripcion = destino.querySelector('div:not(.destino-titulo)');
                     
-                    <div class="accordion-item">
-                        <div class="accordion-header">Seguridad a nivel de fila (RLS)</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>La seguridad es crucial en People Analytics debido a la sensibilidad de los datos de RRHH:</p>
-                                
-                                <h4>Implementación de RLS</h4>
-                                <p>La seguridad a nivel de fila (RLS) permite restringir el acceso a datos basado en quién los ve:</p>
-                                <ol>
-                                    <li>Crear una tabla de roles o permisos que mapee usuarios/roles a los departamentos o niveles de acceso</li>
-                                    <li>Establecer relaciones entre esta tabla y las dimensiones relevantes</li>
-                                    <li>Crear roles de seguridad en Power BI Desktop</li>
-                                    <li>Definir expresiones DAX que filtren los datos según el rol del usuario</li>
-                                </ol>
-                                
-                                <div class="code-block">
-                                    <pre>// Ejemplo de expresión RLS para gerentes que solo pueden ver sus departamentos
-[DepartamentoID] = LOOKUPVALUE(
-    'TablaPermisos'[DepartamentoID],
-    'TablaPermisos'[Usuario],
-    USERNAME(),
-    'TablaPermisos'[TipoAcceso],
-    "Gerente"
-)</pre>
-                                </div>
-                                
-                                <h4>Escenarios típicos en RRHH</h4>
-                                <ul>
-                                    <li><strong>Gerentes de línea:</strong> Solo ven datos de sus equipos directos</li>
-                                    <li><strong>HRBP:</strong> Acceso a departamentos específicos asignados</li>
-                                    <li><strong>Ejecutivos:</strong> Vista de toda la organización pero con restricciones en información sensible (como salarios individuales)</li>
-                                    <li><strong>Analistas de compensación:</strong> Acceso completo a datos de compens
+                    // Limpiar el destino
+                    destino.innerHTML = '';
+                    
+                    // Volver a añadir el título y la descripción
+                    if (titulo) {
+                        destino.appendChild(titulo);
+                    }
+                    if (descripcion) {
+                        destino.appendChild(descripcion);
+                    }
+                });
+                
+                // Efecto visual de confirmación
+                reiniciarBtn.textContent = "¡Reiniciado!";
+                reiniciarBtn.style.background = "linear-gradient(to right, #43A047, #2E7D32)";
+                
+                setTimeout(() => {
+                    reiniciarBtn.textContent = "Reiniciar ejercicio";
+                    reiniciarBtn.style.background = "linear-gradient(to right, var(--color-acento), #F57C00)";
+                }, 1000);
+            });
+            
+            // JavaScript para el botón de video
+            const btnPlay = document.querySelector('.btn-play');
+            btnPlay.addEventListener('click', function() {
+                alert('El video se incrustará cuando esté disponible. Por ahora, este es un placeholder.');
+            });
+            
+            // JavaScript para el mapa de calor
+            const celdasCalor = document.querySelectorAll('.mapa-calor td[class^="celda-nivel-"]');
+            
+            celdasCalor.forEach(celda => {
+                // Añadir efecto hover
+                celda.addEventListener('mouseover', function() {
+                    this.style.transform = 'scale(1.05)';
+                    this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                    this.style.zIndex = '1';
+                });
+                
+                celda.addEventListener('mouseout', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.boxShadow = 'none';
+                    this.style.zIndex = 'auto';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
