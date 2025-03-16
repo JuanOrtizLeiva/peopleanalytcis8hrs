@@ -3,1402 +3,1074 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso: Power BI con People Analytics - Sección 1</title>
+    <title>Introducción a Power BI para People Analytics - Sección 1</title>
     <style>
+        /* Variables CSS para la paleta de colores - Azul Elegante */
         :root {
-            --primary-color: #2C6BAC;
-            --secondary-color: #7CC6FE;
-            --accent-color: #FF8A00;
-            --background-color: #f8f9fa;
-            --text-color: #333333;
-            --light-gray: #e9ecef;
-            --dark-gray: #495057;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
-            --info-color: #17a2b8;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease-in-out;
-            --border-radius: 8px;
+            --color-primario: #0D47A1; /* Azul elegante principal (más oscuro) */
+            --color-secundario: #1565C0; /* Azul elegante secundario */
+            --color-terciario: #1976D2; /* Azul elegante terciario */
+            --color-acento: #FF8F00; /* Naranja ámbar como acento complementario */
+            --color-acento-claro: #FFE082; /* Ámbar claro */
+            --color-texto: #212121; /* Texto más oscuro para mejor contraste */
+            --color-fondo: #F5F7FA; /* Fondo ligeramente azulado */
+            --color-fondo-seccion: #ffffff; /* Color fondo secciones */
+            --color-borde: #CFD8DC; /* Bordes azulados sutiles */
+            --sombra-suave: 0 4px 12px rgba(13, 71, 161, 0.08); /* Sombra azulada */
+            --radio-borde: 8px; /* Radio para bordes redondeados */
+            --espaciado: 1.5rem; /* Espaciado estándar */
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Estilos generales */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--color-texto);
+            background-color: var(--color-fondo);
             line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--background-color);
-            padding: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .contenedor {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
             color: white;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            margin-bottom: 30px;
-            box-shadow: var(--box-shadow);
-            position: relative;
-            overflow: hidden;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: var(--sombra-suave);
         }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255, 255, 255, 0.1)" d="M0,192L48,181.3C96,171,192,149,288,149.3C384,149,480,171,576,165.3C672,160,768,128,864,138.7C960,149,1056,203,1152,208C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-            background-position: bottom;
-            background-repeat: no-repeat;
-            opacity: 0.6;
-            z-index: 0;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 1;
+        .header-contenido {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
+            color: white;
         }
 
         h2 {
             font-size: 2rem;
-            color: var(--primary-color);
-            margin: 40px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--secondary-color);
+            color: var(--color-primario);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--color-acento);
         }
 
         h3 {
             font-size: 1.5rem;
-            color: var(--dark-gray);
-            margin: 30px 0 15px;
-        }
-
-        h4 {
-            font-size: 1.2rem;
-            color: var(--primary-color);
-            margin: 20px 0 10px;
+            color: var(--color-secundario);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         p {
-            margin-bottom: 20px;
+            margin-bottom: 1.2rem;
             font-size: 1.1rem;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
+        section {
+            background-color: var(--color-fondo-seccion);
+            border-radius: var(--radio-borde);
+            padding: var(--espaciado);
+            margin-bottom: 2rem;
+            box-shadow: var(--sombra-suave);
+            border-top: 4px solid var(--color-primario);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(13, 71, 161, 0.12);
         }
 
-        .section {
-            margin-bottom: 40px;
+        .intro-banner {
+            background: linear-gradient(to right, rgba(255, 143, 0, 0.1), rgba(255, 224, 130, 0.2));
+            border-left: 5px solid var(--color-acento);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 0 var(--radio-borde) var(--radio-borde) 0;
+            box-shadow: 0 4px 15px rgba(255, 143, 0, 0.1);
         }
 
-        .subsection {
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: var(--background-color);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
 
-        /* Elementos interactivos */
-        /* Tarjetas giratorias */
-        .flip-card-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin: 30px 0;
-        }
-
-        .flip-card {
-            background-color: transparent;
-            width: 300px;
-            height: 200px;
+        /* Estilos para tarjetas giratorias */
+        .tarjeta-giratoria-container {
             perspective: 1000px;
-            cursor: pointer;
-            margin-bottom: 20px;
+            height: 200px;
+            margin-bottom: 2rem;
         }
 
-        .flip-card-inner {
+        .tarjeta-giratoria {
             position: relative;
             width: 100%;
             height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
+            transition: transform 0.8s;
             transform-style: preserve-3d;
-            box-shadow: var(--box-shadow);
-            border-radius: var(--border-radius);
+            cursor: pointer;
         }
 
-        .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .flip-card-front, .flip-card-back {
+        .tarjeta-frente, .tarjeta-reverso {
             position: absolute;
             width: 100%;
             height: 100%;
-            -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            padding: 20px;
-            border-radius: var(--border-radius);
+            border-radius: var(--radio-borde);
+            padding: 1.5rem;
+            box-sizing: border-box;
         }
 
-        .flip-card-front {
-            background-color: var(--primary-color);
+        .tarjeta-frente {
+            background: linear-gradient(145deg, var(--color-primario), var(--color-secundario));
             color: white;
+            box-shadow: 0 4px 15px rgba(13, 71, 161, 0.2);
         }
 
-        .flip-card-back {
-            background-color: var(--secondary-color);
-            color: var(--text-color);
+        .tarjeta-reverso {
+            background: linear-gradient(145deg, var(--color-acento), #F57C00);
+            color: white;
             transform: rotateY(180deg);
-            overflow-y: auto;
+            box-shadow: 0 4px 15px rgba(255, 143, 0, 0.2);
         }
 
-        /* Acordeón */
-        .accordion {
-            margin-bottom: 20px;
+        .girar {
+            transform: rotateY(180deg);
         }
 
-        .accordion-item {
-            margin-bottom: 10px;
-            border-radius: var(--border-radius);
+        /* Estilos para acordeones */
+        .acordeon {
+            margin-bottom: 1rem;
+            border: 1px solid var(--color-borde);
+            border-radius: var(--radio-borde);
             overflow: hidden;
-            box-shadow: var(--box-shadow);
         }
 
-        .accordion-header {
-            background-color: var(--primary-color);
+        .acordeon-titulo {
+            background: linear-gradient(to right, var(--color-primario), var(--color-secundario));
             color: white;
-            padding: 15px 20px;
-            cursor: pointer;
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: var(--transition);
-        }
-
-        .accordion-header:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .accordion-header::after {
-            content: '+';
-            font-size: 1.5rem;
+            cursor: pointer;
             font-weight: bold;
+            border-radius: var(--radio-borde) var(--radio-borde) 0 0;
+            transition: all 0.3s ease;
+        }
+        
+        .acordeon-titulo:hover {
+            background: linear-gradient(to right, var(--color-secundario), var(--color-primario));
         }
 
-        .accordion-header.active::after {
-            content: '-';
-        }
-
-        .accordion-content {
-            padding: 0;
+        .acordeon-contenido {
+            background-color: white;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
-            background-color: white;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1rem;
         }
 
-        .accordion-content-inner {
-            padding: 20px;
+        .acordeon-contenido.activo {
+            max-height: 500px;
+            padding: 1rem;
         }
 
-        /* Tabla interactiva */
-        .interactive-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            box-shadow: var(--box-shadow);
-            border-radius: var(--border-radius);
-            overflow: hidden;
+        .acordeon-icono {
+            transition: transform 0.3s;
         }
 
-        .interactive-table thead {
-            background-color: var(--primary-color);
-            color: white;
+        .acordeon-icono.activo {
+            transform: rotate(180deg);
         }
 
-        .interactive-table th, .interactive-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--light-gray);
+        /* Estilos para elementos arrastrables */
+        .arrastrable-container {
+            margin: 2rem 0;
         }
 
-        .interactive-table tr:nth-child(even) {
-            background-color: var(--light-gray);
-        }
-
-        .interactive-table tr {
-            transition: var(--transition);
-        }
-
-        .interactive-table tr:hover {
-            background-color: #dfe6e9;
-        }
-
-        .interactive-table .hidden-row {
-            display: none;
-        }
-
-        .interactive-table .expandable-row {
-            cursor: pointer;
-        }
-
-        .interactive-table .expandable-row:hover {
-            background-color: #e0f7fa;
-        }
-
-        .interactive-table .expandable-icon::after {
-            content: '▶';
-            margin-left: 10px;
-            font-size: 0.8rem;
-            transition: var(--transition);
-        }
-
-        .interactive-table .expandable-row.expanded .expandable-icon::after {
-            content: '▼';
-        }
-
-        /* Quiz de verdadero/falso */
-        .quiz-container {
-            margin: 30px 0;
-            padding: 20px;
-            background-color: var(--light-gray);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-
-        .quiz-question {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .quiz-options {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .quiz-option {
-            padding: 10px 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: bold;
-        }
-
-        .quiz-option:hover {
-            background-color: var(--light-gray);
-        }
-
-        .quiz-option.selected {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .quiz-feedback {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: var(--border-radius);
-            font-weight: bold;
-            display: none;
-        }
-
-        .quiz-feedback.correct {
-            background-color: rgba(40, 167, 69, 0.2);
-            color: var(--success-color);
-            border: 1px solid var(--success-color);
-        }
-
-        .quiz-feedback.incorrect {
-            background-color: rgba(220, 53, 69, 0.2);
-            color: var(--danger-color);
-            border: 1px solid var(--danger-color);
-        }
-
-        /* Elementos arrastrables */
-        .draggable-container {
-            margin: 30px 0;
-            padding: 20px;
-            background-color: var(--light-gray);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-
-        .drag-items {
+        .elementos-arrastrables {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .drag-item {
-            padding: 10px 15px;
-            background-color: var(--primary-color);
+        .elemento-arrastrable {
+            background: linear-gradient(145deg, var(--color-secundario), var(--color-terciario));
             color: white;
-            border-radius: var(--border-radius);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radio-borde);
             cursor: grab;
             user-select: none;
-            transition: var(--transition);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .elemento-arrastrable:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
         }
 
-        .drag-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        .elemento-arrastrable:active {
+            cursor: grabbing;
         }
 
-        .drop-zones {
+        .destinos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .destino {
+            border: 2px dashed var(--color-borde);
+            border-radius: var(--radio-borde);
+            min-height: 120px;
+            padding: 1rem;
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .drop-zone {
-            min-width: 200px;
-            min-height: 150px;
-            padding: 15px;
-            background-color: white;
-            border: 2px dashed var(--primary-color);
-            border-radius: var(--border-radius);
-            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-direction: column;
-            gap: 10px;
-            flex: 1;
+            background-color: rgba(236, 239, 241, 0.5);
+            transition: all 0.3s ease;
+            gap: 0.75rem;
         }
 
-        .drop-zone h4 {
-            text-align: center;
-            margin-top: 0;
+        .destino-titulo {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--color-primario);
         }
 
-        .drop-zone.highlight {
-            background-color: rgba(124, 198, 254, 0.2);
+        .destino.hover {
+            background-color: var(--color-acento-claro);
+            border-color: var(--color-acento);
         }
 
-        .drop-zone .drag-item {
-            background-color: var(--secondary-color);
-        }
-
-        /* Botones */
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: var(--primary-color);
+        .reiniciar-btn {
+            background: linear-gradient(to right, var(--color-acento), #F57C00);
             color: white;
             border: none;
-            border-radius: var(--border-radius);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radio-borde);
             cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
             font-weight: bold;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 143, 0, 0.2);
+            margin-top: 1rem;
         }
 
-        .btn:hover {
-            background-color: var(--secondary-color);
+        .reiniciar-btn:hover {
+            background: linear-gradient(to right, #F57C00, var(--color-acento));
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 143, 0, 0.3);
         }
 
-        .btn-check {
-            background-color: var(--success-color);
+        /* Estilos para preguntas V/F */
+        .pregunta-vf {
+            background-color: white;
+            border-radius: var(--radio-borde);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--color-borde);
         }
 
-        .btn-reset {
-            background-color: var(--danger-color);
+        .opciones-vf {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
         }
 
-        /* Efecto de resaltado */
-        .highlight {
-            background-color: #fff8e1;
-            padding: 2px 5px;
-            border-radius: 3px;
+        .opcion-vf {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--color-borde);
+            border-radius: var(--radio-borde);
+            cursor: pointer;
             font-weight: bold;
-            color: var(--accent-color);
+            transition: all 0.2s;
         }
 
-        /* Consulta de medios para responsividad */
+        .opcion-vf:hover {
+            background-color: var(--color-acento-claro);
+        }
+
+        .opcion-vf.seleccionada {
+            background-color: var(--color-primario);
+            color: white;
+            border-color: var(--color-primario);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--radio-borde);
+            display: none;
+        }
+
+        .feedback.correcto {
+            background-color: #e7f5e7;
+            border: 1px solid #4CAF50;
+            color: #2E7D32;
+        }
+
+        .feedback.incorrecto {
+            background-color: #ffebee;
+            border: 1px solid #F44336;
+            color: #C62828;
+        }
+
+        /* Estilos para tablas interactivas */
+        .tabla-interactiva {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background-color: white;
+            border-radius: var(--radio-borde);
+            overflow: hidden;
+            box-shadow: var(--sombra-suave);
+        }
+
+        .tabla-interactiva th {
+            background: linear-gradient(to bottom, var(--color-primario), var(--color-secundario));
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tabla-interactiva th:hover {
+            background: linear-gradient(to bottom, var(--color-secundario), var(--color-primario));
+        }
+
+        .tabla-interactiva td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-borde);
+        }
+
+        .tabla-interactiva tr:nth-child(even) {
+            background-color: rgba(66, 165, 245, 0.05);
+        }
+
+        .tabla-interactiva tr:hover {
+            background-color: rgba(66, 165, 245, 0.1);
+        }
+
+        .tabla-interactiva .fila-expandible {
+            display: none;
+            background-color: var(--color-acento-claro);
+        }
+
+        .tabla-interactiva .fila-expandible td {
+            padding: 1.5rem;
+        }
+
+        .expandir-btn {
+            background-color: var(--color-terciario);
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .expandir-btn:hover {
+            background-color: var(--color-secundario);
+        }
+
+        /* Estilos responsivos */
         @media (max-width: 768px) {
-            .flip-card-container {
+            .header-contenido {
                 flex-direction: column;
-                align-items: center;
+                text-align: center;
             }
-            
-            .flip-card {
-                width: 100%;
-                max-width: 300px;
+
+            .grid-container {
+                grid-template-columns: 1fr;
             }
-            
-            .drop-zones {
-                flex-direction: column;
+
+            .destinos-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>Power BI con People Analytics</h1>
-            <p>Sección 1: Introducción a Power BI para People Analytics</p>
+    <header style="background: linear-gradient(135deg, var(--color-primario), var(--color-secundario), var(--color-terciario));">
+        <div class="header-contenido">
+            <div>
+                <h1>Introducción a Power BI para People Analytics</h1>
+                <p style="color: rgba(255, 255, 255, 0.9);">Aprende a analizar y visualizar datos de recursos humanos con una de las herramientas más potentes del mercado</p>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        <section class="section">
-            <h2>Introducción al curso</h2>
-            <p>Bienvenidos a este curso especializado en <strong>Power BI para People Analytics</strong>. En las siguientes secciones, exploraremos cómo utilizar Microsoft Power BI como herramienta para transformar datos de recursos humanos en visualizaciones y dashboards que permitan tomar decisiones estratégicas basadas en datos.</p>
-            
-            <p>El análisis de datos de recursos humanos (People Analytics) se ha convertido en una práctica fundamental para las organizaciones modernas que buscan optimizar sus procesos de gestión de talento. Con Power BI, podemos crear visualizaciones dinámicas e interactivas que revelan patrones y tendencias ocultas en nuestros datos de RR.HH.</p>
-            
-            <div class="subsection">
-                <h3>¿Qué aprenderás en este curso?</h3>
-                <ul>
-                    <li>Fundamentos de Power BI orientados al análisis de datos de recursos humanos</li>
-                    <li>Técnicas para preparar y transformar datos de RRHH con Power Query</li>
-                    <li>Creación de visualizaciones efectivas para métricas de personal</li>
-                    <li>Desarrollo de cálculos avanzados con DAX para KPIs de recursos humanos</li>
-                    <li>Diseño de dashboards interactivos para la toma de decisiones en RRHH</li>
-                </ul>
-                
-                <p>Este curso está diseñado para profesionales de recursos humanos, analistas de datos, gerentes y cualquier persona interesada en aprovechar el poder de los datos para mejorar la gestión del capital humano en sus organizaciones.</p>
-            </div>
-        </section>
+    <div class="contenedor">
+        <div class="intro-banner">
+            <h2 style="color: var(--color-texto); border-bottom: none; margin-top: 0;">Sección 1: Introducción a Power BI y People Analytics</h2>
+            <p>En esta primera sección, exploraremos los fundamentos de Power BI y su relevancia en el contexto del análisis de datos de recursos humanos. Conoceremos qué es People Analytics y cómo Power BI puede ser una herramienta transformadora para los profesionales de RRHH.</p>
+        </div>
 
-        <!-- Primera parte: Revisión rápida de Power BI -->
-        <section class="section">
-            <h2>1. Revisión rápida de Power BI: interfaz y funcionalidades básicas</h2>
+        <section id="que-es-power-bi">
+            <h2>1. ¿Qué es Power BI?: Definición, historia y propósito</h2>
             
-            <p>Microsoft Power BI es una suite de herramientas de análisis de negocio que permite conectarse a diversas fuentes de datos, transformar y modelar esos datos, y crear visualizaciones interactivas que facilitan el análisis y la toma de decisiones.</p>
+            <p>Power BI (Business Intelligence) es una plataforma de análisis de datos desarrollada por Microsoft que permite a los usuarios transformar, analizar y visualizar datos de manera interactiva. Lanzada en 2013, aunque sus orígenes se remontan a proyectos anteriores de Microsoft como Project Crescent y Power Pivot para Excel, Power BI se ha convertido en una de las herramientas de visualización de datos más utilizadas a nivel mundial.</p>
             
-            <div class="accordion">
-                <div class="accordion-item">
-                    <div class="accordion-header">Componentes principales de Power BI</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>Power BI se compone de varios elementos clave que trabajan en conjunto:</p>
-                            <ul>
-                                <li><strong>Power BI Desktop:</strong> Aplicación de escritorio para Windows donde se crean informes y visualizaciones.</li>
-                                <li><strong>Power BI Service (Power BI Online):</strong> Servicio en la nube para compartir informes y dashboards.</li>
-                                <li><strong>Power BI Mobile:</strong> Aplicaciones para dispositivos móviles que permiten acceder a informes en cualquier momento.</li>
-                                <li><strong>Power BI Report Server:</strong> Solución local para empresas que prefieren mantener sus informes dentro de su infraestructura.</li>
-                                <li><strong>Power BI Embedded:</strong> Capacidades de Power BI que pueden integrarse en aplicaciones personalizadas.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">Interfaz de Power BI Desktop</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>Power BI Desktop tiene una interfaz intuitiva dividida en varias áreas:</p>
-                            <ul>
-                                <li><strong>Área de visualizaciones:</strong> El espacio central donde se crean y modifican los informes.</li>
-                                <li><strong>Panel de visualizaciones:</strong> Muestra los tipos de visualizaciones disponibles.</li>
-                                <li><strong>Panel de campos:</strong> Lista todos los campos disponibles del modelo de datos.</li>
-                                <li><strong>Panel de filtros:</strong> Permite aplicar filtros a nivel de visualización, página o informe.</li>
-                                <li><strong>Panel de páginas:</strong> Permite navegar entre diferentes páginas del informe.</li>
-                            </ul>
-                            <p>La interfaz de Power BI está diseñada para facilitar el proceso de creación de informes, siguiendo un flujo lógico desde la conexión a datos hasta la visualización final.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header">Flujo de trabajo en Power BI</div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>El proceso típico de trabajo en Power BI sigue estos pasos:</p>
-                            <ol>
-                                <li><strong>Obtener datos:</strong> Conectarse a diversas fuentes como Excel, bases de datos SQL, servicios en línea, etc.</li>
-                                <li><strong>Transformar datos:</strong> Utilizar Power Query para limpiar y preparar los datos para el análisis.</li>
-                                <li><strong>Crear modelo de datos:</strong> Establecer relaciones entre tablas y crear medidas calculadas.</li>
-                                <li><strong>Crear visualizaciones:</strong> Diseñar gráficos, tablas y otros elementos visuales para representar los datos.</li>
-                                <li><strong>Crear informes y dashboards:</strong> Organizar las visualizaciones en páginas de informe coherentes.</li>
-                                <li><strong>Compartir y colaborar:</strong> Publicar en Power BI Service para que otros usuarios puedan acceder.</li>
-                            </ol>
-                            <p>Este flujo de trabajo es fundamental para comprender cómo se utilizará Power BI en el contexto de People Analytics.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <p>La plataforma Power BI consta principalmente de tres componentes:</p>
             
-            <div class="flip-card-container">
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
+            <ul>
+                <li><strong>Power BI Desktop:</strong> Una aplicación de escritorio gratuita que permite conectarse a cientos de fuentes de datos, transformarlos, crear modelos de datos y diseñar informes interactivos.</li>
+                <li><strong>Servicio Power BI:</strong> Un servicio en la nube (SaaS) donde los usuarios pueden publicar, compartir y colaborar en informes y dashboards.</li>
+                <li><strong>Aplicaciones móviles Power BI:</strong> Disponibles para dispositivos iOS y Android, permiten acceder a los informes y dashboards desde cualquier lugar.</li>
+            </ul>
+            
+            <p>El propósito principal de Power BI es convertir datos en información accionable, permitiendo a las organizaciones:</p>
+            
+            <ul>
+                <li>Conectarse a prácticamente cualquier fuente de datos (Excel, bases de datos SQL, servicios en la nube, etc.)</li>
+                <li>Transformar y limpiar datos para hacerlos utilizables (mediante Power Query)</li>
+                <li>Crear relaciones entre diferentes conjuntos de datos</li>
+                <li>Desarrollar visualizaciones interactivas y atractivas</li>
+                <li>Compartir información entre equipos y departamentos</li>
+                <li>Tomar decisiones basadas en datos en tiempo real</li>
+            </ul>
+            
+            <p>La interfaz intuitiva de Power BI, combinada con potentes capacidades de análisis, lo convierte en una herramienta accesible tanto para analistas de datos como para usuarios de negocios sin experiencia técnica profunda, democratizando así el acceso a la inteligencia empresarial.</p>
+
+            <!-- Tarjetas giratorias: Datos curiosos sobre Power BI -->
+            <h3>¿Sabías que...?</h3>
+            <div class="grid-container">
+                <div class="tarjeta-giratoria-container">
+                    <div class="tarjeta-giratoria" id="tarjeta1">
+                        <div class="tarjeta-frente">
                             <h3>¿Sabías que...?</h3>
-                            <p>Sobre Power BI</p>
+                            <p>Haz clic para descubrir un dato curioso sobre Power BI</p>
                         </div>
-                        <div class="flip-card-back">
-                            <h4>Dato curioso</h4>
-                            <p>Power BI nació como un proyecto interno de Microsoft llamado "Project Crescent" y fue lanzado públicamente en 2013. Hoy es utilizado por más de 5 millones de desarrolladores y 97% de las empresas Fortune 500.</p>
+                        <div class="tarjeta-reverso">
+                            <p>Power BI procesa más de 30 petabytes de datos cada día en todo el mundo, según datos de Microsoft.</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
+                <div class="tarjeta-giratoria-container">
+                    <div class="tarjeta-giratoria" id="tarjeta2">
+                        <div class="tarjeta-frente">
                             <h3>¿Sabías que...?</h3>
-                            <p>Actualizaciones mensuales</p>
+                            <p>Haz clic para descubrir otro dato interesante</p>
                         </div>
-                        <div class="flip-card-back">
-                            <h4>Actualizaciones constantes</h4>
-                            <p>Microsoft lanza actualizaciones mensuales para Power BI Desktop, agregando nuevas funcionalidades y mejoras basadas en la retroalimentación de la comunidad a través del programa "Ideas".</p>
+                        <div class="tarjeta-reverso">
+                            <p>Power BI puede manejar conjuntos de datos con millones de filas, pero está optimizado para cargar sólo los datos necesarios para cada visualización.</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
+                <div class="tarjeta-giratoria-container">
+                    <div class="tarjeta-giratoria" id="tarjeta3">
+                        <div class="tarjeta-frente">
                             <h3>¿Sabías que...?</h3>
-                            <p>Lenguaje M y DAX</p>
+                            <p>Haz clic para descubrir un dato sobre la adopción de Power BI</p>
                         </div>
-                        <div class="flip-card-back">
-                            <h4>Lenguajes de Power BI</h4>
-                            <p>Power BI utiliza dos lenguajes principales: M (para transformación de datos en Power Query) y DAX (Data Analysis Expressions, para cálculos analíticos). Ambos son fundamentales para análisis avanzados de RRHH.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Segunda parte: Relevancia en People Analytics -->
-        <section class="section">
-            <h2>2. Relevancia en People Analytics: visualización de datos de RRHH</h2>
-            
-            <p>People Analytics (o Analítica de Recursos Humanos) representa la práctica de utilizar datos para mejorar la toma de decisiones relacionadas con las personas en una organización. En este contexto, Power BI se convierte en una herramienta invaluable que permite transformar datos complejos de RRHH en visualizaciones accesibles y significativas.</p>
-            
-            <div class="subsection">
-                <h3>¿Qué es People Analytics?</h3>
-                <p>People Analytics es el proceso de recopilar, analizar e interpretar datos relacionados con la fuerza laboral para mejorar los resultados de negocio. Va más allá de los informes descriptivos tradicionales, buscando identificar patrones, tendencias y relaciones causales que pueden influir en la estrategia de gestión del talento.</p>
-                
-                <p>Entre las áreas de recursos humanos que pueden beneficiarse del análisis de datos se incluyen:</p>
-                <ul>
-                    <li>Adquisición y retención de talento</li>
-                    <li>Desarrollo y capacitación</li>
-                    <li>Gestión del desempeño</li>
-                    <li>Compromiso y satisfacción de los empleados</li>
-                    <li>Diversidad e inclusión</li>
-                    <li>Planificación de la fuerza laboral</li>
-                    <li>Compensación y beneficios</li>
-                </ul>
-            </div>
-            
-            <div class="interactive-table-container">
-                <h3>Casos de uso comunes de Power BI en People Analytics</h3>
-                <table class="interactive-table">
-                    <thead>
-                        <tr>
-                            <th>Área de RRHH</th>
-                            <th>Aplicación de Power BI</th>
-                            <th>Beneficios clave</th>
-                            <th class="expandable-icon">Métricas relevantes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="expandable-row">
-                            <td>Rotación de personal</td>
-                            <td>Análisis predictivo para identificar factores de riesgo</td>
-                            <td>Reducción de costos por retención mejorada</td>
-                            <td class="expandable-icon">Ver métricas</td>
-                        </tr>
-                        <tr class="hidden-row detail-row">
-                            <td colspan="4">
-                                <div class="detail-content">
-                                    <p><strong>Métricas clave para rotación:</strong></p>
-                                    <ul>
-                                        <li>Tasa de rotación voluntaria vs. involuntaria</li>
-                                        <li>Rotación por departamento/ubicación</li>
-                                        <li>Costo de rotación por posición</li>
-                                        <li>Tiempo promedio de permanencia</li>
-                                        <li>Correlación entre satisfacción y rotación</li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                        <tr class="expandable-row">
-                            <td>Reclutamiento</td>
-                            <td>Seguimiento de fuentes de contratación y embudo de selección</td>
-                            <td>Optimización de canales de reclutamiento</td>
-                            <td class="expandable-icon">Ver métricas</td>
-                        </tr>
-                        <tr class="hidden-row detail-row">
-                            <td colspan="4">
-                                <div class="detail-content">
-                                    <p><strong>Métricas clave para reclutamiento:</strong></p>
-                                    <ul>
-                                        <li>Tiempo para cubrir vacantes</li>
-                                        <li>Costo por contratación</li>
-                                        <li>Tasa de conversión por fase del embudo</li>
-                                        <li>Calidad de contratación</li>
-                                        <li>Diversidad de candidatos por fuente</li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                        <tr class="expandable-row">
-                            <td>Desempeño</td>
-                            <td>Visualización de evaluaciones y distribución de talento</td>
-                            <td>Identificación de altos potenciales y brechas de desempeño</td>
-                            <td class="expandable-icon">Ver métricas</td>
-                        </tr>
-                        <tr class="hidden-row detail-row">
-                            <td colspan="4">
-                                <div class="detail-content">
-                                    <p><strong>Métricas clave para desempeño:</strong></p>
-                                    <ul>
-                                        <li>Distribución de calificaciones de desempeño</li>
-                                        <li>Correlación entre capacitación y desempeño</li>
-                                        <li>Tendencias de desempeño a lo largo del tiempo</li>
-                                        <li>Identificación de sesgos en evaluaciones</li>
-                                        <li>Matriz de talento (desempeño vs. potencial)</li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                        <tr class="expandable-row">
-                            <td>Compromiso laboral</td>
-                            <td>Análisis de encuestas y feedback de empleados</td>
-                            <td>Mejora del clima organizacional y retención</td>
-                            <td class="expandable-icon">Ver métricas</td>
-                        </tr>
-                        <tr class="hidden-row detail-row">
-                            <td colspan="4">
-                                <div class="detail-content">
-                                    <p><strong>Métricas clave para compromiso:</strong></p>
-                                    <ul>
-                                        <li>Índice de compromiso (eNPS)</li>
-                                        <li>Tasas de participación en encuestas</li>
-                                        <li>Puntuaciones por dimensión (liderazgo, comunicación, etc.)</li>
-                                        <li>Correlación entre compromiso y productividad</li>
-                                        <li>Tendencias en comentarios abiertos (análisis de texto)</li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                        <tr class="expandable-row">
-                            <td>Diversidad e inclusión</td>
-                            <td>Monitoreo de distribución demográfica y equidad</td>
-                            <td>Promoción de la diversidad y detección de sesgos</td>
-                            <td class="expandable-icon">Ver métricas</td>
-                        </tr>
-                        <tr class="hidden-row detail-row">
-                            <td colspan="4">
-                                <div class="detail-content">
-                                    <p><strong>Métricas clave para diversidad:</strong></p>
-                                    <ul>
-                                        <li>Distribución por género, edad, etnia y otros factores</li>
-                                        <li>Análisis de brecha salarial</li>
-                                        <li>Tasas de promoción por grupo demográfico</li>
-                                        <li>Representación en posiciones de liderazgo</li>
-                                        <li>Inclusión percibida en encuestas</li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="subsection">
-                <h3>Tendencias actuales en People Analytics</h3>
-                <p>El campo de People Analytics está evolucionando rápidamente, con varias tendencias emergentes que están redefiniendo cómo las organizaciones abordan el análisis de datos de RRHH:</p>
-                
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">Análisis predictivo y prescriptivo</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Las organizaciones están avanzando más allá del análisis descriptivo (¿qué pasó?) hacia modelos predictivos (¿qué podría pasar?) y prescriptivos (¿qué deberíamos hacer?). Con Power BI, esto se traduce en:</p>
-                                <ul>
-                                    <li>Modelos de predicción de rotación para identificar empleados en riesgo</li>
-                                    <li>Recomendaciones de desarrollo basadas en trayectorias de carrera exitosas</li>
-                                    <li>Optimización de asignación de recursos humanos basada en patrones históricos</li>
-                                </ul>
-                                <p>Estos análisis aprovechan la integración de Power BI con Azure Machine Learning y otros servicios de IA de Microsoft.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Análisis de redes organizacionales</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>El análisis de redes organizacionales (ONA) utiliza datos de comunicación y colaboración para mapear relaciones informales dentro de una organización, identificando:</p>
-                                <ul>
-                                    <li>Influenciadores clave y conectores entre equipos</li>
-                                    <li>Silos departamentales y oportunidades de mejora de comunicación</li>
-                                    <li>Patrones de colaboración en equipos de alto rendimiento</li>
-                                </ul>
-                                <p>Power BI ofrece visualizaciones de red potentes para representar estas relaciones complejas de manera intuitiva.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Análisis continuo y en tiempo real</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>En lugar de análisis periódicos basados en ciclos anuales, las organizaciones están adoptando enfoques continuos que permiten:</p>
-                                <ul>
-                                    <li>Feedback continuo y pulsos de compromiso frecuentes</li>
-                                    <li>Monitoreo en tiempo real de métricas clave de RRHH</li>
-                                    <li>Dashboards actualizados automáticamente para respuesta rápida</li>
-                                </ul>
-                                <p>La función de actualización automática de Power BI Service facilita este enfoque de análisis "siempre activo".</p>
-                            </div>
+                        <div class="tarjeta-reverso">
+                            <p>El 97% de las empresas Fortune 500 utilizan Power BI para sus análisis de datos, según informes de Microsoft en 2023.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Tercera parte: Ventajas de Power BI para profesionales de RRHH -->
-        <section class="section">
-            <h2>3. Ventajas de Power BI para profesionales de RRHH</h2>
+        <section id="importancia-analisis-datos-rrhh">
+            <h2>2. La importancia del análisis de datos en Recursos Humanos</h2>
             
-            <p>Power BI ofrece numerosas ventajas específicas para los profesionales de recursos humanos que buscan implementar estrategias basadas en datos. Estas ventajas van desde la facilidad de uso hasta la capacidad de integración con sistemas existentes.</p>
+            <p>Durante décadas, los departamentos de Recursos Humanos han sido percibidos principalmente como áreas administrativas enfocadas en procesos como reclutamiento, nóminas y gestión de beneficios. Sin embargo, la evolución digital y la creciente disponibilidad de datos han transformado profundamente esta percepción, posicionando a RRHH como un socio estratégico fundamental para el negocio.</p>
             
-            <div class="flip-card-container">
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <h3>Ventaja clave</h3>
-                            <p>Democratización de datos</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h4>Acceso amplio a insights</h4>
-                            <p>Power BI permite que usuarios sin conocimientos técnicos avanzados puedan crear y compartir análisis de datos de RRHH, eliminando la dependencia de departamentos de TI o analistas especializados.</p>
-                        </div>
-                    </div>
+            <p>El análisis de datos en el contexto de Recursos Humanos representa un cambio de paradigma: pasar de decisiones basadas en intuición o experiencia a decisiones fundamentadas en datos concretos. Esta transformación permite a las organizaciones:</p>
+
+            <!-- Acordeón: Beneficios del análisis de datos en RRHH -->
+            <div class="acordeon" id="acordeon1">
+                <div class="acordeon-titulo">
+                    Beneficios clave del análisis de datos en RRHH
+                    <span class="acordeon-icono">▼</span>
                 </div>
-                
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <h3>Ventaja clave</h3>
-                            <p>Visualización narrativa</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h4>Contar historias con datos</h4>
-                            <p>Las capacidades de visualización de Power BI permiten contar historias persuasivas con datos de RRHH, facilitando la comunicación de insights complejos a stakeholders no técnicos.</p>
-                        </div>
-                    </div>
+                <div class="acordeon-contenido">
+                    <ul>
+                        <li><strong>Optimización de la fuerza laboral:</strong> Identificar brechas de talento, prever necesidades futuras y asignar recursos de manera más eficiente.</li>
+                        <li><strong>Mejora en reclutamiento y selección:</strong> Analizar el rendimiento de diferentes canales de reclutamiento, perfiles de candidatos y predictores de éxito laboral.</li>
+                        <li><strong>Retención de talento:</strong> Identificar factores de riesgo asociados con la rotación y desarrollar estrategias preventivas personalizadas.</li>
+                        <li><strong>Gestión del desempeño:</strong> Evaluar objetivamente el rendimiento de empleados y equipos, identificando patrones y tendencias.</li>
+                        <li><strong>Compensación estratégica:</strong> Diseñar esquemas de remuneración competitivos basados en datos del mercado y métricas internas.</li>
+                        <li><strong>Desarrollo y capacitación:</strong> Medir el impacto de programas formativos y adaptar las iniciativas de aprendizaje a necesidades específicas.</li>
+                        <li><strong>Cultura organizacional:</strong> Monitorear indicadores de compromiso, satisfacción y bienestar para fortalecer la cultura corporativa.</li>
+                    </ul>
                 </div>
-                
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <h3>Ventaja clave</h3>
-                            <p>Integración con Microsoft 365</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h4>Ecosistema conectado</h4>
-                            <p>La integración nativa con Excel, Teams, SharePoint y otras herramientas del ecosistema Microsoft facilita la incorporación de Power BI en los flujos de trabajo existentes de RRHH.</p>
-                        </div>
-                    </div>
+            </div>
+
+            <div class="acordeon" id="acordeon2">
+                <div class="acordeon-titulo">
+                    Retos comunes en el análisis de datos de RRHH
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <ul>
+                        <li><strong>Fragmentación de datos:</strong> La información suele estar dispersa en múltiples sistemas y formatos (HRIS, ATS, evaluaciones de desempeño, encuestas, etc.).</li>
+                        <li><strong>Calidad de datos:</strong> Inconsistencias, duplicidades y campos incompletos que afectan la fiabilidad de los análisis.</li>
+                        <li><strong>Privacidad y conformidad:</strong> Necesidad de equilibrar el análisis con la protección de datos personales (GDPR, CCPA, etc.).</li>
+                        <li><strong>Habilidades analíticas:</strong> Muchos equipos de RRHH carecen de competencias técnicas avanzadas para el análisis de datos.</li>
+                        <li><strong>Resistencia al cambio:</strong> Barreras culturales para adoptar enfoques basados en datos en áreas tradicionalmente "humanas".</li>
+                    </ul>
                 </div>
             </div>
             
-            <div class="subsection">
-                <h3>Comparación con otras herramientas de visualización</h3>
-                <p>Al evaluar Power BI para People Analytics, es importante entender sus fortalezas y limitaciones en comparación con otras herramientas populares del mercado:</p>
-                
-                <table class="interactive-table">
-                    <thead>
-                        <tr>
-                            <th>Característica</th>
-                            <th>Power BI</th>
-                            <th>Tableau</th>
-                            <th>Google Data Studio</th>
-                            <th>Excel</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Facilidad de uso para principiantes</td>
-                            <td>Alta</td>
-                            <td>Media</td>
-                            <td>Alta</td>
-                            <td>Muy alta</td>
-                        </tr>
-                        <tr>
-                            <td>Capacidades analíticas avanzadas</td>
-                            <td>Muy altas (DAX, integración IA)</td>
-                            <td>Muy altas</td>
-                            <td>Medias</td>
-                            <td>Medias</td>
-                        </tr>
-                        <tr>
-                            <td>Integración con fuentes de RRHH</td>
-                            <td>Excelente (especialmente Microsoft)</td>
-                            <td>Excelente</td>
-                            <td>Buena</td>
-                            <td>Limitada</td>
-                        </tr>
-                        <tr>
-                            <td>Costo</td>
-                            <td>Medio (Power BI Pro: ~$10/usuario/mes)</td>
-                            <td>Alto (~$70/usuario/mes)</td>
-                            <td>Gratuito (versión básica)</td>
-                            <td>Incluido en Office 365</td>
-                        </tr>
-                        <tr>
-                            <td>Escalabilidad empresarial</td>
-                            <td>Excelente</td>
-                            <td>Excelente</td>
-                            <td>Limitada</td>
-                            <td>Limitada</td>
-                        </tr>
-                        <tr>
-                            <td>Comunidad y recursos</td>
-                            <td>Muy amplia</td>
-                            <td>Amplia</td>
-                            <td>Creciente</td>
-                            <td>Muy amplia</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <p>El análisis de datos en RRHH no busca reemplazar el juicio humano, sino complementarlo. Los datos proporcionan información objetiva que, combinada con la experiencia y conocimiento contextual de los profesionales de RRHH, permite tomar decisiones más informadas y estratégicas.</p>
+            
+            <p>Para realizar este análisis de manera efectiva, las organizaciones necesitan herramientas que no solo puedan procesar grandes volúmenes de información, sino que también faciliten su interpretación y comunicación. Es aquí donde Power BI se posiciona como una solución ideal para transformar datos complejos de RRHH en visualizaciones comprensibles y accionables.</p>
+        </section>
+
+        <section id="que-es-people-analytics">
+            <h2>3. ¿Qué es People Analytics y por qué es relevante?</h2>
+            
+            <p>People Analytics (también conocido como HR Analytics o Análisis de Talento) se refiere a la práctica de recopilar, analizar e interpretar datos relacionados con el capital humano para mejorar la toma de decisiones en aspectos relacionados con las personas dentro de una organización. Va más allá del simple reporte de métricas de RRHH, buscando identificar patrones, correlaciones y relaciones causales que aporten conocimientos profundos sobre la fuerza laboral.</p>
+            
+            <p>A diferencia de los informes tradicionales de RRHH que suelen ser descriptivos (¿qué sucedió?), People Analytics incorpora análisis:</p>
+            
+            <ul>
+                <li><strong>Descriptivos:</strong> Evaluación del estado actual y pasado (ej. tasas históricas de rotación)</li>
+                <li><strong>Diagnósticos:</strong> Comprensión de las causas subyacentes (ej. factores que contribuyen a la rotación)</li>
+                <li><strong>Predictivos:</strong> Anticipación de tendencias futuras (ej. probabilidad de rotación de ciertos perfiles)</li>
+                <li><strong>Prescriptivos:</strong> Recomendaciones para acciones concretas (ej. estrategias personalizadas de retención)</li>
+            </ul>
+            
+            <h3>Evolución de People Analytics</h3>
+            
+            <p>El concepto de People Analytics ha evolucionado significativamente en la última década:</p>
+
+            <!-- Tabla interactiva: Evolución de People Analytics -->
+            <table class="tabla-interactiva" id="tabla-evolucion">
+                <thead>
+                    <tr>
+                        <th>Etapa</th>
+                        <th>Características</th>
+                        <th>Herramientas</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Informes Operativos (Pre-2000s)</td>
+                        <td>Informes estáticos, métricas básicas</td>
+                        <td>Hojas de cálculo, informes en papel</td>
+                        <td><button class="expandir-btn" data-fila="1">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-1">
+                        <td colspan="4">
+                            <p>En esta etapa inicial, los departamentos de RRHH se centraban principalmente en informes operativos básicos como conteos de empleados, índices de rotación simples y reportes de costos laborales. Los datos se recopilaban manualmente y los análisis eran rudimentarios, enfocados principalmente en cumplir con requisitos administrativos y legales. Las decisiones de gestión de talento se basaban más en la intuición y la experiencia que en los datos.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Inteligencia de Negocios de RRHH (2000-2010)</td>
+                        <td>Dashboards, indicadores clave</td>
+                        <td>Excel avanzado, herramientas de BI</td>
+                        <td><button class="expandir-btn" data-fila="2">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-2">
+                        <td colspan="4">
+                            <p>Con la adopción de los primeros sistemas HRIS (Human Resource Information Systems), las organizaciones comenzaron a digitalizar sus datos de RRHH y a crear dashboards más dinámicos. El enfoque seguía siendo principalmente descriptivo, pero con mayor capacidad para segmentar datos y generar informes automatizados. Se comenzó a vincular algunas métricas de RRHH con resultados de negocio, aunque de manera limitada.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Analytics Avanzado (2010-2015)</td>
+                        <td>Análisis estadístico, correlaciones</td>
+                        <td>Software especializado, R, SPSS</td>
+                        <td><button class="expandir-btn" data-fila="3">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-3">
+                        <td colspan="4">
+                            <p>Este periodo marcó el inicio formal de People Analytics como disciplina. Las organizaciones comenzaron a aplicar técnicas estadísticas más sofisticadas para identificar correlaciones entre variables de RRHH y métricas de negocio. Algunas empresas pioneras crearon equipos dedicados a People Analytics, generalmente ubicados dentro de RRHH pero con perfiles con formación estadística. Se empezaron a desarrollar modelos predictivos simples.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>People Analytics Maduro (2015-2020)</td>
+                        <td>Modelos predictivos, aprendizaje automático</td>
+                        <td>Cloud analytics, soluciones especializadas</td>
+                        <td><button class="expandir-btn" data-fila="4">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-4">
+                        <td colspan="4">
+                            <p>Durante esta etapa, People Analytics se consolidó como una función estratégica. Las organizaciones líderes integraron múltiples fuentes de datos (internos y externos) y desarrollaron modelos predictivos sofisticados para anticipar comportamientos y tendencias laborales. Se incorporaron técnicas de machine learning y se comenzaron a utilizar datos no estructurados (como texto de encuestas, redes sociales, etc.). Los equipos de People Analytics evolucionaron hacia estructuras multidisciplinarias con científicos de datos, expertos en RRHH y consultores de negocio.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Analytics Democratizado (2020-actualidad)</td>
+                        <td>IA, analytics self-service, tiempo real</td>
+                        <td>Power BI, plataformas cloud, analytics embebido</td>
+                        <td><button class="expandir-btn" data-fila="5">Ver más</button></td>
+                    </tr>
+                    <tr class="fila-expandible" id="fila-expandible-5">
+                        <td colspan="4">
+                            <p>La etapa actual se caracteriza por la democratización del analytics, con herramientas como Power BI que permiten a usuarios no técnicos acceder y analizar datos complejos. La inteligencia artificial y el aprendizaje automático se han vuelto más accesibles, permitiendo análisis más sofisticados. El enfoque ha evolucionado hacia analytics en tiempo real, análisis continuos (vs. proyectos puntuales) y una mayor integración con la toma de decisiones cotidiana. La ética y la privacidad de datos se han convertido en consideraciones críticas, especialmente en el contexto global de protección de datos personales.</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Áreas de aplicación de People Analytics</h3>
+            
+            <p>People Analytics abarca diversas áreas dentro de la gestión del talento, incluyendo:</p>
+            
+            <ul>
+                <li><strong>Adquisición de talento:</strong> Optimización de fuentes de reclutamiento, predicción del éxito de candidatos, mejora de la experiencia de contratación.</li>
+                <li><strong>Gestión del desempeño:</strong> Evaluación objetiva del rendimiento, identificación de factores que impulsan la productividad.</li>
+                <li><strong>Desarrollo y aprendizaje:</strong> Efectividad de programas formativos, planificación de carrera basada en datos.</li>
+                <li><strong>Compromiso y cultura:</strong> Medición de engagement, análisis de redes organizacionales, evaluación de diversidad e inclusión.</li>
+                <li><strong>Retención de talento:</strong> Modelos predictivos de rotación, análisis de causas raíz de la deserción.</li>
+                <li><strong>Planificación de fuerza laboral:</strong> Previsión de necesidades futuras, análisis de brechas de competencias.</li>
+            </ul>
+            
+            <p>La relevancia de People Analytics radica en su capacidad para transformar RRHH de un centro de costos a un impulsor estratégico de valor. Al fundamentar las decisiones en datos concretos, las organizaciones pueden alinear mejor sus estrategias de talento con los objetivos de negocio, optimizar inversiones en capital humano y responder de manera ágil a entornos laborales cambiantes.</p>
+
+            <!-- Preguntas Verdadero/Falso -->
+            <h3>Comprueba tu conocimiento sobre People Analytics</h3>
+            
+            <div class="pregunta-vf" id="pregunta1">
+                <p><strong>People Analytics se limita únicamente al análisis de métricas básicas como rotación y absentismo.</strong></p>
+                <div class="opciones-vf">
+                    <div class="opcion-vf" data-valor="verdadero">Verdadero</div>
+                    <div class="opcion-vf" data-valor="falso">Falso</div>
+                </div>
+                <div class="feedback" id="feedback-pregunta1"></div>
             </div>
             
-            <div class="subsection">
-                <h3>Habilidades necesarias para profesionales de RRHH</h3>
-                <p>Para aprovechar al máximo Power BI en People Analytics, los profesionales de RRHH deben desarrollar ciertas habilidades clave:</p>
-                
-                <div class="draggable-container">
-                    <h4>Clasifica estas habilidades según su naturaleza</h4>
-                    <p>Arrastra cada habilidad a la categoría correspondiente:</p>
-                    
-                    <div class="drag-items">
-                        <div class="drag-item" draggable="true" data-category="tecnicas">Comprensión básica de SQL</div>
-                        <div class="drag-item" draggable="true" data-category="tecnicas">Fundamentos de modelado de datos</div>
-                        <div class="drag-item" draggable="true" data-category="tecnicas">Conocimientos básicos de DAX</div>
-                        <div class="drag-item" draggable="true" data-category="analiticas">Pensamiento estadístico</div>
-                        <div class="drag-item" draggable="true" data-category="analiticas">Interpretación de tendencias</div>
-                        <div class="drag-item" draggable="true" data-category="analiticas">Formulación de hipótesis de negocio</div>
-                        <div class="drag-item" draggable="true" data-category="comunicacion">Storytelling con datos</div>
-                        <div class="drag-item" draggable="true" data-category="comunicacion">Diseño de experiencia de usuario</div>
-                        <div class="drag-item" draggable="true" data-category="comunicacion">Traducción de datos a insights accionables</div>
-                    </div>
-                    
-                    <div class="drop-zones">
-                        <div class="drop-zone" data-category="tecnicas">
-                            <h4>Habilidades técnicas</h4>
-                        </div>
-                        <div class="drop-zone" data-category="analiticas">
-                            <h4>Habilidades analíticas</h4>
-                        </div>
-                        <div class="drop-zone" data-category="comunicacion">
-                            <h4>Habilidades de comunicación</h4>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 20px;">
-                        <button class="btn btn-check" id="check-drag">Verificar respuestas</button>
-                        <button class="btn btn-reset" id="reset-drag">Reiniciar actividad</button>
-                    </div>
+            <div class="pregunta-vf" id="pregunta2">
+                <p><strong>El análisis predictivo en People Analytics permite anticipar qué empleados tienen mayor probabilidad de abandonar la organización.</strong></p>
+                <div class="opciones-vf">
+                    <div class="opcion-vf" data-valor="verdadero">Verdadero</div>
+                    <div class="opcion-vf" data-valor="falso">Falso</div>
                 </div>
+                <div class="feedback" id="feedback-pregunta2"></div>
             </div>
         </section>
 
-        <!-- Cuarta parte: Ejemplo práctico -->
-        <section class="section">
-            <h2>4. Ejemplo práctico: Análisis básico de rotación</h2>
+        <section id="beneficios-power-bi-rrhh">
+            <h2>4. Beneficios de Power BI para profesionales de RRHH</h2>
             
-            <p>Para ilustrar la aplicación práctica de Power BI en People Analytics, exploraremos un caso de uso fundamental: el análisis de rotación de personal. La rotación es uno de los indicadores más importantes para cualquier departamento de RRHH, ya que tiene implicaciones significativas en costos, productividad y cultura organizacional.</p>
+            <p>Power BI ofrece numerosas ventajas para los profesionales de Recursos Humanos, permitiéndoles transformar datos complejos en información valiosa y accionable. Entre los principales beneficios específicos para el ámbito de RRHH, destacan:</p>
             
-            <div class="subsection">
-                <h3>Contexto del caso práctico</h3>
-                <p>Imagina que eres el analista de RRHH en una empresa de tecnología con 500 empleados. El director de Recursos Humanos te ha pedido un análisis de la rotación de personal de los últimos 12 meses, identificando patrones y posibles causas que puedan ayudar a reducir la pérdida de talento.</p>
-                
-                <p>Dispones de los siguientes datos:</p>
-                <ul>
-                    <li>Registro histórico de empleados (actuales y que han dejado la empresa)</li>
-                    <li>Información demográfica (edad, género, nivel educativo)</li>
-                    <li>Datos organizacionales (departamento, nivel jerárquico, antigüedad)</li>
-                    <li>Información sobre compensación (salario, ajustes, ranking salarial)</li>
-                    <li>Resultados de encuestas de compromiso (para empleados activos)</li>
-                </ul>
-            </div>
+            <h3>1. Integración de múltiples fuentes de datos</h3>
             
-            <div class="subsection">
-                <h3>Enfoque para el análisis</h3>
-                <p>En Power BI, seguiremos estos pasos para desarrollar nuestro análisis:</p>
-                
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">1. Conectarnos a las fuentes de datos</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Comenzaremos importando datos desde diferentes fuentes:</p>
-                                <ul>
-                                    <li>Archivos Excel con registros de empleados</li>
-                                    <li>Base de datos SQL del sistema de nómina</li>
-                                    <li>Resultados exportados de la plataforma de encuestas</li>
-                                </ul>
-                                <p>En Power BI Desktop, utilizaremos la opción "Obtener datos" y seleccionaremos las fuentes correspondientes. Para cada fuente, configuraremos la conexión apropiada y seleccionaremos las tablas o consultas necesarias.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">2. Transformar y limpiar los datos</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>En el Editor de Power Query, realizaremos las siguientes transformaciones:</p>
-                                <ul>
-                                    <li>Estandarizar nombres de departamentos y puestos</li>
-                                    <li>Crear categorías de antigüedad (0-1 año, 1-3 años, etc.)</li>
-                                    <li>Calcular la edad a partir de la fecha de nacimiento</li>
-                                    <li>Agrupar rangos salariales</li>
-                                    <li>Identificar si el empleado está activo o no</li>
-                                    <li>Calcular la duración del empleo para cada registro</li>
-                                </ul>
-                                <p>Estas transformaciones nos proporcionarán datos limpios y estructurados para nuestro análisis.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">3. Crear relaciones y medidas</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>En la vista de Modelo, estableceremos relaciones entre nuestras tablas:</p>
-                                <ul>
-                                    <li>Tabla de empleados con tabla de departamentos</li>
-                                    <li>Tabla de empleados con tabla de compensación</li>
-                                    <li>Tabla de empleados con tabla de encuestas</li>
-                                </ul>
-                                <p>Luego, crearemos medidas clave utilizando DAX:</p>
-                                <pre>
-// Tasa de rotación global
-Tasa de Rotación = 
-DIVIDE(
-    CALCULATE(
-        DISTINCTCOUNT(Empleados[ID_Empleado]),
-        Empleados[Estado] = "Inactivo"
-    ),
-    DISTINCTCOUNT(Empleados[ID_Empleado])
-)
+            <p>Los departamentos de RRHH típicamente utilizan diversos sistemas para gestionar diferentes aspectos del ciclo de vida del empleado (reclutamiento, onboarding, desempeño, compensación, etc.). Power BI permite consolidar datos de estas distintas fuentes en una vista unificada, facilitando análisis holísticos que serían imposibles de realizar en sistemas aislados.</p>
+            
+            <h3>2. Democratización del acceso a datos</h3>
+            
+            <p>Mediante dashboards intuitivos y fáciles de usar, Power BI permite que profesionales de RRHH sin experiencia técnica avanzada puedan acceder, explorar y analizar datos complejos. Esto elimina la dependencia de analistas especializados para obtener insights básicos y acelera la toma de decisiones.</p>
+            
+            <h3>3. Visualizaciones dinámicas e interactivas</h3>
+            
+            <p>Las capacidades de visualización de Power BI permiten transformar datos numéricos abstractos en gráficos intuitivos y atractivos que facilitan la identificación de patrones, tendencias y anomalías. Esta representación visual es especialmente valiosa para comunicar insights a stakeholders no técnicos.</p>
+            
+            <h3>4. Análisis en tiempo real</h3>
+            
+            <p>A diferencia de los informes estáticos tradicionales, Power BI permite actualizar automáticamente los datos y ofrece capacidades de refresh que proporcionan una visión actual del estado de la organización. Esto resulta crucial en entornos empresariales dinámicos donde las decisiones deben tomarse con rapidez.</p>
+            
+            <h3>5. Capacidades de autoservicio</h3>
+            
+            <p>Power BI permite a los usuarios de negocio crear sus propios informes y análisis sin necesidad de código o conocimientos técnicos avanzados. Esto empodera a los profesionales de RRHH para responder sus propias preguntas de negocio a medida que surgen, sin depender de departamentos de TI o analistas de datos.</p>
+            
+            <h3>6. Escalabilidad</h3>
+            
+            <p>Desde pequeños equipos hasta grandes corporaciones multinacionales, Power BI se adapta a las necesidades de organizaciones de cualquier tamaño. La plataforma puede manejar desde simples hojas de cálculo hasta conjuntos de datos masivos con millones de registros.</p>
+            
+            <h3>7. Seguridad y cumplimiento</h3>
+            
+            <p>Considerando la sensibilidad de los datos de RRHH, Power BI ofrece robustas características de seguridad, incluyendo control de acceso basado en roles, seguridad a nivel de fila (RLS) y encriptación de datos que ayudan a mantener la confidencialidad y cumplir con regulaciones como GDPR.</p>
+            
+            <h3>8. Colaboración mejorada</h3>
+            
+            <p>El servicio Power BI en la nube facilita compartir dashboards y reportes entre diferentes stakeholders, permitiendo colaboración en tiempo real, anotaciones y comentarios que mejoran la comunicación entre equipos.</p>
+            
+            <h3>9. Costo-efectividad</h3>
+            
+            <p>Comparado con soluciones de analytics empresariales tradicionales, Power BI ofrece una alternativa más accesible sin sacrificar funcionalidades. La versión Desktop es gratuita, y las suscripciones Pro y Premium tienen precios competitivos para diferentes escalas de implementación.</p>
+            
+            <h3>10. Continua evolución</h3>
+            
+            <p>Microsoft actualiza Power BI mensualmente, incorporando nuevas funcionalidades y mejoras basadas en feedback de usuarios. Esto asegura que la herramienta se mantenga a la vanguardia de las capacidades analíticas y se adapte a necesidades emergentes.</p>
 
-// Tasa de rotación por departamento
-Tasa de Rotación por Departamento = 
-DIVIDE(
-    CALCULATE(
-        DISTINCTCOUNT(Empleados[ID_Empleado]),
-        Empleados[Estado] = "Inactivo"
-    ),
-    CALCULATE(
-        DISTINCTCOUNT(Empleados[ID_Empleado]),
-        ALLSELECTED(Departamentos)
-    )
-)
-                                </pre>
-                            </div>
-                        </div>
+            <!-- Elementos arrastrables: Beneficios de Power BI para diferentes roles de RRHH -->
+            <h3>Beneficios de Power BI según el rol en RRHH</h3>
+            <p>Arrastra cada beneficio al rol de RRHH que más se beneficiaría de él:</p>
+            
+            <div class="arrastrable-container">
+                <div class="elementos-arrastrables" id="elementos-arrastrables">
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="estrategico">Proyecciones de headcount a largo plazo</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="reclutamiento">Análisis de efectividad de canales de sourcing</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="desarrollo">Seguimiento de adopción de programas formativos</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="operativo">Monitoreo de cumplimiento de procesos de onboarding</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="estrategico">Correlación entre engagement y resultados financieros</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="reclutamiento">Tiempo promedio por etapa del proceso selectivo</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="desarrollo">Impacto de formación en promociones internas</div>
+                    <div class="elemento-arrastrable" draggable="true" data-categoria="operativo">Tracking de solicitudes de vacaciones y permisos</div>
+                </div>
+                
+                <div class="destinos-container">
+                    <div class="destino" id="destino-estrategico">
+                        <div class="destino-titulo">HRBP / Roles Estratégicos</div>
                     </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">4. Desarrollar visualizaciones clave</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Crearemos diversas visualizaciones para nuestro análisis:</p>
-                                <ul>
-                                    <li><strong>KPI de rotación general:</strong> Tarjeta con la tasa de rotación anual</li>
-                                    <li><strong>Tendencia temporal:</strong> Gráfico de líneas de rotación por mes</li>
-                                    <li><strong>Rotación por departamento:</strong> Gráfico de barras horizontales</li>
-                                    <li><strong>Análisis demográfico:</strong> Gráficos de distribución por edad, género y antigüedad</li>
-                                    <li><strong>Mapa de calor:</strong> Correlación entre nivel salarial y rotación</li>
-                                    <li><strong>Tabla detallada:</strong> Registros individuales con filtros interactivos</li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="destino" id="destino-reclutamiento">
+                        <div class="destino-titulo">Reclutamiento y Selección</div>
                     </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">5. Diseñar dashboard interactivo</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Organizaremos nuestras visualizaciones en un dashboard cohesivo con:</p>
-                                <ul>
-                                    <li><strong>Segmentaciones:</strong> Para filtrar por departamento, período y categoría salarial</li>
-                                    <li><strong>Interactividad cruzada:</strong> Visualizaciones que responden a selecciones en otras</li>
-                                    <li><strong>Jerarquía visual:</strong> Destacando métricas clave y facilitando la navegación</li>
-                                    <li><strong>Información contextual:</strong> Botones con información adicional y definiciones</li>
-                                </ul>
-                                <p>El resultado será un dashboard interactivo que permite a los líderes de RRHH explorar la rotación desde múltiples ángulos y tomar decisiones informadas.</p>
-                            </div>
-                        </div>
+                    <div class="destino" id="destino-desarrollo">
+                        <div class="destino-titulo">Desarrollo y Aprendizaje</div>
+                    </div>
+                    <div class="destino" id="destino-operativo">
+                        <div class="destino-titulo">RRHH Operativo</div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="subsection">
-                <h3>Insights derivados del análisis</h3>
-                <p>A través de nuestro análisis de rotación en Power BI, podríamos descubrir patrones como:</p>
-                <ul>
-                    <li>Departamentos con tasas de rotación significativamente más altas que el promedio</li>
-                    <li>Correlación entre años de servicio y probabilidad de rotación</li>
-                    <li>Períodos del año con mayor concentración de salidas</li>
-                    <li>Relación entre nivel salarial comparado con el mercado y retención</li>
-                    <li>Impacto de cambios organizacionales (fusiones, reestructuraciones) en la rotación</li>
-                </ul>
                 
-                <p>Estos insights permitirían a RRHH implementar intervenciones específicas como:</p>
-                <ul>
-                    <li>Programas de retención dirigidos a perfiles de alto riesgo</li>
-                    <li>Ajustes en políticas de compensación para segmentos específicos</li>
-                    <li>Capacitación adicional para gerentes en departamentos con alta rotación</li>
-                    <li>Mejoras en procesos de incorporación y desarrollo temprano</li>
-                </ul>
+                <button class="reiniciar-btn" id="reiniciar-arrastrable">Reiniciar ejercicio</button>
             </div>
         </section>
 
-        <!-- Quinta parte: Mejores prácticas -->
-        <section class="section">
-            <h2>5. Mejores prácticas para People Analytics con Power BI</h2>
+        <section id="casos-uso-power-bi-people-analytics">
+            <h2>5. Casos de uso comunes de Power BI en People Analytics</h2>
             
-            <p>Para concluir esta primera sección del curso, compartiremos algunas mejores prácticas que te ayudarán a implementar People Analytics con Power BI de manera efectiva en tu organización.</p>
-            
-            <div class="subsection">
-                <h3>Consideraciones éticas y de privacidad</h3>
-                <p>Al trabajar con datos de empleados, es fundamental mantener estándares éticos elevados:</p>
-                <ul>
-                    <li><strong>Anonimización:</strong> Eliminar o enmascarar información de identificación personal cuando sea posible</li>
-                    <li><strong>Consentimiento:</strong> Asegurar que los empleados conozcan cómo se utilizan sus datos</li>
-                    <li><strong>Acceso restringido:</strong> Limitar quién puede ver información sensible mediante RLS (seguridad a nivel de fila)</li>
-                    <li><strong>Transparencia:</strong> Comunicar claramente qué datos se recopilan y con qué propósito</li>
-                    <li><strong>Conformidad normativa:</strong> Asegurar el cumplimiento de regulaciones como GDPR o leyes laborales locales</li>
-                </ul>
-            </div>
-            
-            <div class="quiz-container">
-                <h3>Evaluación rápida: Consideraciones éticas</h3>
-                
-                <div class="quiz-question">
-                    <p>1. ¿Cuál de las siguientes prácticas es <strong>inapropiada</strong> desde una perspectiva ética en People Analytics?</p>
-                    <div class="quiz-options">
-                        <div class="quiz-option" data-correct="false">Anonimizar datos de encuestas de compromiso</div>
-                        <div class="quiz-option" data-correct="true">Utilizar datos personales de los empleados sin su conocimiento</div>
-                        <div class="quiz-option" data-correct="false">Implementar seguridad a nivel de fila para proteger información sensible</div>
-                    </div>
-                    <div class="quiz-feedback"></div>
+            <p>Power BI se ha convertido en una herramienta fundamental para implementar estrategias de People Analytics en organizaciones de todos los tamaños y sectores. A continuación, exploramos algunos de los casos de uso más comunes y valiosos:</p>
+
+            <!-- Acordeón: Casos de uso de Power BI en People Analytics -->
+            <div class="acordeon" id="acordeon3">
+                <div class="acordeon-titulo">
+                    Dashboard de Headcount y Demografía
+                    <span class="acordeon-icono">▼</span>
                 </div>
-                
-                <div class="quiz-question">
-                    <p>2. La "seguridad a nivel de fila" (RLS) en Power BI permite:</p>
-                    <div class="quiz-options">
-                        <div class="quiz-option" data-correct="false">Encriptar completamente los datos de RRHH</div>
-                        <div class="quiz-option" data-correct="false">Eliminar automáticamente información sensible</div>
-                        <div class="quiz-option" data-correct="true">Restringir qué datos puede ver cada usuario según su rol</div>
-                    </div>
-                    <div class="quiz-feedback"></div>
-                </div>
-                
-                <div class="quiz-question">
-                    <p>3. Al presentar datos de compensación en Power BI, la mejor práctica es:</p>
-                    <div class="quiz-options">
-                        <div class="quiz-option" data-correct="true">Mostrar rangos o promedios agregados en lugar de valores individuales</div>
-                        <div class="quiz-option" data-correct="false">Incluir nombres completos junto a los salarios para total transparencia</div>
-                        <div class="quiz-option" data-correct="false">Compartir los informes de compensación con toda la organización</div>
-                    </div>
-                    <div class="quiz-feedback"></div>
-                </div>
-                
-                <button class="btn btn-check" id="check-quiz">Verificar respuestas</button>
-                <button class="btn btn-reset" id="reset-quiz">Reiniciar quiz</button>
-            </div>
-            
-            <div class="subsection">
-                <h3>Desarrollo gradual de capacidades</h3>
-                <p>Implementar People Analytics con Power BI es un proceso evolutivo. Recomendamos seguir este enfoque gradual:</p>
-                
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">Fase 1: Fundamentos descriptivos</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p><strong>Objetivo:</strong> Establecer métricas básicas y dashboards operativos</p>
-                                <ul>
-                                    <li>Crear dashboards para métricas fundamentales de RRHH (headcount, rotación, etc.)</li>
-                                    <li>Automatizar informes recurrentes que antes se hacían manualmente</li>
-                                    <li>Establecer procesos de calidad y gobernanza de datos</li>
-                                    <li>Capacitar al equipo de RRHH en conceptos básicos de Power BI</li>
-                                </ul>
-                                <p><strong>Resultado:</strong> Mayor eficiencia operativa y visibilidad de KPIs básicos</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Fase 2: Análisis diagnóstico</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p><strong>Objetivo:</strong> Comprender relaciones entre variables y factores causales</p>
-                                <ul>
-                                    <li>Desarrollar análisis de correlación entre diferentes variables de RRHH</li>
-                                    <li>Crear visualizaciones más sofisticadas (mapas de calor, diagramas de dispersión)</li>
-                                    <li>Implementar drillthrough y análisis multidimensional</li>
-                                    <li>Integrar datos de diferentes sistemas (desempeño, encuestas, etc.)</li>
-                                </ul>
-                                <p><strong>Resultado:</strong> Comprensión más profunda de factores que influyen en resultados clave</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Fase 3: Análisis predictivo</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p><strong>Objetivo:</strong> Anticipar tendencias y comportamientos futuros</p>
-                                <ul>
-                                    <li>Desarrollar modelos predictivos (riesgo de rotación, desempeño esperado)</li>
-                                    <li>Integrar Power BI con servicios de machine learning (Azure ML)</li>
-                                    <li>Implementar alertas basadas en umbrales y anomalías</li>
-                                    <li>Crear escenarios de planificación de fuerza laboral</li>
-                                </ul>
-                                <p><strong>Resultado:</strong> Capacidad de anticipación y planificación proactiva</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">Fase 4: Análisis prescriptivo</div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p><strong>Objetivo:</strong> Generar recomendaciones específicas basadas en datos</p>
-                                <ul>
-                                    <li>Implementar algoritmos de recomendación para desarrollo de carrera</li>
-                                    <li>Optimizar decisiones de asignación de recursos humanos</li>
-                                    <li>Desarrollar sistemas de apoyo a decisiones basados en IA</li>
-                                    <li>Integrar análisis prescriptivo en procesos de negocio</li>
-                                </ul>
-                                <p><strong>Resultado:</strong> Transformación de insights en acciones concretas y optimizadas</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="acordeon-contenido">
+                    <p><strong>Descripción:</strong> Proporciona una visión global de la distribución de la fuerza laboral por diferentes dimensiones demográficas y organizacionales.</p>
+                    <p><strong>Métricas típicas:</strong></p>
+                    <ul>
+                        <li>Recuento de empleados por departamento, ubicación, nivel, antigüedad</li>
+                        <li>Distribución por género, edad, diversidad</li>
+                        <li>Tendencias históricas de crecimiento de plantilla</li>
+                        <li>Proporción de empleados temporales vs. permanentes</li>
+                        <li>Distribución de span of control (reportes directos por manager)</li>
+                    </ul>
+                    <p><strong>Valor añadido:</strong> Proporciona contexto organizacional fundamental para cualquier análisis de People Analytics y facilita la planificación estratégica de la fuerza laboral.</p>
                 </div>
             </div>
-            
-            <div class="subsection">
-                <h3>Recomendaciones finales</h3>
-                <p>Para concluir esta sección introductoria, compartimos algunas recomendaciones clave para tener éxito con Power BI en el contexto de People Analytics:</p>
-                
-                <div class="flip-card-container">
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <h3>Recomendación</h3>
-                                <p>Comenzar con preguntas, no con datos</p>
-                            </div>
-                            <div class="flip-card-back">
-                                <h4>Enfoque orientado a problemas</h4>
-                                <p>Inicia cada proyecto identificando las preguntas de negocio específicas que necesitas responder. Deja que estas preguntas guíen tu análisis, en lugar de simplemente visualizar los datos disponibles.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <h3>Recomendación</h3>
-                                <p>Optimizar para la experiencia del usuario</p>
-                            </div>
-                            <div class="flip-card-back">
-                                <h4>Diseño centrado en el usuario</h4>
-                                <p>Diseña tus dashboards pensando en quién los utilizará. Diferentes stakeholders (ejecutivos, managers, especialistas de RRHH) tienen diferentes necesidades, niveles de detalle y frecuencias de uso.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <h3>Recomendación</h3>
-                                <p>Construir una cultura de decisiones basadas en datos</p>
-                            </div>
-                            <div class="flip-card-back">
-                                <h4>Más allá de la herramienta</h4>
-                                <p>Power BI es solo una herramienta. El verdadero valor viene de crear una cultura donde las decisiones de RRHH se tomen sistemáticamente basadas en evidencia, no en intuición o tradición.</p>
-                            </div>
-                        </div>
-                    </div>
+
+            <div class="acordeon" id="acordeon4">
+                <div class="acordeon-titulo">
+                    Análisis de Reclutamiento y Selección
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <p><strong>Descripción:</strong> Evalúa la eficiencia y efectividad de los procesos de adquisición de talento.</p>
+                    <p><strong>Métricas típicas:</strong></p>
+                    <ul>
+                        <li>Time-to-fill y time-to-hire por posición y departamento</li>
+                        <li>Tasas de conversión en cada etapa del embudo de selección</li>
+                        <li>Costo por contratación y ROI de diferentes canales de sourcing</li>
+                        <li>Desempeño de reclutadores y entrevistadores</li>
+                        <li>Calidad de contrataciones (evaluación a 90/180 días)</li>
+                        <li>Diversidad de candidatos y nuevas contrataciones</li>
+                    </ul>
+                    <p><strong>Valor añadido:</strong> Permite optimizar la inversión en reclutamiento, reducir tiempos de contratación y mejorar la calidad de candidatos, impactando directamente en la operativa del negocio.</p>
                 </div>
             </div>
+
+            <div class="acordeon" id="acordeon5">
+                <div class="acordeon-titulo">
+                    Dashboard de Rotación y Retención
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <p><strong>Descripción:</strong> Monitoriza y analiza los patrones de rotación para implementar estrategias de retención efectivas.</p>
+                    <p><strong>Métricas típicas:</strong></p>
+                    <ul>
+                        <li>Tasas de rotación voluntaria e involuntaria</li>
+                        <li>Rotación por departamento, antigüedad, nivel, manager</li>
+                        <li>Análisis de razones de salida</li>
+                        <li>Predicción de riesgo de rotación</li>
+                        <li>Costo de la rotación (directo e indirecto)</li>
+                        <li>Efectividad de programas de retención</li>
+                    </ul>
+                    <p><strong>Valor añadido:</strong> La identificación temprana de factores de riesgo permite intervenciones proactivas, reduciendo costos asociados a la rotación y preservando talento clave.</p>
+                </div>
+            </div>
+
+            <div class="acordeon" id="acordeon6">
+                <div class="acordeon-titulo">
+                    Análisis de Compensación y Equidad
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <p><strong>Descripción:</strong> Evalúa la estructura salarial, competitividad externa y equidad interna en compensación.</p>
+                    <p><strong>Métricas típicas:</strong></p>
+                    <ul>
+                        <li>Distribución salarial por nivel, rol, departamento</li>
+                        <li>Ratio compa-ratio respecto al mercado</li>
+                        <li>Análisis de brecha salarial por género y otros factores demográficos</li>
+                        <li>Relación entre compensación y desempeño</li>
+                        <li>Elasticidad salarial y efectividad de incrementos</li>
+                        <li>Modelado de impacto financiero de ajustes salariales</li>
+                    </ul>
+                    <p><strong>Valor añadido:</strong> Asegura prácticas de compensación justas y competitivas, fundamentales para atraer y retener talento en mercados competitivos.</p>
+                </div>
+            </div>
+
+            <div class="acordeon" id="acordeon7">
+                <div class="acordeon-titulo">
+                    Dashboard de Engagement y Cultura
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <p><strong>Descripción:</strong> Visualiza y analiza datos de encuestas de clima, pulso y otros indicadores de engagement.</p>
+                    <p><strong>Métricas típicas:</strong></p>
+                    <ul>
+                        <li>Scores de engagement global y por dimensiones</li>
+                        <li>Análisis de comentarios abiertos mediante text analytics</li>
+                        <li>Identificación de drivers principales de engagement</li>
+                        <li>Correlación entre engagement y otros KPIs (rotación, desempeño)</li>
+                        <li>Efectividad de planes de acción post-encuesta</li>
+                        <li>Análisis de redes organizacionales (ONA)</li>
+                    </ul>
+                    <p><strong>Valor añadido:</strong> Proporciona visibilidad en tiempo real sobre la salud cultural de la organización, permitiendo intervenciones dirigidas a mejorar la experiencia del empleado.</p>
+                </div>
+            </div>
+
+            <div class="acordeon" id="acordeon8">
+                <div class="acordeon-titulo">
+                    Análisis de Desempeño y Potencial
+                    <span class="acordeon-icono">▼</span>
+                </div>
+                <div class="acordeon-contenido">
+                    <p><strong>Descripción:</strong> Evalúa patrones en la gestión del desempeño y la identificación de talento de alto potencial.</p>
+                    <p><strong>Métricas típicas:</strong></p>
+                    <ul>
+                        <li>Distribución de calificaciones de desempeño</li>
+                        <li>Análisis de curva forzada y calibración</li>
+                        <li>Identificación de sesgos en evaluaciones</li>
+                        <li>Correlación entre evaluaciones de competencias y KPIs de negocio</li>
+                        <li>Mapeo de talento (9-box) y planes de sucesión</li>
+                        <li>Análisis predictivo de desempeño futuro</li>
+                    </ul>
+                    <p><strong>Valor añadido:</strong> Facilita un enfoque objetivo y basado en datos para identificar y desarrollar talento de alto valor, crítico para la continuidad del negocio.</p>
+                </div>
+            </div>
+
+            <p>Estos casos de uso representan sólo algunas de las posibilidades que ofrece Power BI en el ámbito de People Analytics. Lo más valioso es que la herramienta permite a las organizaciones evolucionar gradualmente desde análisis descriptivos básicos hacia modelos predictivos y prescriptivos más sofisticados, adaptándose a la madurez analítica de cada empresa.</p>
+            
+            <p>La flexibilidad de Power BI también permite personalizar los dashboards para responder a preguntas específicas de negocio, crear visualizaciones ad-hoc para necesidades puntuales y evolucionar los análisis conforme la organización adquiere mayor madurez en People Analytics.</p>
         </section>
 
-        <section class="section">
-            <h2>Resumen de la Sección 1</h2>
-            <p>En esta primera sección del curso, hemos explorado los fundamentos de Power BI aplicados al contexto específico de People Analytics. Hemos visto cómo esta potente herramienta puede transformar la forma en que los profesionales de recursos humanos visualizan, analizan y comunican datos relacionados con el capital humano de sus organizaciones.</p>
+        <section id="conclusion-seccion1">
+            <h2>Conclusión de la Sección 1</h2>
             
-            <p>Comenzamos con una revisión rápida de la interfaz y funcionalidades básicas de Power BI, seguida de una exploración de su relevancia particular en el campo de People Analytics. A través de un ejemplo práctico de análisis de rotación, pudimos ver la aplicación concreta de estas herramientas para resolver problemas reales de RRHH.</p>
+            <p>A lo largo de esta primera sección, hemos explorado los fundamentos de Power BI y su aplicación en el contexto de People Analytics. Hemos visto cómo esta potente herramienta de Microsoft permite a los profesionales de Recursos Humanos transformar datos dispersos y complejos en visualizaciones interactivas y significativas que impulsan decisiones estratégicas.</p>
             
-            <p>Finalmente, abordamos mejores prácticas y consideraciones éticas esenciales para implementar con éxito iniciativas de People Analytics, enfatizando la importancia de un enfoque gradual y centrado en el negocio.</p>
+            <p>Comprendimos que Power BI no es solo una herramienta de visualización, sino un ecosistema completo que abarca desde la conexión con múltiples fuentes de datos hasta la publicación y colaboración en dashboards en la nube. Su interfaz intuitiva y capacidades de autoservicio la convierten en un aliado ideal para democratizar el acceso a la analítica avanzada dentro de las organizaciones.</p>
             
-            <div class="subsection">
-                <h3>Próximos pasos</h3>
-                <p>En la siguiente sección del curso, profundizaremos en la preparación de datos para análisis de recursos humanos, aprendiendo cómo importar, limpiar y transformar datos de RRHH utilizando Power Query. Exploraremos técnicas específicas para trabajar con datos de empleados y prepararlos para análisis efectivos.</p>
-            </div>
+            <p>Asimismo, exploramos el concepto de People Analytics como disciplina que va más allá del reporte operativo tradicional, buscando identificar insights profundos sobre el capital humano que impacten directamente en los resultados de negocio. La evolución desde el reporting descriptivo hacia análisis predictivos y prescriptivos representa una oportunidad única para que los departamentos de RRHH se posicionen como socios estratégicos del negocio.</p>
+            
+            <p>Los beneficios de Power BI para profesionales de RRHH son numerosos, desde la consolidación de datos fragmentados hasta la creación de visualizaciones dinámicas e interactivas, pasando por capacidades avanzadas de seguridad y colaboración. Estas ventajas, combinadas con numerosos casos de uso en áreas como reclutamiento, rotación, compensación y engagement, demuestran el potencial transformador de esta herramienta en el ámbito del People Analytics.</p>
+            
+            <p>En las próximas secciones, profundizaremos en aspectos más prácticos de Power BI, como la navegación por su interfaz, la importación y transformación de datos, y la creación de visualizaciones específicas para métricas de RRHH. Esto te permitirá comenzar a aplicar concretamente estos conceptos en tu día a día como profesional de Recursos Humanos.</p>
         </section>
-        
-        <script>
-            // Funcionalidad para el acordeón
-            document.querySelectorAll('.accordion-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    const content = header.nextElementSibling;
-                    header.classList.toggle('active');
+    </div>
+
+    <script>
+        // JavaScript para tarjetas giratorias
+        document.addEventListener('DOMContentLoaded', function() {
+            const tarjetas = document.querySelectorAll('.tarjeta-giratoria');
+            
+            tarjetas.forEach(tarjeta => {
+                tarjeta.addEventListener('click', function() {
+                    this.classList.toggle('girar');
+                });
+            });
+
+            // JavaScript para acordeones
+            const acordeones = document.querySelectorAll('.acordeon-titulo');
+            
+            acordeones.forEach(acordeon => {
+                acordeon.addEventListener('click', function() {
+                    // Toggle actual
+                    const contenido = this.nextElementSibling;
+                    const icono = this.querySelector('.acordeon-icono');
                     
-                    if (header.classList.contains('active')) {
-                        content.style.maxHeight = content.scrollHeight + "px";
+                    contenido.classList.toggle('activo');
+                    icono.classList.toggle('activo');
+                });
+            });
+
+            // JavaScript para tabla interactiva
+            const botonesExpandir = document.querySelectorAll('.expandir-btn');
+            
+            botonesExpandir.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const filaId = this.getAttribute('data-fila');
+                    const filaExpandible = document.getElementById('fila-expandible-' + filaId);
+                    
+                    if (filaExpandible.style.display === 'table-row') {
+                        filaExpandible.style.display = 'none';
+                        this.textContent = 'Ver más';
                     } else {
-                        content.style.maxHeight = 0;
+                        filaExpandible.style.display = 'table-row';
+                        this.textContent = 'Ocultar';
                     }
                 });
             });
+
+            // JavaScript para preguntas V/F
+            const opcionesVF = document.querySelectorAll('.opcion-vf');
             
-            // Funcionalidad para la tabla interactiva
-            document.querySelectorAll('.expandable-row').forEach(row => {
-                row.addEventListener('click', () => {
-                    row.classList.toggle('expanded');
-                    const detailRow = row.nextElementSibling;
-                    detailRow.classList.toggle('hidden-row');
-                });
-            });
-            
-            // Funcionalidad para el quiz de verdadero/falso
-            document.querySelectorAll('.quiz-option').forEach(option => {
-                option.addEventListener('click', () => {
-                    const parentOptions = option.parentElement.querySelectorAll('.quiz-option');
-                    parentOptions.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                });
-            });
-            
-            document.getElementById('check-quiz').addEventListener('click', () => {
-                document.querySelectorAll('.quiz-question').forEach(question => {
-                    const selectedOption = question.querySelector('.quiz-option.selected');
-                    const feedback = question.querySelector('.quiz-feedback');
+            opcionesVF.forEach(opcion => {
+                opcion.addEventListener('click', function() {
+                    const preguntaId = this.parentElement.parentElement.id;
+                    const valor = this.getAttribute('data-valor');
+                    const feedback = document.getElementById('feedback-' + preguntaId);
                     
-                    if (selectedOption) {
-                        const isCorrect = selectedOption.getAttribute('data-correct') === 'true';
-                        feedback.textContent = isCorrect ? '¡Correcto!' : 'Incorrecto. Intenta de nuevo.';
-                        feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
-                        feedback.style.display = 'block';
-                    }
-                });
-            });
-            
-            document.getElementById('reset-quiz').addEventListener('click', () => {
-                document.querySelectorAll('.quiz-option').forEach(option => {
-                    option.classList.remove('selected');
-                });
-                document.querySelectorAll('.quiz-feedback').forEach(feedback => {
-                    feedback.style.display = 'none';
-                });
-            });
-            
-            // Funcionalidad para elementos arrastrables
-            document.querySelectorAll('.drag-item').forEach(item => {
-                item.addEventListener('dragstart', (e) => {
-                    e.dataTransfer.setData('text/plain', JSON.stringify({
-                        id: item.textContent,
-                        category: item.getAttribute('data-category')
-                    }));
-                });
-            });
-            
-            document.querySelectorAll('.drop-zone').forEach(zone => {
-                zone.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    zone.classList.add('highlight');
-                });
-                
-                zone.addEventListener('dragleave', () => {
-                    zone.classList.remove('highlight');
-                });
-                
-                zone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    zone.classList.remove('highlight');
+                    // Eliminar selección previa
+                    const opciones = this.parentElement.querySelectorAll('.opcion-vf');
+                    opciones.forEach(op => op.classList.remove('seleccionada'));
                     
-                    try {
-                        const data = JSON.parse(e.dataTransfer.getData('text/plain'));
-                        const item = document.querySelector(`.drag-item[draggable="true"]:contains('${data.id}')`);
-                        const originalParent = item.parentNode;
-                        
-                        if (zone.getAttribute('data-category') === data.category) {
-                            zone.appendChild(item);
-                            item.setAttribute('draggable', 'false');
-                        }
-                    } catch (err) {
-                        console.error('Error al procesar el elemento arrastrable:', err);
-                    }
-                });
-            });
-            
-            // Helper para el selector :contains
-            jQuery.expr[':'].contains = function(a, i, m) {
-                return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
-            };
-            
-            document.getElementById('check-drag').addEventListener('click', () => {
-                document.querySelectorAll('.drop-zone').forEach(zone => {
-                    const category = zone.getAttribute('data-category');
-                    const items = zone.querySelectorAll('.drag-item');
+                    // Seleccionar opción actual
+                    this.classList.add('seleccionada');
                     
-                    items.forEach(item => {
-                        if (item.getAttribute('data-category') === category) {
-                            item.style.backgroundColor = 'var(--success-color)';
+                    // Mostrar feedback
+                    if (preguntaId === 'pregunta1') {
+                        if (valor === 'falso') {
+                            feedback.textContent = '¡Correcto! People Analytics va mucho más allá de las métricas básicas, abarcando análisis predictivos, prescriptivos y diagnósticos que aportan valor estratégico a la organización.';
+                            feedback.className = 'feedback correcto';
                         } else {
-                            item.style.backgroundColor = 'var(--danger-color)';
+                            feedback.textContent = 'Incorrecto. People Analytics es una disciplina amplia que incluye análisis avanzados como modelado predictivo, correlaciones entre variables de RRHH y resultados de negocio, y recomendaciones basadas en datos.';
+                            feedback.className = 'feedback incorrecto';
                         }
+                    } else if (preguntaId === 'pregunta2') {
+                        if (valor === 'verdadero') {
+                            feedback.textContent = '¡Correcto! Los modelos predictivos de rotación son una de las aplicaciones más comunes y valiosas de People Analytics, permitiendo identificar empleados en riesgo y tomar medidas preventivas.';
+                            feedback.className = 'feedback correcto';
+                        } else {
+                            feedback.textContent = 'Incorrecto. El análisis predictivo en People Analytics sí permite identificar patrones y factores de riesgo asociados a la rotación, facilitando la implementación de estrategias proactivas de retención.';
+                            feedback.className = 'feedback incorrecto';
+                        }
+                    }
+                    
+                    feedback.style.display = 'block';
+                });
+            });
+
+            // JavaScript para elementos arrastrables
+            const elementosArrastrables = document.querySelectorAll('.elemento-arrastrable');
+            const destinos = document.querySelectorAll('.destino');
+            const reiniciarBtn = document.getElementById('reiniciar-arrastrable');
+            
+            // Estado original para poder reiniciar
+            const contenedorOriginal = document.getElementById('elementos-arrastrables');
+            const estadoOriginal = contenedorOriginal.innerHTML;
+            
+            let elementoArrastrado = null;
+            
+            // Función para inicializar eventos de arrastre
+            function inicializarEventosArrastre() {
+                const elementos = document.querySelectorAll('.elemento-arrastrable');
+                elementos.forEach(elemento => {
+                    elemento.addEventListener('dragstart', function(e) {
+                        elementoArrastrado = this;
+                        e.dataTransfer.setData('text/plain', this.getAttribute('data-categoria'));
+                        setTimeout(() => this.style.opacity = '0.4', 0);
+                    });
+                    
+                    elemento.addEventListener('dragend', function() {
+                        this.style.opacity = '1';
                     });
                 });
-            });
+            }
             
-            document.getElementById('reset-drag').addEventListener('click', () => {
-                const dragItems = document.querySelector('.drag-items');
-                document.querySelectorAll('.drop-zone .drag-item').forEach(item => {
-                    item.setAttribute('draggable', 'true');
-                    item.style.backgroundColor = 'var(--primary-color)';
-                    dragItems.appendChild(item);
+            // Inicializar eventos de arrastre para los elementos iniciales
+            inicializarEventosArrastre();
+            
+            // Eventos para destinos
+            destinos.forEach(destino => {
+                destino.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('hover');
+                });
+                
+                destino.addEventListener('dragleave', function() {
+                    this.classList.remove('hover');
+                });
+                
+                destino.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('hover');
+                    
+                    if (elementoArrastrado) {
+                        const categoria = elementoArrastrado.getAttribute('data-categoria');
+                        const destinoId = this.id.split('-')[1]; // destino-estrategico -> estrategico
+                        
+                        // Comprobar si el elemento va en el destino correcto
+                        if (categoria === destinoId) {
+                            elementoArrastrado.style.background = 'linear-gradient(145deg, var(--color-acento), #F57C00)';
+                        } else {
+                            elementoArrastrado.style.background = 'linear-gradient(145deg, #e57373, #ef5350)';
+                        }
+                        
+                        this.appendChild(elementoArrastrado);
+                        elementoArrastrado = null;
+                    }
                 });
             });
-        </script>
-    </div>
+            
+            // Reiniciar el ejercicio completamente
+            reiniciarBtn.addEventListener('click', function() {
+                // Restaurar el contenedor original
+                contenedorOriginal.innerHTML = estadoOriginal;
+                
+                // Reinicializar los eventos de arrastre
+                inicializarEventosArrastre();
+                
+                // Eliminar todos los elementos de los destinos excepto los títulos
+                destinos.forEach(destino => {
+                    // Guardar el título
+                    const titulo = destino.querySelector('.destino-titulo');
+                    
+                    // Limpiar el destino
+                    destino.innerHTML = '';
+                    
+                    // Volver a añadir el título
+                    if (titulo) {
+                        destino.appendChild(titulo);
+                    }
+                });
+                
+                // Efecto visual de confirmación
+                reiniciarBtn.textContent = "¡Reiniciado!";
+                reiniciarBtn.style.background = "linear-gradient(to right, #43A047, #2E7D32)";
+                
+                setTimeout(() => {
+                    reiniciarBtn.textContent = "Reiniciar ejercicio";
+                    reiniciarBtn.style.background = "linear-gradient(to right, var(--color-acento), #F57C00)";
+                }, 1000);
+            });
+        });
+    </script>
 </body>
 </html>
