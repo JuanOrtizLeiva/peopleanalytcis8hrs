@@ -3,426 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sección 4: Casos de Uso Avanzados de Power BI en People Analytics</title>
+    <title>Transformando Datos en Decisiones Estratégicas</title>
     <style>
-        /* Variables CSS para la paleta de colores - Azul Elegante */
+        /* Variables CSS para paleta de colores */
         :root {
-            --color-primario: #0D47A1; /* Azul elegante principal (más oscuro) */
-            --color-secundario: #1565C0; /* Azul elegante secundario */
-            --color-terciario: #1976D2; /* Azul elegante terciario */
-            --color-acento: #FF8F00; /* Naranja ámbar como acento complementario */
-            --color-acento-claro: #FFE082; /* Ámbar claro */
-            --color-texto: #212121; /* Texto más oscuro para mejor contraste */
-            --color-fondo: #F5F7FA; /* Fondo ligeramente azulado */
-            --color-fondo-seccion: #ffffff; /* Color fondo secciones */
-            --color-fondo-alt: #EEF2F6; /* Fondo alternativo para romper monotonía */
-            --color-borde: #CFD8DC; /* Bordes azulados sutiles */
-            --sombra-suave: 0 4px 12px rgba(13, 71, 161, 0.08); /* Sombra azulada */
-            --sombra-media: 0 8px 20px rgba(13, 71, 161, 0.12); /* Sombra media */
-            --sombra-fuerte: 0 12px 28px rgba(13, 71, 161, 0.18); /* Sombra pronunciada */
-            --radio-borde: 8px; /* Radio para bordes redondeados */
-            --radio-borde-lg: 12px; /* Radio para bordes redondeados grandes */
-            --espaciado: 1.5rem; /* Espaciado estándar */
-            
-            /* Gradientes predefinidos */
-            --gradiente-azul: linear-gradient(135deg, var(--color-primario), var(--color-secundario), var(--color-terciario));
-            --gradiente-naranja: linear-gradient(135deg, var(--color-acento), #F57C00);
-            --gradiente-mixto: linear-gradient(135deg, var(--color-primario), var(--color-terciario), #5C6BC0, #7986CB);
-            --gradiente-oscuro: linear-gradient(135deg, #0D47A1, #1A237E, #283593);
-            --gradiente-claro: linear-gradient(135deg, #42A5F5, #64B5F6, #90CAF9);
+            --color-primario: #1A237E; /* Azul profundo */
+            --color-secundario: #283593; /* Azul medio */
+            --color-terciario: #3949AB; /* Azul claro */
+            --color-acento-1: #FF7043; /* Naranja cálido */
+            --color-acento-2: #26A69A; /* Verde turquesa */
+            --color-texto: #424242; /* Gris oscuro */
+            --color-borde: #BDBDBD; /* Gris claro */
+            --color-fondo: #FFFFFF; /* Blanco */
+            --color-fondo-seccion: #F5F7FA; /* Gris muy claro */
+            --sombra-principal: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transicion: all 0.3s ease;
+            --borde-radio: 8px;
         }
 
         /* Estilos generales */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--color-texto);
-            background-color: var(--color-fondo);
             line-height: 1.6;
             margin: 0;
             padding: 0;
+            background-color: var(--color-fondo);
         }
 
-        .contenedor {
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        header {
-            background: var(--gradiente-azul);
-            color: white;
-            padding: 3rem 0;
-            margin-bottom: 2rem;
-            box-shadow: var(--sombra-media);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-contenido {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Formas decorativas en el header */
-        header::before {
-            content: "";
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 1;
-        }
-
-        header::after {
-            content: "";
-            position: absolute;
-            bottom: -70px;
-            left: -70px;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: rgba(255, 143, 0, 0.15);
-            z-index: 1;
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            color: var(--color-primario);
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
         }
 
         h1 {
-            font-size: 2.75rem;
-            margin-bottom: 1rem;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--color-primario);
+            border-bottom: 4px solid var(--color-acento-1);
+            padding-bottom: 0.5rem;
+            position: relative;
         }
 
         h2 {
-            font-size: 2.2rem;
-            color: var(--color-primario);
-            margin-top: 2.5rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 3px solid var(--color-acento);
-            position: relative;
-        }
-
-        /* Decoración para los h2 */
-        h2::after {
-            content: "";
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 80px;
-            height: 3px;
-            background-color: var(--color-primario);
+            font-size: 1.8rem;
+            border-left: 5px solid var(--color-acento-2);
+            padding-left: 15px;
         }
 
         h3 {
-            font-size: 1.7rem;
+            font-size: 1.4rem;
             color: var(--color-secundario);
-            margin-top: 2rem;
-            margin-bottom: 1.2rem;
-            position: relative;
-            padding-left: 1rem;
-        }
-
-        /* Decoración para los h3 */
-        h3::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0.3em;
-            bottom: 0.3em;
-            width: 4px;
-            background: var(--gradiente-naranja);
-            border-radius: 4px;
-        }
-
-        h4 {
-            font-size: 1.3rem;
-            color: var(--color-terciario);
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
         }
 
         p {
-            margin-bottom: 1.3rem;
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-
-        section {
-            background-color: var(--color-fondo-seccion);
-            border-radius: var(--radio-borde-lg);
-            padding: var(--espaciado);
-            margin-bottom: 3rem;
-            box-shadow: var(--sombra-suave);
-            border-top: 4px solid var(--color-primario);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-        }
-        
-        section:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--sombra-media);
-        }
-
-        /* Secciones alternativas con fondo diferente */
-        section.alt-bg {
-            background-color: var(--color-fondo-alt);
-            border-top: 4px solid var(--color-acento);
-        }
-
-        section.hero-section {
-            padding: 0;
-            position: relative;
-            overflow: hidden;
-            border-top: none;
-            border-radius: var(--radio-borde-lg);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            padding: 3rem 2rem;
-            color: white;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradiente-oscuro);
-            z-index: 1;
-        }
-
-        .hero-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            z-index: 1;
-            opacity: 0.7;
-        }
-
-        .intro-banner {
-            background: linear-gradient(to right, rgba(255, 143, 0, 0.1), rgba(255, 224, 130, 0.2));
-            border-left: 5px solid var(--color-acento);
-            padding: 1.8rem;
-            margin-bottom: 2.5rem;
-            border-radius: 0 var(--radio-borde) var(--radio-borde) 0;
-            box-shadow: 0 4px 15px rgba(255, 143, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Decoración para el banner */
-        .intro-banner::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 150px;
-            height: 150px;
-            background: linear-gradient(135deg, rgba(255, 143, 0, 0.1), transparent 70%);
-            border-radius: 0 0 0 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.8rem;
-            margin: 2.5rem 0;
-        }
-
-        /* Diseño específico para secciones de 2 columnas */
-        .two-columns {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 2.5rem;
-            margin: 2.5rem 0;
-            align-items: start;
-        }
-
-        .column {
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Separador decorativo */
-        .separador {
-            height: 4px;
-            background: var(--gradiente-naranja);
-            margin: 3rem auto;
-            width: 150px;
-            border-radius: 2px;
-        }
-
-        .separador.centered {
-            width: 80px;
-            margin: 2rem auto;
-        }
-
-        /* Estilos para tarjeta de caso de uso */
-        .caso-uso-card {
-            background: white;
-            border-radius: var(--radio-borde);
-            box-shadow: var(--sombra-suave);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 2rem;
-            border: 1px solid var(--color-borde);
-        }
-
-        .caso-uso-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--sombra-media);
-        }
-
-        .caso-uso-header {
-            background: var(--gradiente-azul);
-            color: white;
-            padding: 1.5rem;
-            position: relative;
-        }
-
-        .caso-uso-header h3 {
-            color: white;
-            margin: 0;
-            padding-left: 0;
-        }
-
-        .caso-uso-header h3::before {
-            display: none;
-        }
-
-        .caso-uso-content {
-            padding: 1.5rem;
-        }
-
-        .caso-uso-footer {
-            background: var(--color-fondo-alt);
-            padding: 1rem 1.5rem;
-            border-top: 1px solid var(--color-borde);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .beneficios-lista {
-            list-style-type: none;
-            padding-left: 0;
-            margin: 1.5rem 0;
-        }
-
-        .beneficios-lista li {
-            padding-left: 2rem;
-            position: relative;
-            margin-bottom: 0.8rem;
-            font-size: 1.05rem;
-        }
-
-        .beneficios-lista li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: var(--color-acento);
-            font-weight: bold;
-        }
-
-        /* Estilos para acordeones */
-        .acordeon {
             margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        a {
+            color: var(--color-acento-1);
+            text-decoration: none;
+            transition: var(--transicion);
+        }
+
+        a:hover {
+            color: var(--color-primario);
+        }
+
+        .seccion {
+            background-color: var(--color-fondo-seccion);
+            border-radius: var(--borde-radio);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--sombra-principal);
+        }
+
+        /* Acordeón */
+        .acordeon {
+            margin-bottom: 1.5rem;
             border: 1px solid var(--color-borde);
-            border-radius: var(--radio-borde);
+            border-radius: var(--borde-radio);
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: box-shadow 0.3s ease;
         }
 
-        .acordeon:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .acordeon-titulo {
-            background: var(--gradiente-azul);
+        .acordeon-cabecera {
+            background-color: var(--color-terciario);
             color: white;
-            padding: 1.2rem 1.5rem;
+            padding: 1rem;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: var(--radio-borde) var(--radio-borde) 0 0;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .acordeon-titulo:hover {
-            background: linear-gradient(to right, var(--color-secundario), var(--color-primario));
+            transition: var(--transicion);
         }
 
-        /* Estilo decorativo para los títulos de acordeón */
-        .acordeon-titulo::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 40px;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1));
-            z-index: 1;
+        .acordeon-cabecera:hover {
+            background-color: var(--color-secundario);
         }
 
         .acordeon-contenido {
-            background-color: white;
+            padding: 0;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease-out;
-            padding: 0 1.5rem;
+            transition: max-height 0.3s ease;
+            background-color: var(--color-fondo);
         }
 
-        .acordeon-contenido.activo {
-            max-height: 2000px; /* Valor mayor para contenido más extenso */
+        .acordeon-contenido-interior {
             padding: 1.5rem;
         }
 
         .acordeon-icono {
-            transition: transform 0.3s;
-            font-size: 1.2rem;
-            z-index: 2;
+            width: 20px;
+            height: 20px;
+            position: relative;
         }
 
-        .acordeon-icono.activo {
-            transform: rotate(180deg);
+        .acordeon-icono::before, .acordeon-icono::after {
+            content: '';
+            position: absolute;
+            background-color: white;
+            transition: var(--transicion);
         }
 
-        /* Estilos para tarjetas giratorias */
-        .tarjeta-giratoria-container {
-            perspective: 1000px;
-            height: 280px; /* Aumentado para dar más espacio */
-            margin-bottom: 2.5rem;
+        .acordeon-icono::before {
+            width: 20px;
+            height: 2px;
+            top: 9px;
+        }
+
+        .acordeon-icono::after {
+            width: 2px;
+            height: 20px;
+            left: 9px;
+            top: 0;
+        }
+
+        .acordeon.activo .acordeon-icono::after {
+            transform: rotate(90deg);
+            opacity: 0;
+        }
+
+        /* Tarjetas giratorias */
+        .contenedor-tarjetas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 2rem 0;
         }
 
         .tarjeta-giratoria {
+            perspective: 1000px;
+            width: 300px;
+            height: 200px;
             position: relative;
+            cursor: pointer;
+        }
+
+        .tarjeta-interior {
             width: 100%;
             height: 100%;
-            transition: transform 0.8s;
             transform-style: preserve-3d;
-            cursor: pointer;
-            box-shadow: var(--sombra-suave);
-            border-radius: var(--radio-borde);
+            transition: transform 0.6s;
+            position: relative;
+        }
+
+        .tarjeta-giratoria.volteada .tarjeta-interior {
+            transform: rotateY(180deg);
         }
 
         .tarjeta-frente, .tarjeta-reverso {
@@ -430,542 +188,284 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            border-radius: var(--borde-radio);
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            border-radius: var(--radio-borde);
-            padding: 2rem;
-            box-sizing: border-box;
+            align-items: center;
+            padding: 1.5rem;
+            box-shadow: var(--sombra-principal);
         }
 
         .tarjeta-frente {
-            background: var(--gradiente-azul);
+            background-color: var(--color-terciario);
             color: white;
-            text-align: center;
         }
 
         .tarjeta-reverso {
-            background: var(--gradiente-naranja);
+            background-color: var(--color-acento-2);
             color: white;
             transform: rotateY(180deg);
-            text-align: left;
-            overflow-y: auto;
         }
 
-        .tarjeta-frente h3 {
-            color: white;
-            margin-top: 0;
-            padding-left: 0;
+        /* Elementos arrastrables */
+        .contenedor-arrastrable {
+            margin: 2rem 0;
         }
 
-        .tarjeta-frente h3::before {
-            display: none;
+        .lista-arrastrable {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .tarjeta-reverso p {
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
-            line-height: 1.6;
+        .elemento-arrastrable {
+            background-color: var(--color-fondo);
+            border: 2px solid var(--color-terciario);
+            border-radius: var(--borde-radio);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            transition: var(--transicion);
         }
 
-        .girar {
-            transform: rotateY(180deg);
+        .elemento-arrastrable:hover {
+            background-color: var(--color-fondo-seccion);
         }
 
-        .tarjeta-icono {
-            font-size: 3rem;
+        .elemento-arrastrable::before {
+            content: '☰';
+            margin-right: 10px;
+            color: var(--color-borde);
+        }
+
+        .elemento-arrastrable.arrastrando {
+            opacity: 0.5;
+        }
+
+        .zona-destino {
+            padding: 1.5rem;
+            background-color: var(--color-fondo-seccion);
+            border: 2px dashed var(--color-borde);
+            border-radius: var(--borde-radio);
+            min-height: 100px;
+            margin-top: 1rem;
             margin-bottom: 1rem;
         }
 
-        .tarjeta-flip-icon {
-            position: absolute;
-            bottom: 1rem;
-            font-size: 1.5rem;
-            opacity: 0.7;
-            animation: bounce 2s infinite;
+        .zona-destino.sobre {
+            border-color: var(--color-acento-1);
+            background-color: rgba(255, 112, 67, 0.1);
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
-        }
-
-        /* Estilos para el contendor de video */
-        .video-container {
-            margin: 3rem auto;
-            max-width: 900px;
-            background-color: white;
-            border-radius: var(--radio-borde-lg);
-            overflow: hidden;
-            box-shadow: var(--sombra-media);
-            position: relative;
-        }
-
-        .video-header {
-            background: var(--gradiente-oscuro);
+        .btn-reinicio {
+            background-color: var(--color-acento-1);
             color: white;
-            padding: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .video-header::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            z-index: 1;
-        }
-
-        .video-title {
-            font-size: 1.5rem;
-            margin: 0 0 0.5rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .video-description {
-            font-size: 1rem;
-            opacity: 0.9;
-            margin: 0;
-            position: relative;
-            z-index: 2;
-        }
-
-        .video-frame {
-            aspect-ratio: 16 / 9;
-            width: 100%;
-            background-color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            position: relative;
-        }
-
-        .video-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://i.vimeocdn.com/video/placeholder.jpg') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        .video-placeholder::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7));
-            z-index: 1;
-        }
-
-        .video-placeholder-content {
-            position: relative;
-            z-index: 2;
-            max-width: 80%;
-        }
-
-        .video-control {
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 143, 0, 0.8);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 2rem auto;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .video-control:hover {
-            transform: scale(1.05);
-            background: rgba(255, 143, 0, 1);
-        }
-
-        .video-control svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
-            margin-left: 5px;
-        }
-
-        .video-info {
-            padding: 1.5rem;
-            background-color: white;
-            border-top: 1px solid var(--color-borde);
-        }
-
-        .video-meta {
-            display: flex;
-            gap: 2rem;
-            margin-top: 1rem;
-            color: #607D8B;
-            font-size: 0.9rem;
-        }
-
-        .video-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Estilos para nota destacada */
-        .nota-destacada {
-            background: linear-gradient(to right, rgba(13, 71, 161, 0.05), rgba(25, 118, 210, 0.02));
-            border-left: 5px solid var(--color-primario);
-            padding: 1.8rem;
-            margin: 2rem 0;
-            border-radius: 0 var(--radio-borde) var(--radio-borde) 0;
-            position: relative;
-        }
-
-        .nota-destacada.alt {
-            background: linear-gradient(to right, rgba(255, 143, 0, 0.05), rgba(255, 224, 130, 0.02));
-            border-left: 5px solid var(--color-acento);
-        }
-
-        .nota-destacada-titulo {
-            color: var(--color-primario);
-            margin-top: 0;
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
-            position: relative;
-            padding-left: 1.8rem;
-        }
-
-        .nota-destacada.alt .nota-destacada-titulo {
-            color: var(--color-acento);
-        }
-
-        .nota-destacada-titulo::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 1.2rem;
-            height: 1.2rem;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230D47A1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='12' y1='16' x2='12' y2='12'%3E%3C/line%3E%3Cline x1='12' y1='8' x2='12.01' y2='8'%3E%3C/line%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        .nota-destacada.alt .nota-destacada-titulo::before {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FF8F00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'%3E%3C/path%3E%3Cline x1='12' y1='9' x2='12' y2='13'%3E%3C/line%3E%3Cline x1='12' y1='17' x2='12.01' y2='17'%3E%3C/line%3E%3C/svg%3E");
-        }
-
-        /* Botones de acción y enlaces */
-        .btn {
-            display: inline-block;
-            background: var(--gradiente-azul);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--radio-borde);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
             border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--borde-radio);
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(13, 71, 161, 0.15);
-            text-align: center;
+            font-weight: 600;
+            transition: var(--transicion);
+            margin-top: 1rem;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(13, 71, 161, 0.25);
+        .btn-reinicio:hover {
+            background-color: #E55D35;
         }
 
-        .btn-secondary {
-            background: linear-gradient(to right, #607D8B, #455A64);
+        /* Preguntas verdadero/falso */
+        .pregunta-vf {
+            background-color: var(--color-fondo-seccion);
+            border-radius: var(--borde-radio);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--color-terciario);
         }
 
-        .btn-accent {
-            background: var(--gradiente-naranja);
-        }
-
-        /* Botones grupados */
-        .btn-group {
+        .opciones-vf {
             display: flex;
             gap: 1rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
         }
 
-        /* Estilos para la tabla de características */
-        .tabla-caracteristicas {
+        .opcion-vf {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--color-fondo);
+            border: 2px solid var(--color-borde);
+            border-radius: var(--borde-radio);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transicion);
+            flex: 1;
+            text-align: center;
+        }
+
+        .opcion-vf:hover {
+            border-color: var(--color-terciario);
+        }
+
+        .retroalimentacion {
+            display: none;
+            padding: 1rem;
+            border-radius: var(--borde-radio);
+            margin-top: 1rem;
+        }
+
+        .retroalimentacion.correcta {
+            background-color: rgba(38, 166, 154, 0.1);
+            border: 1px solid var(--color-acento-2);
+            color: var(--color-acento-2);
+        }
+
+        .retroalimentacion.incorrecta {
+            background-color: rgba(255, 112, 67, 0.1);
+            border: 1px solid var(--color-acento-1);
+            color: var(--color-acento-1);
+        }
+
+        /* Tabla interactiva */
+        .tabla-interactiva {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin: 1.5rem 0;
-            border-radius: var(--radio-borde);
-            overflow: hidden;
-            box-shadow: var(--sombra-suave);
+            border-collapse: collapse;
+            margin: 2rem 0;
         }
 
-        .tabla-caracteristicas th {
-            background: var(--gradiente-azul);
+        .tabla-interactiva th {
+            background-color: var(--color-primario);
             color: white;
             padding: 1rem;
             text-align: left;
         }
 
-        .tabla-caracteristicas td {
-            padding: 0.8rem 1rem;
+        .tabla-interactiva tr {
             border-bottom: 1px solid var(--color-borde);
-            background-color: white;
         }
 
-        .tabla-caracteristicas tr:last-child td {
-            border-bottom: none;
+        .tabla-interactiva tr:nth-child(even) {
+            background-color: var(--color-fondo-seccion);
         }
 
-        .tabla-caracteristicas tr:nth-child(even) td {
-            background-color: var(--color-fondo-alt);
+        .tabla-interactiva td {
+            padding: 1rem;
         }
 
-        /* Código DAX en la tarjeta giratoria */
-        .codigo-dax {
-            background: rgba(0,0,0,0.1);
-            padding: 0.8rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
+        .tabla-interactiva .detalles-fila {
+            display: none;
+            background-color: rgba(57, 73, 171, 0.05);
+            padding: 1.5rem;
+            border-left: 4px solid var(--color-terciario);
+        }
+
+        .tabla-interactiva .expandir {
+            cursor: pointer;
+            color: var(--color-acento-1);
+            font-weight: bold;
+        }
+
+        /* Destacados */
+        .destacado {
+            background-color: rgba(255, 112, 67, 0.1);
+            border-left: 4px solid var(--color-acento-1);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--borde-radio) var(--borde-radio) 0;
+        }
+
+        .destacado h4 {
+            color: var(--color-acento-1);
             margin-top: 0;
-            font-family: Consolas, Monaco, monospace;
-            color: white;
-            text-align: left;
-            width: 100%;
-            box-sizing: border-box;
-            overflow-x: auto;
-        }
-        
-        /* Estilos responsivos */
-        @media (max-width: 992px) {
-            .two-columns {
-                grid-template-columns: 1fr;
-            }
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
-            .header-contenido {
-                flex-direction: column;
-                text-align: center;
+            .container {
+                padding: 1rem;
             }
 
-            .btn-group {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 576px) {
             h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
-            
+
             h2 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
-            
-            h3 {
-                font-size: 1.4rem;
+
+            .contenedor-tarjetas {
+                flex-direction: column;
+                align-items: center;
             }
-            
-            .contenedor {
-                padding: 1.5rem;
-            }
-            
-            .video-control {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .video-control svg {
-                width: 24px;
-                height: 24px;
+
+            .tarjeta-giratoria {
+                width: 100%;
+                max-width: 300px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-contenido">
-            <div>
-                <h1>Introducción a Power BI para People Analytics</h1>
-                <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem;">Casos de Uso Avanzados y Soluciones de Analítica de Talento para Recursos Humanos</p>
-            </div>
-        </div>
-    </header>
-
-    <div class="contenedor">
-        <section class="hero-section">
-            <div class="hero-bg"></div>
-            <div class="hero-pattern"></div>
-            <div class="hero-content">
-                <h2 style="color: white; border-bottom-color: rgba(255, 255, 255, 0.3); margin-top: 0;">Sección 4: Casos de Uso Avanzados de Power BI en People Analytics</h2>
-                <p style="font-size: 1.2rem;">En esta sección, exploraremos aplicaciones prácticas de alto impacto que demuestran todo el potencial de Power BI para transformar la gestión del talento en las organizaciones modernas.</p>
-                <p>Descubrirás soluciones innovadoras que combinan visualizaciones avanzadas, modelos predictivos y análisis prescriptivo para resolver los desafíos más complejos en Recursos Humanos.</p>
-            </div>
-        </section>
-
-        <div class="intro-banner">
-            <p><strong>¿Qué aprenderás en esta sección?</strong> Casos de estudio reales, ejemplos de dashboards interactivos, y metodologías probadas para implementar soluciones avanzadas de People Analytics con Power BI. Exploraremos cómo las organizaciones líderes están utilizando análisis predictivo y prescriptivo para impulsar decisiones estratégicas basadas en datos sobre su capital humano.</p>
-        </div>
-
-        <!-- Video caso de uso avanzado -->
-        <div class="video-container">
-            <div class="video-header">
-                <h3 class="video-title">Dashboard Predictivo de Rotación: Un Caso de Éxito</h3>
-                <p class="video-description">Descubre cómo una empresa multinacional redujo su rotación en un 35% utilizando Power BI</p>
-            </div>
-            <div class="video-frame">
-                <div class="video-placeholder">
-                    <div class="video-placeholder-content">
-                        <div class="video-control">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </div>
-                        <h3>Implementación de análisis predictivo de rotación</h3>
-                        <p>En este video, exploramos paso a paso cómo una empresa global implementó un modelo de predicción de rotación que generó ahorros de más de $3.2 millones en su primer año.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="video-info">
-                <p>Este caso de estudio muestra cómo combinar datos estructurados de HRIS con información no estructurada de encuestas de clima y evaluaciones para crear un sistema de alerta temprana que identifica empleados en riesgo de salida.</p>
-                <div class="video-meta">
-                    <div class="video-meta-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                        Publicado: Abril 2025
-                    </div>
-                    <div class="video-meta-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        Duración: 18:42
-                    </div>
-                    <div class="video-meta-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                        Nivel: Avanzado
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sección: Casos de Uso Avanzados -->
-        <section id="casos-uso-avanzados" class="alt-bg">
-            <h2>Casos de Uso Transformadores en People Analytics</h2>
-            
-            <p>A continuación, exploramos cinco casos de uso avanzados que ilustran cómo las organizaciones innovadoras están aprovechando Power BI para transformar su enfoque en la gestión del talento.</p>
-
-            <!-- Acordeones de casos de uso -->
-            <div class="acordeon" id="acordeon-caso1">
-                <div class="acordeon-titulo">
-                    1. Análisis Predictivo de Rotación de Alto Potencial
-                    <span class="acordeon-icono">▼</span>
+    <div class="container">
+        <h1>Transformando Datos en Decisiones Estratégicas</h1>
+        
+        <section class="seccion">
+            <div class="acordeon">
+                <div class="acordeon-cabecera">
+                    <h2 style="margin: 0; color: white;">Del Dashboard Operativo a la Ventaja Competitiva</h2>
+                    <div class="acordeon-icono"></div>
                 </div>
                 <div class="acordeon-contenido">
-                    <div class="two-columns">
-                        <div class="column">
-                            <h4>El Desafío</h4>
-                            <p>Las empresas invierten significativamente en identificar y desarrollar empleados de alto potencial, pero cuando estos abandonan la organización, el impacto es desproporcionadamente costoso y disruptivo.</p>
-                            
-                            <h4>La Solución con Power BI</h4>
-                            <p>Un dashboard interactivo que combina:</p>
-                            <ul class="beneficios-lista">
-                                <li>Modelos predictivos que identifican factores de riesgo específicos para este segmento (usando DAX avanzado y R/Python incrustado)</li>
-                                <li>Alertas automáticas cuando un empleado de alto potencial muestra múltiples indicadores de riesgo</li>
-                                <li>Análisis de redes organizacionales para identificar "líderes ocultos" cuya salida tendría efectos dominó</li>
-                                <li>Simulación de escenarios para probar intervenciones (cambios de compensación, oportunidades de desarrollo, etc.)</li>
-                            </ul>
-                            
-                            <div class="nota-destacada alt">
-                                <h4 class="nota-destacada-titulo">Resultados Tangibles</h4>
-                                <p>Una empresa del Fortune 500 implementó este enfoque y redujo la rotación de empleados de alto potencial del 14.8% al 6.3% en 12 meses, con un ROI estimado de 5.2x sobre la inversión en el sistema analítico.</p>
-                            </div>
+                    <div class="acordeon-contenido-interior">
+                        <p>La evolución del uso de datos en la gestión del talento ha experimentado una transformación radical en los últimos años. Hemos pasado de simples reportes descriptivos a complejos análisis que generan ventajas competitivas sustanciales para las organizaciones que saben aprovecharlos. Este cambio no es solo tecnológico, sino también cultural y estratégico.</p>
+                        
+                        <p>En las etapas iniciales, la mayoría de las organizaciones utilizaban datos principalmente para generar reportes básicos: conteos de empleados, tasas de rotación generales o índices de ausentismo sin mayor análisis. Estos reportes, aunque útiles, ofrecían una visión retrospectiva y limitada, sin capacidad para influir significativamente en la estrategia empresarial.</p>
+                        
+                        <p>La verdadera transformación comenzó cuando las áreas de Recursos Humanos comprendieron que los datos no solo debían describir el pasado, sino servir como herramientas para moldear el futuro. Así surgió el concepto de People Analytics o Analítica de Talento, que busca utilizar los datos para tomar decisiones informadas sobre el capital humano y vincularlo directamente con los resultados de negocio.</p>
+                        
+                        <h3>El rol del líder en la analítica de talento</h3>
+                        <p>Los líderes empresariales han experimentado una evolución igual de significativa en su relación con los datos. Tradicionalmente, el líder fungía como un simple patrocinador de proyectos de analítica, proporcionando recursos y aprobando iniciativas, pero manteniéndose al margen de la interpretación y uso de los datos.</p>
+                        
+                        <p>Hoy, ese paradigma ha cambiado radicalmente. El líder moderno se ha convertido en el principal impulsor de la cultura de datos dentro de la organización. Sus responsabilidades incluyen:</p>
+                        
+                        <ul>
+                            <li>Promover activamente el uso de datos para la toma de decisiones en todos los niveles</li>
+                            <li>Solicitar evidencia basada en análisis antes de aprobar iniciativas importantes</li>
+                            <li>Fomentar la experimentación controlada y la medición de resultados</li>
+                            <li>Modelar comportamientos que privilegien los hechos sobre las intuiciones</li>
+                            <li>Invertir en desarrollo de capacidades analíticas dentro de sus equipos</li>
+                            <li>Establecer alianzas estratégicas entre RRHH, TI y las áreas de negocio</li>
+                        </ul>
+                        
+                        <p>Este nuevo rol implica una comprensión más profunda de cómo interpretar datos, qué preguntas hacer a los analistas y cómo traducir insights en acciones concretas. No se trata solo de consumir informes, sino de participar activamente en todo el proceso analítico.</p>
+                        
+                        <div class="destacado">
+                            <h4>Caso de éxito: Transformación basada en People Analytics</h4>
+                            <p>Una empresa multinacional del sector tecnológico enfrentaba altas tasas de rotación en posiciones clave, lo que impactaba negativamente su capacidad para entregar proyectos a tiempo. Mediante el uso de Power BI, desarrollaron un modelo predictivo que identificaba factores de riesgo específicos: sobrecarga de trabajo, falta de desarrollo profesional y distancia entre residencia y oficina.</p>
+                            <p>Contrario a lo que se pensaba, el factor salarial no era determinante en las renuncias. Basándose en estos descubrimientos, implementaron programas específicos de desarrollo profesional y opciones de teletrabajo flexible, reduciendo la rotación en un 35% en seis meses y mejorando la rentabilidad de los proyectos en un 12%.</p>
                         </div>
                         
-                        <div class="column">
-                            <h4>Componentes Técnicos Clave</h4>
-                            <table class="tabla-caracteristicas">
-                                <tr>
-                                    <th>Componente</th>
-                                    <th>Propósito</th>
-                                </tr>
-                                <tr>
-                                    <td>Métricas DAX avanzadas</td>
-                                    <td>Cálculo de indicadores de riesgo compuestos y su evolución temporal</td>
-                                </tr>
-                                <tr>
-                                    <td>Script R incrustado</td>
-                                    <td>Modelo de regresión logística para predecir probabilidad de salida</td>
-                                </tr>
-                                <tr>
-                                    <td>Custom Visuals</td>
-                                    <td>Gráficos de redes para análisis de relaciones y colaboradores clave</td>
-                                </tr>
-                                <tr>
-                                    <td>Power Automate</td>
-                                    <td>Integración con sistema de notificaciones para alertas automáticas</td>
-                                </tr>
-                                <tr>
-                                    <td>Seguridad RLS</td>
-                                    <td>Restricción de acceso a información sensible de riesgo por jerarquía</td>
-                                </tr>
-                            </table>
-                            
-                            <!-- Tarjeta giratoria con fórmula DAX corregida -->
-                            <div class="tarjeta-giratoria-container">
-                                <div class="tarjeta-giratoria">
+                        <div class="contenedor-tarjetas">
+                            <div class="tarjeta-giratoria">
+                                <div class="tarjeta-interior">
                                     <div class="tarjeta-frente">
-                                        <div class="tarjeta-icono">📊</div>
-                                        <h3>Fórmula DAX Destacada</h3>
-                                        <p>Haz clic para ver una fórmula clave de este caso</p>
-                                        <div class="tarjeta-flip-icon">↻</div>
+                                        <h4>¿Sabías que...?</h4>
+                                        <p>Haz clic para descubrir un dato interesante</p>
                                     </div>
                                     <div class="tarjeta-reverso">
-                                        <h4>Índice de Riesgo Compuesto</h4>
-                                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Esta fórmula DAX calcula un índice ponderado de riesgo de rotación:</p>
-                                        <div class="codigo-dax">
-Risk Score = <br>
-VAR BaseRisk = 0.1<br>
-VAR EngagementFactor = <br>
-&nbsp;&nbsp;IF(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[Last Engagement Score] < 60,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;2.5,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;IF(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Last Engagement Score] < 75,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.5,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
-&nbsp;&nbsp;&nbsp;&nbsp;)<br>
-&nbsp;&nbsp;)<br>
-VAR PromotionFactor = <br>
-&nbsp;&nbsp;IF(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[Months Since Last Promotion] > 24,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;1.8,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;IF(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Months Since Last Promotion] > 18,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
-&nbsp;&nbsp;&nbsp;&nbsp;)<br>
-&nbsp;&nbsp;)<br>
-RETURN<br>
-&nbsp;&nbsp;BaseRisk * EngagementFactor * PromotionFactor
-                                        </div>
+                                        <p>Las empresas que utilizan People Analytics avanzado son 3 veces más propensas a reportar mejoras significativas en la calidad de sus contrataciones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tarjeta-giratoria">
+                                <div class="tarjeta-interior">
+                                    <div class="tarjeta-frente">
+                                        <h4>Dato relevante</h4>
+                                        <p>Haz clic para conocer más</p>
+                                    </div>
+                                    <div class="tarjeta-reverso">
+                                        <p>El 70% de las empresas considera que la analítica de talento es una prioridad alta, pero solo el 17% tiene capacidades maduras en este campo.</p>
                                     </div>
                                 </div>
                             </div>
@@ -973,671 +473,818 @@ RETURN<br>
                     </div>
                 </div>
             </div>
-
-            <div class="acordeon" id="acordeon-caso2">
-                <div class="acordeon-titulo">
-                    2. Dashboard de Equidad, Diversidad e Inclusión (EDI)
-                    <span class="acordeon-icono">▼</span>
+            
+            <div class="acordeon">
+                <div class="acordeon-cabecera">
+                    <h2 style="margin: 0; color: white;">Matriz de Madurez en People Analytics con Power BI</h2>
+                    <div class="acordeon-icono"></div>
                 </div>
                 <div class="acordeon-contenido">
-                    <h4>El Desafío</h4>
-                    <p>Las organizaciones necesitan monitorear y mejorar sistemáticamente sus métricas de diversidad, equidad e inclusión, no solo para cumplir con obligaciones regulatorias sino como ventaja competitiva en la atracción y retención de talento.</p>
-                    
-                    <div class="two-columns">
-                        <div class="column">
-                            <h4>La Solución con Power BI</h4>
-                            <p>Un dashboard integral que proporciona:</p>
-                            <ul class="beneficios-lista">
-                                <li>Análisis multidimensional de representación demográfica en todos los niveles</li>
-                                <li>Métricas de equidad salarial ajustadas por función, nivel, ubicación y experiencia</li>
-                                <li>Análisis de sesgo en procesos de contratación, promoción y evaluación de desempeño</li>
-                                <li>Monitoreo de tendencias de inclusión a través de datos de encuestas y redes sociales internas</li>
-                                <li>Modelado predictivo para identificar áreas de riesgo y oportunidades de mejora</li>
+                    <div class="acordeon-contenido-interior">
+                        <p>Para convertir los datos en verdaderas ventajas competitivas, es fundamental comprender en qué punto de madurez analítica se encuentra la organización. La Matriz de Madurez en People Analytics es una herramienta que permite evaluar las capacidades actuales y establecer una hoja de ruta clara para evolucionar progresivamente.</p>
+
+                        <div class="destacado">
+                            <h4>Ejemplo cotidiano: El viaje de aprendizaje de un cocinero</h4>
+                            <p>Pensemos en la matriz de madurez como el proceso de desarrollo de un cocinero:</p>
+                            <ul>
+                                <li><strong>Nivel 1 (Operativo):</strong> Eres un principiante que sigue recetas paso a paso sin entender realmente por qué funcionan. Equivale a generar reportes básicos sin análisis.</li>
+                                <li><strong>Nivel 2 (Analítico):</strong> Ya puedes modificar recetas y entiendes cómo interactúan los ingredientes. Empiezas a analizar datos, no solo reportarlos.</li>
+                                <li><strong>Nivel 3 (Integrado):</strong> Combinas técnicas de diferentes cocinas y adaptas platos según las preferencias de tus comensales. Conectas datos de personas con resultados del negocio.</li>
+                                <li><strong>Nivel 4 (Predictivo):</strong> Anticipas tendencias culinarias y predices qué platos tendrán éxito. Usas datos para predecir comportamientos y necesidades futuras.</li>
+                                <li><strong>Nivel 5 (Transformacional):</strong> Creas platos innovadores que redefinen la gastronomía. Transformas toda la organización con decisiones basadas en insights avanzados.</li>
                             </ul>
-                            
-                            <div class="nota-destacada">
-                                <h4 class="nota-destacada-titulo">Técnicas Avanzadas Utilizadas</h4>
-                                <p>Este caso de uso incorpora análisis de texto con IA para evaluar sentimiento en comentarios abiertos de encuestas, análisis estadístico de regresión para ajustar comparaciones salariales, y visualización de redes para identificar patrones de inclusión/exclusión en colaboraciones interdepartamentales.</p>
-                            </div>
-                            
-                            <h4>Impacto Estratégico</h4>
-                            <p>Más allá del cumplimiento regulatorio, este dashboard permite a las organizaciones:</p>
-                            <ul class="beneficios-lista">
-                                <li>Descubrir inequidades sistémicas que podrían pasar desapercibidas en análisis superficiales</li>
-                                <li>Medir el impacto real de iniciativas de diversidad mediante métricas concretas</li>
-                                <li>Actuar proactivamente ante posibles riesgos legales o reputacionales</li>
-                                <li>Presentar evidencia cuantitativa del progreso a stakeholders internos y externos</li>
-                            </ul>
+                            <p>Igual que en la cocina, cada organización debe dominar las habilidades básicas antes de avanzar a niveles más sofisticados.</p>
                         </div>
                         
-                        <div class="column">
-                            <h4>Componentes Visuales Destacados</h4>
-                            
-                            <div class="caso-uso-card">
-                                <div class="caso-uso-header">
-                                    <h3>Mapa de Calor de Equidad Salarial</h3>
-                                </div>
-                                <div class="caso-uso-content">
-                                    <p>Visualización que muestra brechas salariales ajustadas por función, nivel y experiencia utilizando una escala de colores para identificar rápidamente áreas críticas.</p>
-                                    
-                                    <!-- Visualización de mapa de calor creada con SVG -->
-                                    <svg width="100%" height="250" viewBox="0 0 450 250" xmlns="http://www.w3.org/2000/svg" style="border-radius: 8px; margin-top: 1rem; background-color: white;">
-                                        <!-- Título y elementos de contexto -->
-                                        <text x="20" y="25" font-family="Segoe UI" font-size="14" fill="#1565C0" font-weight="600">Brecha Salarial Ajustada por Departamento y Nivel</text>
-                                        
-                                        <!-- Leyenda -->
-                                        <g transform="translate(20, 40)">
-                                            <rect x="0" y="0" width="15" height="15" fill="#2E7D32"/>
-                                            <rect x="15" y="0" width="15" height="15" fill="#4CAF50"/>
-                                            <rect x="30" y="0" width="15" height="15" fill="#8BC34A"/>
-                                            <rect x="45" y="0" width="15" height="15" fill="#CDDC39"/>
-                                            <rect x="60" y="0" width="15" height="15" fill="#FFEB3B"/>
-                                            <rect x="75" y="0" width="15" height="15" fill="#FFC107"/>
-                                            <rect x="90" y="0" width="15" height="15" fill="#FF9800"/>
-                                            <rect x="105" y="0" width="15" height="15" fill="#F44336"/>
-                                            
-                                            <text x="0" y="30" font-family="Segoe UI" font-size="10" fill="#607D8B">-5%</text>
-                                            <text x="35" y="30" font-family="Segoe UI" font-size="10" fill="#607D8B">0%</text>
-                                            <text x="85" y="30" font-family="Segoe UI" font-size="10" fill="#607D8B">+10%</text>
-                                            <text x="115" y="30" font-family="Segoe UI" font-size="10" fill="#607D8B">+20%</text>
-                                        </g>
-                                        
-                                        <!-- Etiquetas eje Y (Departamentos) -->
-                                        <text x="20" y="90" font-family="Segoe UI" font-size="11" fill="#212121">Tecnología</text>
-                                        <text x="20" y="120" font-family="Segoe UI" font-size="11" fill="#212121">Ventas</text>
-                                        <text x="20" y="150" font-family="Segoe UI" font-size="11" fill="#212121">Marketing</text>
-                                        <text x="20" y="180" font-family="Segoe UI" font-size="11" fill="#212121">Finanzas</text>
-                                        <text x="20" y="210" font-family="Segoe UI" font-size="11" fill="#212121">RR.HH.</text>
-                                        
-                                        <!-- Etiquetas eje X (Niveles) -->
-                                        <text x="140" y="240" font-family="Segoe UI" font-size="11" fill="#212121">Junior</text>
-                                        <text x="220" y="240" font-family="Segoe UI" font-size="11" fill="#212121">Medio</text>
-                                        <text x="300" y="240" font-family="Segoe UI" font-size="11" fill="#212121">Senior</text>
-                                        <text x="380" y="240" font-family="Segoe UI" font-size="11" fill="#212121">Ejecutivo</text>
-                                        
-                                        <!-- Celdas del mapa de calor (Tecnología) -->
-                                        <rect x="140" y="75" width="60" height="25" rx="2" fill="#4CAF50" stroke="white" stroke-width="1"/>
-                                        <rect x="220" y="75" width="60" height="25" rx="2" fill="#8BC34A" stroke="white" stroke-width="1"/>
-                                        <rect x="300" y="75" width="60" height="25" rx="2" fill="#FFC107" stroke="white" stroke-width="1"/>
-                                        <rect x="380" y="75" width="60" height="25" rx="2" fill="#F44336" stroke="white" stroke-width="1"/>
-                                        
-                                        <!-- Celdas del mapa de calor (Ventas) -->
-                                        <rect x="140" y="105" width="60" height="25" rx="2" fill="#2E7D32" stroke="white" stroke-width="1"/>
-                                        <rect x="220" y="105" width="60" height="25" rx="2" fill="#4CAF50" stroke="white" stroke-width="1"/>
-                                        <rect x="300" y="105" width="60" height="25" rx="2" fill="#8BC34A" stroke="white" stroke-width="1"/>
-                                        <rect x="380" y="105" width="60" height="25" rx="2" fill="#FFC107" stroke="white" stroke-width="1"/>
-                                        
-                                        <!-- Celdas del mapa de calor (Marketing) -->
-                                        <rect x="140" y="135" width="60" height="25" rx="2" fill="#CDDC39" stroke="white" stroke-width="1"/>
-                                        <rect x="220" y="135" width="60" height="25" rx="2" fill="#FFEB3B" stroke="white" stroke-width="1"/>
-                                        <rect x="300" y="135" width="60" height="25" rx="2" fill="#FF9800" stroke="white" stroke-width="1"/>
-                                        <rect x="380" y="135" width="60" height="25" rx="2" fill="#F44336" stroke="white" stroke-width="1"/>
-                                        
-                                        <!-- Celdas del mapa de calor (Finanzas) -->
-                                        <rect x="140" y="165" width="60" height="25" rx="2" fill="#4CAF50" stroke="white" stroke-width="1"/>
-                                        <rect x="220" y="165" width="60" height="25" rx="2" fill="#8BC34A" stroke="white" stroke-width="1"/>
-                                        <rect x="300" y="165" width="60" height="25" rx="2" fill="#CDDC39" stroke="white" stroke-width="1"/>
-                                        <rect x="380" y="165" width="60" height="25" rx="2" fill="#FF9800" stroke="white" stroke-width="1"/>
-                                        
-                                        <!-- Celdas del mapa de calor (RR.HH.) -->
-                                        <rect x="140" y="195" width="60" height="25" rx="2" fill="#2E7D32" stroke="white" stroke-width="1"/>
-                                        <rect x="220" y="195" width="60" height="25" rx="2" fill="#4CAF50" stroke="white" stroke-width="1"/>
-                                        <rect x="300" y="195" width="60" height="25" rx="2" fill="#CDDC39" stroke="white" stroke-width="1"/>
-                                        <rect x="380" y="195" width="60" height="25" rx="2" fill="#FFEB3B" stroke="white" stroke-width="1"/>
-                                        
-                                        <!-- Valores en las celdas -->
-                                        <text x="170" y="90" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">-1.2%</text>
-                                        <text x="250" y="90" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">2.7%</text>
-                                        <text x="330" y="90" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">11.3%</text>
-                                        <text x="410" y="90" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">19.8%</text>
-                                        
-                                        <!-- Más valores en las otras celdas -->
-                                        <text x="170" y="120" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">-3.5%</text>
-                                        <text x="250" y="120" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">-0.8%</text>
-                                        <text x="330" y="120" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">3.6%</text>
-                                        <text x="410" y="120" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">9.7%</text>
-                                        
-                                        <text x="170" y="150" font-family="Segoe UI" font-size="10" fill="black" text-anchor="middle">4.3%</text>
-                                        <text x="250" y="150" font-family="Segoe UI" font-size="10" fill="black" text-anchor="middle">7.2%</text>
-                                        <text x="330" y="150" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">13.9%</text>
-                                        <text x="410" y="150" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">21.2%</text>
-                                        
-                                        <text x="170" y="180" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">-0.7%</text>
-                                        <text x="250" y="180" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">3.1%</text>
-                                        <text x="330" y="180" font-family="Segoe UI" font-size="10" fill="black" text-anchor="middle">5.8%</text>
-                                        <text x="410" y="180" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">14.6%</text>
-                                        
-                                        <text x="170" y="210" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">-4.2%</text>
-                                        <text x="250" y="210" font-family="Segoe UI" font-size="10" fill="white" text-anchor="middle">-1.3%</text>
-                                        <text x="330" y="210" font-family="Segoe UI" font-size="10" fill="black" text-anchor="middle">4.9%</text>
-                                        <text x="410" y="210" font-family="Segoe UI" font-size="10" fill="black" text-anchor="middle">8.4%</text>
-                                    </svg>
-                                </div>
-                                <div class="caso-uso-footer">
-                                    <span>Utiliza: Power BI + R</span>
-                                    <span>Actualización: Mensual</span>
-                                </div>
-                            </div>
-                            
-                            <div class="caso-uso-card" style="margin-top: 1.5rem;">
-                                <div class="caso-uso-header">
-                                    <h3>Funnel de Inclusión</h3>
-                                </div>
-                                <div class="caso-uso-content">
-                                    <p>Visualización que muestra la representación demográfica en cada etapa del ciclo de vida del empleado, desde reclutamiento hasta promociones ejecutivas.</p>
-                                    
-                                    <!-- Visualización de funnel creada con SVG -->
-                                    <svg width="100%" height="250" viewBox="0 0 450 250" xmlns="http://www.w3.org/2000/svg" style="border-radius: 8px; margin-top: 1rem; background-color: white;">
-                                        <!-- Título -->
-                                        <text x="20" y="25" font-family="Segoe UI" font-size="14" fill="#1565C0" font-weight="600">Representación por Género a lo Largo del Ciclo de Vida</text>
-                                        
-                                        <!-- Leyenda -->
-                                        <g transform="translate(340, 40)">
-                                            <rect x="0" y="0" width="15" height="15" fill="#1976D2"/>
-                                            <text x="20" y="12" font-family="Segoe UI" font-size="10" fill="#607D8B">Hombres</text>
-                                            
-                                            <rect x="0" y="20" width="15" height="15" fill="#E91E63"/>
-                                            <text x="20" y="32" font-family="Segoe UI" font-size="10" fill="#607D8B">Mujeres</text>
-                                            
-                                            <rect x="0" y="40" width="15" height="15" fill="#9C27B0"/>
-                                            <text x="20" y="52" font-family="Segoe UI" font-size="10" fill="#607D8B">No binario</text>
-                                        </g>
-                                        
-                                        <!-- Etapas del funnel (textos) -->
-                                        <text x="20" y="80" font-family="Segoe UI" font-size="11" fill="#212121">Reclutamiento</text>
-                                        <text x="20" y="120" font-family="Segoe UI" font-size="11" fill="#212121">Contratación</text>
-                                        <text x="20" y="160" font-family="Segoe UI" font-size="11" fill="#212121">Promoción a Nivel Medio</text>
-                                        <text x="20" y="200" font-family="Segoe UI" font-size="11" fill="#212121">Promoción a Nivel Senior</text>
-                                        <text x="20" y="240" font-family="Segoe UI" font-size="11" fill="#212121">Promoción a Nivel Ejecutivo</text>
-                                        
-                                        <!-- Funnel - Reclutamiento -->
-                                        <g transform="translate(160, 70)">
-                                            <rect x="0" y="0" width="240" height="20" rx="3" fill="#1976D2"/>
-                                            <rect x="0" y="0" width="108" height="20" rx="3" fill="#E91E63"/>
-                                            <rect x="0" y="0" width="12" height="20" rx="3" fill="#9C27B0"/>
-                                            
-                                            <text x="250" y="14" font-family="Segoe UI" font-size="10" fill="#212121">100%</text>
-                                            <text x="122" y="14" font-family="Segoe UI" font-size="10" fill="white">45%</text>
-                                            <text x="8" y="14" font-family="Segoe UI" font-size="10" fill="white">5%</text>
-                                        </g>
-                                        
-                                        <!-- Funnel - Contratación -->
-                                        <g transform="translate(160, 110)">
-                                            <rect x="0" y="0" width="220" height="20" rx="3" fill="#1976D2"/>
-                                            <rect x="0" y="0" width="88" height="20" rx="3" fill="#E91E63"/>
-                                            <rect x="0" y="0" width="10" height="20" rx="3" fill="#9C27B0"/>
-                                            
-                                            <text x="230" y="14" font-family="Segoe UI" font-size="10" fill="#212121">92%</text>
-                                            <text x="102" y="14" font-family="Segoe UI" font-size="10" fill="white">40%</text>
-                                            <text x="6" y="14" font-family="Segoe UI" font-size="10" fill="white">4%</text>
-                                        </g>
-                                        
-                                        <!-- Funnel - Promoción a Nivel Medio -->
-                                        <g transform="translate(160, 150)">
-                                            <rect x="0" y="0" width="190" height="20" rx="3" fill="#1976D2"/>
-                                            <rect x="0" y="0" width="66" height="20" rx="3" fill="#E91E63"/>
-                                            <rect x="0" y="0" width="7" height="20" rx="3" fill="#9C27B0"/>
-                                            
-                                            <text x="200" y="14" font-family="Segoe UI" font-size="10" fill="#212121">80%</text>
-                                            <text x="76" y="14" font-family="Segoe UI" font-size="10" fill="white">30%</text>
-                                            <text x="4" y="14" font-family="Segoe UI" font-size="10" fill="white">3%</text>
-                                        </g>
-                                        
-                                        <!-- Funnel - Promoción a Nivel Senior -->
-                                        <g transform="translate(160, 190)">
-                                            <rect x="0" y="0" width="168" height="20" rx="3" fill="#1976D2"/>
-                                            <rect x="0" y="0" width="44" height="20" rx="3" fill="#E91E63"/>
-                                            <rect x="0" y="0" width="5" height="20" rx="3" fill="#9C27B0"/>
-                                            
-                                            <text x="178" y="14" font-family="Segoe UI" font-size="10" fill="#212121">70%</text>
-                                            <text x="54" y="14" font-family="Segoe UI" font-size="10" fill="white">20%</text>
-                                            <text x="3" y="14" font-family="Segoe UI" font-size="10" fill="white">2%</text>
-                                        </g>
-                                        
-                                        <!-- Funnel - Promoción a Nivel Ejecutivo -->
-                                        <g transform="translate(160, 230)">
-                                            <rect x="0" y="0" width="156" height="20" rx="3" fill="#1976D2"/>
-                                            <rect x="0" y="0" width="24" height="20" rx="3" fill="#E91E63"/>
-                                            <rect x="0" y="0" width="2" height="20" rx="3" fill="#9C27B0"/>
-                                            
-                                            <text x="166" y="14" font-family="Segoe UI" font-size="10" fill="#212121">65%</text>
-                                            <text x="34" y="14" font-family="Segoe UI" font-size="10" fill="white">10%</text>
-                                            <text x="1" y="14" font-family="Segoe UI" font-size="10" fill="white">1%</text>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="caso-uso-footer">
-                                    <span>Utiliza: Custom Visuals</span>
-                                    <span>Actualización: Trimestral</span>
-                                </div>
-                            </div>
+                        <p>Esta matriz identifica cinco niveles de desarrollo analítico que toda organización atraviesa en su camino hacia la excelencia en la gestión del talento basada en datos:</p>
+                        
+                        <h3>Niveles de madurez en People Analytics</h3>
+                        
+                        <p>Para facilitar la comprensión y aplicación de la matriz, hemos creado esta guía visual de implementación:</p>
+                        
+                        <div class="destacado">
+                            <h4>Guía para implementar la matriz de madurez en 5 pasos</h4>
+                            <ol>
+                                <li><strong>Crear un equipo multidisciplinario:</strong> Involucra representantes de RRHH, TI, Negocio y Finanzas para tener una visión completa.</li>
+                                <li><strong>Desarrollar un cuestionario de diagnóstico:</strong> Formula 5-7 preguntas clave para cada dimensión que permitan identificar el nivel actual. Por ejemplo:
+                                    <ul>
+                                        <li>¿Las decisiones de RRHH se toman principalmente con base en datos o intuición?</li>
+                                        <li>¿Qué tan integrados están los sistemas que contienen datos de personas?</li>
+                                        <li>¿Se pueden vincular métricas de talento con resultados de negocio?</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Realizar el diagnóstico:</strong> Aplica el cuestionario a distintos stakeholders y consolida los resultados en Power BI.</li>
+                                <li><strong>Visualizar la situación actual:</strong> Crea un dashboard con un gráfico radar que muestre el nivel por dimensión y las brechas frente al nivel deseado.</li>
+                                <li><strong>Priorizar y actuar:</strong> Identifica 2-3 dimensiones críticas para avanzar primero y crea planes de acción concretos con responsables y plazos.</li>
+                            </ol>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="acordeon" id="acordeon-caso3">
-                <div class="acordeon-titulo">
-                    3. Centro de Comando de Adquisición de Talento
-                    <span class="acordeon-icono">▼</span>
-                </div>
-                <div class="acordeon-contenido">
-                    <h4>El Desafío</h4>
-                    <p>En mercados laborales competitivos, la velocidad y precisión en la adquisición de talento se convierten en ventajas estratégicas. Las organizaciones necesitan optimizar todo el proceso de reclutamiento, desde la generación de leads hasta la incorporación.</p>
-                    
-                    <h4>La Solución con Power BI</h4>
-                    <p>Un centro de comando integral que ofrece:</p>
-                    
-                    <div class="two-columns">
-                        <div class="column">
-                            <ul class="beneficios-lista">
-                                <li>Visibilidad en tiempo real del pipeline de reclutamiento con predicciones de tiempo hasta contratación</li>
-                                <li>Análisis de efectividad de fuentes de reclutamiento con ROI por canal</li>
-                                <li>Métricas de desempeño de reclutadores con balanceo de carga automático</li>
-                                <li>Analítica de sesgo en selección con alertas automatizadas</li>
-                                <li>Predicciones de éxito post-contratación basadas en patrones históricos</li>
-                                <li>Análisis de mercado laboral con datos internos y externos integrados</li>
-                            </ul>
-                            
-                            <div class="nota-destacada alt">
-                                <h4 class="nota-destacada-titulo">Caso de Éxito</h4>
-                                <p>Una empresa tecnológica implementó este centro de comando y redujo su tiempo promedio de contratación de 68 a 41 días, mientras mejoraba la calidad de las contrataciones (medida por evaluaciones a 90 días) en un 22%.</p>
+                        
+                        <div class="pregunta-vf">
+                            <p><strong>Pregunta:</strong> En el nivel Operativo de la matriz de madurez, el foco principal está en la generación de reportes predictivos para anticipar tendencias.</p>
+                            <div class="opciones-vf">
+                                <div class="opcion-vf" data-valor="verdadero">Verdadero</div>
+                                <div class="opcion-vf" data-valor="falso">Falso</div>
+                            </div>
+                            <div class="retroalimentacion correcta">
+                                ¡Correcto! El nivel Operativo se caracteriza por reportes descriptivos y retrospectivos, no predictivos. La analítica predictiva aparece en niveles más avanzados de la matriz.
+                            </div>
+                            <div class="retroalimentacion incorrecta">
+                                Incorrecto. El nivel Operativo se enfoca en reportes básicos descriptivos (¿qué pasó?) sin capacidad predictiva. La predicción y anticipación de tendencias ocurre en niveles más avanzados como el Predictivo o Transformacional.
                             </div>
                         </div>
                         
-                        <div class="column">
-                            <h4>Integraciones Clave</h4>
-                            <table class="tabla-caracteristicas">
-                                <tr>
-                                    <th>Sistema</th>
-                                    <th>Datos Aportados</th>
-                                </tr>
-                                <tr>
-                                    <td>ATS (Greenhouse, Workday, etc.)</td>
-                                    <td>Pipeline completo, fuentes, tiempos, tasas de conversión</td>
-                                </tr>
-                                <tr>
-                                    <td>LinkedIn Talent Insights</td>
-                                    <td>Benchmarks de mercado, disponibilidad de talento por ubicación</td>
-                                </tr>
-                                <tr>
-                                    <td>HRIS</td>
-                                    <td>Datos históricos de desempeño post-contratación</td>
-                                </tr>
-                                <tr>
-                                    <td>Glassdoor/Indeed</td>
-                                    <td>Percepción de candidatos, experiencia de entrevistas</td>
-                                </tr>
-                                <tr>
-                                    <td>CRM</td>
-                                    <td>Proyecciones de negocio para planificación de demanda</td>
-                                </tr>
-                            </table>
-                            
-                            <h4>Implementación Técnica Destacada</h4>
-                            <p>Este dashboard aprovecha las capacidades avanzadas de Power BI, incluyendo:</p>
-                            <ul class="beneficios-lista">
-                                <li>Power Query para integrar y transformar datos de múltiples fuentes</li>
-                                <li>Power BI Dataflows para modelado de datos reutilizable</li>
-                                <li>DAX avanzado para métricas complejas como "Qualified Candidate Rate"</li>
-                                <li>Integración con Azure Machine Learning para modelos predictivos</li>
-                                <li>Power Automate para notificaciones basadas en alertas predefinidas</li>
+                        <div class="contenedor-arrastrable">
+                            <h4>Ejercicio: Ordena los niveles de madurez en People Analytics de menor a mayor complejidad</h4>
+                            <ul class="lista-arrastrable">
+                                <li class="elemento-arrastrable" draggable="true" data-orden="3">Nivel Integrado</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="1">Nivel Operativo</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="5">Nivel Transformacional</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="2">Nivel Analítico</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="4">Nivel Predictivo</li>
                             </ul>
-                        </div>
-                    </div>
-                    
-                    <h4>Componentes Visuales Clave</h4>
-                    <p>El dashboard incluye visualizaciones especializadas como diagrama Sankey para flujo de candidatos, mapas de calor geoespaciales para disponibilidad de talento, y gráficos de dispersión para análisis de efectividad vs. costo de fuentes de reclutamiento.</p>
-                </div>
-            </div>
-
-            <div class="acordeon" id="acordeon-caso4">
-                <div class="acordeon-titulo">
-                    4. Analítica Predictiva de Desempeño y Potencial
-                    <span class="acordeon-icono">▼</span>
-                </div>
-                <div class="acordeon-contenido">
-                    <p>Las evaluaciones tradicionales de desempeño son retrospectivas y a menudo subjetivas. Este caso de uso muestra cómo las organizaciones pueden utilizar Power BI para crear un enfoque predictivo y multidimensional para evaluar tanto el desempeño actual como el potencial futuro.</p>
-                    
-                    <div class="two-columns">
-                        <div class="column">
-                            <h4>Componentes Analíticos</h4>
-                            <ul class="beneficios-lista">
-                                <li><strong>Análisis de texto y sentimiento</strong> aplicado a feedback cualitativo, comentarios de proyectos y evaluaciones 360°</li>
-                                <li><strong>Modelado de competencias</strong> que identifica patrones de desarrollo de habilidades y predice trayectorias profesionales</li>
-                                <li><strong>Analítica de redes organizacionales</strong> que identifica colaboradores clave más allá del organigrama formal</li>
-                                <li><strong>Identificación de factores predictivos</strong> de alto desempeño específicos para cada rol y nivel</li>
-                            </ul>
-                            
-                            <div class="nota-destacada">
-                                <h4 class="nota-destacada-titulo">Aplicación Estratégica</h4>
-                                <p>Este dashboard permite decisiones más informadas sobre sucesión, desarrollo y asignación de talento, al proporcionar una visión holística del talento que va más allá de las evaluaciones tradicionales.</p>
-                            </div>
-                            
-                            <h4>Fuentes de Datos Integradas</h4>
-                            <p>Esta solución combina datos estructurados y no estructurados:</p>
-                            <ul class="beneficios-lista">
-                                <li>Evaluaciones formales de desempeño del HRIS</li>
-                                <li>Feedback de proyectos de sistemas de gestión de proyectos</li>
-                                <li>Datos de interacción de herramientas de colaboración (Teams, Slack)</li>
-                                <li>Métricas operacionales específicas por departamento (ventas, producción, etc.)</li>
-                                <li>Datos de encuestas de compromiso y clima organizacional</li>
-                            </ul>
+                            <h4>Arrastra los elementos al orden correcto:</h4>
+                            <div class="zona-destino"></div>
+                            <button class="btn-reinicio">Reiniciar ejercicio</button>
                         </div>
                         
-                        <div class="column">
-                            <div class="caso-uso-card">
-                                <div class="caso-uso-header">
-                                    <h3>Matriz 9-Box Dinámica</h3>
+                        <table class="tabla-interactiva">
+                            <thead>
+                                <tr>
+                                    <th>Nivel de Madurez</th>
+                                    <th>Características Principales</th>
+                                    <th>Detalles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Nivel Operativo</td>
+                                    <td>Reportes básicos, datos históricos, enfoque reactivo</td>
+                                    <td><span class="expandir" data-fila="1">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-1">
+                                    <td colspan="3">
+                                        <p>En este nivel, la organización se limita a recopilar datos básicos de personal y generar reportes periódicos sobre métricas tradicionales como headcount, rotación general o costos de compensación. Los datos están fragmentados en múltiples sistemas, con poca o nula integración. Power BI se utiliza principalmente para automatizar reportes que anteriormente se hacían en Excel, sin añadir mucho valor analítico.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nivel Analítico</td>
+                                    <td>Análisis multidimensional, segmentación, enfoque diagnóstico</td>
+                                    <td><span class="expandir" data-fila="2">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-2">
+                                    <td colspan="3">
+                                        <p>La organización comienza a usar Power BI no solo para reportes, sino también para análisis. Los datos permiten diagnósticos básicos (¿por qué pasó?) y se pueden segmentar por múltiples dimensiones como departamento, nivel jerárquico, demografía, etc. Se establecen procesos para la limpieza y validación de datos, y se comienzan a definir KPIs estandarizados para toda la organización.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nivel Integrado</td>
+                                    <td>Vinculación con resultados de negocio, correlaciones, enfoque estratégico</td>
+                                    <td><span class="expandir" data-fila="3">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-3">
+                                    <td colspan="3">
+                                        <p>En este nivel, los datos de personas se integran con datos de negocio (ventas, productividad, calidad, satisfacción del cliente). Power BI permite establecer correlaciones y relaciones de causalidad entre indicadores de talento y resultados empresariales. Las decisiones de RRHH empiezan a basarse en estas correlaciones demostradas, no en suposiciones. La analítica de talento comienza a enfocarse en el impacto de las iniciativas de RRHH sobre los KPIs del negocio.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nivel Predictivo</td>
+                                    <td>Modelos estadísticos, tendencias futuras, enfoque preventivo</td>
+                                    <td><span class="expandir" data-fila="4">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-4">
+                                    <td colspan="3">
+                                        <p>La organización desarrolla capacidades para predecir comportamientos futuros basados en patrones históricos. Power BI, junto con otras herramientas estadísticas, permite crear modelos predictivos para riesgo de rotación, desempeño potencial, o necesidades de contratación. El enfoque cambia de reactivo a proactivo, permitiendo intervenciones tempranas antes de que ocurran problemas. Se implementan análisis de escenarios "what-if" para evaluar diferentes estrategias.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nivel Transformacional</td>
+                                    <td>Innovación basada en datos, ventajas competitivas, enfoque disruptivo</td>
+                                    <td><span class="expandir" data-fila="5">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-5">
+                                    <td colspan="3">
+                                        <p>Los datos y análisis se convierten en la base para la reinvención de procesos y políticas de talento. La organización utiliza Power BI no solo para visualizar información, sino como plataforma para una nueva generación de decisiones de capital humano. Las iniciativas de RRHH se diseñan con metodologías experimentales que permiten medir su impacto real. La analítica de talento se convierte en una verdadera ventaja competitiva, permitiendo a la empresa atraer, desarrollar y retener el talento mejor que la competencia.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <h3>Dimensiones clave de la matriz</h3>
+                        <p>Para evaluar correctamente el nivel de madurez, es necesario analizar cuatro dimensiones fundamentales que componen las capacidades de People Analytics en cualquier organización:</p>
+                        
+                        <ol>
+                            <li><strong>Capacidades técnicas y de analítica:</strong> Infraestructura, herramientas, habilidades del equipo para recolectar, procesar y analizar datos.</li>
+                            <li><strong>Procesos de negocio y cultura de datos:</strong> Grado de integración de los datos en la toma de decisiones diarias, resistencia o apertura cultural al uso de evidencia.</li>
+                            <li><strong>Integración de la información en la estrategia:</strong> Vinculación entre métricas de talento y prioridades estratégicas de la organización.</li>
+                            <li><strong>Gobierno de datos y ética:</strong> Políticas de privacidad, seguridad, transparencia y uso responsable de la información de los colaboradores.</li>
+                        </ol>
+                        
+                        <p>La evaluación de estas dimensiones no debe verse como un ejercicio puramente teórico. Por el contrario, el objetivo es identificar brechas concretas y desarrollar planes de acción específicos para avanzar gradualmente en la escala de madurez. Lo más valioso de este enfoque es que permite a cada organización trazar su propio camino evolutivo, reconociendo sus fortalezas actuales y áreas de oportunidad.</p>
+                        
+                        <div class="destacado">
+                            <h4>Caso práctico: Implementación de la matriz en una empresa de servicios</h4>
+                            <p>Una compañía de servicios financieros con 5,000 empleados implementó la matriz de madurez de la siguiente manera:</p>
+                            
+                            <p><strong>1. Diagnóstico inicial</strong></p>
+                            <ul>
+                                <li>Crearon un cuestionario simple en Microsoft Forms con 20 preguntas clave agrupadas en las 4 dimensiones</li>
+                                <li>El cuestionario fue respondido por representantes de RRHH, TI, Finanzas y líderes de negocio</li>
+                                <li>Las respuestas se visualizaron en Power BI como un diagrama de radar mostrando el nivel en cada dimensión</li>
+                            </ul>
+                            
+                            <p><strong>2. Resultados del diagnóstico</strong></p>
+                            <ul>
+                                <li>Capacidades técnicas: Nivel 2 (Analítico) - Tenían herramientas pero no estaban integradas</li>
+                                <li>Procesos y cultura: Nivel 1 (Operativo) - Gran resistencia a decisiones basadas en datos</li>
+                                <li>Integración estratégica: Nivel 2 (Analítico) - Algunos KPIs vinculados a resultados</li>
+                                <li>Gobierno de datos: Nivel 1 (Operativo) - Sin políticas claras de manejo de datos</li>
+                            </ul>
+                            
+                            <p><strong>3. Plan de acción priorizado</strong></p>
+                            <ul>
+                                <li>Prioridad 1: Mejorar a Nivel 2 en Procesos y cultura - Crearon programa de formación y designaron "campeones de datos"</li>
+                                <li>Prioridad 2: Avanzar a Nivel 3 en Capacidades técnicas - Implementaron data warehouse centralizado</li>
+                                <li>Prioridad 3: Mejorar a Nivel 2 en Gobierno - Desarrollaron políticas básicas de manejo de datos</li>
+                            </ul>
+                            
+                            <p>Después de 12 meses, lograron avanzar un nivel en cada dimensión priorizada, lo que permitió comenzar a predecir riesgos de rotación y optimizar costos de reclutamiento.</p>
+                        </div>
+                        
+                        <div class="tarjeta-giratoria">
+                            <div class="tarjeta-interior">
+                                <div class="tarjeta-frente">
+                                    <h4>Consejo de experto</h4>
+                                    <p>Haz clic para ver una recomendación clave</p>
                                 </div>
-                                <div class="caso-uso-content">
-                                    <p>Una versión avanzada de la clásica matriz de talento que incorpora posicionamiento basado en algoritmos, trayectorias temporales, comparaciones con benchmarks y recomendaciones de desarrollo específicas.</p>
-                                    
-                                    <!-- Visualización Matriz 9-Box Dinámica con SVG -->
-                                    <svg width="100%" height="280" viewBox="0 0 450 280" xmlns="http://www.w3.org/2000/svg" style="border-radius: 8px; margin-top: 1rem; background-color: white;">
-                                        <!-- Título -->
-                                        <text x="20" y="25" font-family="Segoe UI" font-size="14" fill="#1565C0" font-weight="600">Matriz 9-Box: Desempeño vs. Potencial</text>
-                                        
-                                        <!-- Ejes -->
-                                        <text x="225" y="265" font-family="Segoe UI" font-size="12" fill="#212121" text-anchor="middle">Desempeño</text>
-                                        <text x="10" y="140" font-family="Segoe UI" font-size="12" fill="#212121" transform="rotate(-90, 10, 140)" text-anchor="middle">Potencial</text>
-                                        
-                                        <!-- Etiquetas Eje X -->
-                                        <text x="80" y="252" font-family="Segoe UI" font-size="10" fill="#607D8B" text-anchor="middle">Bajo</text>
-                                        <text x="225" y="252" font-family="Segoe UI" font-size="10" fill="#607D8B" text-anchor="middle">Medio</text>
-                                        <text x="370" y="252" font-family="Segoe UI" font-size="10" fill="#607D8B" text-anchor="middle">Alto</text>
-                                        
-                                        <!-- Etiquetas Eje Y -->
-                                        <text x="35" y="220" font-family="Segoe UI" font-size="10" fill="#607D8B">Bajo</text>
-                                        <text x="35" y="140" font-family="Segoe UI" font-size="10" fill="#607D8B">Medio</text>
-                                        <text x="35" y="60" font-family="Segoe UI" font-size="10" fill="#607D8B">Alto</text>
-                                        
-                                        <!-- Grid de la matriz -->
-                                        <rect x="50" y="40" width="115" height="60" fill="#FFF59D" stroke="#E0E0E0" stroke-width="1"/>
-                                        <rect x="165" y="40" width="115" height="60" fill="#A5D6A7" stroke="#E0E0E0" stroke-width="1"/>
-                                        <rect x="280" y="40" width="115" height="60" fill="#81C784" stroke="#E0E0E0" stroke-width="1"/>
-                                        
-                                        <rect x="50" y="100" width="115" height="80" fill="#FFCC80" stroke="#E0E0E0" stroke-width="1"/>
-                                        <rect x="165" y="100" width="115" height="80" fill="#90CAF9" stroke="#E0E0E0" stroke-width="1"/>
-                                        <rect x="280" y="100" width="115" height="80" fill="#64B5F6" stroke="#E0E0E0" stroke-width="1"/>
-                                        
-                                        <rect x="50" y="180" width="115" height="60" fill="#EF9A9A" stroke="#E0E0E0" stroke-width="1"/>
-                                        <rect x="165" y="180" width="115" height="60" fill="#FFCC80" stroke="#E0E0E0" stroke-width="1"/>
-                                        <rect x="280" y="180" width="115" height="60" fill="#FFF59D" stroke="#E0E0E0" stroke-width="1"/>
-                                        
-                                        <!-- Empleados (círculos) -->
-                                        <!-- Alto potencial, bajo rendimiento -->
-                                        <circle cx="107" cy="68" r="10" fill="#673AB7" opacity="0.8" stroke="white" stroke-width="1.5"/>
-                                        <text x="107" cy="68" dy="4" font-family="Segoe UI" font-size="9" fill="white" text-anchor="middle">MG</text>
-                                        
-                                        <!-- Alto potencial, alto rendimiento (Estrella) -->
-                                        <circle cx="337" cy="68" r="14" fill="#4CAF50" opacity="0.8" stroke="white" stroke-width="1.5"/>
-                                        <text x="337" cy="68" dy="4" font-family="Segoe UI" font-size="9" fill="white" text-anchor="middle">JS</text>
-                                        
-                                        <!-- Potencial medio, rendimiento medio -->
-                                        <circle cx="225" cy="140" r="12" fill="#2196F3" opacity="0.8" stroke="white" stroke-width="1.5"/>
-                                        <text x="225" cy="140" dy="4" font-family="Segoe UI" font-size="9" fill="white" text-anchor="middle">AL</text>
-                                        
-                                        <!-- Bajo potencial, alto rendimiento -->
-                                        <circle cx="310" cy="200" r="10" fill="#FFC107" opacity="0.8" stroke="white" stroke-width="1.5"/>
-                                        <text x="310" cy="200" dy="4" font-family="Segoe UI" font-size="9" fill="white" text-anchor="middle">RD</text>
-                                        
-                                        <!-- Bajo potencial, bajo rendimiento (Problema) -->
-                                        <circle cx="95" cy="210" r="10" fill="#F44336" opacity="0.8" stroke="white" stroke-width="1.5"/>
-                                        <text x="95" cy="210" dy="4" font-family="Segoe UI" font-size="9" fill="white" text-anchor="middle">KT</text>
-                                        
-                                        <!-- Trayectorias (flechas) para mostrar evolución -->
-                                        <path d="M95,210 Q120,190 140,170" stroke="#F44336" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-dasharray="4,2"/>
-                                        
-                                        <path d="M225,140 Q270,115 310,90" stroke="#2196F3" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-dasharray="4,2"/>
-                                        
-                                        <!-- Definición de flecha -->
-                                        <defs>
-                                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
-                                                    markerWidth="6" markerHeight="6"
-                                                    orient="auto-start-reverse">
-                                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#607D8B"/>
-                                            </marker>
-                                        </defs>
-                                        
-                                        <!-- Leyenda de colores -->
-                                        <text x="70" y="65" font-family="Segoe UI" font-size="9" fill="#212121" text-anchor="middle">Desarrollar</text>
-                                        <text x="225" y="65" font-family="Segoe UI" font-size="9" fill="#212121" text-anchor="middle">Potencial Estrella</text>
-                                        <text x="337" y="65" font-family="Segoe UI" font-size="9" fill="#212121" text-anchor="middle" dy="-20">Estrella</text>
-                                        
-                                        <text x="107" y="140" font-family="Segoe UI" font-size="9" fill="#212121" text-anchor="middle">Dilema</text>
-                                        <text x="225" y="140" font-family="Segoe UI" font-size="9" fill="#212121" text-anchor="middle" dy="-20">Profesional Sólido</text>
-                                        <text x="337" y="140" font-family="Segoe UI" font-size="9" fill="#212121" text-anchor="middle">Contribuidor Clave</text>
-                                        
-                                        <text x="107" y="210" font-family="Segoe UI" font-size="9" fill="#212121" text-anchor="middle" dy="-20">Riesgo</text>
-                                        <text x="225" y="210" font-family="Segoe UI" font-size="9" fill="#212121" text-anchor="middle">Efectivo</text>
-                                        <text x="337" y="210" font-family="Segoe UI" font-size="9" fill="#212121" text-anchor="middle">Experto en Rol</text>
-                                    </svg>
-                                </div>
-                                <div class="caso-uso-footer">
-                                    <span>Complejidad: Alta</span>
-                                    <span>ROI: Excepcional</span>
+                                <div class="tarjeta-reverso">
+                                    <p>No intentes saltar niveles en la matriz de madurez. El desarrollo de capacidades analíticas es evolutivo y requiere consolidar cada etapa antes de avanzar a la siguiente.</p>
                                 </div>
                             </div>
-                            
-                            <h4>Impacto Demostrado</h4>
-                            <p>Las organizaciones que han implementado este enfoque han reportado:</p>
-                            <ul class="beneficios-lista">
-                                <li>Mejor alineación entre calificaciones de desempeño y resultados de negocio</li>
-                                <li>Mayor precisión en la identificación temprana de altos potenciales</li>
-                                <li>Reducción de sesgos en evaluaciones al incorporar múltiples fuentes de datos</li>
-                                <li>Planes de desarrollo más personalizados y efectivos</li>
-                                <li>Mejora significativa en la retención de talentos clave</li>
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="acordeon" id="acordeon-caso5">
-                <div class="acordeon-titulo">
-                    5. Centro de Comando de Bienestar y Productividad
-                    <span class="acordeon-icono">▼</span>
+            
+            <div class="acordeon">
+                <div class="acordeon-cabecera">
+                    <h2 style="margin: 0; color: white;">Diseño Estratégico de Dashboards de Talento</h2>
+                    <div class="acordeon-icono"></div>
                 </div>
                 <div class="acordeon-contenido">
-                    <h4>El Desafío</h4>
-                    <p>Con el auge del trabajo híbrido y remoto, las organizaciones enfrentan nuevos desafíos para monitorear y promover tanto el bienestar de los empleados como su productividad sostenible, sin caer en la microgestión ni comprometer la privacidad.</p>
-                    
-                    <h4>La Solución con Power BI</h4>
-                    <p>Un dashboard innovador que integra:</p>
-                    
-                    <div class="two-columns">
-                        <div class="column">
-                            <ul class="beneficios-lista">
-                                <li>Análisis de patrones de trabajo y colaboración sin invasión de privacidad</li>
-                                <li>Indicadores tempranos de burnout basados en múltiples señales indirectas</li>
-                                <li>Correlación entre prácticas de trabajo y resultados de negocio</li>
-                                <li>Impacto de políticas de flexibilidad en engagement y productividad</li>
-                                <li>Monitoreo del equilibrio trabajo-vida mediante análisis de patrones</li>
-                                <li>Optimización de colaboración entre equipos distribuidos geográficamente</li>
-                            </ul>
-                            
-                            <div class="nota-destacada alt">
-                                <h4 class="nota-destacada-titulo">Consideraciones Éticas</h4>
-                                <p>Esta solución implementa estrictos protocolos de anonimización, agregación de datos y transparencia en la recolección, priorizando siempre el bienestar sobre la mera productividad y evitando métricas que podrían incentivar comportamientos no saludables.</p>
+                    <div class="acordeon-contenido-interior">
+                        <h3>Alineación con Objetivos de Negocio</h3>
+                        <p>Un dashboard de People Analytics realmente estratégico va mucho más allá de presentar métricas tradicionales de RRHH. Su verdadero valor reside en su capacidad para vincularse directamente con los objetivos críticos del negocio y proporcionar insights accionables para la alta dirección.</p>
+                        
+                        <p>La selección de KPIs para estos dashboards requiere un enfoque altamente selectivo y estratégico. A diferencia de los reportes operativos que pueden contener docenas de métricas, un dashboard ejecutivo efectivo debe enfocarse en los 5-7 indicadores que realmente impactan la estrategia organizacional.</p>
+                        
+                        <div class="destacado">
+                            <h4>Principio fundamental</h4>
+                            <p>Cada métrica incluida en un dashboard estratégico debe poder responder claramente a la pregunta: "¿Cómo impacta este indicador en nuestros resultados de negocio y en qué magnitud?"</p>
+                        </div>
+                        
+                        <p>El diseño de tableros debe considerar cuidadosamente los diferentes niveles jerárquicos y sus necesidades específicas:</p>
+                        
+                        <table class="tabla-interactiva">
+                            <thead>
+                                <tr>
+                                    <th>Nivel</th>
+                                    <th>Enfoque</th>
+                                    <th>Características</th>
+                                    <th>Detalles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dashboards Ejecutivos</td>
+                                    <td>Visión estratégica y tendencias</td>
+                                    <td>Pocos KPIs, enfoque en tendencias y comparativos</td>
+                                    <td><span class="expandir" data-fila="6">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-6">
+                                    <td colspan="4">
+                                        <p>Estos dashboards deben presentar una visión de alto nivel con métricas como productividad por empleado, ROI de programas de talento, índices de retención de talento clave y su impacto financiero. Deben permitir ver tendencias temporales y benchmarks contra la industria o competidores. El diseño debe ser extremadamente limpio, con visualizaciones intuitivas que comuniquen mensajes claros sin requerir explicaciones detalladas.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Dashboards para Mandos Medios</td>
+                                    <td>Diagnóstico y acción</td>
+                                    <td>Mayor granularidad, capacidad de filtrado y drill-down</td>
+                                    <td><span class="expandir" data-fila="7">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-7">
+                                    <td colspan="4">
+                                        <p>Estos dashboards deben ofrecer mayor detalle y capacidad de análisis, permitiendo a los gerentes identificar problemas específicos en sus equipos y evaluar la efectividad de sus intervenciones. Deben incluir funcionalidades de filtrado por múltiples dimensiones (departamento, ubicación, nivel, etc.) y capacidad de profundizar en casos específicos. Las métricas deben ser más operativas pero siempre vinculadas a los KPIs estratégicos que interesan a la alta dirección.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <p>Un aspecto crucial en el diseño de dashboards es encontrar el equilibrio adecuado entre personalización y estandarización. Ambos enfoques tienen ventajas e inconvenientes:</p>
+                        
+                        <div class="pregunta-vf">
+                            <p><strong>Pregunta:</strong> Un dashboard ejecutivo debe contener un análisis detallado de todos los KPIs de RRHH para permitir una evaluación exhaustiva de la gestión del talento.</p>
+                            <div class="opciones-vf">
+                                <div class="opcion-vf" data-valor="verdadero">Verdadero</div>
+                                <div class="opcion-vf" data-valor="falso">Falso</div>
+                            </div>
+                            <div class="retroalimentacion correcta">
+                                ¡Correcto! Los dashboards ejecutivos deben ser concisos y estratégicos, enfocándose solo en los 5-7 KPIs más relevantes para la estrategia de negocio, no en un análisis exhaustivo de todas las métricas de RRHH.
+                            </div>
+                            <div class="retroalimentacion incorrecta">
+                                Incorrecto. Los dashboards ejecutivos efectivos deben ser selectivos y estratégicos, centrándose solo en los KPIs críticos que impactan directamente en los resultados de negocio. Un análisis exhaustivo y detallado sería contraproducente para la toma de decisiones a nivel ejecutivo.
                             </div>
                         </div>
                         
-                        <div class="column">
-                            <h4>Fuentes de Datos Innovadoras</h4>
-                            <p>Este dashboard combina fuentes de datos no tradicionales:</p>
-                            <table class="tabla-caracteristicas">
-                                <tr>
-                                    <th>Fuente</th>
-                                    <th>Insights Generados</th>
-                                </tr>
-                                <tr>
-                                    <td>Microsoft 365/Google Workspace</td>
-                                    <td>Patrones de colaboración, horas de trabajo, balance de carga</td>
-                                </tr>
-                                <tr>
-                                    <td>Apps de Bienestar</td>
-                                    <td>Datos anónimos agregados de salud y bienestar (participación voluntaria)</td>
-                                </tr>
-                                <tr>
-                                    <td>Herramientas de Proyecto</td>
-                                    <td>Velocidad, calidad y distribución del trabajo</td>
-                                </tr>
-                                <tr>
-                                    <td>Encuestas de Pulso</td>
-                                    <td>Sentimiento, engagement y feedback en tiempo real</td>
-                                </tr>
-                                <tr>
-                                    <td>Datos de VPN/Red</td>
-                                    <td>Patrones de conectividad y distribución geográfica</td>
-                                </tr>
-                            </table>
-                            
-                            <h4>Visualizaciones Efectivas</h4>
-                            <p>Las visualizaciones en este dashboard están diseñadas para proporcionar insights accionables sin fomentar microgestión:</p>
-                            <ul class="beneficios-lista">
-                                <li>Mapas de calor de colaboración entre equipos y departamentos</li>
-                                <li>Gráficos de tendencia que muestran patrones de trabajo a lo largo del tiempo</li>
-                                <li>Indicadores de alerta temprana para posible sobrecarga o desconexión</li>
-                                <li>Análisis comparativo entre equipos de alto rendimiento y otros</li>
-                                <li>Visualización de impacto de políticas (4 días laborables, horario flexible, etc.)</li>
+                        <h3>Storytelling con Datos de Talento</h3>
+                        <p>Incluso el dashboard más sofisticado fracasará si no logra comunicar efectivamente su mensaje. El storytelling con datos es el arte de transformar cifras y gráficos en narrativas convincentes que impulsen a la acción. Esta habilidad resulta especialmente crucial cuando se presentan datos de talento a audiencias ejecutivas.</p>
+                        
+                        <p>Los principios fundamentales del storytelling efectivo con datos de talento incluyen:</p>
+                        
+                        <div class="contenedor-arrastrable">
+                            <h4>Ejercicio: Ordena los elementos del storytelling efectivo con datos según su secuencia lógica</h4>
+                            <ul class="lista-arrastrable">
+                                <li class="elemento-arrastrable" draggable="true" data-orden="2">Contexto: situar los datos en el marco estratégico relevante</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="1">Audiencia: identificar necesidades y prioridades de los stakeholders</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="4">Acción: proponer pasos concretos basados en los hallazgos</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="3">Insight: destacar el hallazgo principal y su relevancia</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="5">Seguimiento: establecer métricas para evaluar el impacto</li>
                             </ul>
+                            <h4>Arrastra los elementos al orden correcto:</h4>
+                            <div class="zona-destino"></div>
+                            <button class="btn-reinicio">Reiniciar ejercicio</button>
+                        </div>
+                        
+                        <p>La visualización efectiva juega un papel crucial en el storytelling con datos. Al diseñar visualizaciones para audiencias ejecutivas, se deben seguir estos principios:</p>
+                        
+                        <ul>
+                            <li>Simplicidad: eliminar todo elemento visual que no contribuya directamente al mensaje principal</li>
+                            <li>Enfoque: destacar visualmente los puntos más importantes usando colores, tamaños o posicionamiento</li>
+                            <li>Consistencia: mantener un estilo visual coherente en todas las visualizaciones</li>
+                            <li>Comparación: proporcionar contexto a través de comparaciones con períodos anteriores, objetivos o benchmarks</li>
+                            <li>Progresión lógica: ordenar visualizaciones siguiendo una secuencia narrativa clara</li>
+                        </ul>
+                        
+                        <div class="tarjeta-giratoria">
+                            <div class="tarjeta-interior">
+                                <div class="tarjeta-frente">
+                                    <h4>Consejo práctico</h4>
+                                    <p>Haz clic para descubrir un consejo de storytelling</p>
+                                </div>
+                                <div class="tarjeta-reverso">
+                                    <p>Comienza cada presentación con una declaración clara del problema o la oportunidad, no con la metodología o los datos. El impacto ejecutivo se logra con el "qué" y el "para qué", no con el "cómo".</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="nota-destacada">
-                        <h4 class="nota-destacada-titulo">Resultado Demostrado</h4>
-                        <p>Una empresa de servicios financieros implementó este enfoque y reportó una reducción del 28% en licencias por estrés, mejora del 17% en encuestas de satisfacción, y un incremento del 12% en productividad medida por resultados de negocio, todo mientras reducía las horas promedio de trabajo.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección: Implementación Práctica -->
-        <section>
-            <h2>Implementación Práctica: Siguiente Paso en tu Viaje de People Analytics</h2>
-            
-            <p>Has explorado casos de uso avanzados que representan la vanguardia del People Analytics con Power BI. Ahora, es momento de considerar cómo puedes implementar estas soluciones en tu organización, adaptándolas a tus necesidades específicas.</p>
-            
-            <div class="two-columns">
-                <div class="column">
-                    <h3>Recursos para Implementar Estas Soluciones</h3>
-                    <p>Para ayudarte a avanzar en tu viaje de People Analytics, hemos preparado estos recursos complementarios:</p>
-                    <ul class="beneficios-lista">
-                        <li>Plantillas de Power BI para cada caso de uso presentado, con fórmulas DAX predefinidas</li>
-                        <li>Guías paso a paso para la integración de datos y configuración de cada dashboard</li>
-                        <li>Biblioteca de medidas DAX específicas para People Analytics</li>
-                        <li>Tutoriales para implementar seguridad, gobernanza y estrategias de distribuión</li>
-                        <li>Comunidad de práctica con webinars mensuales y sesiones de Q&A con expertos</li>
-                    </ul>
-                    
-                    <div class="btn-group">
-                        <a href="#" class="btn">Descargar Recursos Complementarios</a>
-                        <a href="#" class="btn btn-secondary">Unirse a la Comunidad de Práctica</a>
-                    </div>
-                </div>
-                
-                <div class="column">
-                    <h3>Recomendaciones para el Éxito</h3>
-                    <div class="nota-destacada">
-                        <h4 class="nota-destacada-titulo">Enfoque Incremental</h4>
-                        <p>Comienza con un caso de uso de alto impacto pero alcance manejable. Demuestra valor rápidamente antes de expandir a soluciones más complejas.</p>
-                    </div>
-                    
-                    <div class="nota-destacada alt" style="margin-top: 1.5rem;">
-                        <h4 class="nota-destacada-titulo">Colaboración Interfuncional</h4>
-                        <p>Los proyectos más exitosos de People Analytics involucran colaboración estrecha entre RRHH, TI, Analytics y líderes de negocio desde el inicio.</p>
-                    </div>
-                    
-                    <div class="nota-destacada" style="margin-top: 1.5rem;">
-                        <h4 class="nota-destacada-titulo">Calidad de Datos Primero</h4>
-                        <p>Invierte tiempo en limpiar y estandarizar tus datos antes de construir dashboards complejos. La calidad de los insights nunca será mayor que la calidad de los datos subyacentes.</p>
-                    </div>
-                    
-                    <div class="nota-destacada alt" style="margin-top: 1.5rem;">
-                        <h4 class="nota-destacada-titulo">Mide el Impacto</h4>
-                        <p>Establece KPIs claros para tus iniciativas de People Analytics. Cuantifica el valor generado para garantizar el apoyo continuo y la expansión del programa.</p>
-                    </div>
                 </div>
             </div>
             
-            <div class="separador"></div>
-            
-            <h3>Próximos Pasos en tu Viaje de People Analytics</h3>
-            
-            <p>En la próxima sección, exploraremos estrategias avanzadas para escalar tus capacidades de People Analytics a toda la organización, incluyendo:</p>
-            
-            <div class="grid-container">
-                <div class="caso-uso-card">
-                    <div class="caso-uso-header">
-                        <h3>
-<h3>Centros de Excelencia</h3>
-                    </div>
-                    <div class="caso-uso-content">
-                        <p>Cómo estructurar y operar un centro de excelencia en People Analytics que impulse la adopción en toda la organización.</p>
-                    </div>
+            <div class="acordeon">
+                <div class="acordeon-cabecera">
+                    <h2 style="margin: 0; color: white;">Aplicaciones Estratégicas de Power BI</h2>
+                    <div class="acordeon-icono"></div>
                 </div>
-                
-                <div class="caso-uso-card">
-                    <div class="caso-uso-header">
-                        <h3>Madurez Analítica</h3>
-                    </div>
-                    <div class="caso-uso-content">
-                        <p>Metodologías para evaluar y desarrollar la madurez analítica de tu función de RRHH, desde descriptiva hasta prescriptiva.</p>
-                    </div>
-                </div>
-                
-                <div class="caso-uso-card">
-                    <div class="caso-uso-header">
-                        <h3>Arquitectura Escalable</h3>
-                    </div>
-                    <div class="caso-uso-content">
-                        <p>Diseños de arquitectura de datos que permiten escalar desde proyectos piloto a soluciones empresariales robustas.</p>
+                <div class="acordeon-contenido">
+                    <div class="acordeon-contenido-interior">
+                        <p>Power BI ofrece capacidades que van mucho más allá de la creación de informes descriptivos. Su verdadero potencial estratégico se revela cuando lo utilizamos para implementar análisis predictivos, evaluar iniciativas de diversidad e inclusión, y optimizar la adquisición y retención de talento.</p>
+                        
+                        <h3>Análisis Predictivo para Decisiones Proactivas</h3>
+                        <p>La capacidad de anticipar eventos futuros representa uno de los mayores valores estratégicos de la analítica avanzada. En el ámbito del talento, esto se traduce en poder identificar proactivamente riesgos y oportunidades antes de que se materialicen.</p>
+                        
+                        <p>Power BI permite implementar varios tipos de análisis predictivos que transforman radicalmente la gestión del talento:</p>
+                        
+                        <div class="pregunta-vf">
+                            <p><strong>Pregunta:</strong> Los modelos predictivos en People Analytics requieren necesariamente el uso de algoritmos de inteligencia artificial avanzados y científicos de datos especializados.</p>
+                            <div class="opciones-vf">
+                                <div class="opcion-vf" data-valor="verdadero">Verdadero</div>
+                                <div class="opcion-vf" data-valor="falso">Falso</div>
+                            </div>
+                            <div class="retroalimentacion correcta">
+                                ¡Correcto! Aunque la IA avanzada puede mejorar los modelos predictivos, es posible implementar análisis predictivos efectivos utilizando técnicas estadísticas más básicas dentro de Power BI, sin necesidad de científicos de datos especializados.
+                            </div>
+                            <div class="retroalimentacion incorrecta">
+                                Incorrecto. Muchas organizaciones implementan análisis predictivos efectivos usando técnicas estadísticas básicas incorporadas en Power BI. Si bien los algoritmos avanzados de IA pueden mejorar la precisión, no son un requisito para comenzar con la analítica predictiva.
+                            </div>
+                        </div>
+                        
+                        <ul>
+                            <li><strong>Identificación temprana de riesgos:</strong> Modelos que detectan patrones sutiles indicativos de problemas potenciales como riesgo de rotación, ausentismo o bajo desempeño.</li>
+                            <li><strong>Predicción de necesidades futuras:</strong> Proyecciones de requerimientos de talento basadas en tendencias históricas, planes de crecimiento y factores externos.</li>
+                            <li><strong>Análisis de impacto:</strong> Evaluación de cómo los cambios en políticas o programas de RRHH afectarán indicadores clave como productividad, compromiso o costos.</li>
+                        </ul>
+                        
+                        <p>La implementación de modelos predictivos en Power BI puede seguir diferentes enfoques según el nivel de madurez analítica de la organización:</p>
+                        
+                        <ol>
+                            <li><strong>Enfoque básico:</strong> Utilizar funciones estadísticas integradas en Power BI como tendencias, pronósticos y correlaciones.</li>
+                            <li><strong>Enfoque intermedio:</strong> Incorporar modelos desarrollados en R o Python mediante la integración nativa con estas herramientas.</li>
+                            <li><strong>Enfoque avanzado:</strong> Conectar Power BI con servicios de Azure Machine Learning para implementar algoritmos complejos.</li>
+                        </ol>
+                        
+                        <div class="destacado">
+                            <h4>Caso práctico: Simulación "What-If" para planificación de compensaciones</h4>
+                            <p>Una compañía multinacional utilizó Power BI para crear un modelo de simulación que permitía a los ejecutivos evaluar diferentes escenarios de incrementos salariales. La herramienta calculaba automáticamente el impacto de cada escenario en: costos totales, posicionamiento frente al mercado, equidad interna y riesgo de rotación por segmentos clave. Esta visibilidad permitió optimizar el presupuesto de compensaciones, logrando mayor retención con menor inversión.</p>
+                        </div>
+                        
+                        <h3>Dashboard Ejecutivo de Equidad, Diversidad e Inclusión (EDI)</h3>
+                        <p>Las iniciativas de EDI han pasado de ser consideradas programas de cumplimiento normativo a convertirse en pilares estratégicos para la competitividad empresarial. Un dashboard ejecutivo de EDI bien diseñado debe proporcionar visibilidad sobre las dimensiones clave de diversidad y permitir la evaluación objetiva del progreso.</p>
+                        
+                        <p>Los componentes esenciales de un dashboard estratégico de EDI incluyen:</p>
+                        
+                        <table class="tabla-interactiva">
+                            <thead>
+                                <tr>
+                                    <th>Componente</th>
+                                    <th>Descripción</th>
+                                    <th>Métricas clave</th>
+                                    <th>Detalles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Representación</td>
+                                    <td>Diversidad demográfica en diferentes niveles</td>
+                                    <td>Distribución por género, etnia, edad, etc.</td>
+                                    <td><span class="expandir" data-fila="8">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-8">
+                                    <td colspan="4">
+                                        <p>Analiza la composición demográfica en diferentes niveles jerárquicos y áreas funcionales, comparándola con benchmarks relevantes (población local, industria, competidores). Permite identificar "techos de cristal" o barreras de progresión para grupos específicos.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Equidad</td>
+                                    <td>Igualdad de trato y oportunidades</td>
+                                    <td>Brechas salariales, tasas de promoción, evaluaciones</td>
+                                    <td><span class="expandir" data-fila="9">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-9">
+                                    <td colspan="4">
+                                        <p>Examina si existen diferencias sistemáticas en compensación, oportunidades de desarrollo, evaluaciones de desempeño o asignación de proyectos entre diferentes grupos demográficos. Este análisis debe controlar variables como antigüedad, educación o desempeño para identificar inequidades reales.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Inclusión</td>
+                                    <td>Percepción de pertenencia y valoración</td>
+                                    <td>Índices de inclusión, compromiso por grupos</td>
+                                    <td><span class="expandir" data-fila="10">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-10">
+                                    <td colspan="4">
+                                        <p>Evalúa el sentimiento de inclusión mediante encuestas específicas que miden aspectos como sentido de pertenencia, percepción de valoración de diferentes perspectivas, psicología de seguridad y confort para expresar opiniones. Permite comparar la experiencia de inclusión entre diferentes grupos demográficos.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Impacto de negocio</td>
+                                    <td>Relación entre diversidad y resultados</td>
+                                    <td>Innovación, desempeño, clima laboral</td>
+                                    <td><span class="expandir" data-fila="11">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-11">
+                                    <td colspan="4">
+                                        <p>Analiza la correlación entre indicadores de diversidad y resultados de negocio como innovación, satisfacción del cliente, productividad o rentabilidad. Ayuda a construir el caso de negocio para las iniciativas de EDI, demostrando su valor más allá del componente ético o legal.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="tarjeta-giratoria">
+                            <div class="tarjeta-interior">
+                                <div class="tarjeta-frente">
+                                    <h4>Consejo de implementación</h4>
+                                    <p>Haz clic para ver una recomendación</p>
+                                </div>
+                                <div class="tarjeta-reverso">
+                                    <p>Al diseñar dashboards de EDI, evita centrarte únicamente en la representación demográfica. La verdadera transformación ocurre cuando se integran medidas de equidad, inclusión e impacto en el negocio.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3>Centro de Comando de Adquisición y Retención de Talento</h3>
+                        <p>En un entorno de alta competencia por el talento, la capacidad para atraer y retener a los profesionales adecuados se convierte en una ventaja competitiva crítica. Un centro de comando basado en Power BI permite optimizar estratégicamente estos procesos fundamentales.</p>
+                        
+                        <p>Los componentes clave de este dashboard estratégico incluyen:</p>
+                        
+                        <ul>
+                            <li><strong>Optimización de reclutamiento:</strong> Análisis de fuentes de reclutamiento, tiempos del proceso, costos por contratación y calidad de las incorporaciones.</li>
+                            <li><strong>Predicción de rotación:</strong> Identificación de patrones y factores de riesgo que permiten anticipar posibles salidas en segmentos críticos.</li>
+                            <li><strong>Impacto financiero:</strong> Cuantificación del costo real de la rotación y el valor de la retención en términos de productividad y resultados de negocio.</li>
+                        </ul>
+                        
+                        <div class="contenedor-arrastrable">
+                            <h4>Ejercicio: Ordena las etapas del desarrollo de un modelo predictivo de rotación en Power BI</h4>
+                            <ul class="lista-arrastrable">
+                                <li class="elemento-arrastrable" draggable="true" data-orden="3">Selección de variables predictivas relevantes</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="1">Definición del problema y alcance del análisis</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="5">Implementación de acciones preventivas basadas en predicciones</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="2">Recopilación y preparación de datos históricos</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="4">Desarrollo y validación del modelo predictivo</li>
+                            </ul>
+                            <h4>Arrastra los elementos al orden correcto:</h4>
+                            <div class="zona-destino"></div>
+                            <button class="btn-reinicio">Reiniciar ejercicio</button>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="btn-group" style="justify-content: center;">
-                <a href="#" class="btn">Continuar a la Sección 5</a>
+            <div class="acordeon">
+                <div class="acordeon-cabecera">
+                    <h2 style="margin: 0; color: white;">Implementación y Transformación Organizacional</h2>
+                    <div class="acordeon-icono"></div>
+                </div>
+                <div class="acordeon-contenido">
+                    <div class="acordeon-contenido-interior">
+                        <p>La implementación exitosa de analytics de talento no depende exclusivamente de la tecnología, sino también de factores organizacionales, culturales y de gobierno que deben gestionarse estratégicamente.</p>
+                        
+                        <h3>Gobernanza de Analytics para Líderes</h3>
+                        <p>Un marco de gobernanza sólido es fundamental para garantizar que la analítica de talento se desarrolle de manera ética, segura y alineada con los objetivos estratégicos. Los componentes esenciales de este marco incluyen:</p>
+                        
+                        <div class="pregunta-vf">
+                            <p><strong>Pregunta:</strong> La gobernanza de People Analytics es principalmente responsabilidad del departamento de TI, ya que se trata fundamentalmente de un tema tecnológico.</p>
+                            <div class="opciones-vf">
+                                <div class="opcion-vf" data-valor="verdadero">Verdadero</div>
+                                <div class="opcion-vf" data-valor="falso">Falso</div>
+                            </div>
+                            <div class="retroalimentacion correcta">
+                                ¡Correcto! La gobernanza efectiva de People Analytics requiere un enfoque multidisciplinario con representación de RRHH, TI, áreas de negocio, legal y privacidad, no solo del departamento de TI.
+                            </div>
+                            <div class="retroalimentacion incorrecta">
+                                Incorrecto. La gobernanza de People Analytics debe ser un esfuerzo multidisciplinario con representación de RRHH (como propietarios funcionales), TI (como facilitadores técnicos), áreas de negocio (como usuarios finales) y especialistas en legal/privacidad.
+                            </div>
+                        </div>
+                        
+                        <ul>
+                            <li><strong>Comité directivo:</strong> Equipo multidisciplinario que establece prioridades estratégicas, asigna recursos y supervisa la implementación.</li>
+                            <li><strong>Políticas de datos:</strong> Directrices claras sobre recopilación, almacenamiento, acceso, uso y retención de datos de empleados.</li>
+                            <li><strong>Estándares éticos:</strong> Principios que guían el uso responsable de datos, equilibrando innovación con privacidad y transparencia.</li>
+                            <li><strong>Seguridad y control:</strong> Mecanismos para proteger información sensible y gestionar adecuadamente los permisos en Power BI.</li>
+                        </ul>
+                        
+                        <div class="destacado">
+                            <h4>Mejores prácticas: Comité Directivo de People Analytics</h4>
+                            <p>Un comité directivo efectivo debe incluir representantes de:</p>
+                            <ul>
+                                <li>RRHH: Como propietarios funcionales y expertos en procesos de talento</li>
+                                <li>TI: Como facilitadores tecnológicos y expertos en infraestructura de datos</li>
+                                <li>Áreas de negocio: Como usuarios finales y conectores con la estrategia</li>
+                                <li>Legal/Privacidad: Como guardianes del cumplimiento normativo</li>
+                                <li>Finanzas: Como validadores del impacto en resultados de negocio</li>
+                            </ul>
+                            <p>Este grupo debe reunirse periódicamente para revisar prioridades, resolver cuellos de botella y evaluar el impacto de las iniciativas.</p>
+                        </div>
+                        
+                        <h3>Desarrollo de Capacidades Analíticas en RRHH</h3>
+                        <p>La transformación de RRHH en una función basada en datos requiere no solo herramientas, sino también nuevas capacidades y, potencialmente, nuevos roles. Este desarrollo puede estructurarse en tres niveles:</p>
+                        
+                        <table class="tabla-interactiva">
+                            <thead>
+                                <tr>
+                                    <th>Nivel</th>
+                                    <th>Roles</th>
+                                    <th>Capacidades requeridas</th>
+                                    <th>Detalles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Estratégico</td>
+                                    <td>CHRO, Directors, VP</td>
+                                    <td>Visión analítica, interpretación estratégica</td>
+                                    <td><span class="expandir" data-fila="12">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-12">
+                                    <td colspan="4">
+                                        <p>Los líderes de RRHH necesitan desarrollar capacidad para formular preguntas estratégicas que la analítica pueda responder, interpretar resultados dentro del contexto de negocio, y convertir insights en decisiones y acciones concretas. No requieren habilidades técnicas profundas, pero sí comprensión de las posibilidades y limitaciones de la analítica.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Táctico</td>
+                                    <td>HR Business Partners, Gerentes</td>
+                                    <td>Pensamiento analítico, comunicación de datos</td>
+                                    <td><span class="expandir" data-fila="13">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-13">
+                                    <td colspan="4">
+                                        <p>Los profesionales en roles tácticos necesitan capacidad para analizar datos básicos, utilizar dashboards interactivos, personalizar análisis según necesidades específicas y comunicar insights a stakeholders de manera efectiva. Requieren familiaridad con Power BI como usuarios avanzados, aunque no necesariamente como desarrolladores.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Operativo/Técnico</td>
+                                    <td>People Analytics Specialists, Data Analysts</td>
+                                    <td>Habilidades técnicas, estadística, visualización</td>
+                                    <td><span class="expandir" data-fila="14">Ver más</span></td>
+                                </tr>
+                                <tr class="detalles-fila" id="detalles-14">
+                                    <td colspan="4">
+                                        <p>Los especialistas técnicos requieren dominio de herramientas como Power BI, SQL, y potencialmente R o Python. Deben tener conocimientos de preparación y modelado de datos, estadística, visualización efectiva y mejores prácticas para contar historias con datos. Estos perfiles suelen ser nuevos en RRHH y pueden venir de otras disciplinas.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <p>El desarrollo de estas capacidades puede seguir diferentes modelos organizacionales, cada uno con ventajas e inconvenientes:</p>
+                        
+                        <ul>
+                            <li><strong>Modelo centralizado:</strong> Un equipo especializado de People Analytics que da servicio a toda la función de RRHH.</li>
+                            <li><strong>Modelo descentralizado:</strong> Capacidades analíticas distribuidas en diferentes equipos de RRHH.</li>
+                            <li><strong>Modelo híbrido:</strong> Combinación de un equipo central de expertise con "campeones analíticos" en diferentes áreas.</li>
+                        </ul>
+                        
+                        <div class="tarjeta-giratoria">
+                            <div class="tarjeta-interior">
+                                <div class="tarjeta-frente">
+                                    <h4>Tendencia emergente</h4>
+                                    <p>Haz clic para descubrir una tendencia</p>
+                                </div>
+                                <div class="tarjeta-reverso">
+                                    <p>La estructura "Centro de Excelencia + Comunidad" está ganando popularidad. Combina un equipo central especializado con una red extendida de "campeones" que actúan como puente con las áreas de negocio.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3>Gestión del Cambio y Adopción</h3>
+                        <p>La implementación de People Analytics representa un cambio profundo en la forma de operar de RRHH, pasando de decisiones basadas en intuición o tradición a decisiones fundamentadas en datos. Este cambio cultural enfrenta resistencias significativas que deben gestionarse proactivamente.</p>
+                        
+                        <p>Las barreras más comunes para la adopción de una cultura analítica en RRHH incluyen:</p>
+                        
+                        <ul>
+                            <li>Percepción de que los datos "deshumanizan" la función de gestión de personas</li>
+                            <li>Temor a que la analítica exponga deficiencias en decisiones pasadas</li>
+                            <li>Ansiedad por falta de habilidades cuantitativas en profesionales de RRHH</li>
+                            <li>Resistencia al cambio de procesos establecidos y zonas de confort</li>
+                            <li>Escepticismo sobre el valor real de la inversión en analítica</li>
+                        </ul>
+                        
+                        <p>Para superar estas barreras y acelerar la adopción, es fundamental implementar estrategias efectivas de gestión del cambio:</p>
+                        
+                        <div class="contenedor-arrastrable">
+                            <h4>Ejercicio: Ordena las estrategias de gestión del cambio según su orden de implementación recomendado</h4>
+                            <ul class="lista-arrastrable">
+                                <li class="elemento-arrastrable" draggable="true" data-orden="3">Formación escalonada adaptada a diferentes perfiles</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="1">Comunicación clara de la visión y beneficios esperados</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="5">Reconocimiento y celebración de logros analíticos</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="2">Identificación y activación de primeros adoptantes</li>
+                                <li class="elemento-arrastrable" draggable="true" data-orden="4">Creación de historias de éxito y quick wins</li>
+                            </ul>
+                            <h4>Arrastra los elementos al orden correcto:</h4>
+                            <div class="zona-destino"></div>
+                            <button class="btn-reinicio">Reiniciar ejercicio</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="acordeon">
+                <div class="acordeon-cabecera">
+                    <h2 style="margin: 0; color: white;">Integración, Ejercicios y Cierre</h2>
+                    <div class="acordeon-icono"></div>
+                </div>
+                <div class="acordeon-contenido">
+                    <div class="acordeon-contenido-interior">
+                        <h3>Aplicación de la Matriz de Madurez en la Práctica</h3>
+                        <p>Para integrar todos los conceptos aprendidos, es fundamental realizar una autoevaluación objetiva de la madurez analítica actual de la organización. Este ejercicio práctico permite construir un plan de acción realista y adaptado a las circunstancias específicas de cada empresa.</p>
+                        
+                        <div class="destacado">
+                            <h4>Beneficios clave de la autoevaluación</h4>
+                            <p>Realizar una evaluación estructurada de la madurez analítica proporciona múltiples ventajas:</p>
+                            <ul>
+                                <li>Establece una línea base objetiva del estado actual</li>
+                                <li>Identifica fortalezas para aprovechar y brechas para cerrar</li>
+                                <li>Crea un lenguaje común para discutir la evolución analítica</li>
+                                <li>Permite priorizar inversiones y esfuerzos de desarrollo</li>
+                                <li>Facilita la creación de métricas para medir el progreso</li>
+                            </ul>
+                        </div>
+                        
+                        <p>El proceso de autoevaluación debe incluir los siguientes pasos:</p>
+                        
+                        <ol>
+                            <li><strong>Evaluación multidimensional:</strong> Analizar cada una de las dimensiones clave (capacidades técnicas, procesos de negocio, integración estratégica y gobierno) utilizando criterios objetivos.</li>
+                            <li><strong>Identificación de brechas:</strong> Contrastar el estado actual con el nivel de madurez deseado en cada dimensión, reconociendo que diferentes áreas pueden estar en distintos niveles.</li>
+                            <li><strong>Priorización:</strong> Seleccionar las brechas más críticas o que ofrecen mayor impacto potencial para enfocarse primero.</li>
+                            <li><strong>Planificación a corto plazo:</strong> Definir acciones específicas para los próximos 3-6 meses, con responsables y métricas de éxito claras.</li>
+                            <li><strong>Visión a mediano plazo:</strong> Esbozar la hoja de ruta para los próximos 12-18 meses, reconociendo que requerirá ajustes según los resultados iniciales.</li>
+                        </ol>
+                        
+                        <div class="pregunta-vf">
+                            <p><strong>Pregunta:</strong> Al implementar la matriz de madurez, una organización debe aspirar a alcanzar el nivel más alto (Transformacional) en todas las dimensiones simultáneamente.</p>
+                            <div class="opciones-vf">
+                                <div class="opcion-vf" data-valor="verdadero">Verdadero</div>
+                                <div class="opcion-vf" data-valor="falso">Falso</div>
+                            </div>
+                            <div class="retroalimentacion correcta">
+                                ¡Correcto! La evolución en la matriz debe ser gradual y priorizada según necesidades de negocio. Es normal y recomendable que diferentes dimensiones avancen a ritmos distintos, enfocándose en aquellas áreas con mayor impacto estratégico.
+                            </div>
+                            <div class="retroalimentacion incorrecta">
+                                Incorrecto. El desarrollo de capacidades analíticas debe ser gradual y estratégicamente priorizado. Intentar avanzar a nivel Transformacional en todas las dimensiones simultáneamente suele ser ineficiente y contraproducente. Es más efectivo priorizar ciertas dimensiones según las necesidades específicas del negocio.
+                            </div>
+                        </div>
+                        
+                        <h3>Reflexiones finales</h3>
+                        <p>El camino hacia la excelencia analítica en la gestión del talento no es una simple implementación de tecnología, sino una transformación profunda que abarca procesos, capacidades, cultura y liderazgo. A medida que las organizaciones avanzan en esta trayectoria, los beneficios se multiplican, pasando de mejoras operativas incrementales a verdaderas ventajas competitivas estratégicas.</p>
+                        
+                        <p>Los factores críticos de éxito para esta transformación incluyen:</p>
+                        
+                        <ul>
+                            <li><strong>Liderazgo comprometido:</strong> Directivos que modelan comportamientos basados en datos y asignan recursos adecuados</li>
+                            <li><strong>Enfoque en el valor de negocio:</strong> Vinculación constante entre iniciativas analíticas y prioridades estratégicas</li>
+                            <li><strong>Equilibrio entre rapidez y rigor:</strong> Capacidad para generar resultados rápidos mientras se construyen fundamentos sólidos</li>
+                            <li><strong>Evolución continua:</strong> Mentalidad de aprendizaje y mejora constante, adaptándose a nuevas tecnologías y necesidades</li>
+                            <li><strong>Ética como prioridad:</strong> Compromiso irrenunciable con el uso responsable y transparente de los datos de personas</li>
+                        </ul>
+                        
+                        <div class="tarjeta-giratoria">
+                            <div class="tarjeta-interior">
+                                <div class="tarjeta-frente">
+                                    <h4>Reflexión final</h4>
+                                    <p>Haz clic para una perspectiva inspiradora</p>
+                                </div>
+                                <div class="tarjeta-reverso">
+                                    <p>La analítica no reemplaza el juicio humano en RRHH; lo potencia. Las mejores decisiones combinan el poder de los datos con la sabiduría que viene de la experiencia y la intuición informada.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
 
     <script>
-    // Script para hacer funcionar los acordeones y tarjetas giratorias
-    document.addEventListener('DOMContentLoaded', function() {
-        // Manejo de acordeones
-        const acordeones = document.querySelectorAll('.acordeon-titulo');
-        
-        acordeones.forEach(acordeon => {
-            acordeon.addEventListener('click', function() {
-                // Toggle para el icono
-                const icono = this.querySelector('.acordeon-icono');
-                icono.classList.toggle('activo');
+        // Funcionalidad para acordeones
+        document.addEventListener('DOMContentLoaded', function() {
+            const acordeones = document.querySelectorAll('.acordeon-cabecera');
+            
+            acordeones.forEach(acordeon => {
+                acordeon.addEventListener('click', function() {
+                    const contenido = this.nextElementSibling;
+                    const acordeonPadre = this.parentElement;
+                    
+                    if (acordeonPadre.classList.contains('activo')) {
+                        acordeonPadre.classList.remove('activo');
+                        contenido.style.maxHeight = null;
+                    } else {
+                        acordeonPadre.classList.add('activo');
+                        contenido.style.maxHeight = contenido.scrollHeight + "px";
+                    }
+                });
+            });
+            
+            // Abrir el primer acordeón automáticamente
+            if (acordeones.length > 0) {
+                acordeones[0].click();
+            }
+            
+            // Tarjetas giratorias
+            const tarjetas = document.querySelectorAll('.tarjeta-giratoria');
+            
+            tarjetas.forEach(tarjeta => {
+                tarjeta.addEventListener('click', function() {
+                    this.classList.toggle('volteada');
+                });
+            });
+            
+            // Preguntas de verdadero/falso
+            const opcionesVF = document.querySelectorAll('.opcion-vf');
+            
+            opcionesVF.forEach(opcion => {
+                opcion.addEventListener('click', function() {
+                    const pregunta = this.closest('.pregunta-vf');
+                    const retroCorrect = pregunta.querySelector('.retroalimentacion.correcta');
+                    const retroIncorrect = pregunta.querySelector('.retroalimentacion.incorrecta');
+                    
+                    // Ocultar ambas retroalimentaciones primero
+                    retroCorrect.style.display = 'none';
+                    retroIncorrect.style.display = 'none';
+                    
+                    // Mostrar la retroalimentación apropiada
+                    if (this.getAttribute('data-valor') === 'falso') {
+                        retroCorrect.style.display = 'block';
+                    } else {
+                        retroIncorrect.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Expandir filas de tabla
+            const expandirBotones = document.querySelectorAll('.expandir');
+            
+            expandirBotones.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const filaId = this.getAttribute('data-fila');
+                    const detallesFila = document.getElementById('detalles-' + filaId);
+                    
+                    if (detallesFila.style.display === 'table-row') {
+                        detallesFila.style.display = 'none';
+                        this.textContent = 'Ver más';
+                    } else {
+                        detallesFila.style.display = 'table-row';
+                        this.textContent = 'Ocultar';
+                    }
+                });
+            });
+            
+            // Elementos arrastrables
+            const elementosArrastrables = document.querySelectorAll('.elemento-arrastrable');
+            const zonasDestino = document.querySelectorAll('.zona-destino');
+            const botonesReinicio = document.querySelectorAll('.btn-reinicio');
+            
+            // Variables para almacenar el elemento que se está arrastrando
+            let elementoArrastrado = null;
+            
+            elementosArrastrables.forEach(elemento => {
+                // Cuando comienza el arrastre
+                elemento.addEventListener('dragstart', function(e) {
+                    elementoArrastrado = this;
+                    setTimeout(() => {
+                        this.classList.add('arrastrando');
+                    }, 0);
+                });
                 
-                // Toggle para el contenido
-                const contenido = this.nextElementSibling;
-                contenido.classList.toggle('activo');
+                // Cuando termina el arrastre
+                elemento.addEventListener('dragend', function() {
+                    this.classList.remove('arrastrando');
+                });
+            });
+            
+            zonasDestino.forEach(zona => {
+                // Cuando un elemento arrastrable entra en la zona
+                zona.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('sobre');
+                });
+                
+                // Cuando un elemento arrastrable sale de la zona
+                zona.addEventListener('dragleave', function() {
+                    this.classList.remove('sobre');
+                });
+                
+                // Cuando se suelta un elemento arrastrable en la zona
+                zona.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('sobre');
+                    
+                    if (elementoArrastrado) {
+                        this.appendChild(elementoArrastrado);
+                    }
+                });
+            });
+            
+            botonesReinicio.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const contenedor = this.closest('.contenedor-arrastrable');
+                    const lista = contenedor.querySelector('.lista-arrastrable');
+                    const zona = contenedor.querySelector('.zona-destino');
+                    
+                    // Devolver todos los elementos de la zona a la lista original
+                    const elementosEnZona = zona.querySelectorAll('.elemento-arrastrable');
+                    elementosEnZona.forEach(elemento => {
+                        lista.appendChild(elemento);
+                    });
+                });
             });
         });
-
-        // Manejo de tarjetas giratorias
-        const tarjetas = document.querySelectorAll('.tarjeta-giratoria');
-        
-        tarjetas.forEach(tarjeta => {
-            tarjeta.addEventListener('click', function() {
-                this.classList.toggle('girar');
-            });
-        });
-
-        // Control del video (opcional)
-        const videoControl = document.querySelector('.video-control');
-        if (videoControl) {
-            videoControl.addEventListener('click', function() {
-                alert('Reproduciendo video: Esta funcionalidad requeriría una integración con la API de Vimeo en una aplicación real.');
-            });
-        }
-    });
     </script>
 </body>
 </html>
