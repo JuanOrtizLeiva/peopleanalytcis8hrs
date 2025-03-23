@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatización de Procesos en People Analytics con Power Automate</title>
+    <style>
+        :root {
+            --color-primary: #2C3E50; /* Azul oscuro más sofisticado */
+            --color-secondary: #3498DB; /* Azul medio más vibrante */
+            --color-accent: #E67E22; /* Naranja más cálido y menos agresivo */
+            --color-light: #ECF0F1; /* Gris muy claro con toque azulado para fondos */
+            --color-dark: #1A2530; /* Azul muy oscuro para textos */
+            --color-success: #27AE60; /* Verde más elegante para feedback positivo */
+            --color-error: #E74C3C; /* Rojo más suave para feedback negativo */
+            --color-neutral: #95A5A6; /* Gris más cálido para elementos neutros */
+            --shadow-soft: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.15);
+            --radius-small: 4px;
+            --radius-medium: 8px;
+            --radius-large: 12px;
+            --transition-standard: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--color-light);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-medium);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10.5%),
+                        radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10.5%);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            transform: rotate(20deg);
+            z-index: 0;
+        }
+        
+        header * {
+            position: relative;
+            z-index: 1;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        main {
+            padding: 30px;
+            position: relative;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--color-primary);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--color-light);
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-secondary), var(--color-accent));
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            margin: 35px 0 20px;
+            padding-left: 15px;
+            border-left: 4px solid var(--color-secondary);
+            line-height: 1.4;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        /* Tarjetas giratorias */
+        .flip-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .flip-card {
+            width: 300px;
+            height: 220px; /* Aumentado para más espacio */
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 25px;
+            border-radius: var(--radius-medium);
+            box-shadow: var(--shadow-soft);
+            overflow: auto; /* Permite scroll si el contenido es demasiado grande */
+        }
+
+        .flip-card-front {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+            color: white;
+        }
+
+        .flip-card-back {
+            background-color: white;
+            color: var(--color-dark);
+            transform: rotateY(180deg);
+            border: 2px solid var(--color-primary);
+        }
+
+        .flip-card-front h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .flip-card-front p {
+            font-size: 1rem;
+            padding: 0 10px;
+        }
+
+        .flip-card-back p {
+            font-size: 1rem;
+            line-height: 1.5;
+            max-height: 100%;
+            overflow-y: auto;
+        }
+
+        /* Acordeones */
+        .accordion {
+            margin: 30px 0;
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--color-light);
+            margin-bottom: 2px;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .accordion-header {
+            background-color: white;
+            padding: 18px 22px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition-standard);
+            position: relative;
+        }
+
+        .accordion-header:hover {
+            background-color: var(--color-light);
+        }
+
+        .accordion-header h4 {
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            position: relative;
+            padding-left: 15px;
+            font-weight: 600;
+        }
+
+        .accordion-header h4::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background-color: var(--color-secondary);
+            border-radius: 2px;
+        }
+
+        .accordion-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            border-radius: 50%;
+            background-color: rgba(52, 152, 219, 0.1);
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        .accordion-icon::before, 
+        .accordion-icon::after {
+            content: '';
+            position: absolute;
+            background-color: var(--color-secondary);
+            transition: var(--transition-standard);
+            border-radius: 1px;
+        }
+
+        .accordion-icon::before {
+            top: 11px;
+            left: 6px;
+            width: 12px;
+            height: 2px;
+        }
+
+        .accordion-icon::after {
+            top: 6px;
+            left: 11px;
+            width: 2px;
+            height: 12px;
+        }
+
+        .accordion-item.active .accordion-header {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .accordion-item.active .accordion-icon {
+            background-color: rgba(52, 152, 219, 0.2);
+        }
+
+        .accordion-item.active .accordion-icon::after {
+            transform: rotate(90deg);
+            opacity: 0;
+        }
+
+        .accordion-content {
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 800px; /* Aumentado para acomodar más contenido */
+        }
+
+        .accordion-body {
+            padding: 5px 25px 25px 40px;
+            position: relative;
+        }
+        
+        .accordion-body::before {
+            content: '';
+            position: absolute;
+            left: 22px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: rgba(52, 152, 219, 0.2);
+        }
+
+        /* Elementos arrastrables */
+        .drag-drop-container {
+            margin: 30px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            background-color: rgba(236, 240, 241, 0.5);
+            border-radius: var(--radius-medium);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .drag-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            min-height: 150px; /* Altura mínima para contener elementos */
+            padding: 10px;
+            background-color: white;
+            border-radius: var(--radius-small);
+            border: 1px solid var(--color-light);
+        }
+
+        .drag-item {
+            background-color: var(--color-secondary);
+            color: white;
+            padding: 12px 18px;
+            border-radius: var(--radius-small);
+            cursor: grab;
+            user-select: none;
+            transition: var(--transition-standard);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 5px;
+            max-width: 300px;
+            word-wrap: break-word;
+            display: inline-block;
+        }
+
+        .drag-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .drag-item:active {
+            cursor: grabbing;
+            opacity: 0.8;
+            transform: scale(0.98);
+        }
+        
+        .drag-item.shake {
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .drop-targets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .drop-target {
+            flex: 1;
+            min-width: 220px;
+            min-height: 180px;
+            border: 2px dashed var(--color-neutral);
+            border-radius: var(--radius-medium);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            text-align: center;
+            transition: var(--transition-standard);
+            background-color: white;
+        }
+
+        .drop-target.highlight {
+            border-color: var(--color-accent);
+            background-color: rgba(230, 126, 34, 0.1);
+            transform: scale(1.02);
+        }
+
+        .drop-target-header {
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--color-primary);
+            font-size: 1.1rem;
+        }
+        
+        .drop-target-body {
+            color: var(--color-neutral);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .reset-drag-btn {
+            background-color: var(--color-secondary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-small);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition-standard);
+            align-self: center;
+            margin-top: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .reset-drag-btn:hover {
+            background-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* Preguntas Verdadero/Falso */
+        .quiz-container {
+            margin: 30px 0;
+            background-color: white;
+            border-radius: var(--radius-medium);
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+
+        .quiz-question h4 {
+            font-size: 1.2rem;
+            color: var(--color-dark);
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .quiz-option {
+            padding: 10px 20px;
+            border: 1px solid var(--color-neutral);
+            border-radius: var(--radius-small);
+            cursor: pointer;
+            transition: var(--transition-standard);
+        }
+
+        .quiz-option:hover {
+            border-color: var(--color-primary);
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: var(--radius-small);
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--color-success);
+            border: 1px solid var(--color-success);
+            display: block;
+        }
+
+        .quiz-feedback.incorrect {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--color-error);
+            border: 1px solid var(--color-error);
+            display: block;
+        }
+
+        /* Tabla interactiva mejorada */
+        .interactive-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 30px 0;
+            box-shadow: var(--shadow-medium);
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+        }
+
+        .interactive-table thead {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+            color: white;
+        }
+
+        .interactive-table th {
+            padding: 18px 15px;
+            text-align: left;
+            cursor: pointer;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .interactive-table th:after {
+            content: "";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid rgba(255,255,255,0.5);
+            transition: var(--transition-standard);
+        }
+
+        .interactive-table th:hover {
+            background-color: rgba(0,0,0,0.1);
+        }
+        
+        .interactive-table th:hover:after {
+            border-top-color: rgba(255,255,255,1);
+        }
+
+        .interactive-table tbody tr {
+            transition: var(--transition-standard);
+            background-color: white;
+        }
+
+        .interactive-table tbody tr:nth-child(odd):not(.row-details) {
+            background-color: white;
+        }
+        
+        .interactive-table tbody tr:nth-child(even):not(.row-details) {
+            background-color: rgba(236, 240, 241, 0.5);
+        }
+
+        .interactive-table tbody tr:hover:not(.row-details) {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .interactive-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--color-light);
+            vertical-align: middle;
+        }
+        
+        .interactive-table tbody tr:last-of-type td {
+            border-bottom: none;
+        }
+
+        .interactive-table .row-details {
+            display: none;
+            background-color: rgba(52, 152, 219, 0.05);
+            border-left: 4px solid var(--color-secondary);
+        }
+        
+        .interactive-table .row-details td {
+            padding: 20px 25px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .interactive-table .row-details p:not(:last-child) {
+            margin-bottom: 15px;
+        }
+
+        .row-expand {
+            cursor: pointer;
+            color: var(--color-secondary);
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: var(--radius-small);
+            background-color: rgba(52, 152, 219, 0.1);
+            display: inline-block;
+            transition: var(--transition-standard);
+        }
+        
+        .row-expand:hover {
+            background-color: rgba(52, 152, 219, 0.2);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 25px 15px;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            .flip-card {
+                width: 100%;
+            }
+
+            .drop-targets {
+                flex-direction: column;
+            }
+
+            .drop-target {
+                width: 100%;
+                height: auto;
+                min-height: 100px;
+            }
+
+            .quiz-options {
+                flex-direction: column;
+            }
+
+            .interactive-table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Automatización de Procesos en People Analytics con Power Automate</h1>
+            <p>Descubre cómo optimizar y automatizar tus procesos de Recursos Humanos aprovechando el potencial de Microsoft Power Automate</p>
+        </header>
+
+        <main>
+            <section id="seccion1">
+                <h2>Sección 1: Fundamentos y Conceptos Clave de Power Automate</h2>
+                
+                <article>
+                    <h3>1. Visión General de la Automatización en People Analytics</h3>
+                    <p>La automatización ha transformado radicalmente la forma en que los departamentos de Recursos Humanos operan en la actualidad. Lejos quedaron los días donde las tareas administrativas y repetitivas ocupaban gran parte del tiempo de los profesionales de RR.HH., impidiéndoles enfocarse en actividades estratégicas de mayor valor para la organización. People Analytics, como disciplina que integra datos para la toma de decisiones informadas sobre la gestión del talento, se beneficia enormemente de la automatización de procesos.</p>
+                    
+                    <p>La relevancia de la automatización en People Analytics se puede apreciar desde múltiples ángulos. En primer lugar, permite la <strong>optimización del tiempo y recursos</strong> mediante la reducción significativa de las horas dedicadas a tareas rutinarias. Un estudio reciente de Deloitte indica que las organizaciones que implementan soluciones de automatización en RR.HH. experimentan hasta un 40% de reducción en el tiempo dedicado a procesos administrativos, permitiendo que los equipos redirijan ese tiempo hacia iniciativas estratégicas.</p>
+                    
+                    <p>En segundo lugar, la automatización contribuye a la <strong>estandarización y confiabilidad de los datos</strong>. En el ámbito de People Analytics, la calidad de los datos es fundamental para obtener insights valiosos. Los procesos automatizados reducen significativamente los errores humanos y garantizan la consistencia en la recopilación y procesamiento de información, lo que a su vez se traduce en análisis más precisos y confiables.</p>
+                    
+                    <p>Otro beneficio clave es la <strong>capacidad de integración entre diferentes sistemas y fuentes de datos</strong>. Las organizaciones modernas utilizan múltiples plataformas para gestionar distintos aspectos del ciclo de vida del empleado, desde el reclutamiento hasta la salida. La automatización, especialmente a través de herramientas como Power Automate, permite la creación de puentes entre estos sistemas, facilitando la consolidación de datos dispersos y ofreciendo una visión más holística del capital humano.</p>
+                    
+                    <p>Finalmente, la automatización facilita la <strong>escalabilidad de las iniciativas de People Analytics</strong>. A medida que las organizaciones crecen, la complejidad y volumen de los datos de personas aumenta exponencialmente. Los procesos automatizados pueden adaptarse a este crecimiento sin necesidad de aumentar proporcionalmente los recursos humanos dedicados a la gestión de datos, permitiendo que la analítica de personas evolucione y madure junto con la organización.</p>
+                    
+                    <div class="flip-card-container">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <h4>¿Sabías que...?</h4>
+                                    <p>Haz clic para descubrir un dato interesante</p>
+                                </div>
+                                <div class="flip-card-back">
+                                    <p>Según Gartner, para 2025, el 55% de las organizaciones habrán establecido una infraestructura de automatización dedicada para RR.HH., en comparación con menos del 20% en 2020.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <h4>Beneficio destacado</h4>
+                                    <p>Haz clic para conocer más</p>
+                                </div>
+                                <div class="flip-card-back">
+                                    <p>Las organizaciones que implementan soluciones de automatización en sus procesos de People Analytics reportan un 37% de mejora en la satisfacción de los empleados con los servicios de RR.HH.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <h4>Dato curioso</h4>
+                                    <p>Haz clic para revelarlo</p>
+                                </div>
+                                <div class="flip-card-back">
+                                    <p>El tiempo promedio para implementar un flujo automatizado en Power Automate es de 4 horas, mientras que la automatización tradicional con código personalizado puede tomar semanas o meses.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Escenarios en los que Power Automate potencia la toma de decisiones en People Analytics</h4>
+                    <p>Power Automate se ha posicionado como una herramienta fundamental para la transformación digital de los departamentos de RR.HH. Su versatilidad y facilidad de uso permiten abordar una amplia gama de escenarios donde la automatización aporta valor significativo a las iniciativas de People Analytics:</p>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h4>Consolidación automática de datos para dashboards</h4>
+                                <div class="accordion-icon"></div>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>Los dashboards y reportes de People Analytics suelen requerir información proveniente de múltiples fuentes y sistemas. Power Automate permite programar la extracción, transformación y carga (ETL) de datos desde sistemas como el HRIS principal, plataformas de aprendizaje, sistemas de gestión del desempeño, encuestas de engagement y más.</p>
+                                    <p>Esta consolidación automática elimina los silos de información y proporciona una vista única y actualizada del estado de la fuerza laboral, permitiendo a los analistas de RR.HH. y a los líderes acceder a información actualizada sin tener que realizar extracciones manuales periódicas.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h4>Monitoreo de indicadores críticos y alertas tempranas</h4>
+                                <div class="accordion-icon"></div>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>La detección temprana de anomalías en indicadores clave como rotación, ausentismo o engagement puede marcar la diferencia entre una intervención proactiva y una reacción tardía. Power Automate puede monitorear constantemente estos KPIs contra umbrales predefinidos y enviar notificaciones automáticas a los stakeholders correspondientes cuando se detecten tendencias preocupantes.</p>
+                                    <p>Este enfoque proactivo permite a los equipos de RR.HH. y a los líderes intervenir antes de que un problema menor se convierta en un desafío mayor, mejorando significativamente la capacidad de retención y la experiencia del empleado.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h4>Automatización de encuestas y recopilación de feedback</h4>
+                                <div class="accordion-icon"></div>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>El feedback continuo y las encuestas de pulso se han convertido en herramientas esenciales para comprender el sentimiento de los empleados. Power Automate facilita la programación y distribución de estas encuestas, así como la recopilación y procesamiento automático de las respuestas.</p>
+                                    <p>Además, puede desencadenar flujos de trabajo basados en las respuestas recibidas, como la creación de tickets para abordar problemas específicos mencionados por los empleados o la asignación de tareas de seguimiento a los managers cuando se identifiquen áreas de mejora.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h4>Distribución personalizada de insights</h4>
+                                <div class="accordion-icon"></div>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>El valor de los datos de People Analytics se maximiza cuando llegan a las personas adecuadas en el momento oportuno. Power Automate permite configurar la distribución automática y personalizada de informes e insights relevantes a diferentes audiencias dentro de la organización.</p>
+                                    <p>Por ejemplo, cada manager puede recibir automáticamente un informe mensual sobre los indicadores específicos de su equipo, mientras que los ejecutivos de nivel C reciben dashboards integrados con indicadores estratégicos más amplios. Esta personalización mejora la relevancia y la utilidad de los datos, incrementando la probabilidad de que se traduzcan en acciones concretas.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h4>Workflows para la validación y limpieza de datos</h4>
+                                <div class="accordion-icon"></div>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>La calidad de los datos es un requisito fundamental para la efectividad de cualquier iniciativa de People Analytics. Power Automate permite implementar procesos automatizados de validación y limpieza de datos, identificando inconsistencias, valores atípicos o campos faltantes que podrían comprometer la integridad de los análisis.</p>
+                                    <p>Estos flujos pueden notificar a los responsables correspondientes cuando se detecten problemas de calidad y, en algunos casos, aplicar correcciones automáticas basadas en reglas predefinidas, asegurando que las decisiones se tomen siempre con base en información precisa y confiable.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <article>
+                    <h3>2. ¿Qué es Power Automate?</h3>
+                    <p>Microsoft Power Automate (anteriormente conocido como Microsoft Flow) es una plataforma de automatización de procesos empresariales que permite a los usuarios crear flujos de trabajo automatizados entre sus aplicaciones y servicios favoritos. Como parte de la suite Power Platform de Microsoft, Power Automate se presenta como una solución de automatización de procesos centrada en el usuario, con un enfoque "low-code/no-code" que democratiza la automatización, permitiendo que incluso personas sin conocimientos técnicos avanzados puedan crear flujos de trabajo eficientes.</p>
+                    
+                    <p>En su esencia, Power Automate es una herramienta que permite conectar diferentes aplicaciones y servicios a través de "conectores", facilitando el intercambio automatizado de datos entre ellos. Los usuarios pueden definir desencadenadores (eventos que inician un flujo) y acciones (pasos que se ejecutan en respuesta a un desencadenador), creando así secuencias lógicas de operaciones que antes requerían intervención manual.</p>
+                    
+                    <h4>Características principales de Power Automate</h4>
+                    <p>Entre las características más destacadas de esta plataforma se encuentran:</p>
+                    <ul>
+                        <li><strong>Interfaz intuitiva y visual:</strong> Power Automate utiliza una interfaz gráfica tipo "drag and drop" que permite a los usuarios visualizar fácilmente el flujo de trabajo, facilitando tanto su creación como su mantenimiento.</li>
+                        <li><strong>Amplia biblioteca de conectores:</strong> La plataforma ofrece más de 400 conectores prediseñados para servicios de Microsoft y de terceros, incluyendo Office 365, SharePoint, Teams, Dynamics 365, Salesforce, Twitter, y muchos más. Esta variedad permite integrar prácticamente cualquier aplicación utilizada en entornos empresariales modernos.</li>
+                        <li><strong>Plantillas predefinidas:</strong> Power Automate incluye cientos de plantillas para escenarios comunes de automatización, lo que permite a los usuarios comenzar rápidamente sin partir de cero. Estas plantillas pueden personalizarse para adaptarse a necesidades específicas.</li>
+                        <li><strong>Automatización robótica de procesos (RPA):</strong> A través de su funcionalidad UI Flows, Power Automate permite automatizar interacciones con aplicaciones antiguas o sistemas que no disponen de APIs, emulando la interacción humana con estas interfaces.</li>
+                        <li><strong>Funcionalidades de inteligencia artificial:</strong> La plataforma incorpora capacidades de AI Builder que permiten incorporar modelos de inteligencia artificial en los flujos, como el procesamiento de lenguaje natural, reconocimiento de texto en imágenes, o análisis predictivo.</li>
+                        <li><strong>Capacidades móviles:</strong> Los usuarios pueden crear, gestionar y monitorizar flujos desde dispositivos móviles a través de la aplicación Power Automate para iOS y Android.</li>
+                        <li><strong>Seguridad y cumplimiento normativo:</strong> Como parte del ecosistema Microsoft, Power Automate hereda las robustas características de seguridad y cumplimiento de Azure, facilitando su adopción incluso en sectores altamente regulados.</li>
+                    </ul>
+                    
+                    <p>El enfoque de Microsoft con Power Automate representa un cambio paradigmático en la forma en que las organizaciones abordan la automatización. Tradicionalmente, la creación de integraciones y flujos automatizados entre sistemas requería la intervención de equipos de TI o el desarrollo de código personalizado, lo que resultaba en procesos lentos y costosos. Power Automate transfiere esta capacidad directamente a los usuarios de negocio, permitiéndoles abordar sus propias necesidades de automatización de manera ágil y con mínima dependencia técnica.</p>
+                    
+                    <h4>Integración dentro del ecosistema Microsoft</h4>
+                    <p>Una de las principales fortalezas de Power Automate es su profunda integración con el ecosistema Microsoft, lo que permite crear experiencias conectadas y fluidas entre las diferentes herramientas utilizadas por los profesionales modernos.</p>
+                    
+                    <div class="drag-drop-container">
+                        <h4>Ordena las aplicaciones de Microsoft según su integración con Power Automate</h4>
+                        <p>Arrastra cada aplicación a la categoría correspondiente según su nivel de integración con Power Automate.</p>
+                        
+                        <div class="drag-items">
+                            <div class="drag-item" draggable="true" data-target="altamente-integrado">Microsoft Teams</div>
+                            <div class="drag-item" draggable="true" data-target="altamente-integrado">SharePoint</div>
+                            <div class="drag-item" draggable="true" data-target="altamente-integrado">OneDrive</div>
+                            <div class="drag-item" draggable="true" data-target="moderadamente-integrado">Outlook</div>
+                            <div class="drag-item" draggable="true" data-target="moderadamente-integrado">Excel</div>
+                            <div class="drag-item" draggable="true" data-target="limitadamente-integrado">Visual Studio</div>
+                            <div class="drag-item" draggable="true" data-target="altamente-integrado">Power BI</div>
+                            <div class="drag-item" draggable="true" data-target="moderadamente-integrado">Word</div>
+                            <div class="drag-item" draggable="true" data-target="limitadamente-integrado">Paint 3D</div>
+                        </div>
+                        
+                        <div class="drop-targets">
+                            <div class="drop-target" data-category="altamente-integrado">
+                                <div class="drop-target-header">Altamente integrado</div>
+                                <div class="drop-target-body">Aplicaciones con integraciones nativas profundas con Power Automate</div>
+                            </div>
+                            <div class="drop-target" data-category="moderadamente-integrado">
+                                <div class="drop-target-header">Moderadamente integrado</div>
+                                <div class="drop-target-body">Aplicaciones con funcionalidades de integración básicas</div>
+                            </div>
+                            <div class="drop-target" data-category="limitadamente-integrado">
+                                <div class="drop-target-header">Limitadamente integrado</div>
+                                <div class="drop-target-body">Aplicaciones con poca o ninguna integración directa</div>
+                            </div>
+                        </div>
+                        
+                        <button class="reset-drag-btn">Reiniciar actividad</button>
+                    </div>
+                    
+                    <p>La integración de Power Automate con la suite Office 365 resulta particularmente valiosa para los profesionales de RR.HH. Por ejemplo, es posible automatizar la creación y distribución de informes en Excel, programar reuniones en Teams basadas en eventos específicos del ciclo de vida del empleado, o actualizar listas de SharePoint con información proveniente de encuestas de satisfacción.</p>
+                    
+                    <p>La conexión con Power BI merece especial atención en el contexto de People Analytics, ya que permite la actualización automática de dashboards y la generación de alertas basadas en umbrales definidos. Esto garantiza que los analistas y líderes siempre tengan acceso a información actualizada para la toma de decisiones.</p>
+                    
+                    <p>En cuanto a Dynamics 365 Human Resources, la integración con Power Automate facilita la creación de flujos de trabajo complejos para procesos como la incorporación de nuevos empleados, las evaluaciones de desempeño o la gestión de vacaciones y ausencias, proporcionando una experiencia coherente y eficiente tanto para el equipo de RR.HH. como para los empleados.</p>
+                    
+                    <p>Para organizaciones que utilizan Microsoft Teams como hub central de colaboración, Power Automate ofrece posibilidades particularmente interesantes. Los flujos pueden iniciarse directamente desde conversaciones en Teams, y los resultados pueden enviarse a canales específicos, creando un entorno verdaderamente integrado donde la automatización forma parte natural del flujo de trabajo diario.</p>
+                </article>
+                
+                <article>
+                    <h3>3. Licenciamiento y Plataformas Disponibles</h3>
+                    <p>Comprender las opciones de licenciamiento y los modelos de suscripción de Microsoft Power Automate es fundamental para planificar adecuadamente la implementación de soluciones de automatización en el departamento de Recursos Humanos. Microsoft ofrece diversos modelos de licenciamiento diseñados para adaptarse a diferentes necesidades y escalas de uso, desde usuarios individuales hasta implementaciones empresariales completas.</p>
+                    
+                    <h4>Tipos de licencias</h4>
+                    <p>Power Automate ofrece varios tipos de licencias que se adaptan a diferentes necesidades y presupuestos:</p>
+                    
+                    <table class="interactive-table">
+                        <thead>
+                            <tr>
+                                <th>Tipo de licencia</th>
+                                <th>Descripción</th>
+                                <th>Limitaciones</th>
+                                <th>Detalles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Power Automate gratuito</td>
+                                <td>Incluido con Office 365</td>
+                                <td>Conectores estándar únicamente</td>
+                                <td class="row-expand" data-row="1">Ver más</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="row-details" id="details-1">
+                                    <p>La versión gratuita de Power Automate viene incluida con las suscripciones a Office 365 y permite crear un número ilimitado de flujos personales utilizando conectores estándar. Esta versión es ideal para usuarios individuales que desean automatizar tareas sencillas dentro del ecosistema Microsoft. Sin embargo, tiene limitaciones en cuanto a la frecuencia de ejecución de los flujos (750 ejecuciones por usuario/mes) y no incluye acceso a conectores premium o capacidades avanzadas.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Power Automate por usuario</td>
+                                <td>Licencia individual completa</td>
+                                <td>Limitada a un usuario específico</td>
+                                <td class="row-expand" data-row="2">Ver más</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="row-details" id="details-2">
+                                    <p>El plan por usuario ofrece acceso ilimitado a conectores premium, automatización de UI (RPA) y AI Builder (con créditos limitados). Esta licencia permite a un usuario específico crear y ejecutar un número ilimitado de flujos, tanto personales como para uso compartido dentro de la organización. Es la opción recomendada para profesionales de RR.HH. que necesitan crear múltiples automatizaciones utilizando diversas fuentes de datos y servicios. El costo aproximado es de $15 USD por usuario/mes.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Power Automate por flujo</td>
+                                <td>Licencia para flujos específicos</td>
+                                <td>Limitada a 5 flujos</td>
+                                <td class="row-expand" data-row="3">Ver más</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="row-details" id="details-3">
+                                    <p>El plan por flujo permite registrar hasta 5 flujos que pueden ser utilizados por un número ilimitado de usuarios dentro de la organización. Esta opción es ideal para automatizaciones departamentales que serán utilizadas por múltiples miembros del equipo de RR.HH. pero no requieren que cada uno tenga su propia licencia completa. El costo aproximado es de $100 USD por flujo/mes para 5 flujos.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Power Automate Process</td>
+                                <td>Para RPA avanzada</td>
+                                <td>Específica para automatización de UI</td>
+                                <td class="row-expand" data-row="4">Ver más</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="row-details" id="details-4">
+                                    <p>Este plan está diseñado específicamente para escenarios de Automatización Robótica de Procesos (RPA) que requieren interacción con aplicaciones de escritorio o sistemas legacy sin APIs disponibles. Incluye capacidades de grabación y reproducción de acciones de UI, así como ejecución desatendida. Es particularmente útil para departamentos de RR.HH. que necesitan automatizar interacciones con sistemas antiguos de nómina o gestión de personal. El costo aproximado es de $150 USD por proceso/bot.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Licencia Power Apps</td>
+                                <td>Incluye Power Automate</td>
+                                <td>Limitada al contexto de Power Apps</td>
+                                <td class="row-expand" data-row="5">Ver más</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="row-details" id="details-5">
+                                    <p>Para organizaciones que ya utilizan Power Apps para crear aplicaciones personalizadas de RR.HH., es importante señalar que las licencias de Power Apps incluyen capacidades de Power Automate dentro del contexto de la aplicación. Esto significa que los flujos que se ejecutan exclusivamente dentro de una aplicación de Power Apps no requieren licencias adicionales. Esta integración resulta particularmente valiosa para equipos que ya están invirtiendo en la plataforma Power Platform.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Costos asociados y modelos de suscripción</h4>
+                    <p>Además del costo base de las licencias, es importante considerar otros factores económicos al planificar la implementación de Power Automate en iniciativas de People Analytics:</p>
+                    <ul>
+                        <li><strong>Costos de capacitación:</strong> Aunque Power Automate tiene una curva de aprendizaje relativamente accesible, es recomendable invertir en capacitación formal para el equipo que creará y mantendrá los flujos. Microsoft ofrece programas de certificación y hay numerosos cursos disponibles de terceros.</li>
+                        <li><strong>Créditos de AI Builder:</strong> Para flujos que utilizan capacidades de inteligencia artificial (como procesamiento de formularios, extracción de texto de imágenes, o detección de idioma), es necesario considerar los créditos de AI Builder incluidos con las licencias y el posible costo de créditos adicionales.</li>
+                        <li><strong>Almacenamiento:</strong> Los datos procesados y almacenados por Power Automate consumen espacio en el entorno de Power Platform de la organización. Para flujos que manejan grandes volúmenes de datos, puede ser necesario adquirir capacidad de almacenamiento adicional.</li>
+                        <li><strong>Conectores premium:</strong> Algunos conectores específicos pueden requerir costos adicionales o suscripciones a los servicios correspondientes. Es importante verificar los requisitos de cada conector utilizado en los flujos.</li>
+                    </ul>
+                    
+                    <div class="quiz-container">
+                        <h4>Comprueba tu conocimiento sobre licenciamiento de Power Automate</h4>
+                        
+                        <div class="quiz-question">
+                            <h4>1. ¿La versión gratuita de Power Automate permite el uso de conectores premium?</h4>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="false">Verdadero</div>
+                                <div class="quiz-option" data-correct="true">Falso</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <h4>2. ¿El plan por flujo permite que un número ilimitado de usuarios utilice los flujos registrados?</h4>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="true">Verdadero</div>
+                                <div class="quiz-option" data-correct="false">Falso</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <h4>3. ¿Las licencias de Power Apps incluyen capacidades de Power Automate dentro del contexto de la aplicación?</h4>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="true">Verdadero</div>
+                                <div class="quiz-option" data-correct="false">Falso</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <h4>Compatibilidad y requisitos técnicos</h4>
+                    <p>Para implementar Power Automate de manera efectiva, es importante considerar los siguientes requisitos técnicos:</p>
+                    <ul>
+                        <li><strong>Navegadores compatibles:</strong> Power Automate funciona mejor en navegadores modernos como Microsoft Edge, Google Chrome, Mozilla Firefox y Safari. Para algunas funcionalidades avanzadas, es recomendable utilizar Edge o Chrome.</li>
+                        <li><strong>Requisitos de dispositivo:</strong> Para la creación y edición de flujos, se recomienda utilizar un dispositivo con al menos 4GB de RAM y un procesador de doble núcleo. Para la aplicación móvil, se requiere iOS 11.0 o posterior, o Android 7.0 o posterior.</li>
+                        <li><strong>Conectividad:</strong> Es necesaria una conexión a Internet estable para la creación, edición y ejecución de flujos basados en la nube. Para flujos que interactúan con sistemas on-premise, puede ser necesario configurar un gateway de datos.</li>
+                        <li><strong>Permisos:</strong> Los usuarios necesitan permisos adecuados en los sistemas y datos con los que interactúan los flujos. Esto puede requerir la colaboración con equipos de TI para configurar correctamente los permisos de acceso.</li>
+                        <li><strong>Gateway de datos on-premise:</strong> Para conectar Power Automate con fuentes de datos locales (no en la nube), es necesario instalar y configurar el Gateway de Datos On-Premise de Power Platform. Este componente requiere un servidor con Windows 8 o posterior y .NET Framework 4.7.2 o posterior.</li>
+                    </ul>
+                    
+                    <p>Las organizaciones también deben considerar aspectos de gobernanza y administración, como la creación de entornos separados para desarrollo, pruebas y producción, así como políticas para la gestión del ciclo de vida de los flujos, incluyendo documentación, control de versiones y planes de respaldo.</p>
+                </article>
+                
+                <article>
+                    <h3>4. Conceptos Básicos de Flujos (Flows)</h3>
+                    <p>Para aprovechar efectivamente Power Automate en iniciativas de People Analytics, es fundamental comprender los conceptos básicos que conforman la arquitectura de esta plataforma. Los flujos (flows) son el componente principal de Power Automate y representan secuencias automatizadas de acciones que se ejecutan en respuesta a desencadenadores específicos. Entender los diferentes tipos de flujos, sus componentes y consideraciones de seguridad proporciona la base necesaria para crear soluciones eficientes y robustas.</p>
+                    
+                    <h4>Tipos de flujos</h4>
+                    <p>Power Automate ofrece varios tipos de flujos diseñados para diferentes casos de uso y patrones de ejecución:</p>
+                    
+                    <div class="flip-card-container">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <h4>Flujos automatizados</h4>
+                                    <p>Haz clic para conocer más</p>
+                                </div>
+                                <div class="flip-card-back">
+                                    <p>Los flujos automatizados se ejecutan en respuesta a eventos específicos, como la llegada de un nuevo correo electrónico, la actualización de un registro en SharePoint, o un cambio en una base de datos. Son ideales para automatizar procesos que deben ejecutarse cada vez que ocurre un evento determinado.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <h4>Flujos instantáneos</h4>
+                                    <p>Haz clic para conocer más</p>
+                                </div>
+                                <div class="flip-card-back">
+                                    <p>Los flujos instantáneos se ejecutan bajo demanda, iniciados manualmente por un usuario a través de un botón en la aplicación móvil, portal web, o dentro de otras aplicaciones como Teams o SharePoint. Son perfectos para procesos que no necesitan automatización completa pero se benefician de la estandarización y la simplificación.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <h4>Flujos programados</h4>
+                                    <p>Haz clic para conocer más</p>
+                                </div>
+                                <div class="flip-card-back">
+                                    <p>Los flujos programados se ejecutan según un calendario predefinido, ya sea a intervalos regulares (cada hora, diariamente, semanalmente) o en momentos específicos. Son ideales para tareas recurrentes como la generación de informes periódicos o actualizaciones programadas de datos.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>Además de estos tipos principales, Power Automate también ofrece:</p>
+                    <ul>
+                        <li><strong>Flujos de aprobación:</strong> Diseñados específicamente para gestionar procesos que requieren la aprobación de uno o más responsables. Este tipo de flujo resulta especialmente útil en contextos de RR.HH. para procesos como aprobaciones de vacaciones, evaluaciones de desempeño o solicitudes de contratación.</li>
+                        <li><strong>Flujos de proceso empresarial:</strong> Orientados a la gestión de procesos de negocio de múltiples etapas que siguen un camino predefinido a través de diferentes fases. Son particularmente valiosos para procesos de RR.HH. complejos como la incorporación de nuevos empleados o los ciclos de revisión de desempeño.</li>
+                        <li><strong>UI Flows (RPA):</strong> Permiten automatizar interacciones con aplicaciones de escritorio o sistemas web que no disponen de APIs, grabando y reproduciendo secuencias de clics, entradas de teclado y otras interacciones con la interfaz de usuario.</li>
+                    </ul>
+                    
+                    <h4>Triggers, acciones y conectores</h4>
+                    <p>Cada flujo en Power Automate se compone de tres elementos fundamentales:</p>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h4>Triggers (Desencadenadores)</h4>
+                                <div class="accordion-icon"></div>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>Los triggers son eventos que inician la ejecución de un flujo. Power Automate ofrece una amplia variedad de desencadenadores, que pueden clasificarse en varias categorías:</p>
+                                    <ul>
+                                        <li><strong>Desencadenadores basados en tiempo:</strong> Ejecutan el flujo en momentos específicos o a intervalos regulares (por ejemplo, "Cada día a las 8:00 AM" o "Cada lunes").</li>
+                                        <li><strong>Desencadenadores basados en datos:</strong> Inician el flujo cuando se crea, modifica o elimina un registro en una fuente de datos (por ejemplo, "Cuando se añade un nuevo elemento a una lista de SharePoint" o "Cuando se modifica un registro en Dynamics 365").</li>
+                                        <li><strong>Desencadenadores basados en comunicaciones:</strong> Responden a eventos de comunicación como la recepción de un correo electrónico, un mensaje de Teams o una mención en redes sociales.</li>
+                                        <li><strong>Desencadenadores manuales:</strong> Requieren la intervención del usuario para iniciar el flujo, como hacer clic en un botón o seleccionar una opción en un menú.</li>
+                                        <li><strong>Desencadenadores basados en señales:</strong> Responden a señales específicas como la recepción de una solicitud HTTP o un evento de webhook.</li>
+                                    </ul>
+                                    <p>En el contexto de People Analytics, los desencadenadores más comunes suelen ser los basados en tiempo (para informes periódicos), los basados en datos (para responder a cambios en registros de empleados) y los manuales (para iniciar procesos específicos como análisis ad-hoc).</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h4>Acciones</h4>
+                                <div class="accordion-icon"></div>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>Las acciones son las operaciones individuales que se ejecutan dentro de un flujo. Pueden realizar una amplia gama de tareas, desde la manipulación de datos hasta la interacción con servicios externos. Algunos ejemplos de acciones relevantes para People Analytics incluyen:</p>
+                                    <ul>
+                                        <li><strong>Acciones de datos:</strong> Obtener, crear, actualizar o eliminar registros en SharePoint, Excel, SQL Server, Dataverse u otras fuentes de datos.</li>
+                                        <li><strong>Acciones de comunicación:</strong> Enviar correos electrónicos, publicar mensajes en Teams, generar notificaciones o actualizar el estado en plataformas de colaboración.</li>
+                                        <li><strong>Acciones de transformación:</strong> Convertir formatos de datos, realizar cálculos, agregar información o aplicar fórmulas a conjuntos de datos.</li>
+                                        <li><strong>Acciones de documento:</strong> Crear, modificar o procesar documentos en formatos como Word, PDF o Excel.</li>
+                                        <li><strong>Acciones de flujo de control:</strong> Implementar lógica condicional, bucles, ramificaciones o procesos de aprobación dentro del flujo.</li>
+                                        <li><strong>Acciones de análisis:</strong> Integración con servicios de IA o análisis predictivo para extraer insights de los datos.</li>
+                                    </ul>
+                                    <p>Un flujo típico de People Analytics podría incluir acciones para extraer datos de un sistema HRIS, transformarlos mediante cálculos específicos, generar visualizaciones en Power BI y distribuir los resultados a través de correo electrónico o Teams.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h4>Conectores</h4>
+                                <div class="accordion-icon"></div>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>Los conectores son los puentes que permiten a Power Automate interactuar con servicios y aplicaciones externas. Microsoft ofrece más de 400 conectores prediseñados que facilitan la integración con una amplia variedad de sistemas, tanto de Microsoft como de terceros. Estos conectores se clasifican en dos categorías principales:</p>
+                                    <ul>
+                                        <li><strong>Conectores estándar:</strong> Disponibles con la versión gratuita de Power Automate y cubren servicios comunes como Office 365, SharePoint, OneDrive y otros servicios fundamentales de Microsoft.</li>
+                                        <li><strong>Conectores premium:</strong> Requieren licencias de pago y proporcionan acceso a servicios más especializados o avanzados, como Salesforce, ServiceNow, Adobe Sign o bases de datos SQL.</li>
+                                    </ul>
+                                    <p>Para iniciativas de People Analytics, algunos de los conectores más valiosos incluyen:</p>
+                                    <ul>
+                                        <li><strong>SharePoint y Microsoft Lists:</strong> Para almacenar y gestionar datos estructurados de empleados.</li>
+                                        <li><strong>Excel Online:</strong> Para trabajar con hojas de cálculo y datos tabulares.</li>
+                                        <li><strong>Microsoft Forms:</strong> Para la recopilación de datos a través de encuestas y formularios.</li>
+                                        <li><strong>Power BI:</strong> Para la creación y actualización de visualizaciones y dashboards.</li>
+                                        <li><strong>SQL Server:</strong> Para interactuar con bases de datos relacionales que almacenan información histórica de empleados.</li>
+                                        <li><strong>Dynamics 365 Human Resources:</strong> Para integración directa con el sistema de gestión de recursos humanos.</li>
+                                        <li><strong>Servicios de correo electrónico:</strong> Para enviar notificaciones y reportes automatizados.</li>
+                                    </ul>
+                                    <p>Además, Power Automate permite crear conectores personalizados para sistemas propietarios o aplicaciones específicas de la organización, ampliando significativamente las posibilidades de integración.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Consideraciones de seguridad y gobernanza en entornos de RR.HH.</h4>
+                    <p>La naturaleza sensible de los datos de recursos humanos exige prestar especial atención a los aspectos de seguridad y gobernanza al implementar soluciones de automatización con Power Automate. Entre las consideraciones clave se encuentran:</p>
+                    
+                    <ul>
+                        <li><strong>Protección de datos personales:</strong> Los flujos deben diseñarse considerando las regulaciones de protección de datos aplicables (como GDPR, CCPA, LGPD u otras normativas locales), asegurando que la información personal de los empleados se maneje de acuerdo con los principios de minimización de datos, limitación de propósito y confidencialidad.</li>
+                        <li><strong>Control de acceso:</strong> Implementar un modelo de permisos basado en roles para garantizar que solo usuarios autorizados puedan crear, modificar o ejecutar flujos que accedan a datos sensibles de empleados. Power Automate permite definir permisos granulares para compartir flujos y conexiones.</li>
+                        <li><strong>Gestión de conexiones:</strong> Las conexiones en Power Automate utilizan las credenciales del usuario o credenciales compartidas para acceder a sistemas externos. Es crucial implementar una estrategia para la gestión segura de estas conexiones, especialmente cuando acceden a sistemas con datos sensibles de RR.HH.</li>
+                        <li><strong>Auditoría y trazabilidad:</strong> Habilitar registro de auditoría para monitorizar quién crea, modifica o ejecuta flujos críticos, estableciendo mecanismos para detectar actividades sospechosas o no autorizadas.</li>
+                        <li><strong>Segmentación de entornos:</strong> Utilizar entornos separados para desarrollo, pruebas y producción, con políticas de seguridad adaptadas a cada contexto. Los flujos que manejan datos reales de empleados solo deberían desplegarse en entornos de producción con las máximas garantías de seguridad.</li>
+                        <li><strong>Gestión del ciclo de vida:</strong> Implementar procesos para la revisión periódica de flujos, eliminación de aquellos obsoletos y actualización de los que utilizan conectores o métodos antiguos.</li>
+                    </ul>
+                    
+                    <p>Microsoft proporciona herramientas específicas para la gobernanza de Power Automate dentro del Centro de administración de Power Platform, donde los administradores pueden establecer políticas de uso, cuotas, restricciones de conectores y otras configuraciones de seguridad a nivel organizativo.</p>
+                    
+                    <p>Adicionalmente, es recomendable establecer un centro de excelencia (COE) que defina estándares, mejores prácticas y patrones para el uso de Power Automate en iniciativas de People Analytics, garantizando coherencia, calidad y seguridad en todas las soluciones implementadas.</p>
+                </article>
+                
+                <article>
+                    <h3>5. Casos de Uso en People Analytics</h3>
+                    <p>La aplicación de Power Automate en el contexto de People Analytics ofrece numerosas oportunidades para optimizar procesos, mejorar la calidad de los datos y potenciar la toma de decisiones basada en evidencia. A continuación, exploraremos algunos casos de uso específicos que ilustran el potencial de esta herramienta para transformar la forma en que los equipos de RR.HH. recopilan, analizan y actúan sobre los datos de capital humano.</p>
+                    
+                    <h4>Ejemplos de procesos que se pueden automatizar</h4>
+                    <p>La versatilidad de Power Automate permite abordar una amplia gama de procesos en el ámbito de People Analytics, desde operaciones rutinarias hasta flujos complejos que integran múltiples sistemas y fuentes de datos:</p>
+                    
+                    <table class="interactive-table">
+                        <thead>
+                            <tr>
+                                <th>Categoría</th>
+                                <th>Caso de uso</th>
+                                <th>Beneficios</th>
+                                <th>Complejidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Notificaciones y alertas</td>
+                                <td>Alertas de umbrales de KPIs</td>
+                                <td>Intervención temprana</td>
+                                <td class="row-expand" data-row="6">Ver detalles</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="row-details" id="details-6">
+                                    <p><strong>Descripción detallada:</strong> Configurar flujos que monitoreen continuamente indicadores clave como rotación, ausentismo o engagement, enviando notificaciones automáticas a los stakeholders correspondientes cuando estos métricas superen umbrales predefinidos. Por ejemplo, alertar a un gerente de departamento cuando la tasa de ausentismo de su equipo supere el 5% en un mes, o notificar al equipo de adquisición de talento cuando las proyecciones indiquen una necesidad de contratación en los próximos meses.</p>
+                                    <p><strong>Implementación:</strong> Utilizando conectores para sistemas HRIS o bases de datos de RR.HH., junto con acciones condicionales y notificaciones vía correo electrónico o Teams. La complejidad se considera media porque requiere establecer lógica de evaluación de umbrales y personalización de mensajes según el contexto.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Recopilación de datos</td>
+                                <td>Encuestas de pulso automatizadas</td>
+                                <td>Feedback continuo</td>
+                                <td class="row-expand" data-row="7">Ver detalles</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="row-details" id="details-7">
+                                    <p><strong>Descripción detallada:</strong> Automatizar el envío periódico de encuestas breves para tomar el pulso del clima organizacional, con procesamiento automático de respuestas y actualización de dashboards de seguimiento. Estas encuestas pueden programarse en momentos clave del ciclo de vida del empleado (por ejemplo, después de 30, 60 y 90 días de incorporación) o a intervalos regulares para toda la organización.</p>
+                                    <p><strong>Implementación:</strong> Combinando Microsoft Forms para la creación de encuestas, conectores de correo electrónico o Teams para la distribución, y acciones de procesamiento de datos para analizar respuestas e integrarlas en bases de datos o visualizaciones de Power BI. La complejidad es media-alta debido a la necesidad de manejar diferentes tipos de preguntas y estructurar adecuadamente los datos para análisis posterior.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Integración de datos</td>
+                                <td>Consolidación de fuentes dispersas</td>
+                                <td>Visión integral</td>
+                                <td class="row-expand" data-row="8">Ver detalles</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="row-details" id="details-8">
+                                    <p><strong>Descripción detallada:</strong> Crear flujos que extraigan, transformen y consoliden datos de múltiples sistemas (HRIS, LMS, ATS, sistemas de evaluación, etc.) en un repositorio centralizado para análisis holístico. Esta consolidación facilita la creación de perfiles completos de empleados que integran información de desempeño, aprendizaje, compensación y otros aspectos relevantes.</p>
+                                    <p><strong>Implementación:</strong> Utilizando conectores específicos para cada sistema fuente, acciones de transformación para estandarizar formatos y estructuras, y destinos como bases de datos SQL, Dataverse o SharePoint para almacenar los datos consolidados. La complejidad es alta debido a la necesidad de manejar diferentes esquemas de datos, resolver discrepancias y mantener la integridad referencial entre las fuentes.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Actualización de dashboards</td>
+                                <td>Refresh automático de Power BI</td>
+                                <td>Datos siempre actualizados</td>
+                                <td class="row-expand" data-row="9">Ver detalles</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="row-details" id="details-9">
+                                    <p><strong>Descripción detallada:</strong> Automatizar la actualización de datasets y dashboards de Power BI que presentan métricas clave de People Analytics, garantizando que los tomadores de decisiones siempre tengan acceso a información actualizada. Además de la actualización regular, estos flujos pueden incluir la distribución automática de informes a audiencias específicas según sus necesidades y permisos.</p>
+                                    <p><strong>Implementación:</strong> Mediante el conector de Power BI y acciones programadas o basadas en eventos. La complejidad es baja a media, dependiendo de si se necesita realizar pre-procesamiento de datos antes de la actualización o si se requiere distribuir diferentes vistas a distintas audiencias.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Validación de datos</td>
+                                <td>Control de calidad automático</td>
+                                <td>Integridad de datos</td>
+                                <td class="row-expand" data-row="10">Ver detalles</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="row-details" id="details-10">
+                                    <p><strong>Descripción detallada:</strong> Implementar flujos que verifiquen periódicamente la calidad e integridad de los datos de empleados, identificando inconsistencias, valores atípicos o campos incompletos. Estos procesos pueden generar reportes automáticos de problemas de calidad o incluso iniciar flujos de trabajo para la corrección de discrepancias.</p>
+                                    <p><strong>Implementación:</strong> Mediante acciones de consulta a bases de datos o sistemas de RR.HH., lógica condicional para aplicar reglas de validación, y acciones de notificación o remediación cuando se detecten problemas. La complejidad es media a alta, dependiendo del número y complejidad de las reglas de validación y del proceso de resolución de problemas.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p>Estos ejemplos representan solo una fracción del potencial de Power Automate en el contexto de People Analytics. La capacidad de la plataforma para conectar sistemas diversos, procesar datos complejos y orquestar flujos de trabajo hace que sea una herramienta excepcionalmente versátil para equipos que buscan evolucionar sus capacidades analíticas y maximizar el impacto de sus insights sobre el capital humano.</p>
+                    
+                    <h4>Beneficios directos en la recolección y análisis de datos de personas</h4>
+                    <p>La implementación de soluciones de automatización con Power Automate aporta numerosos beneficios que transforman fundamentalmente la forma en que los equipos de RR.HH. recopilan, procesan y analizan datos para la toma de decisiones:</p>
+                    
+                    <div class="drag-drop-container">
+                        <h4>Clasifica los beneficios según su impacto primario</h4>
+                        <p>Arrastra cada beneficio a la categoría que mejor represente su impacto principal en las iniciativas de People Analytics.</p>
+                        
+                        <div class="drag-items">
+                            <div class="drag-item" draggable="true" data-target="eficiencia">Reducción del 40-60% en tiempo dedicado a tareas manuales</div>
+                            <div class="drag-item" draggable="true" data-target="calidad">Disminución del 85% en errores de entrada de datos</div>
+                            <div class="drag-item" draggable="true" data-target="valor">Capacidad para analizar 3-5 veces más variables simultáneamente</div>
+                            <div class="drag-item" draggable="true" data-target="eficiencia">Aceleración de ciclos de reporte de mensual a semanal o diario</div>
+                            <div class="drag-item" draggable="true" data-target="calidad">Consistencia del 95% en la aplicación de reglas de negocio</div>
+                            <div class="drag-item" draggable="true" data-target="valor">Identificación temprana de tendencias emergentes</div>
+                            <div class="drag-item" draggable="true" data-target="eficiencia">Integración de datos 70% más rápida entre sistemas</div>
+                            <div class="drag-item" draggable="true" data-target="calidad">Visibilidad completa de la procedencia de los datos</div>
+                            <div class="drag-item" draggable="true" data-target="valor">Mayor capacidad predictiva en modelos de retención</div>
+                        </div>
+                        
+                        <div class="drop-targets">
+                            <div class="drop-target" data-category="eficiencia">
+                                <div class="drop-target-header">Eficiencia operativa</div>
+                                <div class="drop-target-body">Beneficios relacionados con ahorro de tiempo y recursos</div>
+                            </div>
+                            <div class="drop-target" data-category="calidad">
+                                <div class="drop-target-header">Calidad de datos</div>
+                                <div class="drop-target-body">Beneficios relacionados con precisión e integridad</div>
+                            </div>
+                            <div class="drop-target" data-category="valor">
+                                <div class="drop-target-header">Valor analítico</div>
+                                <div class="drop-target-body">Beneficios relacionados con insights y toma de decisiones</div>
+                            </div>
+                        </div>
+                        
+                        <button class="reset-drag-btn">Reiniciar actividad</button>
+                    </div>
+                    
+                    <p>Más allá de estos beneficios específicos, la automatización con Power Automate genera un impacto transformador en la función de People Analytics, permitiendo que los equipos evolucionen desde un enfoque principalmente descriptivo y reactivo hacia capacidades más avanzadas de análisis predictivo e incluso prescriptivo. Al liberar tiempo y recursos previamente dedicados a tareas operativas, los profesionales pueden centrarse en la interpretación estratégica de los datos y en la traducción de insights en acciones concretas que impacten positivamente la experiencia del empleado y los resultados del negocio.</p>
+                    
+                    <div class="quiz-container">
+                        <h4>Comprueba tu conocimiento sobre casos de uso de Power Automate en People Analytics</h4>
+                        
+                        <div class="quiz-question">
+                            <h4>1. ¿Power Automate puede facilitar la integración entre sistemas HRIS y plataformas de visualización como Power BI?</h4>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="true">Verdadero</div>
+                                <div class="quiz-option" data-correct="false">Falso</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <h4>2. ¿La automatización de procesos con Power Automate generalmente aumenta los errores en los datos debido a la falta de supervisión humana?</h4>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="false">Verdadero</div>
+                                <div class="quiz-option" data-correct="true">Falso</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <h4>3. ¿La implementación de flujos automatizados puede ayudar a los equipos de RR.HH. a evolucionar hacia capacidades analíticas más avanzadas?</h4>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="true">Verdadero</div>
+                                <div class="quiz-option" data-correct="false">Falso</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <p>En conclusión, Power Automate representa una herramienta transformadora para las iniciativas de People Analytics, permitiendo a los equipos de RR.HH. superar limitaciones tradicionales relacionadas con la fragmentación de datos, procesos manuales ineficientes y análisis reactivos. Al implementar soluciones de automatización estratégicas, las organizaciones pueden desbloquear todo el potencial de sus datos de capital humano, generando insights más profundos, más oportunos y más accionables que impulsen mejores decisiones y resultados de negocio.</p>
+                </article>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Tarjetas giratorias
+        document.querySelectorAll('.flip-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+            });
+        });
+
+        // Acordeones
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Cerrar todos los acordeones
+                document.querySelectorAll('.accordion-item').forEach(accordionItem => {
+                    accordionItem.classList.remove('active');
+                    const content = accordionItem.querySelector('.accordion-content');
+                    content.style.maxHeight = '0';
+                });
+                
+                // Si el elemento clickeado no estaba activo, abrirlo
+                if (!isActive) {
+                    item.classList.add('active');
+                    const content = item.querySelector('.accordion-content');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
+        });
+
+        // Mejora de funcionalidad de elementos arrastrables
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar la funcionalidad de arrastrar y soltar
+            initDragAndDrop();
+            
+            function initDragAndDrop() {
+                let dragged = null;
+                
+                // Añadimos un mensaje visual para indicar que los elementos son arrastrables
+                document.querySelectorAll('.drag-drop-container').forEach(container => {
+                    const instruction = document.createElement('div');
+                    instruction.style.textAlign = 'center';
+                    instruction.style.marginBottom = '15px';
+                    instruction.style.fontWeight = 'bold';
+                    instruction.style.color = 'var(--color-primary)';
+                    instruction.innerHTML = '👉 Arrastra los elementos hacia las categorías correspondientes 👈';
+                    container.insertBefore(instruction, container.firstChild);
+                });
+
+                document.querySelectorAll('.drag-item').forEach(item => {
+                    // Aseguramos que el atributo draggable está establecido
+                    item.setAttribute('draggable', 'true');
+                    
+                    item.addEventListener('dragstart', function(e) {
+                        dragged = this;
+                        this.style.opacity = '0.5';
+                        e.dataTransfer.setData('text/plain', '');
+                        e.dataTransfer.effectAllowed = 'move';
+                    });
+                    
+                    item.addEventListener('dragend', function(e) {
+                        this.style.opacity = '1';
+                    });
+                    
+                    // Añadimos un título visual para mejorar la UX
+                    item.title = "Arrastra este elemento a la categoría correspondiente";
+                });
+
+                document.querySelectorAll('.drop-target').forEach(target => {
+                    target.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = 'move';
+                        this.classList.add('highlight');
+                    });
+
+                    target.addEventListener('dragleave', function(e) {
+                        this.classList.remove('highlight');
+                    });
+
+                    target.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        this.classList.remove('highlight');
+                        
+                        if (dragged) {
+                            // Verificar si el elemento pertenece a esta categoría
+                            const correctTarget = dragged.getAttribute('data-target');
+                            const currentTarget = this.getAttribute('data-category');
+                            
+                            if (correctTarget === currentTarget) {
+                                // Si es correcto, mover el elemento al destino
+                                this.appendChild(dragged);
+                                
+                                // Feedback visual positivo
+                                dragged.style.backgroundColor = 'var(--color-success)';
+                                setTimeout(() => {
+                                    dragged.style.backgroundColor = '';
+                                }, 1000);
+                            } else {
+                                // Si no es correcto, efecto visual de error
+                                dragged.classList.add('shake');
+                                setTimeout(() => {
+                                    dragged.classList.remove('shake');
+                                }, 600);
+                            }
+                        }
+                    });
+                });
+
+                // Mejorar el botón de reinicio
+                document.querySelectorAll('.reset-drag-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const container = this.closest('.drag-drop-container');
+                        const items = container.querySelectorAll('.drag-item');
+                        const dragItems = container.querySelector('.drag-items');
+                        
+                        // Animación sutil al reiniciar
+                        items.forEach(item => {
+                            item.style.transition = 'all 0.3s ease';
+                            item.style.transform = 'scale(0.9)';
+                            setTimeout(() => {
+                                dragItems.appendChild(item);
+                                item.style.transform = 'scale(1)';
+                                // Restaurar colores originales
+                                item.style.backgroundColor = '';
+                            }, 200);
+                        });
+                        
+                        // Feedback visual del botón
+                        this.textContent = "¡Reiniciado!";
+                        setTimeout(() => {
+                            this.textContent = "Reiniciar actividad";
+                        }, 1000);
+                    });
+                });
+            }
+        });
+
+        // Preguntas de verdadero/falso
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const questionContainer = this.closest('.quiz-question');
+                const options = questionContainer.querySelectorAll('.quiz-option');
+                const feedback = questionContainer.querySelector('.quiz-feedback');
+                
+                // Desactivar todas las opciones
+                options.forEach(opt => {
+                    opt.style.pointerEvents = 'none';
+                });
+                
+                // Verificar si la respuesta es correcta
+                const isCorrect = this.getAttribute('data-correct') === 'true';
+                
+                if (isCorrect) {
+                    feedback.textContent = '¡Correcto! Muy bien.';
+                    feedback.classList.add('correct');
+                } else {
+                    feedback.textContent = 'Incorrecto. Inténtalo de nuevo.';
+                    feedback.classList.add('incorrect');
+                }
+            });
+        });
+
+        // Tabla interactiva
+        document.querySelectorAll('.row-expand').forEach(expandButton => {
+            expandButton.addEventListener('click', function() {
+                const rowId = this.getAttribute('data-row');
+                const detailsRow = document.getElementById('details-' + rowId);
+                
+                if (detailsRow.style.display === 'table-cell' || detailsRow.style.display === 'block') {
+                    detailsRow.style.display = 'none';
+                    this.textContent = 'Ver detalles';
+                } else {
+                    // Ocultar todos los detalles primero
+                    document.querySelectorAll('.row-details').forEach(row => {
+                        row.style.display = 'none';
+                    });
+                    document.querySelectorAll('.row-expand').forEach(btn => {
+                        btn.textContent = 'Ver detalles';
+                    });
+                    
+                    // Mostrar el detalle seleccionado
+                    detailsRow.style.display = 'table-cell';
+                    this.textContent = 'Ocultar detalles';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

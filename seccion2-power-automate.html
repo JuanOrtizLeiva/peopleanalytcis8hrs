@@ -1,0 +1,2056 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatización de Procesos en People Analytics con Power Automate</title>
+    <style>
+        :root {
+            --color-primary: #2C3E50; /* Azul oscuro sofisticado */
+            --color-secondary: #3498DB; /* Azul medio vibrante */
+            --color-accent: #E67E22; /* Naranja cálido */
+            --color-light: #ECF0F1; /* Gris muy claro con toque azulado */
+            --color-dark: #1A2530; /* Azul muy oscuro */
+            --color-success: #27AE60; /* Verde elegante */
+            --color-error: #E74C3C; /* Rojo suave */
+            --color-neutral: #95A5A6; /* Gris cálido */
+            --color-warning: #F39C12; /* Amarillo/naranja para advertencias */
+            --shadow-soft: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.15);
+            --radius-small: 4px;
+            --radius-medium: 8px;
+            --radius-large: 12px;
+            --transition-standard: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--color-light);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-medium);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10.5%),
+                        radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10.5%);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            transform: rotate(20deg);
+            z-index: 0;
+        }
+        
+        header * {
+            position: relative;
+            z-index: 1;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        main {
+            padding: 30px;
+            position: relative;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--color-primary);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--color-light);
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-secondary), var(--color-accent));
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            margin: 35px 0 20px;
+            padding-left: 15px;
+            border-left: 4px solid var(--color-secondary);
+            line-height: 1.4;
+        }
+
+        h4 {
+            color: var(--color-primary);
+            font-size: 1.25rem;
+            margin: 25px 0 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+        
+        a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            transition: var(--transition-standard);
+        }
+        
+        a:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        /* Video Container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            margin: 30px 0;
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-caption {
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+            color: var(--color-neutral);
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: var(--radius-medium);
+            padding: 20px 25px 20px 70px;
+            box-shadow: var(--shadow-soft);
+            margin: 25px 0;
+            position: relative;
+            border-left: 4px solid var(--color-secondary);
+        }
+        
+        .info-box::before {
+            content: "i";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background-color: var(--color-secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-style: italic;
+            font-size: 22px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .info-box.tip {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-left-color: var(--color-success);
+        }
+        
+        .info-box.tip::before {
+            content: "✓";
+            background-color: var(--color-success);
+        }
+        
+        .info-box.warning {
+            background-color: rgba(243, 156, 18, 0.1);
+            border-left-color: var(--color-warning);
+        }
+        
+        .info-box.warning::before {
+            content: "!";
+            background-color: var(--color-warning);
+        }
+        
+        .info-box.case {
+            background-color: rgba(142, 68, 173, 0.1);
+            border-left-color: #8e44ad;
+        }
+        
+        .info-box.case::before {
+            content: "★";
+            background-color: #8e44ad;
+        }
+        
+        .info-box h4 {
+            margin-top: 0;
+            color: var(--color-primary);
+            font-size: 1.2rem;
+        }
+        
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Step Process */
+        .step-process {
+            margin: 30px 0;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 25px;
+            background-color: white;
+            border-radius: var(--radius-medium);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            transition: var(--transition-standard);
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .step-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 80px;
+            background-color: var(--color-secondary);
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .step-content {
+            flex: 1;
+            padding: 20px 25px;
+        }
+        
+        .step-content h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+        
+        .step-content p {
+            margin-bottom: 0;
+        }
+
+        /* Toggle Panels */
+        .toggle-container {
+            margin: 25px 0;
+        }
+        
+        .toggle-item {
+            margin-bottom: 15px;
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .toggle-header {
+            background-color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            transition: var(--transition-standard);
+        }
+        
+        .toggle-header:hover {
+            background-color: var(--color-light);
+        }
+        
+        .toggle-icon {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            background-color: var(--color-secondary);
+            border-radius: 50%;
+        }
+        
+        .toggle-icon::before,
+        .toggle-icon::after {
+            content: '';
+            position: absolute;
+            background-color: white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: var(--transition-standard);
+        }
+        
+        .toggle-icon::before {
+            width: 12px;
+            height: 2px;
+        }
+        
+        .toggle-icon::after {
+            width: 2px;
+            height: 12px;
+        }
+        
+        .toggle-item.active .toggle-icon::after {
+            transform: translate(-50%, -50%) rotate(90deg);
+            opacity: 0;
+        }
+        
+        .toggle-title {
+            flex: 1;
+            font-weight: 600;
+            color: var(--color-primary);
+            font-size: 1.15rem;
+        }
+        
+        .toggle-content {
+            background-color: white;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .toggle-item.active .toggle-content {
+            padding: 20px 25px;
+            max-height: 1000px;
+        }
+
+        /* Feature Cards */
+        .feature-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition-standard);
+            border-top: 4px solid var(--color-secondary);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .feature-card-header {
+            padding: 20px 25px 15px;
+            border-bottom: 1px solid var(--color-light);
+        }
+        
+        .feature-card-header h4 {
+            margin: 0;
+            color: var(--color-primary);
+        }
+        
+        .feature-card-body {
+            padding: 20px 25px;
+            flex: 1;
+        }
+        
+        .feature-card-body p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .feature-card-footer {
+            background-color: rgba(236, 240, 241, 0.5);
+            padding: 15px 25px;
+            border-top: 1px solid var(--color-light);
+            color: var(--color-neutral);
+            font-size: 0.9rem;
+        }
+
+        /* Tabbed Content */
+        .tabbed-content {
+            margin: 30px 0;
+        }
+        
+        .tabs {
+            display: flex;
+            overflow: hidden;
+            border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+            background-color: var(--color-light);
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            background-color: var(--color-light);
+            color: var(--color-dark);
+            font-weight: 600;
+            transition: var(--transition-standard);
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab:hover {
+            background-color: rgba(236, 240, 241, 0.7);
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-bottom-color: var(--color-secondary);
+            color: var(--color-secondary);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 25px;
+            background-color: white;
+            border-radius: 0 0 var(--radius-medium) var(--radius-medium);
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Quiz Simple */
+        .quiz-simple {
+            margin: 30px 0;
+            background-color: white;
+            border-radius: var(--radius-medium);
+            padding: 25px;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .quiz-simple-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--color-light);
+            padding-bottom: 15px;
+        }
+        
+        .quiz-simple-header h4 {
+            margin: 0;
+            color: var(--color-primary);
+        }
+        
+        .quiz-question {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--color-light);
+        }
+        
+        .quiz-question:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .quiz-question p {
+            font-weight: 600;
+            color: var(--color-dark);
+            margin-bottom: 15px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .quiz-option {
+            background-color: var(--color-light);
+            padding: 12px 15px;
+            border-radius: var(--radius-small);
+            cursor: pointer;
+            transition: var(--transition-standard);
+            display: flex;
+            align-items: center;
+        }
+        
+        .quiz-option:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .option-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--color-secondary);
+            margin-right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition-standard);
+        }
+        
+        .quiz-option.selected .option-indicator {
+            background-color: var(--color-secondary);
+        }
+        
+        .quiz-option.selected .option-indicator::after {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: white;
+        }
+        
+        .quiz-option.correct {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-left: 3px solid var(--color-success);
+        }
+        
+        .quiz-option.incorrect {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 3px solid var(--color-error);
+        }
+        
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: var(--radius-small);
+            background-color: rgba(52, 152, 219, 0.1);
+            display: none;
+        }
+        
+        .quiz-feedback.visible {
+            display: block;
+        }
+
+        /* Key Value Lists */
+        .key-value-list {
+            margin: 20px 0;
+            background-color: white;
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .key-value-item {
+            display: flex;
+            border-bottom: 1px solid var(--color-light);
+        }
+        
+        .key-value-item:last-child {
+            border-bottom: none;
+        }
+        
+        .key-value-key {
+            width: 30%;
+            min-width: 200px;
+            padding: 15px 20px;
+            background-color: rgba(236, 240, 241, 0.5);
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+        
+        .key-value-value {
+            flex: 1;
+            padding: 15px 20px;
+        }
+
+        /* Emphasis Blocks */
+        .emphasis-block {
+            margin: 30px 0;
+            padding: 25px;
+            background-color: rgba(44, 62, 80, 0.05);
+            border-radius: var(--radius-medium);
+            box-shadow: var(--shadow-soft);
+            border-left: 4px solid var(--color-secondary);
+        }
+        
+        .emphasis-block h4 {
+            margin-top: 0;
+            color: var(--color-primary);
+            font-size: 1.3rem;
+        }
+        
+        .emphasis-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Image Placeholder */
+        .image-placeholder {
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background-color: var(--color-light);
+            position: relative;
+            margin: 20px 0;
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .image-placeholder::before {
+            content: "Imagen de ejemplo";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .image-placeholder::after {
+            content: "🖼️";
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header {
+                padding: 30px 20px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            main {
+                padding: 20px;
+            }
+            
+            .step {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                min-width: auto;
+                padding: 10px;
+            }
+            
+            .feature-cards {
+                flex-direction: column;
+            }
+            
+            .feature-card {
+                min-width: 100%;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+            }
+            
+            .tab.active {
+                border-left-color: var(--color-secondary);
+                border-bottom: none;
+            }
+            
+            .key-value-item {
+                flex-direction: column;
+            }
+            
+            .key-value-key {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Automatización de Procesos en People Analytics con Power Automate</h1>
+            <p>Descubre cómo ahorrar tiempo y reducir errores en tus tareas de Recursos Humanos con Power Automate</p>
+        </header>
+
+        <main>
+            <section id="seccion2">
+                <h2>Sección 2: Ejemplos Prácticos de Power Automate en Recursos Humanos</h2>
+                
+                <article>
+                    <h3>1. Creación de un Flujo Básico</h3>
+                    <p>El primer paso para comenzar con Power Automate es crear un flujo sencillo. Piensa en un flujo como una receta de cocina: primero decides qué quieres preparar (el objetivo), luego seleccionas los ingredientes (información o datos) y finalmente sigues los pasos (acciones) para obtener el resultado deseado.</p>
+                    
+                    <p>Veamos un ejemplo sencillo: crear un flujo que envíe un correo de bienvenida cuando un nuevo empleado se añade a una lista de Excel o SharePoint.</p>
+                    
+                    <div class="step-process">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Abre Power Automate</h4>
+                                <p>Ingresa a Power Automate desde Office 365 (busca el icono que parece un flujo con flechas) o desde la dirección <strong>flow.microsoft.com</strong>. Usa tu cuenta de trabajo normal, la misma que usas para entrar a Outlook o Teams.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Elige el tipo de flujo</h4>
+                                <p>Haz clic en "Crear" y luego selecciona "Flujo automatizado". Es como decirle a Power Automate: "quiero que hagas algo cada vez que ocurra un evento específico". Escribe un nombre claro como "Correo de bienvenida para nuevos empleados".</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Configura el desencadenador</h4>
+                                <p>Un desencadenador es el evento que inicia tu flujo. Selecciona "Cuando se agrega un elemento" en SharePoint o Excel Online. Esto es similar a decir: "cada vez que alguien añada una nueva fila en mi hoja de cálculo, haz algo".</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Añade una acción</h4>
+                                <p>Haz clic en "Nuevo paso" y busca "Enviar un correo electrónico". Completa los campos como lo harías en Outlook: destinatario (puedes usar un campo desde la lista, como "Correo del empleado"), asunto (por ejemplo: "¡Bienvenido/a a nuestra empresa!") y el cuerpo del mensaje con un texto amable.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>Guarda y prueba tu flujo</h4>
+                                <p>Haz clic en "Guardar" y luego en "Probar". Power Automate te permitirá simular el evento (como si se añadiera un nuevo empleado) para ver si funciona correctamente. Es como probar la receta antes de servírsela a los invitados.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Video tutorial: Creando tu primer flujo en Power Automate</h4>
+                    <p>Mira este video paso a paso que muestra cómo crear un flujo básico para automatizar notificaciones en Recursos Humanos:</p>
+                    
+                    <div class="video-container">
+                        <iframe src="https://player.vimeo.com/video/494861323" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-caption">Video tutorial: Creación de un flujo de notificaciones automáticas en Power Automate</div>
+                    
+                    <h4>Plantillas prediseñadas: La forma más fácil de empezar</h4>
+                    <p>Power Automate viene con muchas "recetas" ya preparadas (plantillas) que puedes usar y modificar. Es como usar una receta de un libro de cocina en lugar de inventar la tuya desde cero. Veamos algunas plantillas útiles para tareas de Recursos Humanos:</p>
+                    
+                    <div class="toggle-container">
+                        <div class="toggle-item">
+                            <div class="toggle-header">
+                                <div class="toggle-icon"></div>
+                                <div class="toggle-title">Plantillas útiles para Recursos Humanos</div>
+                            </div>
+                            <div class="toggle-content">
+                                <p>Estas plantillas te ahorrarán mucho tiempo. Solo haz clic en "Plantillas" en la pantalla principal de Power Automate y busca alguna de estas:</p>
+                                <ul>
+                                    <li><strong>Recordatorios automáticos:</strong> Envía alertas cuando se acerquen fechas importantes, como renovaciones de contratos, evaluaciones de desempeño o cumpleaños de empleados.</li>
+                                    <li><strong>Solicitudes de aprobación:</strong> Automatiza el proceso de vacaciones o permisos, enviando la solicitud al jefe correspondiente y notificando al empleado cuando se aprueba o rechaza.</li>
+                                    <li><strong>Encuestas de satisfacción:</strong> Envía automáticamente encuestas a empleados después de eventos como capacitaciones, y recopila las respuestas en una hoja de Excel.</li>
+                                    <li><strong>Actualización de informes:</strong> Mantiene tus informes de Excel o Power BI actualizados automáticamente con los datos más recientes.</li>
+                                    <li><strong>Sincronización de información:</strong> Mantiene la información de empleados actualizada entre diferentes sistemas, como tu lista de contactos y tu base de datos principal.</li>
+                                </ul>
+                                <p>Para usar una plantilla, solo selecciónala, conecta tus cuentas (como Outlook o SharePoint) y personaliza algunos detalles según tus necesidades.</p>
+                            </div>
+                        </div>
+                        <div class="toggle-item">
+                            <div class="toggle-header">
+                                <div class="toggle-icon"></div>
+                                <div class="toggle-title">Cómo personalizar una plantilla</div>
+                            </div>
+                            <div class="toggle-content">
+                                <p>Personalizar una plantilla es como ajustar una receta a tu gusto. Puedes modificar estos elementos:</p>
+                                <ul>
+                                    <li><strong>Fuentes de información:</strong> Cambia la lista de SharePoint o el archivo de Excel que el flujo debe usar, seleccionando los que tú ya tienes.</li>
+                                    <li><strong>Textos y mensajes:</strong> Modifica los mensajes de correo o notificaciones para que usen el lenguaje y estilo de tu empresa.</li>
+                                    <li><strong>Destinatarios:</strong> Cambia a quién se envían los correos o notificaciones según tu estructura organizativa.</li>
+                                    <li><strong>Condiciones:</strong> Añade "filtros" para que el flujo se active solo en situaciones específicas (por ejemplo, solo para ciertos departamentos).</li>
+                                    <li><strong>Apariencia visual:</strong> Ajusta cómo se ven los mensajes añadiendo el logo de tu empresa o usando los colores corporativos.</li>
+                                </ul>
+                                <p>Una vez personalizada, puedes guardar tu versión modificada para usarla en el futuro o compartirla con tus compañeros de trabajo.</p>
+                            </div>
+                        </div>
+                        <div class="toggle-item">
+                            <div class="toggle-header">
+                                <div class="toggle-icon"></div>
+                                <div class="toggle-title">Limitaciones a tener en cuenta</div>
+                            </div>
+                            <div class="toggle-content">
+                                <p>Es importante saber que las plantillas tienen algunas limitaciones:</p>
+                                <ul>
+                                    <li><strong>Son genéricas:</strong> Están diseñadas para funcionar en muchas empresas diferentes, por lo que no estarán 100% adaptadas a tu situación específica.</li>
+                                    <li><strong>Pueden requerir aplicaciones adicionales:</strong> Algunas plantillas usan programas que quizás no tengas instalados o configurados.</li>
+                                    <li><strong>Son básicas:</strong> Las plantillas suelen manejar casos sencillos. Para situaciones más complejas, necesitarás modificarlas o crear flujos desde cero.</li>
+                                    <li><strong>No conocen tus sistemas propios:</strong> Si tu empresa usa programas especiales o personalizados, las plantillas no estarán preparadas para conectarse a ellos automáticamente.</li>
+                                </ul>
+                                <p>Conforme te sientas más cómodo con Power Automate, probablemente pasarás de usar plantillas a crear tus propios flujos personalizados para adaptarse exactamente a las necesidades de tu equipo.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box warning">
+                        <h4>Importante: Proteger la privacidad de los datos</h4>
+                        <p>Al crear flujos que manejan información de empleados, recuerda siempre proteger la privacidad. Asegúrate de que solo las personas autorizadas reciban los datos sensibles. Power Automate respeta los permisos que ya tienes configurados en tus archivos y listas, pero debes verificar que no estés enviando información confidencial (como salarios o datos médicos) a personas que no deberían verla.</p>
+                    </div>
+                </article>
+                
+                <article>
+                    <h3>2. Automatizando la Actualización de Datos de Empleados</h3>
+                    <p>Mantener actualizada la información de los empleados suele ser una tarea repetitiva y propensa a errores. Con Power Automate, puedes crear formularios digitales que permitan a los empleados actualizar sus datos (como dirección, teléfono o contacto de emergencia) y que esta información se registre automáticamente en tus sistemas, sin necesidad de copiar y pegar manualmente.</p>
+                    
+                    <h4>Ejemplo: Formulario de actualización de datos personales</h4>
+                    <p>Veamos cómo crear un sistema sencillo donde los empleados puedan actualizar su información y ésta se guarde automáticamente en una lista de SharePoint o Excel:</p>
+                    
+                    <div class="feature-cards">
+                        <div class="feature-card">
+                            <div class="feature-card-header">
+                                <h4>Paso 1: Crea un formulario</h4>
+                            </div>
+                            <div class="feature-card-body">
+                                <p>Utiliza Microsoft Forms (similar a Google Forms) para crear un formulario sencillo con campos como:</p>
+                                <ul>
+                                    <li>Nombre y apellidos</li>
+                                    <li>Número de empleado (para identificarlo en el sistema)</li>
+                                    <li>Nueva dirección</li>
+                                    <li>Nuevo teléfono</li>
+                                    <li>Nuevo contacto de emergencia</li>
+                                </ul>
+                                <p>Puedes activar la opción de validación para asegurarte de que los teléfonos tienen el formato correcto o que no faltan datos importantes.</p>
+                            </div>
+                            <div class="feature-card-footer">
+                                Tiempo necesario: 30-60 minutos
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-card-header">
+                                <h4>Paso 2: Conecta el formulario con Power Automate</h4>
+                            </div>
+                            <div class="feature-card-body">
+                                <p>Crea un flujo que se active cada vez que alguien envíe el formulario. Es como configurar un asistente digital que recibe los formularios y procesa la información automáticamente.</p>
+                                <p>El flujo puede tener estas acciones básicas:</p>
+                                <ol>
+                                    <li>Recibir la respuesta del formulario</li>
+                                    <li>Buscar al empleado en tu lista o base de datos usando su número de empleado</li>
+                                    <li>Actualizar sus datos con la nueva información</li>
+                                    <li>Enviar un correo de confirmación al empleado</li>
+                                </ol>
+                            </div>
+                            <div class="feature-card-footer">
+                                Tiempo necesario: 1-2 horas
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-card-header">
+                                <h4>Paso 3: Añade aprobaciones si es necesario</h4>
+                            </div>
+                            <div class="feature-card-body">
+                                <p>Para ciertos tipos de cambios (como cambio de departamento o de supervisor), puedes añadir un paso de aprobación. Esto es como crear un punto de control donde un jefe o responsable de RR.HH. debe dar el visto bueno.</p>
+                                <p>El flujo enviará automáticamente un correo al aprobador correspondiente con la información del cambio y botones de "Aprobar" o "Rechazar". Según la respuesta, el flujo continuará actualizando los sistemas o notificará al empleado que su solicitud fue rechazada.</p>
+                            </div>
+                            <div class="feature-card-footer">
+                                Tiempo necesario adicional: 1 hora
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="emphasis-block">
+                        <h4>El flujo paso a paso, explicado de forma sencilla</h4>
+                        <p>Imaginemos el recorrido que sigue la información cuando un empleado actualiza sus datos:</p>
+                        <ol>
+                            <li><strong>María completa el formulario</strong> para actualizar su dirección y teléfono después de mudarse.</li>
+                            <li><strong>Power Automate recibe la información</strong> y se activa automáticamente (como si un asistente recibiera el formulario en su bandeja de entrada).</li>
+                            <li><strong>El "asistente digital" busca a María</strong> en la base de datos de empleados usando su número de empleado.</li>
+                            <li><strong>Actualiza los registros de María</strong> con la nueva dirección y teléfono en la lista de SharePoint o Excel.</li>
+                            <li><strong>Envía un correo de confirmación</strong> a María diciendo: "Hemos actualizado tus datos correctamente".</li>
+                            <li><strong>También notifica al departamento de RR.HH.</strong> sobre el cambio para que estén al tanto.</li>
+                        </ol>
+                        <p>Todo esto sucede en segundos, sin que nadie tenga que copiar y pegar información manualmente, eliminando la posibilidad de errores de transcripción.</p>
+                    </div>
+                    
+                    <h4>Guardando la información en SharePoint</h4>
+                    <p>SharePoint es como un archivador digital donde puedes guardar información de forma organizada. Veamos cómo organizarlo para guardar eficientemente los datos de los empleados:</p>
+                    
+                    <div class="tabbed-content">
+                        <div class="tabs">
+                            <div class="tab active">Organización básica</div>
+                            <div class="tab">Manejo de documentos</div>
+                            <div class="tab">Registro de cambios</div>
+                        </div>
+                        <div class="tab-content active">
+                            <p>La forma más sencilla de organizar la información de empleados en SharePoint es crear una lista principal con los datos básicos de cada persona:</p>
+                            <ul>
+                                <li><strong>Lista principal de empleados:</strong> Con columnas para:
+                                    <ul>
+                                        <li>Número de empleado</li>
+                                        <li>Nombre completo</li>
+                                        <li>Departamento</li>
+                                        <li>Cargo</li>
+                                        <li>Fecha de contratación</li>
+                                        <li>Correo electrónico</li>
+                                        <li>Teléfono</li>
+                                        <li>Dirección</li>
+                                        <li>Contacto de emergencia</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <p>Esta estructura es similar a una hoja de Excel, pero con la ventaja de que múltiples personas pueden acceder y actualizar la información de forma segura, y puedes conectarla fácilmente con Power Automate.</p>
+                            <p>Power Automate puede buscar al empleado por su número o correo y actualizar solo las columnas que han cambiado, manteniendo el resto de la información intacta.</p>
+                        </div>
+                        <div class="tab-content">
+                            <p>Además de los datos básicos, a menudo necesitarás guardar documentos relacionados con los empleados (como certificados, comprobantes de dirección, etc.). Power Automate puede ayudarte a organizar estos archivos automáticamente:</p>
+                            <ul>
+                                <li><strong>Crea una biblioteca de documentos en SharePoint</strong> llamada "Documentos de Empleados"</li>
+                                <li><strong>Organiza la biblioteca con carpetas</strong> (una por empleado o por tipo de documento)</li>
+                                <li><strong>Configura Power Automate para que guarde los archivos adjuntos</strong> que los empleados envían a través de formularios</li>
+                            </ul>
+                            <p>Por ejemplo, si María adjunta su comprobante de domicilio al formulario de actualización, Power Automate puede:</p>
+                            <ol>
+                                <li>Tomar el archivo adjunto del formulario</li>
+                                <li>Cambiar el nombre del archivo a algo más descriptivo (como "Comprobante_Domicilio_Maria_Garcia_2023.pdf")</li>
+                                <li>Guardarlo en la carpeta correcta de SharePoint</li>
+                                <li>Registrar en la lista de empleados que se ha actualizado este documento</li>
+                            </ol>
+                            <p>Esto mantiene toda la documentación organizada y fácil de encontrar.</p>
+                        </div>
+                        <div class="tab-content">
+                            <p>Es importante mantener un registro de quién cambió qué información y cuándo. Esto es útil para auditorías y para resolver cualquier discrepancia. Power Automate puede ayudarte a mantener este historial automáticamente:</p>
+                            <ol>
+                                <li><strong>Crea una lista separada llamada "Registro de Cambios"</strong> con columnas como:
+                                    <ul>
+                                        <li>Número de empleado</li>
+                                        <li>Nombre del empleado</li>
+                                        <li>Fecha y hora del cambio</li>
+                                        <li>Campo modificado (ej. "Dirección", "Teléfono")</li>
+                                        <li>Valor anterior</li>
+                                        <li>Nuevo valor</li>
+                                        <li>Método de actualización (ej. "Formulario de empleado", "Actualización por RR.HH.")</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Configura tu flujo para que registre cada cambio</strong> en esta lista de registro</li>
+                            </ol>
+                            <p>Por ejemplo, cuando María actualiza su dirección, además de cambiar el dato en la lista principal, Power Automate creará automáticamente una entrada en el registro de cambios que muestra qué dato cambió, cuál era el valor anterior y cuál es el nuevo.</p>
+                            <p>Esto te da una "máquina del tiempo" donde puedes ver el historial completo de cambios de cada empleado, lo que es muy útil si alguna vez necesitas verificar cuándo y por qué se modificó cierta información.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box tip">
+                        <h4>Consejo: Comienza con algo sencillo</h4>
+                        <p>Si es la primera vez que creas este tipo de automatizaciones, comienza con un formulario simple que solo actualice uno o dos campos (como teléfono o dirección de correo). Una vez que tengas ese flujo funcionando correctamente, puedes expandirlo para manejar actualizaciones más complejas o que requieran aprobaciones. Es como aprender a cocinar: empieza con recetas sencillas antes de intentar preparar un menú completo.</p>
+                    </div>
+                    
+                    <h4>Desafíos comunes y cómo resolverlos</h4>
+                    <p>Al implementar este tipo de sistemas automatizados, es normal encontrarse con algunos obstáculos. Veamos los más comunes y cómo superarlos:</p>
+                    
+                    <div class="key-value-list">
+                        <div class="key-value-item">
+                            <div class="key-value-key">Resistencia al cambio</div>
+                            <div class="key-value-value">
+                                <p><strong>Situación:</strong> Algunos empleados prefieren seguir usando los métodos antiguos (como enviar un correo o llenar un formulario en papel) en lugar del nuevo sistema digital.</p>
+                                <p><strong>Solución:</strong> Crea una guía sencilla con capturas de pantalla que muestre paso a paso cómo usar el nuevo formulario. Organiza pequeñas sesiones de demostración (pueden ser por Teams) donde muestres lo fácil que es usar el sistema y respondas preguntas. Resalta los beneficios para ellos: actualización más rápida, confirmación inmediata y menos errores.</p>
+                            </div>
+                        </div>
+                        <div class="key-value-item">
+                            <div class="key-value-key">Datos incorrectos</div>
+                            <div class="key-value-value">
+                                <p><strong>Situación:</strong> Los empleados a veces ingresan datos en formatos incorrectos (como teléfonos sin el código de área) o cometen errores al escribir.</p>
+                                <p><strong>Solución:</strong> Utiliza las funciones de validación de Microsoft Forms para verificar que los datos tengan el formato correcto. Por ejemplo, puedes configurar el campo de teléfono para que solo acepte números y tenga un mínimo y máximo de dígitos. También puedes añadir ejemplos de formato correcto en las instrucciones del formulario (como "Ingrese su teléfono con código de área: Ejemplo 55-5555-5555").</p>
+                            </div>
+                        </div>
+                        <div class="key-value-item">
+                            <div class="key-value-key">Múltiples sistemas</div>
+                            <div class="key-value-value">
+                                <p><strong>Situación:</strong> La información de los empleados se guarda en varios lugares (Excel, SharePoint, sistema de nómina) y es difícil mantenerlos todos actualizados.</p>
+                                <p><strong>Solución:</strong> Establece una "fuente única de verdad" (como tu lista de SharePoint) donde se guarde la información principal, y usa Power Automate para sincronizar automáticamente los cambios con los otros sistemas. Es como tener un asistente que, cuando actualizas el dato en un lugar, va y hace los mismos cambios en todos los demás sistemas.</p>
+                            </div>
+                        </div>
+                        <div class="key-value-item">
+                            <div class="key-value-key">Protección de datos</div>
+                            <div class="key-value-value">
+                                <p><strong>Situación:</strong> Preocupación por la seguridad y privacidad de los datos personales de los empleados.</p>
+                                <p><strong>Solución:</strong> Configura cuidadosamente los permisos en SharePoint para que solo las personas autorizadas puedan ver la información completa. Utiliza la función de "Vista" en SharePoint para crear versiones limitadas de la lista donde ciertos usuarios solo puedan ver información básica y no datos sensibles. En los correos de notificación, incluye solo la información mínima necesaria (por ejemplo, "Se ha actualizado la dirección" en lugar de mostrar la dirección completa).</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <article>
+                    <h3>3. Conectando Power Automate con Power BI</h3>
+                    <p>Power BI es una herramienta que te permite crear gráficos e informes visuales a partir de tus datos. Cuando lo combinas con Power Automate, puedes mantener estos informes siempre actualizados y enviar notificaciones cuando los datos muestren situaciones importantes que requieren atención.</p>
+                    
+                    <p>Imagina que tienes un informe en Power BI que muestra indicadores importantes de RR.HH. como rotación de personal, días de ausencia o vacantes pendientes. Poder mantener este informe actualizado automáticamente y recibir alertas cuando hay valores preocupantes puede ayudarte a tomar decisiones más rápidas y efectivas.</p>
+                    
+                    <h4>Manteniendo tus informes siempre actualizados</h4>
+                    <p>Uno de los usos más útiles de Power Automate con Power BI es la actualización automática de tus informes. Es como tener un asistente que actualiza tus gráficos cada mañana antes de que llegues a la oficina:</p>
+                    
+                    <div class="step-process">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Prepara tus datos</h4>
+                                <p>Primero, asegúrate de tener tus datos de RR.HH. organizados en Excel, SharePoint o alguna otra fuente que Power BI pueda leer. Por ejemplo, una lista en SharePoint con la información de tus empleados o una hoja de Excel con el registro de ausencias.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Crea un flujo programado</h4>
+                                <p>En Power Automate, crea un flujo que se ejecute automáticamente en momentos específicos (por ejemplo, todos los días a las 6:00 AM o cada lunes por la mañana). Es como programar una tarea recurrente.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Verifica que los datos estén listos</h4>
+                                <p>Añade un paso en tu flujo para comprobar que todos los datos necesarios están disponibles y actualizados. Por ejemplo, puedes verificar que la lista de empleados tenga todas las entradas esperadas o que los registros del mes actual estén completos.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Actualiza el informe de Power BI</h4>
+                                <p>Si todo está correcto, utiliza la acción "Actualizar conjunto de datos" de Power BI para refrescar tu informe con los datos más recientes. Es como decirle a Power BI: "vuelve a calcular todos los gráficos y números con la información actual".</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>Envía una notificación de actualización</h4>
+                                <p>Finalmente, envía un correo o notificación informando que el informe ha sido actualizado y está listo para ser consultado. Puedes incluir un enlace directo al informe y un resumen de los puntos más destacados.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="emphasis-block">
+                        <h4>Ejemplo sencillo: Actualización diaria del tablero de RR.HH.</h4>
+                        <p>Imaginemos un ejemplo paso a paso:</p>
+                        <ol>
+                            <li>Has creado un tablero en Power BI que muestra:
+                                <ul>
+                                    <li>Número total de empleados por departamento</li>
+                                    <li>Tasa de rotación mensual</li>
+                                    <li>Días de ausencia acumulados</li>
+                                    <li>Vacantes pendientes de cubrir</li>
+                                </ul>
+                            </li>
+                            <li>Configuras un flujo en Power Automate para que, cada día a las 6:00 AM:
+                                <ul>
+                                    <li>Verifique que las listas de SharePoint con los datos de empleados, ausencias y vacantes estén accesibles</li>
+                                    <li>Actualice el conjunto de datos de Power BI</li>
+                                    <li>Envíe un correo a los gerentes de RR.HH. con un mensaje como: "El tablero de RR.HH. ha sido actualizado con los datos más recientes. Puede consultarlo en este enlace: [link]"</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <p>De esta manera, cuando los gerentes llegan a la oficina o abren su correo por la mañana, ya tienen la información actualizada lista para ser consultada, sin tener que hacer nada manualmente.</p>
+                    </div>
+                    
+                    <h4>Creando alertas automáticas basadas en datos</h4>
+                    <p>Otro uso muy valioso es configurar alertas que te avisen cuando ciertos indicadores alcanzan niveles preocupantes o que requieren atención. Es como tener un vigilante que monitorea constantemente tus datos y te avisa solo cuando hay algo importante que ver:</p>
+                    
+                    <div class="info-box case">
+                        <h4>Ejemplo práctico: Sistema de alertas para Recursos Humanos</h4>
+                        <p>Puedes configurar alertas para situaciones como estas:</p>
+                        <ul>
+                            <li><strong>Alerta de alta prioridad (notificación inmediata):</strong>
+                                <ul>
+                                    <li>La rotación de personal supera el 15% en un mes</li>
+                                    <li>Hay posiciones críticas sin cubrir por más de 60 días</li>
+                                    <li>El ausentismo supera el 5% en áreas operativas</li>
+                                </ul>
+                            </li>
+                            <li><strong>Alerta de prioridad media (informe diario):</strong>
+                                <ul>
+                                    <li>Menos del 85% de los empleados ha completado capacitaciones obligatorias</li>
+                                    <li>El nivel de satisfacción de los empleados baja más de 10 puntos</li>
+                                    <li>Hay empleados con más de 30 días de vacaciones acumuladas sin usar</li>
+                                </ul>
+                            </li>
+                            <li><strong>Alerta de prioridad baja (resumen semanal):</strong>
+                                <ul>
+                                    <li>Participación en encuestas por debajo del 70%</li>
+                                    <li>Tiempo de aprobación de solicitudes superior a 5 días</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <p>Para implementar estas alertas, sigue estos pasos:</p>
+                    
+                    <ol>
+                        <li><strong>Define tus indicadores importantes:</strong> Decide qué números son críticos para tu departamento y qué valores indican una situación que requiere atención.</li>
+                        <li><strong>Asegúrate de que estos datos estén en Power BI:</strong> Crea un informe que incluya estos indicadores clave y sus valores actuales.</li>
+                        <li><strong>Crea un flujo que verifique los valores:</strong> Configura Power Automate para que consulte periódicamente estos números y los compare con los umbrales que has definido.</li>
+                        <li><strong>Configura notificaciones personalizadas:</strong> Define quién debe recibir cada tipo de alerta y qué información debe incluirse en la notificación.</li>
+                        <li><strong>Añade acciones de seguimiento:</strong> En algunos casos, puedes configurar el flujo para que, además de enviar una notificación, cree automáticamente una tarea de seguimiento o programe una reunión.</li>
+                    </ol>
+                    
+                    <div class="info-box success">
+                        <h4>Caso de éxito: Prevención de rotación de personal</h4>
+                        <p>Una empresa de tecnología creó un sistema usando Power Automate y Power BI que monitoreaba señales tempranas de posible rotación de empleados, como:</p>
+                        <ul>
+                            <li>Disminución en la participación en reuniones y actividades</li>
+                            <li>Aumento en ausencias de corta duración</li>
+                            <li>Patrones inusuales de acceso a sistemas</li>
+                        </ul>
+                        <p>Cuando el sistema detectaba estas señales en varios empleados de un mismo equipo, enviaba automáticamente una alerta al gerente y al representante de RR.HH. correspondiente. Esto les permitía intervenir a tiempo, hablando con los empleados o mejorando ciertas condiciones de trabajo.</p>
+                        <p>El resultado: redujeron en un 23% la rotación no deseada durante el primer año, lo que significó un ahorro importante en costos de reclutamiento y capacitación.</p>
+                    </div>
+                    
+                    <h4>Consejos para un mejor rendimiento</h4>
+                    <p>Al trabajar con grandes cantidades de datos en Power BI y Power Automate, es importante seguir algunas buenas prácticas para que todo funcione sin problemas:</p>
+                    
+                    <div class="toggle-container">
+                        <div class="toggle-item">
+                            <div class="toggle-header">
+                                <div class="toggle-icon"></div>
+                                <div class="toggle-title">Optimización de consultas</div>
+                            </div>
+                            <div class="toggle-content">
+                                <p>Para que tus flujos se ejecuten más rápido y sin errores:</p>
+                                <ul>
+                                    <li><strong>Solo pide lo que necesitas:</strong> En lugar de traer todos los datos de una tabla grande, filtra y trae solo los registros que realmente vas a usar (por ejemplo, solo los empleados activos o solo las ausencias del mes actual).</li>
+                                    <li><strong>Procesa solo lo nuevo:</strong> Configura tus flujos para que trabajen solo con los datos nuevos o modificados desde la última ejecución, en lugar de reprocesar todo cada vez.</li>
+                                    <li><strong>Usa vistas predefinidas:</strong> En SharePoint, crea vistas que ya tengan los filtros aplicados, en lugar de hacer el filtrado dentro de Power Automate.</li>
+                                </ul>
+                                <p>Es como cuando buscas algo en tu casa: es mucho más eficiente si ya sabes en qué habitación está, en lugar de revisar toda la casa cada vez.</p>
+                            </div>
+                        </div>
+                        <div class="toggle-item">
+                            <div class="toggle-header">
+                                <div class="toggle-icon"></div>
+                                <div class="toggle-title">Frecuencia de actualización</div>
+                            </div>
+                            <div class="toggle-content">
+                                <p>Equilibra la necesidad de datos actualizados con el rendimiento del sistema:</p>
+                                <ul>
+                                    <li><strong>No todo necesita actualizarse con la misma frecuencia:</strong> Los datos operativos diarios (como ausencias) pueden necesitar actualizaciones más frecuentes que los datos estratégicos mensuales (como rotación).</li>
+                                    <li><strong>Distribuye las actualizaciones:</strong> En lugar de actualizar todos tus informes a la misma hora, programa las actualizaciones en diferentes momentos para no sobrecargar los sistemas.</li>
+                                    <li><strong>Elige momentos de baja actividad:</strong> Programa las actualizaciones grandes para momentos en que hay menos usuarios utilizando los sistemas, como temprano en la mañana o en la noche.</li>
+                                </ul>
+                                <p>Es como programar las tareas del hogar: no intentas lavar la ropa, pasar la aspiradora y cocinar todo al mismo tiempo, sino que distribuyes las tareas a lo largo del día o la semana.</p>
+                            </div>
+                        </div>
+                        <div class="toggle-item">
+                            <div class="toggle-header">
+                                <div class="toggle-icon"></div>
+                                <div class="toggle-title">Monitoreo y mantenimiento</div>
+                            </div>
+                            <div class="toggle-content">
+                                <p>Asegúrate de que todo sigue funcionando correctamente con el paso del tiempo:</p>
+                                <ul>
+                                    <li><strong>Revisa los registros de ejecución:</strong> Power Automate mantiene un historial de cada vez que se ejecuta un flujo. Revisa estos registros periódicamente para detectar errores o retrasos.</li>
+                                    <li><strong>Configura alertas de sistema:</strong> Crea notificaciones automáticas para los administradores cuando un flujo falla o tarda más de lo esperado.</li>
+                                    <li><strong>Haz revisiones periódicas:</strong> Al menos una vez al trimestre, revisa todos tus flujos para ver si hay formas de mejorarlos o si alguno ya no es necesario.</li>
+                                    <li><strong>Ten un plan B:</strong> Documenta cómo actualizar manualmente los informes más importantes en caso de que el sistema automatizado falle.</li>
+                                </ul>
+                                <p>Es como el mantenimiento de un coche: con revisiones regulares, puedes identificar y solucionar pequeños problemas antes de que causen una avería mayor.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <article>
+                    <h3>4. Alertas y Seguimiento de Indicadores Clave</h3>
+                    <p>Una de las aplicaciones más útiles de Power Automate en Recursos Humanos es la creación de sistemas de alertas que monitorizan automáticamente tus indicadores más importantes y te avisan cuando requieren atención. Esto te permite ser proactivo en lugar de reactivo en la gestión del talento.</p>
+                    
+                    <h4>Creando un sistema de alertas efectivo</h4>
+                    <p>Piensa en un sistema de alertas como en un panel de control de un coche que te avisa cuando algo necesita atención. En Recursos Humanos, puedes monitorizar indicadores como rotación de personal, ausencias, evaluaciones pendientes o vacantes sin cubrir.</p>
+                    
+                    <div class="feature-cards">
+                        <div class="feature-card">
+                            <div class="feature-card-header">
+                                <h4>Paso 1: Define qué quieres monitorizar</h4>
+                            </div>
+                            <div class="feature-card-body">
+                                <p>Primero, identifica los indicadores más importantes para tu organización. Para empezar, elige entre 3 y 5 métricas que realmente impacten en tus resultados, como:</p>
+                                <ul>
+                                    <li><strong>Porcentaje de rotación</strong> (empleados que dejan la empresa)</li>
+                                    <li><strong>Tasa de ausentismo</strong> (días de ausencia/días laborables)</li>
+                                    <li><strong>Vacantes sin cubrir</strong> por más de X días</li>
+                                    <li><strong>Empleados sin evaluación</strong> en los últimos 12 meses</li>
+                                    <li><strong>Niveles de satisfacción</strong> basados en encuestas</li>
+                                </ul>
+                                <p>Para cada indicador, define claramente cuándo se considera "normal", "precaución" o "alerta".</p>
+                            </div>
+                            <div class="feature-card-footer">
+                                Requiere: Conocimiento de tu negocio
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-card-header">
+                                <h4>Paso 2: Configura tus fuentes de datos</h4>
+                            </div>
+                            <div class="feature-card-body">
+                                <p>Asegúrate de tener la información necesaria para calcular estos indicadores guardada en un formato que Power Automate pueda leer, como:</p>
+                                <ul>
+                                    <li>Listas de SharePoint con registros de empleados</li>
+                                    <li>Hojas de Excel con registros de asistencia</li>
+                                    <li>Bases de datos de vacantes o solicitudes</li>
+                                    <li>Resultados de encuestas en Microsoft Forms</li>
+                                </ul>
+                                <p>Organiza estos datos de manera que sea fácil extraer la información necesaria para tus indicadores. Por ejemplo, asegúrate de que los registros de empleados incluyan su departamento para poder calcular tasas por área.</p>
+                            </div>
+                            <div class="feature-card-footer">
+                                Requiere: Organización de datos
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-card-header">
+                                <h4>Paso 3: Crea flujos de alerta</h4>
+                            </div>
+                            <div class="feature-card-body">
+                                <p>Configura flujos en Power Automate que:</p>
+                                <ol>
+                                    <li>Se ejecuten con la frecuencia adecuada (diaria, semanal o mensual según el indicador)</li>
+                                    <li>Recopilen los datos necesarios de tus fuentes</li>
+                                    <li>Calculen los indicadores (por ejemplo, dividir el número de salidas entre el total de empleados para obtener la tasa de rotación)</li>
+                                    <li>Comparen los resultados con tus umbrales predefinidos</li>
+                                    <li>Envíen notificaciones solo cuando los valores estén fuera de lo normal</li>
+                                </ol>
+                                <p>Las notificaciones pueden ser correos electrónicos, mensajes en Teams o incluso mensajes de texto para alertas críticas.</p>
+                            </div>
+                            <div class="feature-card-footer">
+                                Requiere: Configuración en Power Automate
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="image-placeholder"></div>
+                    
+                    <h4>Enviando alertas a las personas correctas</h4>
+                    <p>Una vez que has identificado que un indicador requiere atención, es importante que esta información llegue a las personas adecuadas que pueden tomar medidas:</p>
+                    
+                    <div class="quiz-simple">
+                        <div class="quiz-simple-header">
+                            <h4>Comprueba tu conocimiento: ¿Qué tipo de alertas necesitan estos roles?</h4>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <p>1. ¿Quién debería recibir alertas sobre un aumento en las bajas por enfermedad en un departamento específico?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="false">
+                                    <div class="option-indicator"></div>
+                                    El director general de la empresa
+                                </div>
+                                <div class="quiz-option" data-correct="false">
+                                    <div class="option-indicator"></div>
+                                    El departamento financiero
+                                </div>
+                                <div class="quiz-option" data-correct="true">
+                                    <div class="option-indicator"></div>
+                                    El gerente del departamento y el representante de RR.HH. asignado
+                                </div>
+                                <div class="quiz-option" data-correct="false">
+                                    <div class="option-indicator"></div>
+                                    Todos los empleados de la empresa
+                                </div>
+                            </div>
+                            <div class="quiz-feedback">La respuesta correcta es "El gerente del departamento y el representante de RR.HH. asignado". Ellos son quienes pueden tomar medidas inmediatas para entender y solucionar el problema.</div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <p>2. ¿Qué información es más útil incluir en una alerta sobre rotación de personal?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="false">
+                                    <div class="option-indicator"></div>
+                                    Solo el porcentaje actual de rotación
+                                </div>
+                                <div class="quiz-option" data-correct="true">
+                                    <div class="option-indicator"></div>
+                                    El porcentaje actual, la comparación con meses anteriores, y un desglose por departamento
+                                </div>
+                                <div class="quiz-option" data-correct="false">
+                                    <div class="option-indicator"></div>
+                                    Una lista de todos los empleados que han salido
+                                </div>
+                                <div class="quiz-option" data-correct="false">
+                                    <div class="option-indicator"></div>
+                                    Información detallada sobre cada salida individual
+                                </div>
+                            </div>
+                            <div class="quiz-feedback">La respuesta correcta es "El porcentaje actual, la comparación con meses anteriores, y un desglose por departamento". Esta información proporciona no solo la alerta sino también el contexto necesario para entender la gravedad y localización del problema.</div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <p>3. ¿Cuál es la mejor manera de manejar alertas frecuentes de menor importancia?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="false">
+                                    <div class="option-indicator"></div>
+                                    Enviar cada alerta inmediatamente por correo electrónico
+                                </div>
+                                <div class="quiz-option" data-correct="false">
+                                    <div class="option-indicator"></div>
+                                    Desactivarlas para no molestar a nadie
+                                </div>
+                                <div class="quiz-option" data-correct="false">
+                                    <div class="option-indicator"></div>
+                                    Enviarlas a un grupo grande de personas para que alguien se encargue
+                                </div>
+                                <div class="quiz-option" data-correct="true">
+                                    <div class="option-indicator"></div>
+                                    Agruparlas en un resumen diario o semanal
+                                </div>
+                            </div>
+                            <div class="quiz-feedback">La respuesta correcta es "Agruparlas en un resumen diario o semanal". Esto evita la fatiga de alertas (cuando las personas empiezan a ignorar las notificaciones por recibir demasiadas) mientras sigue proporcionando la información importante.</div>
+                        </div>
+                    </div>
+                    
+                    <p>A continuación, presentamos algunos ejemplos concretos de cómo se pueden usar las alertas en diferentes áreas de Recursos Humanos:</p>
+                    
+                    <div class="tabbed-content">
+                        <div class="tabs">
+                            <div class="tab active">Rotación de personal</div>
+                            <div class="tab">Vacantes sin cubrir</div>
+                            <div class="tab">Cumplimiento de formación</div>
+                        </div>
+                        <div class="tab-content active">
+                            <h4>Sistema de alerta de rotación de personal</h4>
+                            <p>Este sistema detecta cuando la rotación en un departamento aumenta por encima de lo normal:</p>
+                            <ol>
+                                <li><strong>El flujo calcula mensualmente</strong> la tasa de rotación por departamento (número de salidas dividido por el número total de empleados).</li>
+                                <li><strong>Si la tasa supera el 10% en un mes</strong> o está por encima del promedio histórico del departamento más un 50%, se genera una alerta.</li>
+                                <li><strong>La alerta se envía al gerente del departamento</strong> y al representante de RR.HH. asignado.</li>
+                                <li><strong>El mensaje incluye:</strong>
+                                    <ul>
+                                        <li>La tasa actual y su comparación con el mes anterior</li>
+                                        <li>Un gráfico sencillo mostrando la tendencia de los últimos 6 meses</li>
+                                        <li>Enlaces a informes más detallados en Power BI</li>
+                                        <li>Sugerencias de posibles acciones a tomar (como realizar entrevistas de retención)</li>
+                                    </ul>
+                                </li>
+                                <li><strong>El sistema también crea automáticamente</strong> una tarea de seguimiento en el sistema de RR.HH. para asegurar que se investigue la situación.</li>
+                            </ol>
+                            <p>Esta alerta permite intervenir rápidamente cuando se detectan problemas de retención, antes de que se conviertan en una crisis mayor.</p>
+                        </div>
+                        <div class="tab-content">
+                            <h4>Monitoreo de vacantes críticas</h4>
+                            <p>Este sistema ayuda a hacer seguimiento a posiciones que llevan demasiado tiempo sin cubrir:</p>
+                            <ol>
+                                <li><strong>El flujo revisa semanalmente</strong> todas las vacantes abiertas y calcula cuántos días lleva cada una sin cubrirse.</li>
+                                <li><strong>Las vacantes se clasifican</strong> según su impacto en el negocio (críticas, importantes o estándar).</li>
+                                <li><strong>Si una vacante crítica supera los 45 días</strong> o una importante supera los 60 días sin ser cubierta, se genera una alerta.</li>
+                                <li><strong>La alerta se envía</strong> al responsable de reclutamiento y al gerente que solicita la contratación.</li>
+                                <li><strong>El mensaje incluye:</strong>
+                                    <ul>
+                                        <li>Información sobre la vacante (título, departamento, tiempo abierta)</li>
+                                        <li>Resumen del estado actual del proceso (número de candidatos, entrevistas realizadas)</li>
+                                        <li>Opciones para acelerar el proceso (como aumentar el presupuesto o considerar candidatos internos)</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Cada semana que la vacante sigue abierta</strong>, el mensaje se escala a un nivel superior en la organización.</li>
+                            </ol>
+                            <p>Este sistema asegura que las posiciones importantes no queden desatendidas durante demasiado tiempo, lo que podría afectar la operación del negocio.</p>
+                        </div>
+                        <div class="tab-content">
+                            <h4>Alertas de cumplimiento formativo</h4>
+                            <p>Este sistema monitorea la realización de cursos obligatorios por parte de los empleados:</p>
+                            <ol>
+                                <li><strong>El flujo revisa mensualmente</strong> los registros de formación y calcula el porcentaje de empleados que han completado los cursos obligatorios (seguridad, cumplimiento normativo, etc.).</li>
+                                <li><strong>Si un departamento cae por debajo del 85% de cumplimiento</strong> o faltan menos de 30 días para una fecha límite y el cumplimiento está por debajo del 90%, se genera una alerta.</li>
+                                <li><strong>La alerta se envía</strong> al gerente del departamento y al equipo de formación.</li>
+                                <li><strong>El mensaje incluye:</strong>
+                                    <ul>
+                                        <li>La tasa actual de cumplimiento</li>
+                                        <li>Una lista específica de los empleados que aún no han completado la formación</li>
+                                        <li>Enlaces directos para que el gerente pueda enviar recordatorios personalizados</li>
+                                        <li>La fecha límite para completar la formación y las posibles consecuencias de no hacerlo</li>
+                                    </ul>
+                                </li>
+                                <li><strong>El sistema genera automáticamente</strong> correos recordatorios para los empleados pendientes si el gerente lo autoriza.</li>
+                            </ol>
+                            <p>Este sistema ayuda a asegurar que la empresa cumpla con los requisitos legales y normativos en materia de formación, evitando posibles sanciones o problemas de cumplimiento.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box warning">
+                        <h4>Evitando la fatiga de alertas</h4>
+                        <p>Un problema común es que las personas empiecen a ignorar las notificaciones si reciben demasiadas. Para evitarlo:</p>
+                        <ul>
+                            <li><strong>Agrupa alertas similares</strong> en un solo mensaje en lugar de enviar múltiples notificaciones.</li>
+                            <li><strong>Establece niveles de importancia</strong> y envía solo las más urgentes inmediatamente; las demás puedes incluirlas en resúmenes diarios o semanales.</li>
+                            <li><strong>Personaliza las alertas según el rol</strong> de cada persona. Por ejemplo, un gerente de departamento solo debe recibir alertas relacionadas con su equipo.</li>
+                            <li><strong>Revisa periódicamente la efectividad</strong> de tus alertas y ajusta los umbrales si es necesario. Si una alerta se activa constantemente sin que se tomen medidas, probablemente no es útil o el umbral está mal calibrado.</li>
+                        </ul>
+                    </div>
+                </article>
+                
+                <article>
+                    <h3>5. Buenas Prácticas y Solución de Problemas</h3>
+                    <p>Para terminar esta sección, vamos a ver algunas recomendaciones para que tus flujos de Power Automate funcionen sin problemas y sepas qué hacer cuando algo no va como esperabas.</p>
+                    
+                    <h4>Cómo mantener tus flujos funcionando correctamente</h4>
+                    <p>Al igual que un jardín necesita cuidados regulares, tus flujos de automatización también requieren atención para mantenerse en buen estado:</p>
+                    
+                    <div class="toggle-container">
+                        <div class="toggle-item">
+                            <div class="toggle-header">
+                                <div class="toggle-icon"></div>
+                                <div class="toggle-title">Lleva un registro de tus flujos</div>
+                            </div>
+                            <div class="toggle-content">
+                                <p>Una buena documentación te ahorrará muchos dolores de cabeza en el futuro.</p>
+                                <p>Crea una lista sencilla en Excel o SharePoint donde registres cada flujo que creas, incluyendo:</p>
+                                <ul>
+                                    <li><strong>Nombre del flujo:</strong> Usa nombres descriptivos que indiquen claramente qué hace el flujo.</li>
+                                    <li><strong>Propósito:</strong> Una breve descripción de para qué sirve y qué problema resuelve.</li>
+                                    <li><strong>De dónde toma información:</strong> Qué listas, archivos o bases de datos usa como entrada.</li>
+                                    <li><strong>Qué hace con ella:</strong> Qué transformaciones o cálculos realiza.</li>
+                                    <li><strong>Dónde guarda los resultados:</strong> Dónde se almacena la información procesada o a quién se envían las notificaciones.</li>
+                                    <li><strong>Frecuencia:</strong> Cada cuánto se ejecuta o qué evento lo activa.</li>
+                                    <li><strong>Responsable:</strong> Quién lo creó y quién debe ser contactado si hay problemas.</li>
+                                </ul>
+                                <p>Esta documentación será muy útil cuando necesites hacer cambios en el futuro o si otra persona debe encargarse de mantener los flujos.</p>
+                            </div>
+                        </div>
+                        <div class="toggle-item">
+                            <div class="toggle-header">
+                                <div class="toggle-icon"></div>
+                                <div class="toggle-title">Revisa regularmente el funcionamiento</div>
+                            </div>
+                            <div class="toggle-content">
+                                <p>Establece un hábito de revisar periódicamente que todo siga funcionando correctamente.</p>
+                                <ul>
+                                    <li><strong>Revisiones semanales rápidas:</strong> Dedica 10-15 minutos cada semana a revisar el historial de ejecuciones de tus flujos más importantes. ¿Se ejecutaron correctamente? ¿Hubo errores?</li>
+                                    <li><strong>Revisiones mensuales más profundas:</strong> Una vez al mes, revisa todos tus flujos para verificar que siguen siendo relevantes y funcionan como se espera.</li>
+                                    <li><strong>Configura alertas automáticas:</strong> Crea un flujo que te notifique cuando otro flujo falla o no se ejecuta en el tiempo esperado.</li>
+                                    <li><strong>Pruebas periódicas:</strong> De vez en cuando, ejecuta manualmente tus flujos más críticos con datos de prueba para asegurarte de que siguen funcionando correctamente.</li>
+                                </ul>
+                                <p>Estas revisiones regulares te permitirán detectar y resolver problemas antes de que afecten a tu trabajo diario.</p>
+                            </div>
+                        </div>
+                        <div class="toggle-item">
+                            <div class="toggle-header">
+                                <div class="toggle-icon"></div>
+                                <div class="toggle-title">Qué hacer cuando algo falla</div>
+                            </div>
+                            <div class="toggle-content">
+                                <p>Cuando un flujo no funciona como esperabas, sigue estos pasos para identificar y resolver el problema:</p>
+                                <ol>
+                                    <li><strong>Revisa el historial de ejecuciones:</strong> En Power Automate, ve a tu flujo y haz clic en "Historial de ejecuciones". Busca la ejecución que falló y ábrela para ver exactamente dónde ocurrió el error.</li>
+                                    <li><strong>Lee el mensaje de error:</strong> Power Automate generalmente te dará un mensaje que indica qué salió mal. A veces son técnicos, pero dan pistas sobre el problema.</li>
+                                    <li><strong>Verifica las conexiones:</strong> Muchos errores ocurren porque las conexiones a SharePoint, Excel u otros servicios han caducado. Comprueba que todas las conexiones estén activas.</li>
+                                    <li><strong>Revisa si algo cambió:</strong> ¿Alguien modificó la estructura de la lista de SharePoint? ¿Se movió o renombró el archivo de Excel? Estos cambios pueden hacer que un flujo deje de funcionar.</li>
+                                    <li><strong>Prueba paso a paso:</strong> Si no puedes identificar el problema, ejecuta manualmente el flujo y revisa cada paso para ver dónde falla.</li>
+                                    <li><strong>Busca ayuda:</strong> Si no puedes resolver el problema, busca en los foros de Microsoft o pregunta a un compañero con más experiencia en Power Automate.</li>
+                                </ol>
+                                <p>Recuerda: los errores son oportunidades de aprendizaje. Cada problema que resuelvas te hará más hábil en el uso de Power Automate.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Protección de la privacidad de los datos</h4>
+                    <p>Cuando trabajamos con información de empleados, es fundamental proteger adecuadamente los datos personales. Aquí tienes algunas recomendaciones clave:</p>
+                    
+                    <div class="key-value-list">
+                        <div class="key-value-item">
+                            <div class="key-value-key">Usa sólo los datos necesarios</div>
+                            <div class="key-value-value">
+                                <p>No recopiles ni proceses más información de la que realmente necesitas para cumplir con el objetivo del flujo. Por ejemplo, si solo necesitas enviar un recordatorio de una capacitación, no es necesario incluir información de salario o datos médicos en el flujo.</p>
+                                <p>Es como hacer una receta: usas solo los ingredientes que necesitas, no todos los que tienes en la cocina.</p>
+                            </div>
+                        </div>
+                        <div class="key-value-item">
+                            <div class="key-value-key">Controla quién puede ver qué</div>
+                            <div class="key-value-value">
+                                <p>Configura cuidadosamente los permisos en tus listas de SharePoint, archivos de Excel y flujos de Power Automate para que solo las personas autorizadas puedan ver información sensible. Por ejemplo, un gerente de departamento solo debería poder ver datos completos de los miembros de su equipo, no de toda la empresa.</p>
+                                <p>Piensa en ello como en una reunión: solo invitas a las personas que realmente necesitan estar presentes.</p>
+                            </div>
+                        </div>
+                        <div class="key-value-item">
+                            <div class="key-value-key">Sé transparente</div>
+                            <div class="key-value-value">
+                                <p>Informa a los empleados sobre qué datos se recopilan, cómo se utilizan y quién tiene acceso a ellos. Por ejemplo, si creas un flujo que monitorea los patrones de ausencias, explica a los empleados que este sistema existe y cuál es su propósito.</p>
+                                <p>Es como las cámaras de seguridad: siempre deben estar señalizadas para que las personas sepan que están ahí.</p>
+                            </div>
+                        </div>
+                        <div class="key-value-item">
+                            <div class="key-value-key">Protege la información sensible</div>
+                            <div class="key-value-value">
+                                <p>Implementa medidas para proteger especialmente los datos más sensibles, como información médica, evaluaciones de desempeño o datos salariales. Por ejemplo, evita incluir este tipo de información en notificaciones por correo electrónico; en su lugar, envía enlaces a documentos protegidos con permisos adecuados.</p>
+                                <p>Es como cuando recibes una carta confidencial: la guardas en un cajón con llave, no la dejas sobre la mesa a la vista de todos.</p>
+                            </div>
+                        </div>
+                        <div class="key-value-item">
+                            <div class="key-value-key">Establece tiempos de conservación</div>
+                            <div class="key-value-value">
+                                <p>Define claramente cuánto tiempo se conservará cada tipo de dato y configura procesos para eliminar o anonimizar la información cuando ya no sea necesaria. Por ejemplo, podrías configurar un flujo que archive o elimine datos de procesos de selección después de un año.</p>
+                                <p>Es como la limpieza de primavera: regularmente revisas lo que tienes y te deshaces de lo que ya no necesitas.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box warning">
+                        <h4>Recuerda revisar las leyes de protección de datos</h4>
+                        <p>Las reglas sobre protección de datos varían según el país y el tipo de información. Consulta con el departamento legal o de cumplimiento de tu empresa para asegurarte de que tus automatizaciones cumplen con la normativa aplicable (como la Ley de Protección de Datos Personales u otras regulaciones locales o internacionales).</p>
+                    </div>
+                    
+                    <h4>Recomendaciones finales para el éxito</h4>
+                    <p>Para terminar, aquí tienes algunos consejos prácticos basados en la experiencia de organizaciones que han implementado con éxito Power Automate en sus procesos de Recursos Humanos:</p>
+                    
+                    <ol>
+                        <li><strong>Empieza con algo pequeño y sencillo:</strong> No intentes automatizar todo de golpe. Identifica un proceso repetitivo que te lleve mucho tiempo (como enviar recordatorios de cumpleaños o actualizar una lista de empleados) y comienza por ahí. Celebra ese primer éxito antes de pasar a algo más complejo.</li>
+                        <li><strong>Mejora gradualmente:</strong> No esperes crear un flujo perfecto a la primera. Crea una versión básica que funcione y luego ve añadiendo mejoras. Es como aprender a cocinar: primero dominas la receta básica y luego experimentas con variaciones.</li>
+                        <li><strong>Colabora con otras áreas:</strong> Trabaja junto con personas de diferentes departamentos (como IT, el equipo de datos o los usuarios finales) para crear soluciones que realmente funcionen para todos. A veces, alguien de otro departamento puede aportar una perspectiva valiosa que no habías considerado.</li>
+                        <li><strong>Invierte tiempo en aprender:</strong> Dedica un poco de tiempo cada semana a explorar nuevas funcionalidades de Power Automate. Microsoft añade constantemente nuevas características que podrían hacer tu trabajo más fácil. Hay muchos tutoriales gratuitos disponibles en línea.</li>
+                    
+
+                      <li><strong>Comparte conocimientos:</strong> Si descubres una forma útil de automatizar un proceso, compártela con tus compañeros. Puedes crear una pequeña biblioteca de flujos reutilizables o hacer sesiones cortas donde muestres lo que has aprendido. El conocimiento compartido beneficia a todos.</li>
+                        <li><strong>Mide el impacto:</strong> Lleva un registro del tiempo que te ahorran tus automatizaciones. Por ejemplo, si un proceso manual te tomaba 2 horas cada semana y ahora está automatizado, son 104 horas al año que puedes dedicar a tareas más importantes. Estos números ayudarán a demostrar el valor de lo que estás haciendo.</li>
+                    </ol>
+                    
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuación: Automatización de Procesos en People Analytics con Power Automate</title>
+    <style>
+        :root {
+            --color-primary: #2C3E50; /* Azul oscuro sofisticado */
+            --color-secondary: #3498DB; /* Azul medio vibrante */
+            --color-accent: #E67E22; /* Naranja cálido */
+            --color-light: #ECF0F1; /* Gris muy claro con toque azulado */
+            --color-dark: #1A2530; /* Azul muy oscuro */
+            --color-success: #27AE60; /* Verde elegante */
+            --color-error: #E74C3C; /* Rojo suave */
+            --color-neutral: #95A5A6; /* Gris cálido */
+            --color-warning: #F39C12; /* Amarillo/naranja para advertencias */
+            --shadow-soft: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.15);
+            --radius-small: 4px;
+            --radius-medium: 8px;
+            --radius-large: 12px;
+            --transition-standard: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--color-light);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-medium);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10.5%),
+                        radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10.5%);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            transform: rotate(20deg);
+            z-index: 0;
+        }
+        
+        header * {
+            position: relative;
+            z-index: 1;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        main {
+            padding: 30px;
+            position: relative;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--color-primary);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--color-light);
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-secondary), var(--color-accent));
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            margin: 35px 0 20px;
+            padding-left: 15px;
+            border-left: 4px solid var(--color-secondary);
+            line-height: 1.4;
+        }
+
+        h4 {
+            color: var(--color-primary);
+            font-size: 1.25rem;
+            margin: 25px 0 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+        
+        a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            transition: var(--transition-standard);
+        }
+        
+        a:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: var(--radius-medium);
+            padding: 20px 25px 20px 70px;
+            box-shadow: var(--shadow-soft);
+            margin: 25px 0;
+            position: relative;
+            border-left: 4px solid var(--color-secondary);
+        }
+        
+        .info-box::before {
+            content: "i";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background-color: var(--color-secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-style: italic;
+            font-size: 22px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .info-box.tip {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-left-color: var(--color-success);
+        }
+        
+        .info-box.tip::before {
+            content: "✓";
+            background-color: var(--color-success);
+        }
+        
+        .info-box.warning {
+            background-color: rgba(243, 156, 18, 0.1);
+            border-left-color: var(--color-warning);
+        }
+        
+        .info-box.warning::before {
+            content: "!";
+            background-color: var(--color-warning);
+        }
+        
+        .info-box.case {
+            background-color: rgba(142, 68, 173, 0.1);
+            border-left-color: #8e44ad;
+        }
+        
+        .info-box.case::before {
+            content: "★";
+            background-color: #8e44ad;
+        }
+        
+        .info-box h4 {
+            margin-top: 0;
+            color: var(--color-primary);
+            font-size: 1.2rem;
+        }
+        
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Emphasis Blocks */
+        .emphasis-block {
+            margin: 30px 0;
+            padding: 25px;
+            background-color: rgba(44, 62, 80, 0.05);
+            border-radius: var(--radius-medium);
+            box-shadow: var(--shadow-soft);
+            border-left: 4px solid var(--color-secondary);
+        }
+        
+        .emphasis-block h4 {
+            margin-top: 0;
+            color: var(--color-primary);
+            font-size: 1.3rem;
+        }
+        
+        .emphasis-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Image Placeholder */
+        .image-placeholder {
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background-color: var(--color-light);
+            position: relative;
+            margin: 20px 0;
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .image-placeholder::before {
+            content: "Imagen de ejemplo";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .image-placeholder::after {
+            content: "🖼️";
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+        }
+
+        /* Feature Cards */
+        .feature-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition-standard);
+            border-top: 4px solid var(--color-secondary);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .feature-card-header {
+            padding: 20px 25px 15px;
+            border-bottom: 1px solid var(--color-light);
+        }
+        
+        .feature-card-header h4 {
+            margin: 0;
+            color: var(--color-primary);
+        }
+        
+        .feature-card-body {
+            padding: 20px 25px;
+            flex: 1;
+        }
+        
+        .feature-card-body p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .feature-card-footer {
+            background-color: rgba(236, 240, 241, 0.5);
+            padding: 15px 25px;
+            border-top: 1px solid var(--color-light);
+            color: var(--color-neutral);
+            font-size: 0.9rem;
+        }
+
+        /* Conclusion Section */
+        .conclusion-section {
+            background-color: rgba(44, 62, 80, 0.03);
+            padding: 25px 30px;
+            border-radius: var(--radius-large);
+            margin: 40px 0 20px;
+            box-shadow: var(--shadow-soft);
+            border-top: 3px solid var(--color-accent);
+        }
+        
+        .conclusion-section h3 {
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-left: 0;
+            border-left: none;
+        }
+        
+        .conclusion-section p {
+            font-size: 1.1rem;
+        }
+        
+        .next-steps-list {
+            margin: 20px 0;
+        }
+        
+        .next-steps-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .next-steps-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--color-accent);
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            main {
+                padding: 20px;
+            }
+            
+            .feature-cards {
+                flex-direction: column;
+            }
+            
+            .feature-card {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <main>
+            <section id="seccion2-continuacion">                
+                <article>
+                    
+                    <div class="info-box success">
+                        <h4>Para recordar</h4>
+                        <p>Power Automate no es solo una herramienta tecnológica, es una oportunidad para repensar cómo trabajamos. Las mejores automatizaciones no solo replican lo que ya hacías manualmente, sino que te permiten imaginar procesos completamente nuevos y mejorados.</p>
+                        <p>Cada automatización exitosa que implementes te liberará tiempo para enfocarte en lo que realmente importa: la estrategia, la creatividad y el contacto humano con tus colaboradores.</p>
+                    </div>
+                    
+                    <div class="feature-cards">
+                        <div class="feature-card">
+                            <div class="feature-card-header">
+                                <h4>Flujos para principiantes</h4>
+                            </div>
+                            <div class="feature-card-body">
+                                <p>Si estás empezando, estos flujos son ideales para practicar:</p>
+                                <ul>
+                                    <li>Envío automático de recordatorios de cumpleaños</li>
+                                    <li>Notificaciones de nuevos empleados al equipo</li>
+                                    <li>Guardar datos de un formulario en Excel</li>
+                                    <li>Distribución semanal de informes por email</li>
+                                </ul>
+                                <p>Son sencillos de configurar y te darán confianza para avanzar a flujos más complejos.</p>
+                            </div>
+                            <div class="feature-card-footer">
+                                Dificultad: Baja | Tiempo: 30-60 minutos
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-card-header">
+                                <h4>Flujos de nivel intermedio</h4>
+                            </div>
+                            <div class="feature-card-body">
+                                <p>Cuando ya domines lo básico, puedes pasar a:</p>
+                                <ul>
+                                    <li>Automatización de procesos de aprobación</li>
+                                    <li>Sincronización de datos entre sistemas</li>
+                                    <li>Alertas basadas en condiciones</li>
+                                    <li>Actualización automática de informes de Power BI</li>
+                                </ul>
+                                <p>Estos flujos requieren más planificación pero ofrecen beneficios más significativos.</p>
+                            </div>
+                            <div class="feature-card-footer">
+                                Dificultad: Media | Tiempo: 1-2 horas
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-card-header">
+                                <h4>Flujos avanzados</h4>
+                            </div>
+                            <div class="feature-card-body">
+                                <p>Para usuarios experimentados, estos flujos ofrecen grandes beneficios:</p>
+                                <ul>
+                                    <li>Procesos completos de onboarding/offboarding</li>
+                                    <li>Sistemas predictivos de rotación o ausentismo</li>
+                                    <li>Flujos que involucran múltiples aprobadores</li>
+                                    <li>Integración con varios sistemas de la empresa</li>
+                                </ul>
+                                <p>Estos flujos pueden transformar completamente la forma de trabajar de un departamento de RR.HH.</p>
+                            </div>
+                            <div class="feature-card-footer">
+                                Dificultad: Alta | Tiempo: 3+ horas
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <div class="conclusion-section">
+                    <h3>Conclusión: El poder de la automatización en RR.HH.</h3>
+                    <p>En esta sección, hemos explorado ejemplos prácticos de cómo Power Automate puede transformar los procesos de Recursos Humanos, desde tareas básicas como enviar notificaciones automáticas hasta flujos más complejos como monitorizar indicadores clave o mantener actualizados dashboards con información crítica.</p>
+                    
+                    <p>Has visto cómo puedes:</p>
+                    <ul class="next-steps-list">
+                        <li>Crear flujos básicos que te ahorran tiempo en tareas repetitivas</li>
+                        <li>Automatizar la actualización de datos de empleados para mantener información precisa</li>
+                        <li>Integrar Power Automate con Power BI para mantener tus informes siempre actualizados</li>
+                        <li>Configurar sistemas de alertas que te avisan cuando algo requiere tu atención</li>
+                        <li>Mantener tus automatizaciones funcionando sin problemas a lo largo del tiempo</li>
+                    </ul>
+                    
+                    <p>Lo más importante es recordar que la automatización no se trata solo de tecnología, sino de liberar el potencial humano. Cada hora que ahorras en tareas repetitivas es una hora que puedes invertir en lo que realmente importa: desarrollar estrategias, solucionar problemas complejos y construir mejores relaciones con tus colaboradores.</p>
+                    
+                    <p>En la próxima sección, exploraremos cómo llevar estas ideas a un nivel estratégico, integrando la automatización en una visión más amplia de transformación digital para el área de Recursos Humanos.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize functionality for the feature cards
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
