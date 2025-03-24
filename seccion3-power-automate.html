@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0049)file:///C:/Users/jyjva/OneDrive/Escritorio/i.html -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automatización de Procesos en People Analytics con Power Automate</title>
     <style>
@@ -931,6 +931,15 @@
             border-radius: 50%;
         }
 
+        /* Emphasis Block */
+        .emphasis-block {
+            margin: 25px 0;
+            padding: 20px;
+            background-color: rgba(52, 152, 219, 0.05);
+            border-radius: var(--radius-medium);
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             header {
@@ -1010,15 +1019,6 @@
                 border-left-color: var(--color-secondary);
                 border-bottom: none;
             }
-        }
-
-        /* Nueva clase para apoyar a la emphasis-block */
-        .emphasis-block {
-            margin: 25px 0;
-            padding: 20px;
-            background-color: rgba(52, 152, 219, 0.05);
-            border-radius: var(--radius-medium);
-            border: 1px solid rgba(52, 152, 219, 0.2);
         }
     </style>
 </head>
@@ -1786,7 +1786,9 @@
                             <div class="step-number">4</div>
                             <div class="step-content">
                                 <h4>Feedback de usuarios</h4>
-                                <p>Establece canales para que los usuarios finales proporcionen feedback sobre su experiencia con los procesos automatizados. Esto puede incluir encuestas periódicas, un canal específico en Teams, o sesiones regulares de escucha. Lo importante es capturar la perspectiva de quienes interactúan con los flujos en su día a día.</p>
+                               
+
+<p>Establece canales para que los usuarios finales proporcionen feedback sobre su experiencia con los procesos automatizados. Esto puede incluir encuestas periódicas, un canal específico en Teams, o sesiones regulares de escucha. Lo importante es capturar la perspectiva de quienes interactúan con los flujos en su día a día.</p>
                             </div>
                         </div>
                     </div>
@@ -1809,7 +1811,6 @@
                                 </div>
                                 <div class="quiz-option" data-correct="false">
                                     <div class="option-indicator"></div>
-                                   
                                     Contactar inmediatamente al soporte técnico de Microsoft
                                 </div>
                                 <div class="quiz-option" data-correct="false">
@@ -1890,31 +1891,40 @@
             });
         });
         
-        // 3. MANEJO DE PESTAÑAS (TABS)
+        // 3. MANEJO DE PESTAÑAS (TABS) - VERSIÓN CORREGIDA
         const tabs = document.querySelectorAll('.tab');
-        tabs.forEach((tab, index) => {
+        tabs.forEach(tab => {
             tab.addEventListener('click', function() {
                 // Encontrar el contenedor de pestañas padre
                 const tabsContainer = this.closest('.tabs');
-                const tabContent = tabsContainer.parentElement.querySelectorAll('.tab-content');
+                const tabContentContainer = tabsContainer.parentElement;
+                const tabContents = tabContentContainer.querySelectorAll('.tab-content');
                 
                 // Desactivar todas las pestañas y contenidos
                 tabsContainer.querySelectorAll('.tab').forEach(t => {
                     t.classList.remove('active');
                 });
                 
-                tabContent.forEach(content => {
+                tabContents.forEach(content => {
                     content.classList.remove('active');
                 });
                 
-                // Activar esta pestaña y su contenido correspondiente
+                // Activar esta pestaña
                 this.classList.add('active');
-                if (tabContent[index]) {
-                    tabContent[index].classList.add('active');
+                
+                // Encontrar el índice de la pestaña actual dentro de su contenedor
+                const tabIndex = Array.from(tabsContainer.querySelectorAll('.tab')).indexOf(this);
+                
+                // Activar el contenido correspondiente
+                if (tabContents[tabIndex]) {
+                    tabContents[tabIndex].classList.add('active');
                 }
             });
         });
     });
     </script>
-
 </body></html>
+
+
+
+
