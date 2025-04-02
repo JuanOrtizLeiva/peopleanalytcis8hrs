@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa Mental Power BI - Interactivo</title>
     <style>
-        /* --- VARIABLES DE COLOR (Placeholder - Usa los de tu OTEC) --- */
+        /* --- VARIABLES DE COLOR (Placeholder - Puedes cambiar estos valores) --- */
         :root {
-            --color-mapa-primario: #005A9C; /* Azul OTEC */
-            --color-mapa-secundario: #6c757d; /* Gris Neutro */
-            --color-mapa-acento: #F0A800;   /* Amarillo/Naranja */
+            --color-mapa-primario: #005A9C; /* Azul OTEC Ejemplo */
+            --color-mapa-secundario: #6c757d; /* Gris Neutro Ejemplo */
+            --color-mapa-acento: #F0A800;   /* Amarillo/Naranja Ejemplo */
             --color-mapa-fondo-nodo: #f8f9fa; /* Gris muy claro */
             --color-mapa-borde: #dee2e6;   /* Borde gris */
             --color-mapa-linea: #adb5bd;    /* Color de las líneas */
-            --fuente-mapa: 'Lato', sans-serif; /* Usa la fuente de tu OTEC */
+            --fuente-mapa: 'Lato', sans-serif; /* Fuente Ejemplo */
         }
 
         /* --- ESTILOS BASE DEL MAPA MENTAL --- */
+        body { /* Asegura que la fuente se aplique globalmente si no hay otra definida */
+             font-family: var(--fuente-mapa);
+        }
         .mindmap-container {
             font-family: var(--fuente-mapa);
             padding: 20px;
@@ -27,6 +30,7 @@
             list-style: none;
             padding: 0;
             margin: 0;
+            /* display: inline-block; */ /* Puede ayudar en algunos layouts */
         }
 
         .mindmap ul {
@@ -47,7 +51,7 @@
 
 
         .mindmap li {
-            margin: 10px 0; /* Reducir margen vertical */
+            margin: 10px 0; /* Espacio vertical entre items */
             position: relative; /* Contexto para las líneas y el nodo */
             padding-left: 30px; /* Espacio para la línea horizontal */
         }
@@ -58,20 +62,21 @@
              align-items: center;
              position: relative; /* Para que esté sobre las líneas */
              z-index: 1;
+             width: fit-content; /* Ajustar ancho al contenido */
         }
 
         .mindmap li > .node-container > div.node {
-            padding: 8px 12px; /* Ajustar padding */
+            padding: 8px 12px; /* Espaciado interno del nodo */
             border: 1px solid var(--color-mapa-borde);
             border-radius: 6px;
             background-color: var(--color-mapa-fondo-nodo);
             margin-right: 5px; /* Espacio entre nodo y botón */
              flex-grow: 0; /* No permitir que crezca */
-             transition: transform 0.2s ease, box-shadow 0.2s ease;
+             transition: transform 0.2s ease, box-shadow 0.2s ease; /* Efecto hover */
         }
         .mindmap li > .node-container > div.node:hover {
-             transform: translateY(-2px);
-             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+             transform: translateY(-2px); /* Leve movimiento hacia arriba */
+             box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra suave */
          }
 
 
@@ -110,16 +115,18 @@
              color: white;
              border: none;
              border-radius: 50%; /* Círculo */
-             width: 20px;
-             height: 20px;
-             font-size: 14px;
-             line-height: 18px; /* Centrar el texto +/- */
+             width: 22px; /* Ligeramente más grande */
+             height: 22px;
+             font-size: 16px; /* Tamaño del + / - */
+             font-weight: bold;
+             line-height: 20px; /* Ajustar para centrar mejor */
              text-align: center;
              cursor: pointer;
              padding: 0;
              margin-left: 5px; /* Espacio respecto al nodo */
              flex-shrink: 0; /* Evitar que se encoja */
              transition: background-color 0.2s ease, transform 0.2s ease;
+             user-select: none; /* Evitar seleccionar texto del botón */
          }
          .mindmap button.toggle:hover {
              background-color: var(--color-mapa-primario);
@@ -129,19 +136,21 @@
           .mindmap li.expanded > .node-container > button.toggle::before {
              content: '−'; /* Signo menos */
          }
+         .mindmap li:not(.has-children) > .node-container > button.toggle {
+              display: none; /* Ocultar botón si no hay hijos (vía JS es más seguro) */
+          }
          .mindmap li:not(.expanded) > .node-container > button.toggle::before {
              content: '+'; /* Signo más */
          }
 
 
         /* --- SIMULACIÓN DE LÍNEAS DE CONEXIÓN --- */
-        /* (Se mantienen similares, pero pueden requerir ajustes finos con la interactividad) */
         .mindmap ul::before {
             content: '';
             position: absolute;
             left: 0;
-            top: 0px; /* Ajustar inicio */
-            bottom: 0px; /* Ajustar fin */
+            top: 0; /* Desde el borde superior */
+            bottom: 0; /* Hasta el borde inferior */
             width: 1px;
             background-color: var(--color-mapa-linea);
             z-index: 0;
@@ -150,8 +159,8 @@
         .mindmap li::before {
             content: '';
             position: absolute;
-            left: -20px;
-            top: 18px; /* Alinear verticalmente */
+            left: -20px; /* Ajustar para que conecte con la línea vertical */
+            top: 19px; /* Alinear verticalmente con el centro del botón/nodo (ajustar) */
             width: 20px;
             height: 1px;
             background-color: var(--color-mapa-linea);
@@ -165,29 +174,41 @@
          }
         .mindmap > li::before,
         .mindmap > li::after {
-            display: none;
+            display: none; /* Sin líneas para el nodo raíz */
         }
          .mindmap > li > ul::before {
-              display: none;
+              /* La línea vertical de la UL hija sí debe mostrarse */
+              /* Excepto si es la UL directa de la raíz? */
+              /* display: none; */ /* Probar comentar/descomentar esta línea si las líneas no se ven bien */
+              left: -25px; /* Ajustar posición si la UL tiene padding */
           }
           .mindmap > li > ul {
-               padding-left: 50px;
+               padding-left: 50px; /* Mantener indentación */
            }
+           /* La línea horizontal de los hijos directos de la raíz debe mostrarse */
            .mindmap > li > ul > li::before {
                display: block;
            }
-           /* Ocultar linea vertical si el subtree está colapsado? más complejo */
 
 
         /* --- ESTILOS PARA IMPRESIÓN (La interactividad no funcionará) --- */
         @media print {
-            .mindmap button.toggle {
-                display: none; /* Ocultar botones en impresión */
+            .mindmap-container {
+                overflow-x: visible;
+                padding: 0;
             }
-             /* Forzar expansión en impresión (opcional, puede hacer el PDF muy largo) */
-             /* .mindmap ul.subtree { display: block !important; } */
+            .mindmap button.toggle {
+                display: none !important; /* Ocultar botones en impresión */
+            }
+             /* Forzar expansión en impresión (para que se vea todo en el PDF) */
+             .mindmap ul.subtree {
+                 display: block !important;
+             }
+             .mindmap li.expanded { /* Quitar clase por si acaso */
+                 /* No es necesario hacer nada aquí si forzamos display: block */
+             }
 
-             /* Estilos de nodos y líneas como en la versión anterior */
+             /* Estilos de nodos y líneas para impresión */
              .mindmap li > .node-container > div.node {
                  border: 1px solid #666 !important;
                  background-color: #fff !important;
@@ -195,6 +216,7 @@
                  box-shadow: none !important;
                  transform: none !important;
                  margin-right: 0; /* Quitar margen si el botón no está */
+                 padding: 6px 10px; /* Reducir padding si es necesario */
              }
              .mindmap > li > .node-container > div.node {
                  background-color: #ddd !important;
@@ -203,11 +225,14 @@
              }
               .mindmap li > .node-container > div.node .node-details {
                  color: #333 !important;
+                 font-size: 0.8em;
              }
             .mindmap ul::before,
             .mindmap li::before {
-                background-color: #999 !important;
+                background-color: #999 !important; /* Líneas más visibles */
             }
+            /* Forzar impresión de fondos/bordes */
+            /* -webkit-print-color-adjust: exact; print-color-adjust: exact; */
         }
 
     </style>
@@ -217,6 +242,9 @@
 
 </head>
 <body>
+
+<h1>Mapa Mental Interactivo de Power BI</h1>
+<p>Haz clic en los botones [+] para expandir las ramas.</p>
 
 <div class="mindmap-container">
     <ul class="mindmap">
@@ -292,41 +320,48 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Selecciona todos los botones toggle dentro del contenedor del mapa mental
-        const toggles = document.querySelectorAll('.mindmap .toggle');
+        // Selecciona todos los LI que tienen hijos directamente dentro del mapa mental principal
+        // Se asume que solo los LI con un UL.subtree como hijo directo son expandibles
+        const parentLis = document.querySelectorAll('.mindmap li:has(> ul.subtree)');
 
-        toggles.forEach(toggle => {
-            toggle.addEventListener('click', function() {
-                // Encuentra el LI padre del botón
-                const parentLi = this.closest('li');
+         parentLis.forEach(parentLi => {
+            // Encontrar el botón toggle dentro del node-container de este LI
+            const toggleButton = parentLi.querySelector(':scope > .node-container > button.toggle');
 
-                // Si encontramos el LI padre
-                if (parentLi) {
-                    // Toggle (añade o quita) la clase 'expanded' en el LI
-                    parentLi.classList.toggle('expanded');
+             // Asegurarse que el botón existe
+             if (toggleButton) {
+                 // Añadir la clase 'has-children' si no la pusimos manualmente en HTML
+                 parentLi.classList.add('has-children');
 
-                    // Encuentra el subárbol (ul.subtree) dentro de este LI
-                    const subtree = parentLi.querySelector(':scope > ul.subtree');
+                 toggleButton.addEventListener('click', function(event) {
+                    // Evitar que otros eventos se disparen si es necesario
+                    event.stopPropagation();
 
-                    // (Opcional: podrías cambiar display directamente aquí,
-                    // pero usar clase CSS es más limpio)
-                    // if (subtree) {
-                    //     subtree.style.display = subtree.style.display === 'none' ? 'block' : 'none';
-                    // }
+                     // Toggle (añade o quita) la clase 'expanded' en el LI padre
+                     parentLi.classList.toggle('expanded');
 
-                    // (Opcional: Actualizar aria-expanded para accesibilidad)
-                    // const isExpanded = parentLi.classList.contains('expanded');
-                    // this.setAttribute('aria-expanded', isExpanded);
-                }
-            });
-        });
-
-        // Opcional: Expandir el primer nivel por defecto (si se desea)
-         const firstLevelToggles = document.querySelectorAll('.mindmap > li > ul > li.has-children > .node-container > .toggle');
-         firstLevelToggles.forEach(toggle => {
-              // Descomentar la siguiente línea para expandir el primer nivel al cargar
-              // toggle.click();
+                     // (Opcional: Actualizar aria-expanded para accesibilidad)
+                     const isExpanded = parentLi.classList.contains('expanded');
+                     this.setAttribute('aria-expanded', isExpanded);
+                 });
+             } else {
+                 // Si un LI tiene un subtree pero no encontramos botón (error en HTML?), loguear
+                 // console.warn('List item has subtree but no toggle button found:', parentLi);
+             }
          });
+
+        // Opcional: Si quieres que todo empiece expandido, puedes añadir la clase 'expanded' por defecto
+        // O descomentar esto para simular clicks en todos los botones al inicio
+        /*
+        const allToggles = document.querySelectorAll('.mindmap button.toggle');
+        allToggles.forEach(toggle => {
+           // toggle.click(); // Cuidado, esto puede ser lento si hay muchos nodos
+           // O añadir la clase directamente al LI padre
+           const parentLi = toggle.closest('li');
+           if(parentLi) parentLi.classList.add('expanded');
+        });
+        */
+
     });
 </script>
 
