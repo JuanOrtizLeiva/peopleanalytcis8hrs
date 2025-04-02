@@ -3,367 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Mental Power BI - Interactivo</title>
+    <title>Prueba Mapa Mental Interactivo Simple</title>
     <style>
-        /* --- VARIABLES DE COLOR (Placeholder - Puedes cambiar estos valores) --- */
-        :root {
-            --color-mapa-primario: #005A9C; /* Azul OTEC Ejemplo */
-            --color-mapa-secundario: #6c757d; /* Gris Neutro Ejemplo */
-            --color-mapa-acento: #F0A800;   /* Amarillo/Naranja Ejemplo */
-            --color-mapa-fondo-nodo: #f8f9fa; /* Gris muy claro */
-            --color-mapa-borde: #dee2e6;   /* Borde gris */
-            --color-mapa-linea: #adb5bd;    /* Color de las líneas */
-            --fuente-mapa: 'Lato', sans-serif; /* Fuente Ejemplo */
-        }
-
-        /* --- ESTILOS BASE DEL MAPA MENTAL --- */
-        body { /* Asegura que la fuente se aplique globalmente si no hay otra definida */
-             font-family: var(--fuente-mapa);
-        }
-        .mindmap-container {
-            font-family: var(--fuente-mapa);
+        body {
+            font-family: sans-serif; /* Fuente simple por defecto */
             padding: 20px;
-            overflow-x: auto;
         }
 
-        .mindmap {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            /* display: inline-block; */ /* Puede ayudar en algunos layouts */
+        /* Estilos básicos de la lista del mapa */
+        .minimal-mindmap,
+        .minimal-mindmap ul {
+            list-style: none; /* Sin puntos de lista */
+            padding-left: 25px; /* Indentación para jerarquía */
+            margin-top: 5px;
         }
 
-        .mindmap ul {
-            list-style: none;
-            padding-left: 50px; /* Indentación para niveles */
-            margin: 0;
-            position: relative; /* Contexto para las líneas */
-        }
-
-        /* Esconder sub-árboles por defecto */
-        .mindmap ul.subtree {
+        /* Ocultar los sub-niveles por defecto */
+        .minimal-mindmap ul.subtree {
             display: none;
         }
-        /* Mostrar sub-árboles cuando el LI padre tenga la clase 'expanded' */
-        .mindmap li.expanded > ul.subtree {
+
+        /* Mostrar sub-niveles cuando el LI padre tiene la clase 'expanded' */
+        .minimal-mindmap li.expanded > ul.subtree {
             display: block;
         }
 
-
-        .mindmap li {
-            margin: 10px 0; /* Espacio vertical entre items */
-            position: relative; /* Contexto para las líneas y el nodo */
-            padding-left: 30px; /* Espacio para la línea horizontal */
+        /* Estilo simple para los nodos (texto) */
+        .minimal-mindmap li > span.node-text {
+            display: inline-block; /* Para que el fondo/borde funcione bien */
+            padding: 5px 8px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin-right: 5px;
         }
 
-        /* --- ESTILO DE LOS NODOS (El texto/idea) --- */
-        .mindmap li > .node-container { /* Contenedor para nodo y botón */
-             display: flex; /* Alinear nodo y botón */
-             align-items: center;
-             position: relative; /* Para que esté sobre las líneas */
-             z-index: 1;
-             width: fit-content; /* Ajustar ancho al contenido */
-        }
-
-        .mindmap li > .node-container > div.node {
-            padding: 8px 12px; /* Espaciado interno del nodo */
-            border: 1px solid var(--color-mapa-borde);
-            border-radius: 6px;
-            background-color: var(--color-mapa-fondo-nodo);
-            margin-right: 5px; /* Espacio entre nodo y botón */
-             flex-grow: 0; /* No permitir que crezca */
-             transition: transform 0.2s ease, box-shadow 0.2s ease; /* Efecto hover */
-        }
-        .mindmap li > .node-container > div.node:hover {
-             transform: translateY(-2px); /* Leve movimiento hacia arriba */
-             box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra suave */
-         }
-
-
-        /* Estilo especial para el nodo RAÍZ */
-        .mindmap > li > .node-container > div.node {
-            background-color: var(--color-mapa-primario);
-            color: white;
-            border-color: var(--color-mapa-primario);
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-        /* Estilo para nodos de segundo nivel (opcional) */
-        .mindmap > li > ul > li > .node-container > div.node {
-             border-left: 4px solid var(--color-mapa-acento);
-        }
-         /* Estilo para nodos de tercer nivel (opcional) */
-         .mindmap > li > ul > li > ul > li > .node-container > div.node {
-             border-left: 4px solid var(--color-mapa-secundario);
-             background-color: #fff; /* Fondo blanco para diferenciar */
-         }
-
-        .mindmap li > .node-container > div.node .node-details {
-            display: block; /* Detalles en nueva línea */
-            font-size: 0.85em;
-            color: #555;
-            margin-top: 4px;
-            font-weight: normal; /* Resetear bold si hereda */
-        }
-         .mindmap > li > .node-container > div.node .node-details { /* Detalles del nodo raíz */
-             color: #eee;
-         }
-
-         /* --- ESTILO DEL BOTÓN TOGGLE --- */
-         .mindmap button.toggle {
-             background-color: var(--color-mapa-secundario);
-             color: white;
-             border: none;
-             border-radius: 50%; /* Círculo */
-             width: 22px; /* Ligeramente más grande */
-             height: 22px;
-             font-size: 16px; /* Tamaño del + / - */
-             font-weight: bold;
-             line-height: 20px; /* Ajustar para centrar mejor */
-             text-align: center;
-             cursor: pointer;
-             padding: 0;
-             margin-left: 5px; /* Espacio respecto al nodo */
-             flex-shrink: 0; /* Evitar que se encoja */
-             transition: background-color 0.2s ease, transform 0.2s ease;
-             user-select: none; /* Evitar seleccionar texto del botón */
-         }
-         .mindmap button.toggle:hover {
-             background-color: var(--color-mapa-primario);
-             transform: scale(1.1);
-         }
-         /* Cambiar el símbolo cuando está expandido */
-          .mindmap li.expanded > .node-container > button.toggle::before {
-             content: '−'; /* Signo menos */
-         }
-         .mindmap li:not(.has-children) > .node-container > button.toggle {
-              display: none; /* Ocultar botón si no hay hijos (vía JS es más seguro) */
-          }
-         .mindmap li:not(.expanded) > .node-container > button.toggle::before {
-             content: '+'; /* Signo más */
-         }
-
-
-        /* --- SIMULACIÓN DE LÍNEAS DE CONEXIÓN --- */
-        .mindmap ul::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0; /* Desde el borde superior */
-            bottom: 0; /* Hasta el borde inferior */
-            width: 1px;
-            background-color: var(--color-mapa-linea);
-            z-index: 0;
-        }
-
-        .mindmap li::before {
-            content: '';
-            position: absolute;
-            left: -20px; /* Ajustar para que conecte con la línea vertical */
-            top: 19px; /* Alinear verticalmente con el centro del botón/nodo (ajustar) */
+        /* Estilo del botón para expandir/contraer */
+        .minimal-mindmap button.toggle {
             width: 20px;
-            height: 1px;
-            background-color: var(--color-mapa-linea);
-            z-index: 0;
+            height: 20px;
+            cursor: pointer;
+            border: 1px solid #aaa;
+            background-color: #eee;
+            border-radius: 3px;
+            font-weight: bold;
+            line-height: 16px; /* Ajuste para centrar + / - */
+            vertical-align: middle; /* Alinear con el texto */
+            margin-left: 5px;
         }
-
-         /* Ocultar líneas para el elemento raíz */
-         .mindmap > li {
-             padding-left: 0;
-             margin-left: 0;
+        .minimal-mindmap button.toggle:hover {
+             background-color: #ddd;
          }
-        .mindmap > li::before,
-        .mindmap > li::after {
-            display: none; /* Sin líneas para el nodo raíz */
-        }
-         .mindmap > li > ul::before {
-              /* La línea vertical de la UL hija sí debe mostrarse */
-              /* Excepto si es la UL directa de la raíz? */
-              /* display: none; */ /* Probar comentar/descomentar esta línea si las líneas no se ven bien */
-              left: -25px; /* Ajustar posición si la UL tiene padding */
-          }
-          .mindmap > li > ul {
-               padding-left: 50px; /* Mantener indentación */
-           }
-           /* La línea horizontal de los hijos directos de la raíz debe mostrarse */
-           .mindmap > li > ul > li::before {
-               display: block;
-           }
 
-
-        /* --- ESTILOS PARA IMPRESIÓN (La interactividad no funcionará) --- */
-        @media print {
-            .mindmap-container {
-                overflow-x: visible;
-                padding: 0;
-            }
-            .mindmap button.toggle {
-                display: none !important; /* Ocultar botones en impresión */
-            }
-             /* Forzar expansión en impresión (para que se vea todo en el PDF) */
-             .mindmap ul.subtree {
-                 display: block !important;
-             }
-             .mindmap li.expanded { /* Quitar clase por si acaso */
-                 /* No es necesario hacer nada aquí si forzamos display: block */
-             }
-
-             /* Estilos de nodos y líneas para impresión */
-             .mindmap li > .node-container > div.node {
-                 border: 1px solid #666 !important;
-                 background-color: #fff !important;
-                 color: #000 !important;
-                 box-shadow: none !important;
-                 transform: none !important;
-                 margin-right: 0; /* Quitar margen si el botón no está */
-                 padding: 6px 10px; /* Reducir padding si es necesario */
-             }
-             .mindmap > li > .node-container > div.node {
-                 background-color: #ddd !important;
-                 border-color: #666 !important;
-                 color: #000 !important;
-             }
-              .mindmap li > .node-container > div.node .node-details {
-                 color: #333 !important;
-                 font-size: 0.8em;
-             }
-            .mindmap ul::before,
-            .mindmap li::before {
-                background-color: #999 !important; /* Líneas más visibles */
-            }
-            /* Forzar impresión de fondos/bordes */
-            /* -webkit-print-color-adjust: exact; print-color-adjust: exact; */
-        }
+        /* Ocultar botón si no hay hijos (según clase 'has-children') */
+        .minimal-mindmap li:not(.has-children) > button.toggle {
+             /* display: none; // Mejor manejarlo con JS o no poner el botón */
+         }
 
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
-
 </head>
 <body>
 
-<h1>Mapa Mental Interactivo de Power BI</h1>
-<p>Haz clic en los botones [+] para expandir las ramas.</p>
+    <h1>Prueba de Mapa Mental Simple</h1>
+    <p>Haz clic en el botón [+] / [−] para ver si funciona.</p>
 
-<div class="mindmap-container">
-    <ul class="mindmap">
-        <li> <div class="node-container">
-                 <div class="node">📊 Power BI</div>
-                 </div>
-            <ul class="subtree"> <li> <div class="node-container">
-                         <div class="node">¿Qué es Power BI?
-                              <span class="node-details">Plataforma BI Microsoft para conectar, modelar, visualizar y compartir datos.</span>
-                         </div>
-                         </div>
-                </li>
-                <li class="has-children"> <div class="node-container">
-                        <div class="node">Componentes Principales</div>
-                        <button class="toggle" aria-label="Expandir/Contraer"></button>
-                    </div>
-                    <ul class="subtree">
-                        <li><div class="node-container"><div class="node">Power BI Desktop <span class="node-details">Herramienta de autoría (gratuita).</span></div></div></li>
-                        <li><div class="node-container"><div class="node">Power BI Service <span class="node-details">Plataforma cloud (SaaS).</span></div></div></li>
-                        <li><div class="node-container"><div class="node">Power BI Mobile <span class="node-details">Apps móviles.</span></div></div></li>
-                        <li><div class="node-container"><div class="node">Otros <span class="node-details">Report Server, Embedded.</span></div></div></li>
+    <ul class="minimal-mindmap">
+        <li> <span class="node-text">Nodo Raíz</span>
+            <ul class="subtree" style="display: block;"> <li class="has-children"> <span class="node-text">Hijo 1</span>
+                    <button class="toggle" aria-label="Expandir/Contraer">+</button>
+                    <ul class="subtree"> <li>
+                            <span class="node-text">Nieto 1.1</span>
+                            </li>
+                         <li>
+                            <span class="node-text">Nieto 1.2</span>
+                            </li>
                     </ul>
                 </li>
-                <li class="has-children"> <div class="node-container">
-                         <div class="node">Flujo de Trabajo Típico ⚙️</div>
-                         <button class="toggle" aria-label="Expandir/Contraer"></button>
-                     </div>
-                     <ul class="subtree">
-                         <li><div class="node-container"><div class="node">1. Obtener Datos (Get Data) <span class="node-details">Conexión a fuentes (Excel, BD, Cloud...).</span></div></div></li>
-                         <li><div class="node-container"><div class="node">2. Transformar y Modelar <span class="node-details">Power Query (ETL) y DAX (Cálculos).</span></div></div></li>
-                         <li><div class="node-container"><div class="node">3. Visualizar Datos <span class="node-details">Informes y Paneles (Dashboards).</span></div></div></li>
-                         <li><div class="node-container"><div class="node">4. Compartir y Colaborar <span class="node-details">Publicar, Workspaces, Apps.</span></div></div></li>
-                     </ul>
-                </li>
-                 <li class="has-children"> <div class="node-container">
-                         <div class="node">Conceptos Clave 🔑</div>
-                         <button class="toggle" aria-label="Expandir/Contraer"></button>
-                     </div>
-                     <ul class="subtree">
-                        <li><div class="node-container"><div class="node">Conjunto de Datos (Dataset)</div></div></li>
-                        <li><div class="node-container"><div class="node">Informe (Report)</div></div></li>
-                        <li><div class="node-container"><div class="node">Panel (Dashboard)</div></div></li>
-                        <li><div class="node-container"><div class="node">Icono/Mosaico (Tile)</div></div></li>
-                        <li><div class="node-container"><div class="node">Power Query</div></div></li>
-                        <li><div class="node-container"><div class="node">DAX</div></div></li>
-                     </ul>
-                 </li>
-                 <li class="has-children"> <div class="node-container">
-                         <div class="node">Licenciamiento 💰</div>
-                         <button class="toggle" aria-label="Expandir/Contraer"></button>
-                     </div>
-                      <ul class="subtree">
-                        <li><div class="node-container"><div class="node">Gratuito (Free)</div></div></li>
-                        <li><div class="node-container"><div class="node">Pro</div></div></li>
-                        <li><div class="node-container"><div class="node">Premium (PPU / Capacity)</div></div></li>
-                     </ul>
-                 </li>
-                 <li class="has-children"> <div class="node-container">
-                         <div class="node">Beneficios Principales ✅</div>
-                         <button class="toggle" aria-label="Expandir/Contraer"></button>
-                     </div>
-                      <ul class="subtree">
-                        <li><div class="node-container"><div class="node">Visualizaciones Interactivas</div></div></li>
-                        <li><div class="node-container"><div class="node">Consolidación de Datos</div></div></li>
-                        <li><div class="node-container"><div class="node">Toma de Decisiones Informada</div></div></li>
-                        <li><div class="node-container"><div class="node">Democratización de Datos</div></div></li>
-                     </ul>
-                 </li>
+                <li> <span class="node-text">Hijo 2</span>
+                     </li>
             </ul>
         </li>
     </ul>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Selecciona todos los LI que tienen hijos directamente dentro del mapa mental principal
-        // Se asume que solo los LI con un UL.subtree como hijo directo son expandibles
-        const parentLis = document.querySelectorAll('.mindmap li:has(> ul.subtree)');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleccionar TODOS los botones toggle
+            const toggles = document.querySelectorAll('.minimal-mindmap .toggle');
 
-         parentLis.forEach(parentLi => {
-            // Encontrar el botón toggle dentro del node-container de este LI
-            const toggleButton = parentLi.querySelector(':scope > .node-container > button.toggle');
+            toggles.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Encontrar el LI padre MÁS CERCANO al botón
+                    const parentLi = this.closest('li');
 
-             // Asegurarse que el botón existe
-             if (toggleButton) {
-                 // Añadir la clase 'has-children' si no la pusimos manualmente en HTML
-                 parentLi.classList.add('has-children');
+                    if (parentLi) {
+                        // Añadir o quitar la clase 'expanded' al LI
+                        parentLi.classList.toggle('expanded');
 
-                 toggleButton.addEventListener('click', function(event) {
-                    // Evitar que otros eventos se disparen si es necesario
-                    event.stopPropagation();
+                        // Cambiar el texto del botón entre '+' y '−'
+                        if (parentLi.classList.contains('expanded')) {
+                            this.textContent = '−'; // Menos (cuando está expandido)
+                        } else {
+                            this.textContent = '+'; // Más (cuando está contraído)
+                        }
+                    }
+                });
+            });
 
-                     // Toggle (añade o quita) la clase 'expanded' en el LI padre
-                     parentLi.classList.toggle('expanded');
+            // Asegurar que los botones solo se muestren en LIs con la clase 'has-children'
+            // (Opcional, si el HTML es correcto no es estrictamente necesario)
+            const allLis = document.querySelectorAll('.minimal-mindmap li');
+            allLis.forEach(li => {
+                const toggleButton = li.querySelector(':scope > button.toggle');
+                if (toggleButton && !li.classList.contains('has-children')) {
+                   // Si hay botón pero no debería (no tiene clase has-children), lo ocultamos
+                   // toggleButton.style.display = 'none';
+                }
+                 // Podríamos también añadir la clase has-children dinámicamente si encontramos un subtree
+                 const subTree = li.querySelector(':scope > ul.subtree');
+                 if(subTree && toggleButton){
+                    li.classList.add('has-children'); // Asegurar que tenga la clase si tiene subtree y botón
+                 }
+            });
 
-                     // (Opcional: Actualizar aria-expanded para accesibilidad)
-                     const isExpanded = parentLi.classList.contains('expanded');
-                     this.setAttribute('aria-expanded', isExpanded);
-                 });
-             } else {
-                 // Si un LI tiene un subtree pero no encontramos botón (error en HTML?), loguear
-                 // console.warn('List item has subtree but no toggle button found:', parentLi);
-             }
-         });
 
-        // Opcional: Si quieres que todo empiece expandido, puedes añadir la clase 'expanded' por defecto
-        // O descomentar esto para simular clicks en todos los botones al inicio
-        /*
-        const allToggles = document.querySelectorAll('.mindmap button.toggle');
-        allToggles.forEach(toggle => {
-           // toggle.click(); // Cuidado, esto puede ser lento si hay muchos nodos
-           // O añadir la clase directamente al LI padre
-           const parentLi = toggle.closest('li');
-           if(parentLi) parentLi.classList.add('expanded');
         });
-        */
-
-    });
-</script>
+    </script>
 
 </body>
 </html>
