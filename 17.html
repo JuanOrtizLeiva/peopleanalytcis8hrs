@@ -3,129 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba Mapa Mental Interactivo Simple</title>
+    <title>Mapa Mental Power BI en RRHH - Estilo Oscuro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
+        /* --- VARIABLES DE COLOR (Inspirado en la imagen) --- */
+        :root {
+            --color-bg: #1a1a1a; /* Fondo oscuro */
+            --color-text-default: #e0e0e0; /* Texto claro por defecto */
+            --color-node-text: #ffffff; /* Texto dentro de nodos */
+            --color-line: #555; /* Líneas de conexión */
+            --color-border: #444; /* Borde sutil para nodos */
+
+            /* Colores para ramas principales (Ajustar según gusto) */
+            --color-branch-1: #e67e22; /* Naranja */
+            --color-branch-2: #2ecc71; /* Verde */
+            --color-branch-3: #3498db; /* Azul */
+            /* Añadir más si es necesario */
+            --color-branch-default: #8e44ad; /* Morado (para raíz o defecto) */
+
+            --fuente-mapa: 'Roboto', sans-serif; /* Fuente moderna */
+        }
+
+        /* --- ESTILOS BASE DEL MAPA MENTAL --- */
         body {
-            font-family: sans-serif; /* Fuente simple por defecto */
+            font-family: var(--fuente-mapa);
+            background-color: var(--color-bg);
+            color: var(--color-text-default);
             padding: 20px;
+            margin: 0;
+        }
+        h1, p {
+             text-align: center;
+             color: var(--color-text-default);
         }
 
-        /* Estilos básicos de la lista del mapa */
-        .minimal-mindmap,
-        .minimal-mindmap ul {
-            list-style: none; /* Sin puntos de lista */
-            padding-left: 25px; /* Indentación para jerarquía */
-            margin-top: 5px;
+        .mindmap-container {
+            padding: 20px;
+            overflow-x: auto;
         }
 
-        /* Ocultar los sub-niveles por defecto */
-        .minimal-mindmap ul.subtree {
+        .mindmap,
+        .mindmap ul {
+            list-style: none;
+            padding-left: 40px; /* Indentación */
+            margin: 0;
+            position: relative;
+        }
+        .mindmap { padding-left: 0; } /* Sin indentación inicial para la raíz */
+
+        /* Ocultar sub-árboles por defecto */
+        .mindmap ul.subtree {
             display: none;
+            padding-top: 10px; /* Espacio cuando se expande */
         }
-
-        /* Mostrar sub-niveles cuando el LI padre tiene la clase 'expanded' */
-        .minimal-mindmap li.expanded > ul.subtree {
+        /* Mostrar sub-árboles cuando LI tiene clase 'expanded' */
+        .mindmap li.expanded > ul.subtree {
             display: block;
         }
 
-        /* Estilo simple para los nodos (texto) */
-        .minimal-mindmap li > span.node-text {
-            display: inline-block; /* Para que el fondo/borde funcione bien */
-            padding: 5px 8px;
-            border: 1px solid #ccc;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-            margin-right: 5px;
+        .mindmap li {
+            margin: 5px 0;
+            padding-left: 35px; /* Espacio para la línea */
+            position: relative;
+        }
+        /* Quitar padding a la raíz */
+        .mindmap > li {
+            padding-left: 0;
         }
 
-        /* Estilo del botón para expandir/contraer */
-        .minimal-mindmap button.toggle {
+
+        /* --- ESTILO DE LOS NODOS --- */
+        .mindmap li > .node-container {
+             display: flex;
+             align-items: center;
+             position: relative;
+             z-index: 1;
+             width: fit-content;
+        }
+
+        .mindmap li > .node-container > div.node {
+            padding: 10px 15px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px; /* Más redondeado */
+            background-color: var(--color-branch-default); /* Color por defecto */
+            color: var(--color-node-text);
+            margin-right: 8px;
+             flex-grow: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Sombra para tema oscuro */
+             transition: transform 0.2s ease;
+             min-width: 150px; /* Ancho mínimo para que se vea bien */
+             text-align: center; /* Centrar texto en nodo */
+        }
+         .mindmap li > .node-container > div.node:hover {
+             transform: scale(1.03); /* Efecto hover más sutil */
+         }
+
+        /* Colores específicos para ramas principales (usando :nth-child) */
+        /* Raíz */
+        .mindmap > li > .node-container > div.node {
+             background-color: var(--color-branch-default); /* Morado para la raíz */
+             font-weight: bold;
+             font-size: 1.1em;
+         }
+         /* Primer hijo principal */
+        .mindmap > li > ul > li:nth-child(1) > .node-container > div.node,
+        .mindmap > li > ul > li:nth-child(2) > .node-container > div.node {
+             background-color: var(--color-branch-1); /* Naranja */
+         }
+          /* Segundo hijo principal */
+         .mindmap > li > ul > li:nth-child(3) > .node-container > div.node,
+         .mindmap > li > ul > li:nth-child(4) > .node-container > div.node {
+              background-color: var(--color-branch-2); /* Verde */
+          }
+           /* Tercer hijo principal */
+         .mindmap > li > ul > li:nth-child(5) > .node-container > div.node,
+         .mindmap > li > ul > li:nth-child(6) > .node-container > div.node {
+               background-color: var(--color-branch-3); /* Azul */
+           }
+           /* Nodos nietos con fondo más neutro */
+           .mindmap ul ul li > .node-container > div.node {
+                background-color: #444; /* Gris oscuro para nietos */
+                border-color: #666;
+                min-width: auto; /* Permitir que sean más pequeños */
+            }
+
+        .mindmap li > .node-container > div.node .node-details {
+            display: block;
+            font-size: 0.8em;
+            color: #ccc; /* Color más tenue para detalles */
+            margin-top: 5px;
+            font-weight: normal;
+            max-width: 250px; /* Limitar ancho de detalles */
+            white-space: normal; /* Permitir wrap */
+        }
+
+
+         /* --- ESTILO DEL BOTÓN TOGGLE --- */
+         .mindmap button.toggle {
+             background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+             color: var(--color-text-default);
+             border: 1px solid var(--color-line);
+             border-radius: 50%;
+             width: 24px;
+             height: 24px;
+             font-size: 18px;
+             font-weight: bold;
+             line-height: 20px;
+             text-align: center;
+             cursor: pointer;
+             padding: 0;
+             margin-left: 8px;
+             flex-shrink: 0;
+             transition: background-color 0.2s ease, transform 0.2s ease;
+             user-select: none;
+         }
+         .mindmap button.toggle:hover {
+             background-color: rgba(255, 255, 255, 0.2);
+             transform: scale(1.1);
+         }
+         .mindmap li.expanded > .node-container > button.toggle::before { content: '−'; }
+         .mindmap li:not(.expanded) > .node-container > button.toggle::before { content: '+'; }
+
+
+        /* --- LÍNEAS DE CONEXIÓN (Estilo oscuro) --- */
+        .mindmap ul::before { /* Línea vertical principal de la rama */
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px; /* Más gruesa */
+            background-color: var(--color-line);
+            z-index: 0;
+        }
+
+        .mindmap li::before { /* Línea horizontal al nodo */
+            content: '';
+            position: absolute;
+            left: -20px; /* Ajustar */
+            top: 22px; /* Alinear con centro de nodo (aprox) */
             width: 20px;
-            height: 20px;
-            cursor: pointer;
-            border: 1px solid #aaa;
-            background-color: #eee;
-            border-radius: 3px;
-            font-weight: bold;
-            line-height: 16px; /* Ajuste para centrar + / - */
-            vertical-align: middle; /* Alinear con el texto */
-            margin-left: 5px;
+            height: 2px; /* Más gruesa */
+            background-color: var(--color-line);
+            z-index: 0;
         }
-        .minimal-mindmap button.toggle:hover {
-             background-color: #ddd;
-         }
 
-        /* Ocultar botón si no hay hijos (según clase 'has-children') */
-        .minimal-mindmap li:not(.has-children) > button.toggle {
-             /* display: none; // Mejor manejarlo con JS o no poner el botón */
-         }
+         /* Ocultar líneas para la raíz */
+         .mindmap > li { padding-left: 0; }
+         .mindmap > li::before { display: none; }
+         .mindmap > li > ul::before { left: -20px; /* Ajustar línea de la primera rama */}
+         .mindmap > li > ul { padding-left: 40px; }
+         .mindmap > li > ul > li::before { display: block; } /* Mostrar líneas horizontales de hijos de raíz */
+
+
+        /* --- ESTILOS PARA IMPRESIÓN (Volver a tema claro) --- */
+        @media print {
+            body {
+                background-color: #fff !important;
+                color: #000 !important;
+            }
+             h1, p { color: #000 !important; }
+            .mindmap button.toggle { display: none !important; }
+            .mindmap ul.subtree { display: block !important; } /* Expandir todo */
+
+            .mindmap li > .node-container > div.node {
+                border: 1px solid #666 !important;
+                background-color: #eee !important; /* Fondo claro */
+                color: #000 !important;
+                box-shadow: none !important;
+                text-align: left; /* Alinear a la izquierda para impresión */
+            }
+             /* Colores específicos en impresión (opcional, puede ser confuso) */
+            /* .mindmap > li > ul > li:nth-child(1) > .node-container > div.node, ... { background-color: #ffeecc !important; } */
+
+            .mindmap li > .node-container > div.node .node-details {
+                 color: #333 !important;
+             }
+            .mindmap ul::before,
+            .mindmap li::before {
+                background-color: #999 !important; /* Líneas grises */
+            }
+            :root { /* Resetear variables en print si es necesario */
+                 --color-line: #999;
+             }
+        }
 
     </style>
 </head>
 <body>
 
-    <h1>Prueba de Mapa Mental Simple</h1>
-    <p>Haz clic en el botón [+] / [−] para ver si funciona.</p>
+    <h1>Power BI en Recursos Humanos</h1>
+    <p>Mapa Mental Interactivo (Estilo Oscuro)</p>
 
-    <ul class="minimal-mindmap">
-        <li> <span class="node-text">Nodo Raíz</span>
-            <ul class="subtree" style="display: block;"> <li class="has-children"> <span class="node-text">Hijo 1</span>
-                    <button class="toggle" aria-label="Expandir/Contraer">+</button>
-                    <ul class="subtree"> <li>
-                            <span class="node-text">Nieto 1.1</span>
-                            </li>
-                         <li>
-                            <span class="node-text">Nieto 1.2</span>
-                            </li>
-                    </ul>
-                </li>
-                <li> <span class="node-text">Hijo 2</span>
-                     </li>
-            </ul>
-        </li>
-    </ul>
+    <div class="mindmap-container">
+        <ul class="mindmap">
+            <li> <div class="node-container">
+                    <div class="node">Power BI en Recursos Humanos
+                         <span class="node-details">Power BI transforma datos en insights para decisiones estratégicas.</span>
+                    </div>
+                    </div>
+                <ul class="subtree" style="display: block;"> <li class="has-children"> <div class="node-container">
+                            <div class="node">Visualización</div>
+                            <button class="toggle" aria-label="Expandir/Contraer"></button>
+                        </div>
+                        <ul class="subtree">
+                            <li><div class="node-container"><div class="node">Dashboards Personalizados<span class="node-details">Ofrece visualizaciones adaptadas a las necesidades específicas de RR.HH.</span></div></div></li>
+                            <li><div class="node-container"><div class="node">Gráficos de Tendencia<span class="node-details">Muestra evolución de métricas a lo largo del tiempo y sobre distintos patrones.</span></div></div></li>
+                        </ul>
+                    </li>
+                    <li class="has-children"> <div class="node-container">
+                            <div class="node">Informes Compartidos</div>
+                             <button class="toggle" aria-label="Expandir/Contraer"></button>
+                        </div>
+                         <ul class="subtree">
+                            <li><div class="node-container"><div class="node">Acceso Móvil<span class="node-details">Facilita la consulta de información desde cualquier lugar.</span></div></div></li>
+                            <li><div class="node-container"><div class="node">Integración con Herramientas<span class="node-details">Conexión con otras plataformas para consolidar procesos.</span></div></div></li>
+                        </ul>
+                    </li>
+                    <li class="has-children"> <div class="node-container">
+                            <div class="node">Análisis de Datos</div>
+                             <button class="toggle" aria-label="Expandir/Contraer"></button>
+                        </div>
+                         <ul class="subtree">
+                             <li><div class="node-container"><div class="node">Tendencias de Reclutamiento<span class="node-details">Identifica patrones en contrataciones exitosas y procesos de selección.</span></div></div></li>
+                             <li><div class="node-container"><div class="node">Evaluaciones de Desempeño<span class="node-details">Calcula métricas de rendimiento y productividad del personal.</span></div></div></li>
+                         </ul>
+                    </li>
+                     <li class="has-children"> <div class="node-container">
+                            <div class="node">Toma de Decisiones</div>
+                             <button class="toggle" aria-label="Expandir/Contraer"></button>
+                        </div>
+                         <ul class="subtree">
+                             <li><div class="node-container"><div class="node">Decisiones Basadas en Datos<span class="node-details">Facilita sustentar alternativas basadas en datos claros.</span></div></div></li>
+                             <li><div class="node-container"><div class="node">Identificación de Problemas<span class="node-details">Ayuda a detectar áreas de mejora o focos de conflicto.</span></div></div></li>
+                         </ul>
+                    </li>
+                     <li class="has-children"> <div class="node-container">
+                            <div class="node">Estrategia de Recursos</div>
+                             <button class="toggle" aria-label="Expandir/Contraer"></button>
+                        </div>
+                         <ul class="subtree">
+                              <li><div class="node-container"><div class="node">Identificar Necesidades<span class="node-details">Ayuda a identificar necesidades de personal y áreas para mejora.</span></div></div></li>
+                              <li><div class="node-container"><div class="node">Retención de Talento<span class="node-details">Analiza factores de rotación y propone acciones.</span></div></div></li>
+                         </ul>
+                    </li>
+                     <li class="has-children"> <div class="node-container">
+                            <div class="node">Planificación de Capacitación</div>
+                            <button class="toggle" aria-label="Expandir/Contraer"></button>
+                        </div>
+                         <ul class="subtree">
+                            <li><div class="node-container"><div class="node">Optimizar Inversión<span class="node-details">Optimiza inversión en desarrollo y habilidades del equipo.</span></div></div></li>
+                             <li><div class="node-container"><div class="node">Brechas de Competencias<span class="node-details">Identifica carencias formativas a nivel individual o grupal.</span></div></div></li>
+                         </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Seleccionar TODOS los botones toggle
-            const toggles = document.querySelectorAll('.minimal-mindmap .toggle');
+            const parentLis = document.querySelectorAll('.mindmap li:has(> ul.subtree)');
 
-            toggles.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Encontrar el LI padre MÁS CERCANO al botón
-                    const parentLi = this.closest('li');
-
-                    if (parentLi) {
-                        // Añadir o quitar la clase 'expanded' al LI
+             parentLis.forEach(parentLi => {
+                const toggleButton = parentLi.querySelector(':scope > .node-container > button.toggle');
+                 if (toggleButton) {
+                    parentLi.classList.add('has-children'); // Asegurar clase
+                    toggleButton.addEventListener('click', function(event) {
+                        event.stopPropagation();
                         parentLi.classList.toggle('expanded');
+                        // Actualizar texto del botón basado en la clase
+                        this.textContent = parentLi.classList.contains('expanded') ? '−' : '+';
+                        this.setAttribute('aria-expanded', parentLi.classList.contains('expanded'));
+                    });
+                     // Inicializar texto del botón y aria-expanded
+                     toggleButton.textContent = parentLi.classList.contains('expanded') ? '−' : '+';
+                     toggleButton.setAttribute('aria-expanded', parentLi.classList.contains('expanded'));
 
-                        // Cambiar el texto del botón entre '+' y '−'
-                        if (parentLi.classList.contains('expanded')) {
-                            this.textContent = '−'; // Menos (cuando está expandido)
-                        } else {
-                            this.textContent = '+'; // Más (cuando está contraído)
-                        }
-                    }
-                });
-            });
-
-            // Asegurar que los botones solo se muestren en LIs con la clase 'has-children'
-            // (Opcional, si el HTML es correcto no es estrictamente necesario)
-            const allLis = document.querySelectorAll('.minimal-mindmap li');
-            allLis.forEach(li => {
-                const toggleButton = li.querySelector(':scope > button.toggle');
-                if (toggleButton && !li.classList.contains('has-children')) {
-                   // Si hay botón pero no debería (no tiene clase has-children), lo ocultamos
-                   // toggleButton.style.display = 'none';
-                }
-                 // Podríamos también añadir la clase has-children dinámicamente si encontramos un subtree
-                 const subTree = li.querySelector(':scope > ul.subtree');
-                 if(subTree && toggleButton){
-                    li.classList.add('has-children'); // Asegurar que tenga la clase si tiene subtree y botón
                  }
-            });
-
-
+             });
+             // Por defecto, podrías querer que solo la raíz esté expandida
+             // O podrías añadir 'expanded' a ciertos LIs en el HTML si quieres que empiecen abiertos.
         });
     </script>
 
