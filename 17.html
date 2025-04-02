@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Mental Power BI - Interactivo</title>
+    <style>
+        /* --- VARIABLES DE COLOR (Placeholder - Usa los de tu OTEC) --- */
+        :root {
+            --color-mapa-primario: #005A9C; /* Azul OTEC */
+            --color-mapa-secundario: #6c757d; /* Gris Neutro */
+            --color-mapa-acento: #F0A800;   /* Amarillo/Naranja */
+            --color-mapa-fondo-nodo: #f8f9fa; /* Gris muy claro */
+            --color-mapa-borde: #dee2e6;   /* Borde gris */
+            --color-mapa-linea: #adb5bd;    /* Color de las líneas */
+            --fuente-mapa: 'Lato', sans-serif; /* Usa la fuente de tu OTEC */
+        }
+
+        /* --- ESTILOS BASE DEL MAPA MENTAL --- */
+        .mindmap-container {
+            font-family: var(--fuente-mapa);
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .mindmap {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mindmap ul {
+            list-style: none;
+            padding-left: 50px; /* Indentación para niveles */
+            margin: 0;
+            position: relative; /* Contexto para las líneas */
+        }
+
+        /* Esconder sub-árboles por defecto */
+        .mindmap ul.subtree {
+            display: none;
+        }
+        /* Mostrar sub-árboles cuando el LI padre tenga la clase 'expanded' */
+        .mindmap li.expanded > ul.subtree {
+            display: block;
+        }
+
+
+        .mindmap li {
+            margin: 10px 0; /* Reducir margen vertical */
+            position: relative; /* Contexto para las líneas y el nodo */
+            padding-left: 30px; /* Espacio para la línea horizontal */
+        }
+
+        /* --- ESTILO DE LOS NODOS (El texto/idea) --- */
+        .mindmap li > .node-container { /* Contenedor para nodo y botón */
+             display: flex; /* Alinear nodo y botón */
+             align-items: center;
+             position: relative; /* Para que esté sobre las líneas */
+             z-index: 1;
+        }
+
+        .mindmap li > .node-container > div.node {
+            padding: 8px 12px; /* Ajustar padding */
+            border: 1px solid var(--color-mapa-borde);
+            border-radius: 6px;
+            background-color: var(--color-mapa-fondo-nodo);
+            margin-right: 5px; /* Espacio entre nodo y botón */
+             flex-grow: 0; /* No permitir que crezca */
+             transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .mindmap li > .node-container > div.node:hover {
+             transform: translateY(-2px);
+             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+         }
+
+
+        /* Estilo especial para el nodo RAÍZ */
+        .mindmap > li > .node-container > div.node {
+            background-color: var(--color-mapa-primario);
+            color: white;
+            border-color: var(--color-mapa-primario);
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        /* Estilo para nodos de segundo nivel (opcional) */
+        .mindmap > li > ul > li > .node-container > div.node {
+             border-left: 4px solid var(--color-mapa-acento);
+        }
+         /* Estilo para nodos de tercer nivel (opcional) */
+         .mindmap > li > ul > li > ul > li > .node-container > div.node {
+             border-left: 4px solid var(--color-mapa-secundario);
+             background-color: #fff; /* Fondo blanco para diferenciar */
+         }
+
+        .mindmap li > .node-container > div.node .node-details {
+            display: block; /* Detalles en nueva línea */
+            font-size: 0.85em;
+            color: #555;
+            margin-top: 4px;
+            font-weight: normal; /* Resetear bold si hereda */
+        }
+         .mindmap > li > .node-container > div.node .node-details { /* Detalles del nodo raíz */
+             color: #eee;
+         }
+
+         /* --- ESTILO DEL BOTÓN TOGGLE --- */
+         .mindmap button.toggle {
+             background-color: var(--color-mapa-secundario);
+             color: white;
+             border: none;
+             border-radius: 50%; /* Círculo */
+             width: 20px;
+             height: 20px;
+             font-size: 14px;
+             line-height: 18px; /* Centrar el texto +/- */
+             text-align: center;
+             cursor: pointer;
+             padding: 0;
+             margin-left: 5px; /* Espacio respecto al nodo */
+             flex-shrink: 0; /* Evitar que se encoja */
+             transition: background-color 0.2s ease, transform 0.2s ease;
+         }
+         .mindmap button.toggle:hover {
+             background-color: var(--color-mapa-primario);
+             transform: scale(1.1);
+         }
+         /* Cambiar el símbolo cuando está expandido */
+          .mindmap li.expanded > .node-container > button.toggle::before {
+             content: '−'; /* Signo menos */
+         }
+         .mindmap li:not(.expanded) > .node-container > button.toggle::before {
+             content: '+'; /* Signo más */
+         }
+
+
+        /* --- SIMULACIÓN DE LÍNEAS DE CONEXIÓN --- */
+        /* (Se mantienen similares, pero pueden requerir ajustes finos con la interactividad) */
+        .mindmap ul::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0px; /* Ajustar inicio */
+            bottom: 0px; /* Ajustar fin */
+            width: 1px;
+            background-color: var(--color-mapa-linea);
+            z-index: 0;
+        }
+
+        .mindmap li::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 18px; /* Alinear verticalmente */
+            width: 20px;
+            height: 1px;
+            background-color: var(--color-mapa-linea);
+            z-index: 0;
+        }
+
+         /* Ocultar líneas para el elemento raíz */
+         .mindmap > li {
+             padding-left: 0;
+             margin-left: 0;
+         }
+        .mindmap > li::before,
+        .mindmap > li::after {
+            display: none;
+        }
+         .mindmap > li > ul::before {
+              display: none;
+          }
+          .mindmap > li > ul {
+               padding-left: 50px;
+           }
+           .mindmap > li > ul > li::before {
+               display: block;
+           }
+           /* Ocultar linea vertical si el subtree está colapsado? más complejo */
+
+
+        /* --- ESTILOS PARA IMPRESIÓN (La interactividad no funcionará) --- */
+        @media print {
+            .mindmap button.toggle {
+                display: none; /* Ocultar botones en impresión */
+            }
+             /* Forzar expansión en impresión (opcional, puede hacer el PDF muy largo) */
+             /* .mindmap ul.subtree { display: block !important; } */
+
+             /* Estilos de nodos y líneas como en la versión anterior */
+             .mindmap li > .node-container > div.node {
+                 border: 1px solid #666 !important;
+                 background-color: #fff !important;
+                 color: #000 !important;
+                 box-shadow: none !important;
+                 transform: none !important;
+                 margin-right: 0; /* Quitar margen si el botón no está */
+             }
+             .mindmap > li > .node-container > div.node {
+                 background-color: #ddd !important;
+                 border-color: #666 !important;
+                 color: #000 !important;
+             }
+              .mindmap li > .node-container > div.node .node-details {
+                 color: #333 !important;
+             }
+            .mindmap ul::before,
+            .mindmap li::before {
+                background-color: #999 !important;
+            }
+        }
+
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="mindmap-container">
+    <ul class="mindmap">
+        <li> <div class="node-container">
+                 <div class="node">📊 Power BI</div>
+                 </div>
+            <ul class="subtree"> <li> <div class="node-container">
+                         <div class="node">¿Qué es Power BI?
+                              <span class="node-details">Plataforma BI Microsoft para conectar, modelar, visualizar y compartir datos.</span>
+                         </div>
+                         </div>
+                </li>
+                <li class="has-children"> <div class="node-container">
+                        <div class="node">Componentes Principales</div>
+                        <button class="toggle" aria-label="Expandir/Contraer"></button>
+                    </div>
+                    <ul class="subtree">
+                        <li><div class="node-container"><div class="node">Power BI Desktop <span class="node-details">Herramienta de autoría (gratuita).</span></div></div></li>
+                        <li><div class="node-container"><div class="node">Power BI Service <span class="node-details">Plataforma cloud (SaaS).</span></div></div></li>
+                        <li><div class="node-container"><div class="node">Power BI Mobile <span class="node-details">Apps móviles.</span></div></div></li>
+                        <li><div class="node-container"><div class="node">Otros <span class="node-details">Report Server, Embedded.</span></div></div></li>
+                    </ul>
+                </li>
+                <li class="has-children"> <div class="node-container">
+                         <div class="node">Flujo de Trabajo Típico ⚙️</div>
+                         <button class="toggle" aria-label="Expandir/Contraer"></button>
+                     </div>
+                     <ul class="subtree">
+                         <li><div class="node-container"><div class="node">1. Obtener Datos (Get Data) <span class="node-details">Conexión a fuentes (Excel, BD, Cloud...).</span></div></div></li>
+                         <li><div class="node-container"><div class="node">2. Transformar y Modelar <span class="node-details">Power Query (ETL) y DAX (Cálculos).</span></div></div></li>
+                         <li><div class="node-container"><div class="node">3. Visualizar Datos <span class="node-details">Informes y Paneles (Dashboards).</span></div></div></li>
+                         <li><div class="node-container"><div class="node">4. Compartir y Colaborar <span class="node-details">Publicar, Workspaces, Apps.</span></div></div></li>
+                     </ul>
+                </li>
+                 <li class="has-children"> <div class="node-container">
+                         <div class="node">Conceptos Clave 🔑</div>
+                         <button class="toggle" aria-label="Expandir/Contraer"></button>
+                     </div>
+                     <ul class="subtree">
+                        <li><div class="node-container"><div class="node">Conjunto de Datos (Dataset)</div></div></li>
+                        <li><div class="node-container"><div class="node">Informe (Report)</div></div></li>
+                        <li><div class="node-container"><div class="node">Panel (Dashboard)</div></div></li>
+                        <li><div class="node-container"><div class="node">Icono/Mosaico (Tile)</div></div></li>
+                        <li><div class="node-container"><div class="node">Power Query</div></div></li>
+                        <li><div class="node-container"><div class="node">DAX</div></div></li>
+                     </ul>
+                 </li>
+                 <li class="has-children"> <div class="node-container">
+                         <div class="node">Licenciamiento 💰</div>
+                         <button class="toggle" aria-label="Expandir/Contraer"></button>
+                     </div>
+                      <ul class="subtree">
+                        <li><div class="node-container"><div class="node">Gratuito (Free)</div></div></li>
+                        <li><div class="node-container"><div class="node">Pro</div></div></li>
+                        <li><div class="node-container"><div class="node">Premium (PPU / Capacity)</div></div></li>
+                     </ul>
+                 </li>
+                 <li class="has-children"> <div class="node-container">
+                         <div class="node">Beneficios Principales ✅</div>
+                         <button class="toggle" aria-label="Expandir/Contraer"></button>
+                     </div>
+                      <ul class="subtree">
+                        <li><div class="node-container"><div class="node">Visualizaciones Interactivas</div></div></li>
+                        <li><div class="node-container"><div class="node">Consolidación de Datos</div></div></li>
+                        <li><div class="node-container"><div class="node">Toma de Decisiones Informada</div></div></li>
+                        <li><div class="node-container"><div class="node">Democratización de Datos</div></div></li>
+                     </ul>
+                 </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Selecciona todos los botones toggle dentro del contenedor del mapa mental
+        const toggles = document.querySelectorAll('.mindmap .toggle');
+
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                // Encuentra el LI padre del botón
+                const parentLi = this.closest('li');
+
+                // Si encontramos el LI padre
+                if (parentLi) {
+                    // Toggle (añade o quita) la clase 'expanded' en el LI
+                    parentLi.classList.toggle('expanded');
+
+                    // Encuentra el subárbol (ul.subtree) dentro de este LI
+                    const subtree = parentLi.querySelector(':scope > ul.subtree');
+
+                    // (Opcional: podrías cambiar display directamente aquí,
+                    // pero usar clase CSS es más limpio)
+                    // if (subtree) {
+                    //     subtree.style.display = subtree.style.display === 'none' ? 'block' : 'none';
+                    // }
+
+                    // (Opcional: Actualizar aria-expanded para accesibilidad)
+                    // const isExpanded = parentLi.classList.contains('expanded');
+                    // this.setAttribute('aria-expanded', isExpanded);
+                }
+            });
+        });
+
+        // Opcional: Expandir el primer nivel por defecto (si se desea)
+         const firstLevelToggles = document.querySelectorAll('.mindmap > li > ul > li.has-children > .node-container > .toggle');
+         firstLevelToggles.forEach(toggle => {
+              // Descomentar la siguiente línea para expandir el primer nivel al cargar
+              // toggle.click();
+         });
+    });
+</script>
+
+</body>
+</html>
